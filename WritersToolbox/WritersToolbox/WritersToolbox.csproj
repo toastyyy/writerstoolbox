@@ -95,6 +95,7 @@
     </Compile>
     <Compile Include="dao\DAOImpl.cs" />
     <Compile Include="dao\DAOInterface.cs" />
+    <Compile Include="entity\MemoryNote.cs" />
     <Compile Include="gui\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
@@ -158,9 +159,7 @@
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="entity\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <ProjectReference Include="..\..\..\..\..\Desktop\sqlite-net-wp8-master\Sqlite.vcxproj">
       <Project>{59B35F6C-E062-4F0E-88D8-13F3F82A24F3}</Project>

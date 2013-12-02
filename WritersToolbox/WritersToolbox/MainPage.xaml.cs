@@ -8,7 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.Resources;
-
+using WritersToolbox.dao;
 namespace WritersToolbox
 {
     public partial class MainPage : PhoneApplicationPage
@@ -17,7 +17,7 @@ namespace WritersToolbox
         public MainPage()
         {
             InitializeComponent();
-
+            dao.DAOImpl.connect();
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
         }
