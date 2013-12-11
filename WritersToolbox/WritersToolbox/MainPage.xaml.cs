@@ -17,9 +17,33 @@ namespace WritersToolbox
         public MainPage()
         {
             InitializeComponent();
-            dao.DAOImpl.connect();
+            Database.WritersToolboxDatebase db = new Database.WritersToolboxDatebase();
+            try
+            {
+                if (db.DatabaseExists() == false)
+                {
+                    db.CreateDatabase();
+                }
+                
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+            // NavigationService ist hier noch nicht verfügbar!
+
+            
+            
+            
             // Sample code to localize the ApplicationBar
             //BuildLocalizedApplicationBar();
+        }
+
+
+        private void pageLoaded(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/gui/StartPage.xaml", UriKind.Relative));
         }
 
         // Sample code for building a localized ApplicationBar

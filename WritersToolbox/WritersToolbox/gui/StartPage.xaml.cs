@@ -15,6 +15,21 @@ namespace WritersToolbox.gui
         public Page1()
         {
             InitializeComponent();
+            Database.WritersToolboxDatebase db = new Database.WritersToolboxDatebase();
+            try
+            {
+                if (db.DatabaseExists() == false)
+                {
+                    db.CreateDatabase();
+                }
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+            
+            
         }
     }
 }

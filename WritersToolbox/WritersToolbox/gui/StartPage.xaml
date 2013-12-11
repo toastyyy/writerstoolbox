@@ -28,7 +28,12 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <Rectangle Fill="#FFFF0000" HorizontalAlignment="Left" Height="215" Stroke="Black" VerticalAlignment="Top" Width="215"/>
+            <Rectangle x:Name="UnsortedNotes" HorizontalAlignment="Left" Height="215" Margin="270,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="176" Fill="#FF0023FF"/>
+            <Rectangle Fill="#FF2EFF00" HorizontalAlignment="Left" Height="184" Margin="0,220,0,0" Stroke="Black" VerticalAlignment="Top" Width="446"/>
+            <Rectangle Fill="Yellow" HorizontalAlignment="Left" Height="188" Margin="0,409,0,0" Stroke="Black" VerticalAlignment="Top" Width="190"/>
+            <Rectangle Fill="#FFFF0097" HorizontalAlignment="Left" Height="92" Margin="195,409,0,0" Stroke="Black" VerticalAlignment="Top" Width="251"/>
+            <Rectangle Fill="Red" HorizontalAlignment="Left" Height="90" Margin="195,507,0,0" Stroke="Black" VerticalAlignment="Top" Width="251"/>
+            <Button Content="Button" HorizontalAlignment="Left" Background="Red" BorderThickness="0" Padding="0,5,10,6" Margin="0,0,0,387" Width="265"/>
 
         </Grid>
     </Grid>

@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace WritersToolbox.entity
 {
-    class MemoryNote
+    class Event
     {
     }
 }
