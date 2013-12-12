@@ -101,18 +101,17 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="dao\DAOImpl.cs" />
-    <Compile Include="dao\DAOInterface.cs" />
     <Compile Include="Database\WritersToolboxDatebase.cs" />
-    <Compile Include="entity\Book.cs" />
-    <Compile Include="entity\BookType.cs" />
-    <Compile Include="entity\Chapter.cs" />
-    <Compile Include="entity\Event.cs" />
-    <Compile Include="entity\MemoryNote.cs" />
-    <Compile Include="entity\Tome.cs" />
-    <Compile Include="entity\Type.cs" />
-    <Compile Include="entity\TypeObject.cs" />
-    <Compile Include="gui\StartPage.xaml.cs">
+    <Compile Include="models\Book.cs" />
+    <Compile Include="models\BookType.cs" />
+    <Compile Include="models\Chapter.cs" />
+    <Compile Include="models\Event.cs" />
+    <Compile Include="models\MemoryNote.cs" />
+    <Compile Include="models\Tome.cs" />
+    <Compile Include="models\Type.cs" />
+    <Compile Include="models\TypeObject.cs" />
+    <Compile Include="viewmodels\MemoryNoteViewModel.cs" />
+    <Compile Include="views\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="LocalizedStrings.cs" />
@@ -130,7 +129,7 @@
     <Page Include="App.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="gui\StartPage.xaml">
+    <Page Include="views\StartPage.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
