@@ -111,6 +111,9 @@
     <Compile Include="models\Type.cs" />
     <Compile Include="models\TypeObject.cs" />
     <Compile Include="viewmodels\MemoryNoteViewModel.cs" />
+    <Compile Include="views\AddNote.xaml.cs">
+      <DependentUpon>AddNote.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
     </Compile>
@@ -128,6 +131,10 @@
   <ItemGroup>
     <Page Include="App.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\AddNote.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\StartPage.xaml">
       <SubType>Designer</SubType>
