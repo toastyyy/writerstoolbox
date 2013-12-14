@@ -26,6 +26,10 @@ namespace WritersToolbox.Database
         private Table<entity.Type> t_type;
         private Table<entity.MemoryNote> t_memoryNote;
 
+        public Table<entity.MemoryNote>  getTableMemoryNote()
+        {
+            return t_memoryNote;
+        }
         public WritersToolboxDatebase() : base(tt) { }
 
         

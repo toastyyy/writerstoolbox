@@ -101,7 +101,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
-    <Compile Include="Database\WritersToolboxDatebase.cs" />
+    <Compile Include="models\WritersToolboxDatebase.cs" />
     <Compile Include="models\Book.cs" />
     <Compile Include="models\BookType.cs" />
     <Compile Include="models\Chapter.cs" />

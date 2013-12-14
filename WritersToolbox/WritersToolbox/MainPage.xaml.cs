@@ -8,16 +8,17 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.Resources;
-using WritersToolbox.dao;
+using WritersToolbox.Database;
 namespace WritersToolbox
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        public WritersToolboxDatebase db;
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-            Database.WritersToolboxDatebase db = new Database.WritersToolboxDatebase();
+            db = new WritersToolboxDatebase();
             try
             {
                 if (db.DatabaseExists() == false)
@@ -31,15 +32,7 @@ namespace WritersToolbox
                 Console.WriteLine(ex.Message);
             }
 
-            // NavigationService ist hier noch nicht verfügbar!
-
-            
-            
-            
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
         }
-
 
         private void pageLoaded(object sender, RoutedEventArgs e)
         {
