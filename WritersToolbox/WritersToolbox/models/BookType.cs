@@ -9,7 +9,7 @@ using Microsoft.Phone.Data.Linq.Mapping;
 using System.Windows.Media;
 using System.ComponentModel;
 
-namespace WritersToolbox.entity
+namespace WritersToolbox.models
 {
     [Table(Name = "Booktypes")]
     class BookType : INotifyPropertyChanging, INotifyPropertyChanged

@@ -9,8 +9,7 @@ using Microsoft.Phone.Data.Linq.Mapping;
 using System.Windows.Media;
 using System.ComponentModel;
 
-
-namespace WritersToolbox.entity
+namespace WritersToolbox.models
 {
 
     [Table(Name = "Chapters")]
@@ -20,7 +19,6 @@ namespace WritersToolbox.entity
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]
         private Binary version;
-
 
         private int stg_chapterID;
         [Column(IsPrimaryKey = true,

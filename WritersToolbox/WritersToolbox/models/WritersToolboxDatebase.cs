@@ -7,7 +7,7 @@ using System.Data.Linq.Mapping;
 using System.Data.Linq;
 using System.IO;
 using Windows.Storage;
-namespace WritersToolbox.Database
+namespace WritersToolbox.models
 {
     [Database(Name = "WTDB")]
     class WritersToolboxDatebase : DataContext
@@ -17,16 +17,16 @@ namespace WritersToolbox.Database
         //static readonly string STR_CONNECTION = @"Provider=Microsoft.ACE.OLEDB.12.0;Data Source='" + DbPath + "';Persist Security Info=False;";
         static readonly String tt = "Data Source=isostore:/ToDo.sdf";
         //Deklaration der Tabellen.
-        private Table<entity.BookType> t_bookType;
-        private Table<entity.Book> t_book;
-        private Table<entity.Tome> t_tome;
-        private Table<entity.Chapter> t_chapter;
-        private Table<entity.Event> t_Event;
-        private Table<entity.TypeObject> t_typeObject;
-        private Table<entity.Type> t_type;
-        private Table<entity.MemoryNote> t_memoryNote;
+        private Table<models.BookType> t_bookType;
+        private Table<models.Book> t_book;
+        private Table<models.Tome> t_tome;
+        private Table<models.Chapter> t_chapter;
+        private Table<models.Event> t_Event;
+        private Table<models.TypeObject> t_typeObject;
+        private Table<models.Type> t_type;
+        private Table<models.MemoryNote> t_memoryNote;
 
-        public Table<entity.MemoryNote>  getTableMemoryNote()
+        public Table<models.MemoryNote>  getTableMemoryNote()
         {
             return t_memoryNote;
         }

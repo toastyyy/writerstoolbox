@@ -15,7 +15,7 @@ namespace WritersToolbox.gui
         public Page1()
         {
             InitializeComponent();
-            Database.WritersToolboxDatebase db = new Database.WritersToolboxDatebase();
+            models.WritersToolboxDatebase db = new models.WritersToolboxDatebase();
             try
             {
                 if (db.DatabaseExists() == false)

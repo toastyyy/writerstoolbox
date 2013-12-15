@@ -3,9 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WritersToolbox.entity;
+using WritersToolbox.models;
 using System.Collections.ObjectModel;
-using WritersToolbox.Database;
+using WritersToolbox.models;
 namespace WritersToolbox.viewmodels
 {
     class MemoryNoteViewModel : ObservableCollection<MemoryNoteViewModel>

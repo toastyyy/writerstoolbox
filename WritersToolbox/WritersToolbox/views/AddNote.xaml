@@ -22,14 +22,17 @@
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="MEINE ANWENDUNG" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="Seitenname" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="neue Notiz anlegen" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-
+            <TextBox HorizontalAlignment="Left" Height="76" Margin="10,10,0,0" TextWrapping="Wrap" Text="titel" VerticalAlignment="Top" Width="436"/>
+            <TextBox HorizontalAlignment="Left" Height="456" Margin="10,148,0,0" TextWrapping="Wrap" Text="TextBox" VerticalAlignment="Top" Width="436"/>
         </Grid>
+        <Button x:Name="saveButton" Content="S" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="104,610,0,0" Grid.Row="1"/>
+        <Button x:Name="saveAsButton" Content="Sas" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="195,610,0,0" Grid.Row="1"/>
+        <Button x:Name="closeButton" Content="C" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="278,610,0,0" Grid.Row="1"/>
     </Grid>
 
 </phone:PhoneApplicationPage>

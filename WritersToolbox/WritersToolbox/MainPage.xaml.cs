@@ -8,7 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.Resources;
-using WritersToolbox.Database;
+using WritersToolbox.models;
 namespace WritersToolbox
 {
     public partial class MainPage : PhoneApplicationPage
