@@ -21,6 +21,7 @@ namespace WritersToolbox
             db = new WritersToolboxDatebase();
             try
             {
+                db.DeleteDatabase();
                 if (db.DatabaseExists() == false)
                 {
                     db.CreateDatabase();
@@ -29,9 +30,9 @@ namespace WritersToolbox
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
-
+            db.Dispose();
         }
 
         private void pageLoaded(object sender, RoutedEventArgs e)
