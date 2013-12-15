@@ -108,7 +108,7 @@ namespace WritersToolbox.models
         }
 
         private String stg_location;
-        [Column(CanBeNull = false,
+        [Column(CanBeNull = true,
             Storage = "stg_location")]
         public String location
         {

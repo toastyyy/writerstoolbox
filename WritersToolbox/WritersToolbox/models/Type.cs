@@ -11,7 +11,105 @@ using System.ComponentModel;
 
 namespace WritersToolbox.models
 {
-    class Type
+    [Table(Name="Types")]
+    class Type : INotifyPropertyChanging, INotifyPropertyChanged
     {
+        //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
+        [Column(IsVersion = true)]
+        private Binary version;
+
+        private int stg_typeID;
+        [Column(IsPrimaryKey = true,
+            AutoSync = AutoSync.OnInsert,
+            DbType = "INT IDENTITY",
+            Storage = "stg_typeID",
+            IsDbGenerated = true)]
+        public int typeID
+        {
+            get { return stg_typeID; }
+            set
+            {
+                if (stg_typeID != value)
+                {
+                    sendPropertyChanging("typeID");
+                    stg_typeID = value;
+                    sendPropertyChanged("typeID");
+                }
+            }
+        }
+
+        private String stg_title;
+        [Column(Name = "title",
+            Storage = "stg_title")]
+        public String title
+        {
+            get { return stg_title; }
+            set 
+            {
+                sendPropertyChanging("title");
+                stg_title = value;
+                sendPropertyChanged("title");   
+            }
+
+        }
+
+        private String stg_color;
+        [Column(Name = "color",
+            Storage = "stg_color")]
+        public String color
+        {
+            get { return stg_color; }
+            set
+            {
+                sendPropertyChanging("color");
+                stg_color = value;
+                sendPropertyChanged("color");
+            }
+
+        }
+
+        private EntitySet<TypeObject> _typeObjects;
+
+        [Association(Name = "Type_TypeObjects",
+            Storage = "_typeObjects",         //Speicherort der Child-Instanzen.
+            ThisKey = "typeID",      //Name des Primärschlüssels.
+            OtherKey = "fk_typeID")] //Name des Fremdschlüssels.
+        public EntitySet<TypeObject> typeObjects
+        {
+            get
+            {
+                return this._typeObjects;
+            }
+            set
+            {
+                sendPropertyChanging("typeObjects");
+                this._typeObjects.Assign(value);
+                sendPropertyChanged("typeObjects");
+            }
+        }
+
+
+        //Datenbank optimierung
+        //Benachrichtigt Clients, dass sich ein Eigenschaftswert ändert.
+        public event PropertyChangingEventHandler PropertyChanging;
+        protected void sendPropertyChanging(String propertyName)
+        {
+            PropertyChangingEventHandler handler = PropertyChanging;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangingEventArgs(propertyName));
+            }
+        }
+
+        //Benachrichtigt Clients, dass ein Eigenschaftswert geändert wurde.
+        public event PropertyChangedEventHandler PropertyChanged;
+        protected void sendPropertyChanged(String propertyName)
+        {
+            PropertyChangedEventHandler handler = PropertyChanged;
+            if (handler != null)
+            {
+                handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }

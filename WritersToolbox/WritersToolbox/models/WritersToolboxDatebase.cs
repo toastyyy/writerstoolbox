@@ -22,8 +22,8 @@ namespace WritersToolbox.models
         private Table<models.Tome> t_tome;
         private Table<models.Chapter> t_chapter;
         private Table<models.Event> t_Event;
-        //private Table<models.TypeObject> t_typeObject;
-        //private Table<models.Type> t_type;
+        private Table<models.TypeObject> t_typeObject;
+        private Table<models.Type> t_type;
         private Table<models.MemoryNote> t_memoryNote;
 
         public Table<models.MemoryNote>  getTableMemoryNote()
