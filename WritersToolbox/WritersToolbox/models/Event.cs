@@ -99,6 +99,26 @@ namespace WritersToolbox.models
             }
         }
 
+        private EntitySet<MemoryNote> _notes;
+
+        [Association(Name = "Events_Notes",
+            Storage = "_notes",         //Speicherort der Child-Instanzen.
+            ThisKey = "eventID",      //Name des Primärschlüssels.
+            OtherKey = "fk_eventID")] //Name des Fremdschlüssels.
+        public EntitySet<MemoryNote> notes
+        {
+            get
+            {
+                return this._notes;
+            }
+            set
+            {
+                sendPropertyChanging("notes");
+                this._notes.Assign(value);
+                sendPropertyChanged("notes");
+            }
+        }
+
         
         //Datenbank optimierung
         //Benachrichtigt Clients, dass sich ein Eigenschaftswert ändert.

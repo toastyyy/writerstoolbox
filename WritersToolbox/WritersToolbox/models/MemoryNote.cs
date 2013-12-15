@@ -140,6 +140,30 @@ namespace WritersToolbox.models
             }
         }
 
+        [Column(Name = "fk_eventID")]
+        public int fk_eventID;
+
+        private EntityRef<Event> _event;
+
+        [Association(Name = "FK_Note_Event",
+            Storage = "_event",         //Speicherort der Child-Instanzen.
+            IsForeignKey = true,
+            ThisKey = "fk_eventID",      //Name des Primärschlüssels.
+            OtherKey = "eventID")] //Name des Fremdschlüssels.
+        public Event obj_Event
+        {
+            get
+            {
+                return this._event.Entity;
+            }
+            set
+            {
+                sendPropertyChanging("event");
+                this._event.Entity = value;
+                sendPropertyChanged("event");
+            }
+        }
+
         //Datenbank optimierung
         //Benachrichtigt Clients, dass sich ein Eigenschaftswert ändert.
         public event PropertyChangingEventHandler PropertyChanging;
