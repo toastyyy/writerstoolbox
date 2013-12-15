@@ -156,10 +156,10 @@ namespace WritersToolbox.models
 
         //Datenbank optimierung
         //Benachrichtigt Clients, dass sich ein Eigenschaftswert ändert.
-        public event PropertyChangingEventHandler propertyChanging;
+        public event PropertyChangingEventHandler PropertyChanging;
         protected void sendPropertyChanging(String propertyName)
         {
-            PropertyChangingEventHandler handler = propertyChanging;
+            PropertyChangingEventHandler handler = PropertyChanging;
             if (handler != null)
             {
                 handler(this, new PropertyChangingEventArgs(propertyName));
@@ -167,14 +167,15 @@ namespace WritersToolbox.models
         }
 
         //Benachrichtigt Clients, dass ein Eigenschaftswert geändert wurde.
-        public event PropertyChangedEventHandler propertyChanged;
+        public event PropertyChangedEventHandler PropertyChanged;
         protected void sendPropertyChanged(String propertyName)
         {
-            PropertyChangedEventHandler handler = propertyChanged;
+            PropertyChangedEventHandler handler = PropertyChanged;
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
     }
 }

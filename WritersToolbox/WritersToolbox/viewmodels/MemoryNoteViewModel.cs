@@ -5,7 +5,6 @@ using System.Text;
 using System.Threading.Tasks;
 using WritersToolbox.models;
 using System.Collections.ObjectModel;
-using WritersToolbox.models;
 namespace WritersToolbox.viewmodels
 {
     class MemoryNoteViewModel : ObservableCollection<MemoryNoteViewModel>

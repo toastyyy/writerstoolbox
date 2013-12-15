@@ -13,7 +13,7 @@ namespace WritersToolbox
 {
     public partial class MainPage : PhoneApplicationPage
     {
-        public WritersToolboxDatebase db;
+        private WritersToolboxDatebase db;
         // Constructor
         public MainPage()
         {
@@ -36,7 +36,7 @@ namespace WritersToolbox
 
         private void pageLoaded(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/gui/StartPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
         }
 
         // Sample code for building a localized ApplicationBar
