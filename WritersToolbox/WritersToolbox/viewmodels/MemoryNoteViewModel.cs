@@ -26,7 +26,7 @@ namespace WritersToolbox.viewmodels
         public void save(MemoryNote obj_memoryNote)
         {
             //obj_memoryNote in DataContext hinzufügen.
-            db.getTableMemoryNote().InsertOnSubmit(obj_memoryNote);
+            //db.GetTable<MemoryNote>.InsertOnSubmit(obj_memoryNote);
 
             //Änderung in der Datenbank übertragen.
             db.SubmitChanges();

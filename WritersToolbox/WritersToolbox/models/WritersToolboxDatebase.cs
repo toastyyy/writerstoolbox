@@ -26,11 +26,9 @@ namespace WritersToolbox.models
         private Table<models.Type> t_type;
         private Table<models.MemoryNote> t_memoryNote;
 
-        public Table<models.MemoryNote>  getTableMemoryNote()
+        public WritersToolboxDatebase() : base(tt) 
         {
-            return t_memoryNote;
         }
-        public WritersToolboxDatebase() : base(tt) { }
 
         
     }

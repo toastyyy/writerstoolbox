@@ -8,6 +8,7 @@ using Microsoft.Phone.Data.Linq;
 using Microsoft.Phone.Data.Linq.Mapping;
 using System.Windows.Media;
 using System.ComponentModel;
+using System.Collections;
 
 // TODO: Tags, contentImage, contentAudio
 namespace WritersToolbox.models
@@ -15,6 +16,10 @@ namespace WritersToolbox.models
     [Table(Name="Notes")]
     class MemoryNote : INotifyPropertyChanging, INotifyPropertyChanged
     {
+        public MemoryNote() 
+        {
+            _event = new EntityRef<Event>();
+        }
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]
         private Binary version;
@@ -140,16 +145,37 @@ namespace WritersToolbox.models
             }
         }
 
-        [Column(Name = "fk_eventID")]
+        private String stg_tags;
+        [Column(Storage = "stg_tags")]
+        public String tags
+        {
+            get 
+            {
+                return stg_tags;
+            }
+            set
+            {
+
+                if (stg_tags != value)
+                {
+                    sendPropertyChanging("tags");
+                    stg_tags = value;
+                    sendPropertyChanged("tags");
+                }
+            }
+        }
+
+        [Column(Name = "fk_eventID", CanBeNull=true)]
         public int fk_eventID;
 
         private EntityRef<Event> _event;
-
+        
         [Association(Name = "FK_Note_Event",
             Storage = "_event",         //Speicherort der Child-Instanzen.
             IsForeignKey = true,
             ThisKey = "fk_eventID",      //Name des Primärschlüssels.
-            OtherKey = "eventID")] //Name des Fremdschlüssels.
+            OtherKey = "eventID"
+            )] //Name des Fremdschlüssels.
         public Event obj_Event
         {
             get

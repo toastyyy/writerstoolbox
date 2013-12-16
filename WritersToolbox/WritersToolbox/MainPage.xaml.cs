@@ -25,6 +25,22 @@ namespace WritersToolbox
                 if (db.DatabaseExists() == false)
                 {
                     db.CreateDatabase();
+                    BookType bt = new BookType();
+                    bt.name = "Roman";
+                    bt.updatedDate = DateTime.Now;
+                    bt.addedDate = DateTime.Now;
+                    bt.numberOfChapter = 3;
+
+                    MemoryNote mn = new MemoryNote();
+                    mn.addedDate = DateTime.Now;
+                    mn.updatedDate = DateTime.Now;
+                    mn.contentText = "lorem ipsum dolor sit amet";
+                    mn.title = "testnotiz";
+                    mn.associated = false;
+                    mn.tags = "test1|test2";
+                    db.GetTable<BookType>().InsertOnSubmit(bt);
+                    db.GetTable<MemoryNote>().InsertOnSubmit(mn);
+                    db.SubmitChanges();
                 }
                 
             }
@@ -32,7 +48,6 @@ namespace WritersToolbox
             {
                 Console.WriteLine(ex.StackTrace);
             }
-            db.Dispose();
         }
 
         private void pageLoaded(object sender, RoutedEventArgs e)
