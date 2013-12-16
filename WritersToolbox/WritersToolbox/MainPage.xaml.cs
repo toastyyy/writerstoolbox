@@ -22,8 +22,8 @@ namespace WritersToolbox
             db = new WritersToolboxDatebase();
             try
             {
-                db.DeleteDatabase(); // entfernen wenn demodaten fertig
-                if (db.DatabaseExists() == false)
+                db.DeleteDatabase();
+                if (!db.DatabaseExists())
                 {
                     db.CreateDatabase();
                     Data.AddToDB(db);
