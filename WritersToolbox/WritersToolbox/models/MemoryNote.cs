@@ -162,7 +162,7 @@ namespace WritersToolbox.models
         }
 
         [Column(Name = "fk_eventID", CanBeNull=true)]
-        internal int fk_eventID;
+        private int? fk_eventID; // ? = nullable type
 
         private EntityRef<Event> _event;
 
@@ -170,8 +170,8 @@ namespace WritersToolbox.models
             Storage = "_event",         //Speicherort der Child-Instanzen.
             IsForeignKey = true,
             ThisKey = "fk_eventID",      //Name des Primärschlüssels.
-            OtherKey = "eventID"
-            )] //Name des Fremdschlüssels.
+            OtherKey = "eventID" //Name des Fremdschlüssels.
+            )] 
         public Event obj_Event
         {
             get
