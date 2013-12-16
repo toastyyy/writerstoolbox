@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.Resources;
 using WritersToolbox.models;
+using WritersToolbox.demo;
 namespace WritersToolbox
 {
     public partial class MainPage : PhoneApplicationPage
@@ -25,6 +26,7 @@ namespace WritersToolbox
                 if (!db.DatabaseExists())
                 {
                     db.CreateDatabase();
+                    Data.AddToDB(db);
                 }
                 
             }
@@ -32,7 +34,6 @@ namespace WritersToolbox
             {
                 Console.WriteLine(ex.StackTrace);
             }
-            db.Dispose();
         }
 
         private void pageLoaded(object sender, RoutedEventArgs e)
