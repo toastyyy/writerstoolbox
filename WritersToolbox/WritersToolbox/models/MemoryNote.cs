@@ -166,7 +166,7 @@ namespace WritersToolbox.models
         }
 
         [Column(Name = "fk_eventID", CanBeNull=true)]
-        public int fk_eventID;
+        internal int fk_eventID;
 
         private EntityRef<Event> _event;
         
