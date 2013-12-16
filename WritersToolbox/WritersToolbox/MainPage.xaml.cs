@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.Resources;
 using WritersToolbox.models;
+using WritersToolbox.demo;
 namespace WritersToolbox
 {
     public partial class MainPage : PhoneApplicationPage
@@ -25,22 +26,7 @@ namespace WritersToolbox
                 if (db.DatabaseExists() == false)
                 {
                     db.CreateDatabase();
-                    BookType bt = new BookType();
-                    bt.name = "Roman";
-                    bt.updatedDate = DateTime.Now;
-                    bt.addedDate = DateTime.Now;
-                    bt.numberOfChapter = 3;
-
-                    MemoryNote mn = new MemoryNote();
-                    mn.addedDate = DateTime.Now;
-                    mn.updatedDate = DateTime.Now;
-                    mn.contentText = "lorem ipsum dolor sit amet";
-                    mn.title = "testnotiz";
-                    mn.associated = false;
-                    mn.tags = "test1|test2";
-                    db.GetTable<BookType>().InsertOnSubmit(bt);
-                    db.GetTable<MemoryNote>().InsertOnSubmit(mn);
-                    db.SubmitChanges();
+                    Data.AddToDB(db);
                 }
                 
             }
