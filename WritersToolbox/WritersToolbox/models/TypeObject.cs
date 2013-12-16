@@ -14,6 +14,12 @@ namespace WritersToolbox.models
     [Table(Name="TypeObjects")]
     class TypeObject : INotifyPropertyChanging, INotifyPropertyChanged
     {
+        public TypeObject() 
+        {
+            _notes = new EntitySet<MemoryNote>();
+            color = "0000ff"; // default farbe blau
+        }
+
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]
         private Binary version;
@@ -59,6 +65,94 @@ namespace WritersToolbox.models
                 sendPropertyChanging("type");
                 this._type.Entity = value;
                 sendPropertyChanged("type");
+            }
+        }
+
+        private String stg_name;
+        [Column(CanBeNull = false,
+            Storage = "stg_name")]
+        public String name
+        {
+            get { return stg_name; }
+            set
+            {
+                if (stg_name != value)
+                {
+                    sendPropertyChanging("name");
+                    stg_name = value;
+                    sendPropertyChanged("name");
+                }
+            }
+        }
+
+        private String stg_color;
+        [Column(CanBeNull = false,
+            Storage = "stg_color")]
+        public String color
+        {
+            get { return stg_color; }
+            set
+            {
+                if (stg_color != value)
+                {
+                    sendPropertyChanging("color");
+                    stg_color = value;
+                    sendPropertyChanged("color");
+                }
+            }
+        }
+
+        private String stg_imageString;
+        [Column(CanBeNull = true,
+            Storage = "stg_imageString")]
+        public String imageString
+        {
+            get { return stg_imageString; }
+            set
+            {
+                if (stg_imageString != value)
+                {
+                    sendPropertyChanging("imageString");
+                    stg_imageString = value;
+                    sendPropertyChanged("imageString");
+                }
+            }
+        }
+
+        private Boolean stg_used;
+        [Column(CanBeNull = false,
+            Storage = "stg_used")]
+        public Boolean used
+        {
+            get { return stg_used; }
+            set
+            {
+                if (stg_used != value)
+                {
+                    sendPropertyChanging("used");
+                    stg_used = value;
+                    sendPropertyChanged("used");
+                }
+            }
+        }
+
+        private EntitySet<MemoryNote> _notes;
+
+        [Association(Name = "TypeObject_Notes",
+            Storage = "_notes",         //Speicherort der Child-Instanzen.
+            ThisKey = "typeObjectID",      //Name des Primärschlüssels.
+            OtherKey = "fk_typeObjectID")] //Name des Fremdschlüssels.
+        public EntitySet<MemoryNote> notes
+        {
+            get
+            {
+                return this._notes;
+            }
+            set
+            {
+                sendPropertyChanging("notes");
+                this._notes.Assign(value);
+                sendPropertyChanged("notes");
             }
         }
 

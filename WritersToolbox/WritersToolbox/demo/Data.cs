@@ -27,33 +27,107 @@ namespace WritersToolbox.demo
             b.updatedDate = DateTime.Now;
             b.obj_bookType = bt;
 
-            Tome t1 = new Tome();
-            t1.title = "Stein der Weisen";
-            t1.addedDate = DateTime.Now;
-            t1.updatedDate = DateTime.Now;
-            t1.obj_book = b;
+            Tome t1 = new Tome() 
+            {
+                title = "Stein der Weisen",
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                obj_book = b
+            };
 
-            Tome t2 = new Tome();
-            t2.title = "Kammer des Schreckens";
-            t2.addedDate = DateTime.Now;
-            t2.updatedDate = DateTime.Now;
-            t2.obj_book = b;
+            Tome t2 = new Tome()
+            {
+                title = "Kammer des Schreckens",
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                obj_book = b
+            };
 
-            MemoryNote mn = new MemoryNote();
-            mn.addedDate = DateTime.Now;
-            mn.updatedDate = DateTime.Now;
-            mn.contentText = "lorem ipsum dolor sit amet";
-            mn.title = "testnotiz";
-            mn.associated = false;
-            mn.tags = "test1|test2";
+            Chapter c1 = new Chapter() 
+            { 
+                chapterNumber = 1,
+                title = "Ein Junge überlebt",
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                obj_tome = t1
+            };
 
+            Chapter c2 = new Chapter()
+            {
+                chapterNumber = 2,
+                title = "Ein Fenster verschwindet",
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                obj_tome = t1
+            };
 
+            Chapter c3 = new Chapter()
+            {
+                chapterNumber = 3,
+                title = "Briefe von niemandem",
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                obj_tome = t1
+            };
+
+            Event e1 = new Event() 
+            { 
+                title = "Haus der Dursleys",
+                obj_Chapter = c1
+            };
+
+            Event e2 = new Event()
+            {
+                title = "Bahnhof",
+                obj_Chapter = c1
+            };
+
+            MemoryNote mn1 = new MemoryNote() 
+            { 
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                contentText = "lorem ipsum dolor sit amet",
+                title = "testnotiz",
+                associated = true,
+                tags = "test1|test2",
+                obj_Event = e1
+            };
+
+            WritersToolbox.models.Type type1 = new WritersToolbox.models.Type() {
+                title = "Charakter",
+                color = "ff0000"
+            };
+
+            TypeObject typeObject1 = new TypeObject() 
+            { 
+                name = "Harry Potter",
+                obj_Type = type1
+            };
+
+            MemoryNote mn2 = new MemoryNote()
+            {
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                contentText = "lorem ipsum dolor sit amet",
+                title = "aussehen",
+                associated = true,
+                tags = "harry|potter|aussehen|narbe|haare|klein",
+                obj_TypeObject = typeObject1
+            };
 
             db.GetTable<BookType>().InsertOnSubmit(bt);
-            db.GetTable<MemoryNote>().InsertOnSubmit(mn);
             db.GetTable<Book>().InsertOnSubmit(b);
             db.GetTable<Tome>().InsertOnSubmit(t1);
             db.GetTable<Tome>().InsertOnSubmit(t2);
+            db.GetTable<Chapter>().InsertOnSubmit(c1);
+            db.GetTable<Chapter>().InsertOnSubmit(c2);
+            db.GetTable<Event>().InsertOnSubmit(e1);
+            db.GetTable<Event>().InsertOnSubmit(e2);
+            db.GetTable<MemoryNote>().InsertOnSubmit(mn1);
+
+            db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type1);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject1);
+            db.GetTable<MemoryNote>().InsertOnSubmit(mn2);
 
             db.SubmitChanges();
         }

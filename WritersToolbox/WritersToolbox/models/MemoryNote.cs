@@ -10,7 +10,6 @@ using System.Windows.Media;
 using System.ComponentModel;
 using System.Collections;
 
-// TODO: Tags, contentImage, contentAudio
 namespace WritersToolbox.models
 {
     [Table(Name="Notes")]
@@ -185,6 +184,68 @@ namespace WritersToolbox.models
                 sendPropertyChanged("event");
             }
         }
+
+
+        [Column(Name = "fk_typeObjectID", CanBeNull = true)]
+        private int? fk_typeObjectID; // ? = nullable type
+
+        private EntityRef<TypeObject> _typeObject;
+
+        [Association(Name = "FK_Note_TypeObject",
+            Storage = "_typeObject",         //Speicherort der Child-Instanzen.
+            IsForeignKey = true,
+            ThisKey = "fk_typeObjectID",      //Name des Primärschlüssels.
+            OtherKey = "typeObjectID" //Name des Fremdschlüssels.
+            )]
+        public TypeObject obj_TypeObject
+        {
+            get
+            {
+                return this._typeObject.Entity;
+            }
+            set
+            {
+                sendPropertyChanging("typeObject");
+                this._typeObject.Entity = value;
+                sendPropertyChanged("typeObject");
+            }
+        }
+
+        private String stg_ContentImageString;
+        [Column(CanBeNull = true,
+            Storage = "stg_ContentImageString")]
+        public String ContentImageString
+        {
+            get { return stg_ContentImageString; }
+            set
+            {
+                if (stg_ContentImageString != value)
+                {
+                    sendPropertyChanging("contentImageString");
+                    stg_ContentImageString = value;
+                    sendPropertyChanged("contentImageString");
+                }
+            }
+        }
+
+        private String stg_ContentAudioString;
+        [Column(CanBeNull = true,
+            Storage = "stg_ContentAudioString")]
+        public String contentAudioString
+        {
+            get { return stg_ContentAudioString; }
+            set
+            {
+                if (stg_ContentAudioString != value)
+                {
+                    sendPropertyChanging("contentAudioString");
+                    stg_ContentAudioString = value;
+                    sendPropertyChanged("contentAudioString");
+                }
+            }
+        }
+
+
 
         //Datenbank optimierung
         //Benachrichtigt Clients, dass sich ein Eigenschaftswert ändert.

@@ -16,6 +16,11 @@ namespace WritersToolbox.models
     class Event : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
+        public Event() 
+        {
+            _notes = new EntitySet<MemoryNote>();
+        }
+
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]
         private Binary version;

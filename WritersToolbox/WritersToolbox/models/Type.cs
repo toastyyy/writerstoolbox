@@ -14,6 +14,9 @@ namespace WritersToolbox.models
     [Table(Name="Types")]
     class Type : INotifyPropertyChanging, INotifyPropertyChanged
     {
+        public Type() {
+            _typeObjects = new EntitySet<TypeObject>();
+        }
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]
         private Binary version;
@@ -66,6 +69,23 @@ namespace WritersToolbox.models
                 sendPropertyChanged("color");
             }
 
+        }
+
+        private String stg_imageString;
+        [Column(CanBeNull = true,
+            Storage = "stg_imageString")]
+        public String imageString
+        {
+            get { return stg_imageString; }
+            set
+            {
+                if (stg_imageString != value)
+                {
+                    sendPropertyChanging("imageString");
+                    stg_imageString = value;
+                    sendPropertyChanged("imageString");
+                }
+            }
         }
 
         private EntitySet<TypeObject> _typeObjects;
