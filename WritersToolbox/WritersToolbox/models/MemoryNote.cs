@@ -8,5 +8,6 @@ namespace WritersToolbox.models
 {
     class MemoryNote
     {
+
     }
 }
