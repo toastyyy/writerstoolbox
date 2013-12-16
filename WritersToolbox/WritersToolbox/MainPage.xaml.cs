@@ -22,7 +22,7 @@ namespace WritersToolbox
             try
             {
                 db.DeleteDatabase();
-                if (db.DatabaseExists() == false)
+                if (!db.DatabaseExists())
                 {
                     db.CreateDatabase();
                 }

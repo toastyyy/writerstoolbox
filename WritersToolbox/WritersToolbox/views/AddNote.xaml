@@ -27,14 +27,9 @@
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <Canvas x:Name="canvasNote" HorizontalAlignment="Left" Height="440" Margin="10,134,0,0" VerticalAlignment="Top" Background="Transparent" Width="436" >
-                <TextBlock Canvas.Left="130" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="116" KeyUp="TextBlock_KeyUp"/>
-            </Canvas>
-            <Viewbox Margin="80,346,48,122">
-                <Canvas x:Name="imageContainer" HorizontalAlignment="Left" Height="812" Margin="170,338,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1473" Background="Transparent" ManipulationDelta="test_ManipulationDelta">
-
-                </Canvas>
-            </Viewbox>
+            <Canvas x:Name="canvasNote" HorizontalAlignment="Left" Height="396" Margin="32,148,0,0" VerticalAlignment="Top" Background="Transparent" Width="386" ManipulationDelta="canvasNote_ManipulationDelta" />
+            <TextBox x:Name="detailsNote" TextWrapping="Wrap" Text="details" Width="436" BorderBrush="#33FFFFFF" Background="Transparent" Foreground="#FFD7F709" Margin="10,128,10,126" ManipulationDelta="detailsNote_ManipulationDelta"/>
+            <TextBox x:Name="titleNote" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="title" VerticalAlignment="Top" Width="436" Background="Transparent" Foreground="#FFFBFBFB" BorderBrush="#33FFFFFF"/>
         </Grid>
         <Button x:Name="saveButton" Content="S" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="104,610,0,0" Grid.Row="1" Click="saveButton_Click"/>
         <Button x:Name="saveAsButton" Content="Sas" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="195,610,0,0" Grid.Row="1"/>

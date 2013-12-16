@@ -15,7 +15,7 @@ namespace WritersToolbox.views
 {
     public partial class AddNote : PhoneApplicationPage
     {
-        TextBlock textBlock;
+
         PhotoChooserTask photoChooserTask;
         Image img;
         public AddNote()
@@ -23,22 +23,7 @@ namespace WritersToolbox.views
             InitializeComponent();
             photoChooserTask = new PhotoChooserTask();
             photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
-            //Text(210.0, 150.0, "It works", Colors.Red);
-
         }
-
-        //private void detailsNote_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
-        //{
-        //    if (sender.Equals(detailsNote))
-        //    {
-        //        UIElement element = detailsNote;
-        //        //Canvas c = this.canvasNote;
-        //        var x = Canvas.GetLeft(element);
-        //        var y = Canvas.GetTop(element);
-        //        Canvas.SetLeft(element, x + e.DeltaManipulation.Translation.X);
-        //        Canvas.SetTop(element, y + e.DeltaManipulation.Translation.Y);
-        //    }
-        //}
 
         private void saveButton_Click(object sender, RoutedEventArgs e)
         {
@@ -54,57 +39,34 @@ namespace WritersToolbox.views
                 bi.SetSource(e.ChosenPhoto);
                 WriteableBitmap b = new WriteableBitmap(bi);
                 img =  new Image();
-
                 img.Source = b;
                 img.Height = 150;
                 img.Width = 200;
                 Canvas.SetLeft(img, 10);
                 Canvas.SetTop(img, 10);
-                imageContainer.Children.Add(img); 
+                canvasNote.Children.Add(img); 
              
             }
         }
 
-        private void test_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+        private void canvasNote_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-            UIElement element = img;
-            //Canvas c = this.canvasNote;
-            var x = Canvas.GetLeft(element);
-            var y = Canvas.GetTop(element);
-            Canvas.SetLeft(element, x + e.DeltaManipulation.Translation.X);
-            Canvas.SetTop(element, y + e.DeltaManipulation.Translation.Y);
+
         }
 
-        //private void Text(double x, double y, string text, Color color)
-        //{
-
-        //    textBlock = new TextBlock();
-
-        //    //textBlock.Text = text;
-
-        //    textBlock.Foreground = new SolidColorBrush(color);
-
-
-        //    Canvas.SetLeft(textBlock, x);
-
-        //    Canvas.SetTop(textBlock, y);
-
-        //    canvasNote.Children.Add(textBlock);
-
-        //}
-
-        //private void canvasNote_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
-        //{
-
-        //}
-
-        private void TextBlock_KeyUp(object sender, System.Windows.Input.KeyEventArgs e)
+        private void detailsNote_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-            textBlock.Text = String.Format(
-        "The key {0} was pressed while focus was on {1}",
-        e.Key.ToString(), (e.OriginalSource as FrameworkElement).Name);
+            var x = Canvas.GetLeft(img);
+            var y = Canvas.GetTop(img);
+            if (x + e.DeltaManipulation.Translation.X > Canvas.GetLeft(detailsNote)
+                && y + e.DeltaManipulation.Translation.Y > Canvas.GetTop(detailsNote)
+                && x + e.DeltaManipulation.Translation.X < Canvas.GetLeft(detailsNote) + img.Width
+                && y + e.DeltaManipulation.Translation.Y < Canvas.GetTop(detailsNote) + img.Height + 100)
+            {
+                Canvas.SetLeft(img, x + e.DeltaManipulation.Translation.X);
+                Canvas.SetTop(img, y + e.DeltaManipulation.Translation.Y);
+            }
         }
-
 
     }
 }
