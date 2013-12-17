@@ -37,6 +37,11 @@ namespace WritersToolbox.gui
             NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
         }
 
+        private void navigateToTypes(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
+        }
+
         
     }
 }
