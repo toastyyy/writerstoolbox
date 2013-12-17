@@ -36,5 +36,7 @@ namespace WritersToolbox.gui
         {
             NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
         }
+
+        
     }
 }

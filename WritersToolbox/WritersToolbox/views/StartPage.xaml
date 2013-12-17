@@ -14,7 +14,10 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/start_background.png"/>
+        </Grid.Background>
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
@@ -22,19 +25,19 @@
 
         <!--TitlePanel contains the name of the application and page title-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="WRITER'S TOOLBOX" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="Startseite" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="Writers Toolbox" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" HorizontalAlignment="Center" FontSize="44"/>
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <Rectangle x:Name="UnsortedNotes" HorizontalAlignment="Left" Height="215" Margin="270,0,0,0" Stroke="Black" VerticalAlignment="Top" Width="176" Fill="#FF0023FF"/>
-            <Rectangle Fill="#FF2EFF00" HorizontalAlignment="Left" Height="184" Margin="0,220,0,0" Stroke="Black" VerticalAlignment="Top" Width="446"/>
-            <Rectangle Fill="Yellow" HorizontalAlignment="Left" Height="188" Margin="0,409,0,0" Stroke="Black" VerticalAlignment="Top" Width="190"/>
-            <Rectangle Fill="#FFFF0097" HorizontalAlignment="Left" Height="92" Margin="195,409,0,0" Stroke="Black" VerticalAlignment="Top" Width="251"/>
-            <Rectangle Fill="Red" HorizontalAlignment="Left" Height="90" Margin="195,507,0,0" Stroke="Black" VerticalAlignment="Top" Width="251"/>
-            <Button Content="new Note" HorizontalAlignment="Left" Background="Red" BorderThickness="0" Padding="0,5,10,6" Margin="0,0,0,387" Width="265" Click="newNote"/>
-
+            <Button HorizontalAlignment="Left" Margin="10,10,0,0" VerticalAlignment="Top" Background="#FF4FEA00" BorderThickness="0" Width="280" Height="150" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Click="newNote">
+                <TextBlock VerticalAlignment="Top" FontSize="14" Foreground="#FF472529" Width="128" Height="26" HorizontalAlignment="Left">Neue Notiz</TextBlock>
+            </Button>
+            <Button HorizontalAlignment="Left" Margin="276,10,0,0" VerticalAlignment="Top" Background="#FF472529" BorderThickness="0" Width="150" Height="150" Padding="9,0,5,2" Click="newNote" Foreground="White">
+                <TextBlock VerticalAlignment="Top" FontSize="48" Foreground="White" HorizontalAlignment="Left" FontWeight="Bold">
+            		10
+                </TextBlock>
+            </Button>
         </Grid>
     </Grid>
 
