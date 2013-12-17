@@ -26,9 +26,18 @@ namespace WritersToolbox.models
         private Table<models.Type> t_type;
         private Table<models.MemoryNote> t_memoryNote;
 
-        public WritersToolboxDatebase() : base(tt) 
+        private static WritersToolboxDatebase db = null;
+        private WritersToolboxDatebase() : base(tt) 
         {
         }
+
+        public static WritersToolboxDatebase getInstance() 
+        {
+            if (db == null)
+                db = new WritersToolboxDatebase();
+            return db;
+        }
+
 
         
     }

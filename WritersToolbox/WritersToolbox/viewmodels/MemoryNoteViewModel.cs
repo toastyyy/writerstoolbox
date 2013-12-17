@@ -15,7 +15,7 @@ namespace WritersToolbox.viewmodels
         {
             try
             {
-                db = new WritersToolboxDatebase();
+                db = WritersToolboxDatebase.getInstance();
             }
             catch(Exception ex)
             {

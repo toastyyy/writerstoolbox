@@ -19,7 +19,7 @@ namespace WritersToolbox
         public MainPage()
         {
             InitializeComponent();
-            db = new WritersToolboxDatebase();
+            db = WritersToolboxDatebase.getInstance();
             try
             {
                 db.DeleteDatabase();
