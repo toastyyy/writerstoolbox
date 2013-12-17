@@ -14,34 +14,51 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-        <!--Pivotsteuerelement-->
-        <phone:Pivot Title="TYPEN">
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid>
+            <Grid.Background>
+                <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
+            </Grid.Background>
+            <Rectangle Fill="#FF4FEA00" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
+            <Rectangle Fill="#FF4FEA00" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
 
-            <!--Pivotelement eins-->
+            <!--Pivotsteuerelement-->
+        <phone:Pivot>
+                <phone:Pivot.Title>
+                    <TextBlock Foreground="Black" Text="TYPEN"/>
+                </phone:Pivot.Title>
+
+                    <!--Pivotelement eins-->
             <phone:PivotItem>
                 <phone:PivotItem.Header>
-                    <TextBlock FontSize="50" Text="Charaktere"/>
+                    <TextBlock FontSize="50" Text="Charaktere" Foreground="Black"/>
                 </phone:PivotItem.Header>
-                <Grid/>
-            </phone:PivotItem>
+                    <Grid>
+                        <TextBlock Text="Harry Potter" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
+                    </Grid>
+                </phone:PivotItem>
 
             <!--Pivotelement zwei-->
             <phone:PivotItem>
                 <phone:PivotItem.Header>
-                    <TextBlock FontSize="50" Text="Handlungsorte"/>
+                    <TextBlock FontSize="50" Text="Handlungsorte" Foreground="Black"/>
                 </phone:PivotItem.Header>
-                <Grid/>
-            </phone:PivotItem>
+                    <Grid>
+                        <TextBlock Text="Hogwarts" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
+                    </Grid>
+                </phone:PivotItem>
 
             <!--Pivotelement drei-->
             <phone:PivotItem>
                 <phone:PivotItem.Header>
-                    <TextBlock FontSize="50" Text="Neuer Typ"/>
+                    <TextBlock FontSize="50" Text="Neuer Typ" Foreground="Black"/>
                 </phone:PivotItem.Header>
-                <Grid/>
-            </phone:PivotItem>
+                    <Grid>
+                        <TextBlock Text="Neuer Typ" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
+                    </Grid>
+                </phone:PivotItem>
         </phone:Pivot>
+        </Grid>
     </Grid>
     
 </phone:PhoneApplicationPage>
