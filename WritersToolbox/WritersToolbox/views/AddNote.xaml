@@ -28,13 +28,13 @@
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <Canvas x:Name="canvasNote" HorizontalAlignment="Left" Height="485" Margin="10,128,0,0" VerticalAlignment="Top" Background="Transparent" Width="436" />
-            <TextBox x:Name="detailsNote" TextWrapping="Wrap" Text="details" Width="436" BorderBrush="#33FFFFFF" Background="{StaticResource TransparentBrush}" Foreground="#FFD7F709" Margin="10,128,10,83" ManipulationDelta="detailsNote_ManipulationDelta" VerticalScrollBarVisibility="Visible" InputScope="Text" Tap="detailsNote_Tap" GotFocus="detailsNote_GotFocus" HorizontalScrollBarVisibility="Visible"/>
-            <TextBox x:Name="titleNote" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="title" VerticalAlignment="Top" Width="436" Background="Transparent" Foreground="#FFFBFBFB" BorderBrush="#33FFFFFF"/>
+            <TextBox x:Name="detailsNote" TextWrapping="Wrap" Text="details" Width="436" BorderBrush="#33FFFFFF" Background="{StaticResource TransparentBrush}" Foreground="#FFD7F709" Margin="10,128,10,83" ManipulationDelta="detailsNote_ManipulationDelta" VerticalScrollBarVisibility="Visible" InputScope="Text" Tap="detailsNote_Tap" GotFocus="detailsNote_GotFocus" HorizontalScrollBarVisibility="Visible" DoubleTap="detailsNote_DoubleTap" Hold="detailsNote_Hold" LostFocus="detailsNote_LostFocus"/>
+            <TextBox x:Name="titleNote" HorizontalAlignment="Left" Height="72" TextWrapping="Wrap" Text="title" VerticalAlignment="Top" Width="436" Background="Transparent" Foreground="#FFFBFBFB" BorderBrush="#33FFFFFF" GotFocus="titleNote_GotFocus" LostFocus="titleNote_LostFocus"/>
 
         </Grid>
         <Button x:Name="saveButton" Content="S" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="104,610,0,0" Grid.Row="1" Click="saveButton_Click"/>
         <Button x:Name="saveAsButton" Content="Sas" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="195,610,0,0" Grid.Row="1"/>
-        <Button x:Name="closeButton" Content="C" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="278,610,0,0" Grid.Row="1"/>
+        <Button x:Name="closeButton" Content="C" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="278,610,0,0" Grid.Row="1" Click="closeButton_Click"/>
         <ContentControl Content="ContentControl" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 

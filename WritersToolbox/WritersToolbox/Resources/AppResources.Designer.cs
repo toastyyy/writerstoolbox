@@ -88,6 +88,16 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        public static byte[] image_mic {
+            get {
+                object obj = ResourceManager.GetObject("image_mic", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die LeftToRight ähnelt.
         /// </summary>
         public static string ResourceFlowDirection {
