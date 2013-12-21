@@ -7,7 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-
+using System.Windows.Media;
+//using Microsoft.Xna.Framework.Graphics.PackedVector;
 namespace WritersToolbox.views
 {
     public partial class PivotPage1 : PhoneApplicationPage
@@ -17,27 +18,27 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
-        public partial class AnimatableScrollViewer : UserControl
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            public static readonly DependencyProperty AnimatablOffsetProperty = DependencyProperty.Register("AnimatableOffset",
-                typeof(double), typeof(AnimatableScrollViewer), new PropertyMetadata(AnimatableOffsetPropertyChanged));
-
-            public double AnimatableOffset
+            double height = heightCalculator(textBox1.Text, textBox1.FontFamily, textBox1.FontSize,
+                textBox1.FontStyle, textBox1.FontWeight);
+            if (height > 526)
             {
-                get { return (double)this.GetValue(AnimatablOffsetProperty); }
-                set { this.SetValue(AnimatablOffsetProperty, value); }
+                textBox1.Height = height;
             }
 
-            public AnimatableScrollViewer()
-            {
-                AnimatableOffset = scrollViewer.VerticalOffset;
-            }
+        }
 
-            private static void AnimatableOffsetPropertyChanged(object sender, DependencyPropertyChangedEventArgs args)
-            {
-                AnimatableScrollViewer cThis = sender as AnimatableScrollViewer;
-                cThis.scrollViewer.ScrollToVerticalOffset((double)args.NewValue);
-            }
+        private double heightCalculator(String str, FontFamily font, double size, 
+            FontStyle fontstyle, FontWeight fontweight )
+        {
+                TextBlock l = new TextBlock();
+                l.FontFamily = font;
+                l.FontSize = size;
+                l.FontStyle = fontstyle;
+                l.FontWeight = fontweight;
+                l.Text = str;
+                return l.ActualHeight + 70;
         }
     }
 

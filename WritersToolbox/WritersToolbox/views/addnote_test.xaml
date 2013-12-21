@@ -19,25 +19,24 @@
         <phone:Pivot Title="MEINE ANWENDUNG">
             <!--Pivotelement eins-->
             <phone:PivotItem Header="Bilder" Margin="12,28,12,102">
-                <Grid>
-                    <Button Content="+" HorizontalAlignment="Left" Height="127" Margin="10,10,0,0" VerticalAlignment="Top" Width="436" FontSize="22"/>
+                <Grid x:Name="ContentPanel_Bilder" Grid.Row="1" Margin="12,0,12,0">
+                    <ScrollViewer x:Name='scroller_Bilder' VerticalAlignment='Stretch' VerticalScrollBarVisibility='Visible' >
+                        <Canvas x:Name='listItems_Bild'>
+                            <Button Content="+" HorizontalAlignment="Left" Height="177" VerticalAlignment="Top" Width="225" FontSize="22"/>
+                        </Canvas>
+                    </ScrollViewer>
                 </Grid>
             </phone:PivotItem>
 
             <!--Pivotelement zwei-->
             <phone:PivotItem Header="Notiz" Margin="12,28,12,102">
-                <Grid Grid.Row="1" Margin="0">
-                    <TextBox HorizontalAlignment="Left" Height="74" Margin="22,25,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Width="410"/>
-
-                    <!--<TextBox Opacity="1.0" HorizontalAlignment="Left" Height="387" Margin="22,104,0,0" TextWrapping="Wrap" Text="Details" VerticalAlignment="Top" Width="410" VerticalScrollBarVisibility="Visible" AcceptsReturn="True" HorizontalScrollBarVisibility="Visible"/>-->
-
-                    <UserControl>
-                        <Grid x:Name="LayoutRoot12" Background="Transparent">
-                            <ScrollViewer x:Name="scrollViewer" Width="{Binding ActualWidth, ElementName=userControl, Mode=OneWay}" Height="{Binding ActualHeight, ElementName=userControl, Mode=OneWay}">
-                                <TextBox TextWrapping="Wrap" Text="Add some pretty long text here..." Height="333"/>
-                            </ScrollViewer>
-                        </Grid>
-                    </UserControl>
+                <Grid x:Name="ContentPanel_Notiz" Grid.Row="1" Margin="12,0,12,0">
+                    <ScrollViewer x:Name='scroller_Notiz' VerticalAlignment='Stretch' VerticalScrollBarVisibility='Visible' >
+                        <StackPanel x:Name='listItems_Notiz'>
+                            <TextBox Height="72" TextWrapping="Wrap" Text="TextBox" Width="432"/>
+                            <TextBox x:Name="textBox1" Height="526" TextWrapping="Wrap" Text="TextBox" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True"/>
+                        </StackPanel>
+                    </ScrollViewer>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>

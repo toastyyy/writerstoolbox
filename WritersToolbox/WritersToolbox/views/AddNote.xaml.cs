@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Input;
 using System.Windows.Shapes;
 using Windows.Phone.Speech.Recognition;
+using Microsoft.Phone.Controls;
 namespace WritersToolbox.views
 {
     public partial class AddNote : PhoneApplicationPage
@@ -48,7 +49,7 @@ namespace WritersToolbox.views
                 WriteableBitmap b = new WriteableBitmap(bi);
                 img = new Image();
                 img.Source = b;
-                //img.Hold += new EventHandler<GestureEventArgs>(img_hold);
+                img.Hold += new EventHandler<System.Windows.Input.GestureEventArgs>(img_hold);
                 img.Height = 150;
                 img.Width = 200;
                 Canvas.SetLeft(img, Canvas.GetLeft(detailsNote) + 40);
@@ -64,7 +65,7 @@ namespace WritersToolbox.views
 
         }
 
-        private void img_hold(object sender, GestureEventArgs e)
+        private void img_hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
             MessageBoxResult m = MessageBox.Show("möchten sie es löschen!?", "löschen", MessageBoxButton.OKCancel);
             if (m == MessageBoxResult.OK)
@@ -131,12 +132,12 @@ namespace WritersToolbox.views
             }
         }
 
-        private void detailsNote_Tap(object sender, GestureEventArgs e)
+        private void detailsNote_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             detailsNote.Focus();
         }
 
-        private void detailsNote_Hold(object sender, GestureEventArgs e)
+        private void detailsNote_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (index >= 0)
             {
@@ -218,7 +219,7 @@ namespace WritersToolbox.views
             }
         }
 
-        private void detailsNote_DoubleTap(object sender, GestureEventArgs e)
+        private void detailsNote_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             saveButton.Focus();
             Point p = e.GetPosition(detailsNote);
