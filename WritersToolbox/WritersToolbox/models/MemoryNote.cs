@@ -140,6 +140,22 @@ namespace WritersToolbox.models
             }
         }
 
+        private Boolean stg_deleted;
+        [Column(Storage = "stg_deleted")]
+        public Boolean deleted
+        {
+            get { return stg_deleted; }
+            set
+            {
+                if (stg_deleted != value)
+                {
+                    sendPropertyChanging("deleted");
+                    stg_deleted = value;
+                    sendPropertyChanged("deleted");
+                }
+            }
+        }
+
         private String stg_tags;
         [Column(Storage = "stg_tags")]
         public String tags
@@ -269,5 +285,7 @@ namespace WritersToolbox.models
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+
     }
 }

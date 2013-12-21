@@ -48,7 +48,7 @@ namespace WritersToolbox.views
                 WriteableBitmap b = new WriteableBitmap(bi);
                 img = new Image();
                 img.Source = b;
-                img.Hold += new EventHandler<GestureEventArgs>(img_hold);
+                //img.Hold += new EventHandler<GestureEventArgs>(img_hold);
                 img.Height = 150;
                 img.Width = 200;
                 Canvas.SetLeft(img, Canvas.GetLeft(detailsNote) + 40);
@@ -258,6 +258,11 @@ namespace WritersToolbox.views
             {
                 titleNote.Text = "title";
             }
+        }
+
+        private void saveAsButton_Click(object sender, RoutedEventArgs e)
+        {
+
         }
 
     }

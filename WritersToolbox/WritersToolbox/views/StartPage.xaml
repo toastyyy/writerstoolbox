@@ -30,7 +30,7 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="25,0,25,0">
-            <Button HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="#FF4FEA00" BorderThickness="0" Width="290" Height="200" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Click="newNote">
+            <Button HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="#FF60A31D" BorderThickness="0" Width="290" Height="200" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Click="newNote">
                 <TextBlock Text="Neue Notiz" VerticalAlignment="Top" FontSize="14" Foreground="#FF472529" Width="128" Height="26" HorizontalAlignment="Left"/>
             </Button>
             <Button HorizontalAlignment="Left" Margin="0,195,0,0" VerticalAlignment="Top" Background="#FF472529" BorderThickness="0" Height="220" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Click="navigateToTypes">
@@ -38,7 +38,7 @@
             </Button>
             <Button HorizontalAlignment="Right" Margin="0,195,0,0" VerticalAlignment="Top" Background="#FFD5CDB5" BorderThickness="0" Height="110" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left">
             </Button>
-            <Button HorizontalAlignment="Right" Margin="0,292,0,0" VerticalAlignment="Top" Background="#FF4FEA00" BorderThickness="0" Height="220" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left">
+            <Button HorizontalAlignment="Right" Margin="0,292,0,0" VerticalAlignment="Top" Background="#FF60A31D" BorderThickness="0" Height="220" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left">
                 <TextBlock Text="Werke" VerticalAlignment="Top" FontSize="14" Foreground="#FF472529" Width="128" Height="26" HorizontalAlignment="Left"/>
             </Button>
             <Button HorizontalAlignment="Left" Margin="0,402,0,0" VerticalAlignment="Top" Background="#FFD5CDB5" BorderThickness="0" Height="110" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left"/>
