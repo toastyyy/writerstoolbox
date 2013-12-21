@@ -15,34 +15,50 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="13*"/>
+        </Grid.ColumnDefinitions>
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/start_background.png"/>
         </Grid.Background>
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" MinHeight="223"/>
+            <RowDefinition/>
         </Grid.RowDefinitions>
 
         <!--TitlePanel contains the name of the application and page title-->
-        <StackPanel Grid.Row="0" Margin="0,40,0,28" Height="80">
-            <TextBlock Text="Writers Toolbox" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" HorizontalAlignment="Center" FontSize="44"/>
-        </StackPanel>
+        <Grid x:Name="title" Grid.Row="0" Margin="10,0,10,46" Grid.ColumnSpan="2" >
+            <Image Source="/Assets/WritersToolboxstartseiteWT.png" Margin="0,10,10,30" HorizontalAlignment="Right" Width="440"/>
+        </Grid>
+        <!--<StackPanel Grid.Row="0" Margin="10,10,-10,58" Height="120">-->
+        <!-- <TextBlock Text="Writers Toolbox" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" HorizontalAlignment="Center" FontSize="44"/>-->
+        <!-- </StackPanel>-->
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="25,0,25,0">
-            <Button HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="#FF60A31D" BorderThickness="0" Width="290" Height="200" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Click="newNote">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="25,0,25,0" Grid.ColumnSpan="2">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="28*"/>
+                <RowDefinition Height="233*"/>
+            </Grid.RowDefinitions>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="194*"/>
+                <ColumnDefinition Width="91*"/>
+                <ColumnDefinition Width="145*"/>
+            </Grid.ColumnDefinitions>
+            <Button HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="#FF4FEA00" BorderThickness="0" Width="290" Height="200" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Click="newNote" Grid.ColumnSpan="3" Grid.RowSpan="2">
                 <TextBlock Text="Neue Notiz" VerticalAlignment="Top" FontSize="14" Foreground="#FF472529" Width="128" Height="26" HorizontalAlignment="Left"/>
             </Button>
-            <Button HorizontalAlignment="Left" Margin="0,195,0,0" VerticalAlignment="Top" Background="#FF472529" BorderThickness="0" Height="220" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Click="navigateToTypes">
+            <Button HorizontalAlignment="Left" Margin="0,138.672,0,0" VerticalAlignment="Top" Background="#FF472529" BorderThickness="0" Height="220" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Click="navigateToTypes" Grid.ColumnSpan="2" Grid.Row="1">
                 <TextBlock Text="Typen" VerticalAlignment="Top" FontSize="14" Foreground="White" Width="128" Height="26" HorizontalAlignment="Left"/>
             </Button>
-            <Button HorizontalAlignment="Right" Margin="0,195,0,0" VerticalAlignment="Top" Background="#FFD5CDB5" BorderThickness="0" Height="110" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left">
+            <Button HorizontalAlignment="Right" Margin="0,138.672,0,0" VerticalAlignment="Top" Background="#FFD5CDB5" BorderThickness="0" Height="110" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1">
             </Button>
-            <Button HorizontalAlignment="Right" Margin="0,292,0,0" VerticalAlignment="Top" Background="#FF60A31D" BorderThickness="0" Height="220" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left">
+            <Button HorizontalAlignment="Right" Margin="0,235.672,0,0" VerticalAlignment="Top" Background="#FF4FEA00" BorderThickness="0" Height="220" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Grid.ColumnSpan="2" Grid.Column="1" Grid.Row="1">
                 <TextBlock Text="Werke" VerticalAlignment="Top" FontSize="14" Foreground="#FF472529" Width="128" Height="26" HorizontalAlignment="Left"/>
             </Button>
-            <Button HorizontalAlignment="Left" Margin="0,402,0,0" VerticalAlignment="Top" Background="#FFD5CDB5" BorderThickness="0" Height="110" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left"/>
-            <Button HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Top" Background="#FF472529" BorderThickness="0" Width="150" Height="200" Padding="9,0,5,2">
+            <Button HorizontalAlignment="Left" Margin="0,345.672,0,0" VerticalAlignment="Top" Background="#FFD5CDB5" BorderThickness="0" Height="110" Width="220" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1"/>
+            <Button HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Top" Background="#FF472529" BorderThickness="0" Width="150" Height="200" Padding="9,0,5,2" Grid.ColumnSpan="2" Grid.Column="1" Grid.RowSpan="2">
                 <TextBlock Text="10" VerticalAlignment="Center" FontSize="60" Foreground="White" HorizontalAlignment="Center" FontWeight="Bold"/>
             </Button>
 
