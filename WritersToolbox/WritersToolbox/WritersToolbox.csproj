@@ -113,6 +113,7 @@
     <Compile Include="models\Type.cs" />
     <Compile Include="models\TypeObject.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
+    <Compile Include="viewmodels\TypesViewModel.cs" />
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
