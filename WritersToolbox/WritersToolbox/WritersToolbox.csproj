@@ -102,6 +102,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="demo\Data.cs" />
+    <Compile Include="LocalizedStrings.cs" />
     <Compile Include="models\WritersToolboxDatebase.cs" />
     <Compile Include="models\Book.cs" />
     <Compile Include="models\BookType.cs" />
@@ -129,6 +130,7 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
     <Compile Include="views\Types.xaml.cs">
       <DependentUpon>Types.xaml</DependentUpon>
@@ -188,6 +190,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="README_FIRST.txt" />
+    <None Include="Resources\micro.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
@@ -200,6 +203,7 @@
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

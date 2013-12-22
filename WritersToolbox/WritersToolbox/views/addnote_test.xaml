@@ -29,12 +29,15 @@
             </phone:PivotItem>
 
             <!--Pivotelement zwei-->
-            <phone:PivotItem Header="Notiz" Margin="12,28,12,102">
+            <phone:PivotItem Header="Notiz" Margin="12,28,12,102" Loaded="PivotItem_Loaded">
                 <Grid x:Name="ContentPanel_Notiz" Grid.Row="1" Margin="12,0,12,0">
                     <ScrollViewer x:Name='scroller_Notiz' VerticalAlignment='Stretch' VerticalScrollBarVisibility='Visible' >
                         <StackPanel x:Name='listItems_Notiz'>
-                            <TextBox Height="72" TextWrapping="Wrap" Text="TextBox" Width="432"/>
-                            <TextBox x:Name="textBox1" Height="526" TextWrapping="Wrap" Text="TextBox" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True"/>
+                            <Canvas Height="72" Width="432">
+                                <TextBox Height="72" TextWrapping="Wrap" Text="TextBox" Width="432"/>
+                                <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/Resources/micro.png" Canvas.Top="16"/>
+                            </Canvas>
+                            <TextBox x:Name="textBox1" Height="432" TextWrapping="Wrap" Text="TextBox" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True"/>
                         </StackPanel>
                     </ScrollViewer>
                 </Grid>

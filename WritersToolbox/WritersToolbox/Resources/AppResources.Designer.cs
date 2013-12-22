@@ -90,19 +90,9 @@ namespace WritersToolbox.Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
-        public static byte[] bildchen {
+        public static byte[] micro {
             get {
-                object obj = ResourceManager.GetObject("bildchen", resourceCulture);
-                return ((byte[])(obj));
-            }
-        }
-        
-        /// <summary>
-        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
-        /// </summary>
-        public static byte[] image_mic {
-            get {
-                object obj = ResourceManager.GetObject("image_mic", resourceCulture);
+                object obj = ResourceManager.GetObject("micro", resourceCulture);
                 return ((byte[])(obj));
             }
         }
