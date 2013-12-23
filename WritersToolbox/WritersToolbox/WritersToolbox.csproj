@@ -136,10 +136,17 @@
     <Compile Include="views\Types.xaml.cs">
       <DependentUpon>Types.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\TypesOverview.xaml.cs">
+      <DependentUpon>TypesOverview.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="demo\sampleDataLongList.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\AddNote.xaml">
       <SubType>Designer</SubType>
@@ -158,6 +165,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\Types.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\TypesOverview.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

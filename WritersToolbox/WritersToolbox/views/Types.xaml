@@ -19,22 +19,22 @@
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
             </Grid.Background>
-            <Rectangle Fill="#FF4FEA00" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
-            <Rectangle Fill="#FF4FEA00" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
+            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
+            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
 
             <!--Pivotsteuerelement-->
-        <phone:Pivot>
+            <phone:Pivot ManipulationDelta="pinch_out">
                 <phone:Pivot.Title>
                     <TextBlock Foreground="Black" Text="TYPEN"/>
                 </phone:Pivot.Title>
 
                     <!--Pivotelement eins-->
-            <phone:PivotItem>
+            <phone:PivotItem Tap="navUeberblick">
                 <phone:PivotItem.Header>
                     <TextBlock FontSize="50" Text="Charaktere" Foreground="Black"/>
                 </phone:PivotItem.Header>
                     <Grid>
-                        <TextBlock Text="Harry Potter" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
+                        <TextBlock Text="Harry Potter" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
                     </Grid>
                 </phone:PivotItem>
 
@@ -57,7 +57,27 @@
                         <TextBlock Text="Neuer Typ" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
                     </Grid>
                 </phone:PivotItem>
-        </phone:Pivot>
+
+                <!--Pivotelement vier-->
+                <phone:PivotItem>
+                    <phone:PivotItem.Header>
+                        <TextBlock FontSize="50" Text="Endlos" Foreground="Black"/>
+                    </phone:PivotItem.Header>
+                    <Grid>
+                        <TextBlock Text="4" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
+                    </Grid>
+                </phone:PivotItem>
+
+                <!--Pivotelement fünf-->
+                <phone:PivotItem>
+                    <phone:PivotItem.Header>
+                        <TextBlock FontSize="50" Text="Endlos" Foreground="Black"/>
+                    </phone:PivotItem.Header>
+                    <Grid>
+                        <TextBlock Text="5" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
+                    </Grid>
+                </phone:PivotItem>
+            </phone:Pivot>
         </Grid>
     </Grid>
     
