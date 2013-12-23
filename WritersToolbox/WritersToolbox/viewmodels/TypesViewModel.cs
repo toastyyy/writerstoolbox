@@ -50,6 +50,14 @@ namespace WritersToolbox.viewmodels
 
         public void createTypeObject(String name, String color, String image, models.Type type)
         {
+            if (name.Equals("")) 
+            {
+                throw new ArgumentException("Name muss angegeben werden", "name");
+            }
+            if (type == null) 
+            {
+                throw new ArgumentException("TypeObject muss einem Typ angehören", "type");
+            }
             TypeObject to = new TypeObject();
             to.name = name;
             if (color.Equals(""))
