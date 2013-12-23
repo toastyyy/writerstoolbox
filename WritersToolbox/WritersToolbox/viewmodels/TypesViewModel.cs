@@ -20,7 +20,15 @@ namespace WritersToolbox.viewmodels
         }
         public List<TypeObject> getTypeObjectsForType(models.Type t)
         {
-            return null;
+            var result = from to in tableTypeObject
+                         where to.obj_Type.Equals(t)
+                         select to;
+            List<TypeObject> l = new List<TypeObject>();
+            foreach (var row in result) 
+            {
+                l.Add(row);
+            }
+            return l;
         }
 
         public List<models.Type> getAllTypes()
@@ -31,6 +39,8 @@ namespace WritersToolbox.viewmodels
         public void createType(String title, String color, String image)
         {
             models.Type t = new models.Type();
+            if (title.Equals(""))
+                throw new ArgumentException("Titel muss ausgefüllt sein", "Title");
             t.title = title;
             t.color = color;
             t.imageString = image;
@@ -38,8 +48,22 @@ namespace WritersToolbox.viewmodels
             this.db.SubmitChanges();
         }
 
-        public void createTypeObject(String name, String color, String image)
+        public void createTypeObject(String name, String color, String image, models.Type type)
         {
+            TypeObject to = new TypeObject();
+            to.name = name;
+            if (color.Equals(""))
+            {
+                to.color = type.color;
+            }
+            else 
+            {
+                to.color = color;
+            }
+            to.obj_Type = type;
+
+            this.tableTypeObject.InsertOnSubmit(to);
+            this.db.SubmitChanges();
         }
     }
 }
