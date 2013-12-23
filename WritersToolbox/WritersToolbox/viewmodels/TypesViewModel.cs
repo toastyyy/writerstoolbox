@@ -36,6 +36,22 @@ namespace WritersToolbox.viewmodels
             return this.tableType.ToList<models.Type>();
         }
 
+        public models.Type getType(int id) 
+        {
+            var result = from t in tableType
+                         where t.typeID == id
+                         select t;
+            return result.First();
+        }
+
+        public TypeObject getTypeObject(int id)
+        {
+            var result = from t in tableTypeObject
+                         where t.typeObjectID == id
+                         select t;
+            return result.First();
+        }
+
         public void createType(String title, String color, String image)
         {
             models.Type t = new models.Type();
