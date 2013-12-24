@@ -25,7 +25,7 @@
                             <Canvas Height="72" Width="432">
                                 <TextBox Height="72" TextWrapping="Wrap" Text="titel" Width="432"/>
                                 <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16"/>
-                            </Canvas>
+                        </Canvas>
                             <TextBox x:Name="textBox1" Height="441" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True"/>
                         </StackPanel>
                     </ScrollViewer>
@@ -47,7 +47,7 @@
                         </Grid.ColumnDefinitions>
                         <Button x:Name="addPictur" Content="+" Grid.Row="0" Grid.Column="0" Click="addPictur_Click" />
                     </Grid>
-                </ScrollViewer>
+                    </ScrollViewer>
             </phone:PivotItem>
         </phone:Pivot>
     </Grid>

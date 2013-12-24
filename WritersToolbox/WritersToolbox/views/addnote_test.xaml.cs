@@ -57,7 +57,7 @@ namespace WritersToolbox.views
         //TODO
         private void PivotItem_Loaded(object sender, RoutedEventArgs e)
         {
-            micro1.Source = GetImageByName("/Resources/micro.png");
+            //micro1.Source = GetImageByName("/Resources/micro.png");
         }
 
         //TODO
