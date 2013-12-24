@@ -35,7 +35,7 @@
                         <StackPanel x:Name='listItems_Notiz'>
                             <Canvas Height="72" Width="432">
                                 <TextBox Height="72" TextWrapping="Wrap" Text="TextBox" Width="432"/>
-                                <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/Resources/micro.png" Canvas.Top="16"/>
+                                <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/Resources/micro.png" Canvas.Top="16" />
                             </Canvas>
                             <TextBox x:Name="textBox1" Height="432" TextWrapping="Wrap" Text="TextBox" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True"/>
                         </StackPanel>
