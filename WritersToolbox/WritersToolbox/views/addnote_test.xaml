@@ -18,35 +18,46 @@
         <!--Pivotsteuerelement-->
         <phone:Pivot Title="MEINE ANWENDUNG">
             <!--Pivotelement eins-->
-            <phone:PivotItem Header="Bilder" Margin="12,28,12,102">
-                <Grid x:Name="ContentPanel_Bilder" Grid.Row="1" Margin="12,0,12,0">
-                    <ScrollViewer x:Name='scroller_Bilder' VerticalAlignment='Stretch' VerticalScrollBarVisibility='Visible' >
-                        <Canvas x:Name='listItems_Bild'>
-                            <Button Content="+" HorizontalAlignment="Left" Height="177" VerticalAlignment="Top" Width="225" FontSize="22"/>
+            <phone:PivotItem Header="Notiz" Margin="12,28,12,10" Loaded="PivotItem_Loaded">
+                <Grid x:Name="ContentPanel_Notiz" Grid.Row="1" Margin="12,0,12,0">
+                    <ScrollViewer x:Name='scroller_Notiz' VerticalScrollBarVisibility='Visible' Margin="0,0,0,-95" Height="524" VerticalAlignment="Top" >
+                        <StackPanel x:Name='listItems_Notiz'>
+                            <Canvas Height="72" Width="432">
+                                <TextBox Height="72" TextWrapping="Wrap" Text="titel" Width="432"/>
+                                <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16"/>
                         </Canvas>
+                            <TextBox x:Name="textBox1" Height="441" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True"/>
+                        </StackPanel>
                     </ScrollViewer>
+                    <Canvas>
+                        <Image x:Name="micro2" Height="40" Width="46" Canvas.Left="376" Source="/icons/micro.png" Canvas.Top="86"/>
+                    </Canvas>
                 </Grid>
             </phone:PivotItem>
 
             <!--Pivotelement zwei-->
-            <phone:PivotItem Header="Notiz" Margin="12,28,12,102" Loaded="PivotItem_Loaded">
-                <Grid x:Name="ContentPanel_Notiz" Grid.Row="1" Margin="12,0,12,0">
-                    <ScrollViewer x:Name='scroller_Notiz' VerticalAlignment='Stretch' VerticalScrollBarVisibility='Visible' >
-                        <StackPanel x:Name='listItems_Notiz'>
-                            <Canvas Height="72" Width="432">
-                                <TextBox Height="72" TextWrapping="Wrap" Text="TextBox" Width="432"/>
-                                <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/Resources/micro.png" Canvas.Top="16" />
-                            </Canvas>
-                            <TextBox x:Name="textBox1" Height="432" TextWrapping="Wrap" Text="TextBox" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True"/>
-                        </StackPanel>
+            <phone:PivotItem Header="Bilder" Margin="12,28,12,10">
+                <ScrollViewer x:Name='scroller_Bilder_' VerticalAlignment='Stretch' VerticalScrollBarVisibility='Visible' >
+                    <Grid x:Name="ContentPanel_Bilder" Height="494">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="200" />
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="225" />
+                        </Grid.ColumnDefinitions>
+                        <Button x:Name="addPictur" Content="+" Grid.Row="0" Grid.Column="0" Click="addPictur_Click" />
+                    </Grid>
                     </ScrollViewer>
-                </Grid>
             </phone:PivotItem>
         </phone:Pivot>
-        <Button x:Name="saveButton" Content="S" HorizontalAlignment="Left" Height="75" Margin="10,683,0,0" VerticalAlignment="Top" Width="145"/>
-        <Button x:Name="saveAsButton" Content="Sas" HorizontalAlignment="Left" Height="75" Margin="176,683,0,0" VerticalAlignment="Top" Width="145"/>
-        <Button x:Name="closeButton" Content="C" HorizontalAlignment="Left" Height="75" Margin="326,683,0,0" VerticalAlignment="Top" Width="145"/>
-
     </Grid>
+    <!--Sample code showing usage of ApplicationBar-->
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="false">
+            <shell:ApplicationBarIconButton x:Name="saveAsButton" IconUri="/icons/saveAs.png" Text="saveAs" />
+            <shell:ApplicationBarIconButton x:Name="saveButton" IconUri="/icons/save.png" Text="save" />
+            <shell:ApplicationBarIconButton x:Name="cancelButton" IconUri="/icons/cancel.png" Text="cancel" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>
