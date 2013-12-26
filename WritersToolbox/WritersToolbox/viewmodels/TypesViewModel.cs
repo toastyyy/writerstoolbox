@@ -10,7 +10,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 namespace WritersToolbox.viewmodels
 {
-    class TypesViewModel
+    public class TypesViewModel
     {
         private WritersToolboxDatebase db;
         private Table<models.Type> tableType;
@@ -165,6 +165,19 @@ namespace WritersToolbox.viewmodels
             Byte colorB = Convert.ToByte(hex.Substring(4, 2));
 
             return Color.FromArgb(255, colorR, colorG, colorB);
+        }
+
+        public List<String> Names { get; set; }
+
+        public bool IsDataLoaded { get; set; }
+
+        public void LoadData()
+        {
+            Names = new List<string>();
+            int[] i = getAllTypeIDs();
+            Names.Add(getTitleForType(i[0]));
+            System.Diagnostics.Debug.WriteLine("da");
+            IsDataLoaded = true;
         }
     }
 }

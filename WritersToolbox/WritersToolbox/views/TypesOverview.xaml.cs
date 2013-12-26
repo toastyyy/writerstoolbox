@@ -13,11 +13,50 @@ namespace WritersToolbox.views
 {
     public partial class TypesOverview : PhoneApplicationPage
     {
+
+        //private static TestOverview vm = null;
+
+        //public static TestOverview VM
+        //{
+        //    get
+        //    {
+        //        if (vm == null)
+        //        {
+        //            vm = new TestOverview();
+        //            vm.LoadData();
+        //        }
+
+
+        //        return vm;
+        //    }
+        //}
+
+        public static TypesViewModel types_VM = null;
+
+        public static TypesViewModel Types_VM
+        {
+            get
+            {
+                if (types_VM == null)
+                {
+                    types_VM = new TypesViewModel();
+                    types_VM.LoadData();
+                }
+                return types_VM;
+            }
+        }
+
         public TypesOverview()
         {
             InitializeComponent();
+            //DataContext = VM;
+            DataContext = Types_VM;
             
         }
+
+
+
+        
         
 
 
@@ -34,6 +73,11 @@ namespace WritersToolbox.views
                     System.Diagnostics.Debug.WriteLine("Zoomout");
 
             }
+        }
+
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            
         }
 
         

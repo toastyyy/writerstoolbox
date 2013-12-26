@@ -56,7 +56,7 @@
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="false">
             <shell:ApplicationBarIconButton x:Name="saveAsButton" IconUri="/icons/saveAs.png" Text="saveAs" />
             <shell:ApplicationBarIconButton x:Name="saveButton" IconUri="/icons/save.png" Text="save" />
-            <shell:ApplicationBarIconButton x:Name="cancelButton" IconUri="/icons/cancel.png" Text="cancel" />
+            <shell:ApplicationBarIconButton x:Name="cancelButton" IconUri="/icons/save.png" Text="cancel" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

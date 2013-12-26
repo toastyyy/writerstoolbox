@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wt="clr-namespace:WritersToolbox.viewmodels"
+    d:DataContext="{d:DesignData ../demo/sampleDataLongList.xaml}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -15,17 +16,29 @@
     shell:SystemTray.IsVisible="True">
     
     <phone:PhoneApplicationPage.Resources>
-        <DataTemplate x:Key="TypesOverviewDataTemplate">
-            <Grid>
-                <Rectangle Width="Auto" Height="Auto"/>
-                <TextBlock Text="{Binding Strings}"/>
+        <DataTemplate x:Key="TypesOverviewTemplate">
+            <Grid Width="Auto" 
+                  Height="Auto" 
+                  Margin="10,10,10,10" 
+                  Background="#FFC5C5C5">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="1" 
+                           Text="{Binding Names}" 
+                           TextWrapping="Wrap"  
+                           Foreground="Black" 
+                           FontSize="16" 
+                           VerticalAlignment="Bottom" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,0,0,5"/>
             </Grid>
         </DataTemplate>
-        
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot" d:DataContext="{d:DesignInstance Type=wt:AddNoteViewModel, IsDesignTimeCreatable=true}" Background="White">
+    <Grid x:Name="LayoutRoot" Background="White">
         <Grid>
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
@@ -41,14 +54,23 @@
 
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
             <StackPanel Grid.Row="0" Margin="12,17,0,28">
-                <TextBlock Text="Typen" Style="{StaticResource PhoneTextNormalStyle}"/>
+                <TextBlock Text="TYPEN" FontSize="22" Foreground="Black"/>
                 <TextBlock Text="Überblick" Margin="9,10,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" FontSize="50" Height="65"/>
             </StackPanel>
 
             <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
-            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0" ManipulationDelta="pinch_out">
-                <phone:LongListSelector x:Name="longListTypes" Height="Auto" Margin="0,0,0,0" Width="Auto" GridCellSize="150, 150" ItemTemplate="{StaticResource TypesOverviewDataTemplate}" ItemsSource="{Binding String}">
-                   
+            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,50" ManipulationDelta="pinch_out">
+                <phone:LongListSelector 
+                    Height="Auto" 
+                    Margin="0,0,0,0" 
+                    Width="Auto" 
+                    ItemsSource="{Binding Names}"
+                    LayoutMode="Grid"
+                    GridCellSize="200, 200" 
+                    Padding="20,10"
+                    ItemTemplate="{StaticResource TypesOverviewTemplate}">
+                    
+                    
                 </phone:LongListSelector>
 
             </Grid>
