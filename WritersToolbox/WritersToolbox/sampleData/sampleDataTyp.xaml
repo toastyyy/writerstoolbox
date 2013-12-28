@@ -1,0 +1,10 @@
+﻿<wt:SampleDataTyp
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:wt="clr-namespace:WritersToolbox.sampleData">
+    <wt:SampleDataTyp.Typen>
+        <wt:Typ Namen="Peter" gebraucht="True"/>
+        <wt:Typ Namen="Paul" gebraucht="False"/>
+        <wt:Typ Namen="Paul" gebraucht="False"/>
+    </wt:SampleDataTyp.Typen>
+</wt:SampleDataTyp>

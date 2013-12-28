@@ -101,6 +101,7 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="converter\BoolToUsedConverter.cs" />
     <Compile Include="demo\Data.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="models\WritersToolboxDatebase.cs" />
@@ -112,10 +113,10 @@
     <Compile Include="models\Tome.cs" />
     <Compile Include="models\Type.cs" />
     <Compile Include="models\TypeObject.cs" />
+    <Compile Include="sampleData\SampleDataTyp.cs" />
+    <Compile Include="sampleData\Typ.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
-    <Compile Include="viewmodels\TestOverview.cs" />
     <Compile Include="viewmodels\TypesViewModel.cs" />
-    <Compile Include="viewmodels\Character.cs" />
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
@@ -150,7 +151,7 @@
     <Page Include="App.xaml">
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="demo\sampleDataLongList.xaml">
+    <Page Include="sampleData\sampleDataTyp.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

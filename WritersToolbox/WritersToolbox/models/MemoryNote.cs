@@ -13,7 +13,7 @@ using System.Collections;
 namespace WritersToolbox.models
 {
     [Table(Name="Notes")]
-    class MemoryNote : INotifyPropertyChanging, INotifyPropertyChanged
+    public class MemoryNote : INotifyPropertyChanging, INotifyPropertyChanged
     {
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]

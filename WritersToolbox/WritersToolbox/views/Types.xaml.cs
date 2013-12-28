@@ -7,20 +7,50 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using WritersToolbox.viewmodels;
 
 
 namespace WritersToolbox.views
 {
     public partial class Types : PhoneApplicationPage
     {
-        
-        
+
+        public static TypesViewModel types_VM = null;
+
+        public static TypesViewModel Types_VM
+        {
+            get
+                {
+            //        if (types_VM == null)
+            //        {
+            //            types_VM = new TypesViewModel();
+            //            if(!types_VM.IsDataLoaded)
+            //                types_VM.LoadData();
+            //        }
+                    return types_VM;
+                }
+        }
+
+        public static sampleData.SampleDataTyp sdt = null;
+
+        public static sampleData.SampleDataTyp SDT
+        {
+            get
+            {
+                if (sdt == null)
+                {
+                    sdt = new sampleData.SampleDataTyp();
+                    
+                }
+                return sdt;
+            }
+        }
         
 
         public Types()
         {
             InitializeComponent();
-           
+            DataContext = SDT;
         }
 
         

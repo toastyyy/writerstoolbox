@@ -13,7 +13,7 @@ namespace WritersToolbox.models
 {
 
     [Table(Name = "Events")]
-    class Event : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Event : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         public Event() 

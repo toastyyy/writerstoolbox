@@ -12,7 +12,7 @@ using System.ComponentModel;
 namespace WritersToolbox.models
 {
     [Table(Name="TypeObjects")]
-    class TypeObject : INotifyPropertyChanging, INotifyPropertyChanged
+    public class TypeObject : INotifyPropertyChanging, INotifyPropertyChanged
     {
         public TypeObject() 
         {

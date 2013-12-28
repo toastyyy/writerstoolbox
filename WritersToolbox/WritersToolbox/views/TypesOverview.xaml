@@ -7,7 +7,6 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wt="clr-namespace:WritersToolbox.viewmodels"
-    d:DataContext="{d:DesignData ../demo/sampleDataLongList.xaml}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -25,8 +24,10 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
+                <TextBlock Text="{Binding color}"/>
+                <TextBlock Text="{Binding imageString}"/>
                 <TextBlock Grid.Row="1" 
-                           Text="{Binding Names}" 
+                           Text="{Binding title}" 
                            TextWrapping="Wrap"  
                            Foreground="Black" 
                            FontSize="16" 
@@ -64,11 +65,12 @@
                     Height="Auto" 
                     Margin="0,0,0,0" 
                     Width="Auto" 
-                    ItemsSource="{Binding Names}"
+                    ItemsSource="{Binding  Types}"
                     LayoutMode="Grid"
                     GridCellSize="200, 200" 
                     Padding="20,10"
-                    ItemTemplate="{StaticResource TypesOverviewTemplate}">
+                    ItemTemplate="{StaticResource TypesOverviewTemplate}"
+                    x:Name="list">
                     
                     
                 </phone:LongListSelector>

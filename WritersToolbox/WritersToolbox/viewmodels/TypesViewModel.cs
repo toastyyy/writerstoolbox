@@ -8,9 +8,11 @@ using WritersToolbox.models;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 namespace WritersToolbox.viewmodels
 {
-    public class TypesViewModel
+    public class TypesViewModel : INotifyPropertyChanged
     {
         private WritersToolboxDatebase db;
         private Table<models.Type> tableType;
@@ -65,11 +67,13 @@ namespace WritersToolbox.viewmodels
         /// </summary>
         /// <param name="typeID">ID des vorgegebenen Typs</param>
         /// <returns>Titel als String (z.B. "Charakter")</returns>
-        public String getTitleForType(int typeID) 
+        public string getTitleForType(int typeID) 
         {
             var result = from t in tableType
                          where t.typeID == typeID
                          select t.title;
+            
+
 
             return result.First();
         }
@@ -221,17 +225,34 @@ namespace WritersToolbox.viewmodels
             return Color.FromArgb(255, colorR, colorG, colorB);
         }
 
-        public List<String> Names { get; set; }
+        private ObservableCollection<models.Type> types;
+        public ObservableCollection<models.Type> Types 
+        {
+            get { return types; }
+            set
+            {
+                types = value;
+                NotifyPropertyChanged("Types");
+            }
+        }
 
         public bool IsDataLoaded { get; set; }
 
         public void LoadData()
         {
-            Names = new List<string>();
-            int[] i = getAllTypeIDs();
-            Names.Add(getTitleForType(i[0]));
-            System.Diagnostics.Debug.WriteLine("da");
+            Types = new ObservableCollection<models.Type>(this.tableType.ToList());
             IsDataLoaded = true;
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Used to notify the app that a property has changed.
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

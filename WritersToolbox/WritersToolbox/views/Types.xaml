@@ -6,7 +6,9 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="clr-namespace:WritersToolbox.converter"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignData ../sampleData/sampleDataTyp.xaml}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -14,14 +16,29 @@
     shell:SystemTray.IsVisible="True">
 
     <phone:PhoneApplicationPage.Resources>
-        <DataTemplate x:Key="bla">
+        <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
+        <DataTemplate x:Key="TypesTemplate">
             <Grid Width="Auto" Height="Auto" Margin="0,0,0,15">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="135"/>
                     <ColumnDefinition Width="Auto"/>
                 </Grid.ColumnDefinitions>
                 <Rectangle Fill="Red"/>
-                <TextBlock Grid.Column="1" Text="{Binding Title}" TextWrapping="Wrap" Style="{StaticResource PhoneTextExtraLargeStyle}" Height="160" Foreground="Black"/>
+                <StackPanel Grid.Column="1">
+                    <TextBlock Grid.Column="1" 
+                           Text="{Binding Namen}" 
+                           FontSize="40" 
+                           Foreground="Black"
+                           Margin="20,0,0,10"
+                           VerticalAlignment="Top"/>
+                    <TextBlock Grid.Column="1" 
+                           Text="{Binding gebraucht}" 
+                           FontSize="20" 
+                           Foreground="Black"
+                           Margin="20,0,0,10"
+                           VerticalAlignment="Top"/>
+                </StackPanel>
+
             </Grid>
         </DataTemplate>
 
@@ -49,15 +66,16 @@
                 </phone:PivotItem.Header>
                     <Grid>
                         <phone:LongListSelector 
-                    Height="Auto" 
-                    Margin="0,0,0,0" 
-                    Width="Auto" 
-                    ItemsSource="{Binding c}"
-                    LayoutMode="Grid"
-                    GridCellSize="450, 135">
+                            Height="Auto" 
+                            Margin="0,0,0,50" 
+                            Width="Auto" 
+                            ItemsSource="{Binding Typen}"
+                            LayoutMode="Grid"
+                            GridCellSize="450, 150"
+                            ItemTemplate="{StaticResource TypesTemplate}">
                             
                         </phone:LongListSelector>
-                        <TextBlock Text="Harry Potter" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
+                        <!--<TextBlock Text="zu Überblick Typen" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>-->
                     </Grid>
                 </phone:PivotItem>
 
