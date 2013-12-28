@@ -115,6 +115,7 @@
     <Compile Include="models\TypeObject.cs" />
     <Compile Include="sampleData\SampleDataTyp.cs" />
     <Compile Include="sampleData\Typ.cs" />
+    <Compile Include="sampleData\TypObject.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
     <Compile Include="viewmodels\TypesViewModel.cs" />
     <Compile Include="views\AddNote.xaml.cs">

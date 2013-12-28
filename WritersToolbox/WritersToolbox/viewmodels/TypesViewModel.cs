@@ -10,6 +10,8 @@ using System.Windows.Media.Imaging;
 using System.Windows.Controls;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
+using Microsoft.Phone.Controls;
 namespace WritersToolbox.viewmodels
 {
     public class TypesViewModel : INotifyPropertyChanged
@@ -236,11 +238,30 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+
+        private ObservableCollection<models.TypeObject> typeObjects;
+        public ObservableCollection<models.TypeObject> TypeObjects
+        {
+            get { return typeObjects; }
+            set
+            {
+                typeObjects = value;
+                NotifyPropertyChanged("TypeObjects");
+            }
+        }
+
+      
         public bool IsDataLoaded { get; set; }
 
         public void LoadData()
         {
             Types = new ObservableCollection<models.Type>(this.tableType.ToList());
+            foreach(models.Type ty in Types)
+            {
+                int ti = ty.typeID;
+                TypeObjects = new ObservableCollection<TypeObject>(from t in tableTypeObject
+                         where t.fk_typeID == ti select t);
+            }
             IsDataLoaded = true;
         }
 

@@ -31,27 +31,14 @@ namespace WritersToolbox.views
                 }
         }
 
-        //public static sampleData.SampleDataTyp sdt = null;
-
-        //public static sampleData.SampleDataTyp SDT
-        //{
-        //    get
-        //    {
-        //        if (sdt == null)
-        //        {
-        //            sdt = new sampleData.SampleDataTyp();
-                    
-        //        }
-        //        return sdt;
-        //    }
-        //}
-        
 
         public Types()
         {
             InitializeComponent();
             DataContext = Types_VM;
         }
+
+        
 
         
 
@@ -76,7 +63,7 @@ namespace WritersToolbox.views
         {
             NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
         }
-
+        
         
     }
 }

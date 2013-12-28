@@ -15,34 +15,55 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
-    <!--<phone:PhoneApplicationPage.Resources>
-        <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
-        <DataTemplate x:Key="TypesTemplate">
-            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="135"/>
-                    <ColumnDefinition Width="Auto"/>
-                </Grid.ColumnDefinitions>
-                <Rectangle Fill="Red"/>
-                <StackPanel Grid.Column="1">
-                    <TextBlock Grid.Column="1" 
-                           Text="{Binding Namen}" 
-                           FontSize="40" 
-                           Foreground="Black"
-                           Margin="20,0,0,10"
-                           VerticalAlignment="Top"/>
-                    <TextBlock Grid.Column="1" 
-                           Text="{Binding gebraucht}" 
-                           FontSize="20" 
-                           Foreground="Black"
-                           Margin="20,0,0,10"
-                           VerticalAlignment="Top"/>
-                </StackPanel>
+    <phone:PhoneApplicationPage.Resources>
+        <DataTemplate x:Key="PivotHeader">
+            <TextBlock Text="{Binding title}" Foreground="Black"/>
+        </DataTemplate>
+        <DataTemplate x:Key="PivotItem">
+            <Grid>
+                <phone:LongListSelector 
+                            Height="Auto" 
+                            Margin="0,0,0,50" 
+                            Width="Auto" 
+                            ItemsSource="{Binding ElementName=PivotMain, Path=DataContext.TypeObjects}"
+                            LayoutMode="Grid"
+                            GridCellSize="450, 150"
+                            >
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="135"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Rectangle Fill="Red"/>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Grid.Column="1" 
+                                               Text="{Binding name}" 
+                                               FontSize="40" 
+                                               Foreground="Black"
+                                               Margin="20,0,0,10"
+                                               VerticalAlignment="Top"/>
+                                                        <TextBlock Grid.Column="1" 
+                                               Text="{Binding used}" 
+                                               FontSize="20" 
+                                               Foreground="Black"
+                                               Margin="20,0,0,10"
+                                               VerticalAlignment="Top"/>
+                                </StackPanel>
 
+                            </Grid>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+                <TextBlock Text="klick" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
             </Grid>
         </DataTemplate>
+        <!--<converter:BoolToUsedConverter x:Key="boolToUsedCon"/>-->
+        
 
-    </phone:PhoneApplicationPage.Resources>-->
+    </phone:PhoneApplicationPage.Resources>
+   
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
@@ -54,70 +75,14 @@
             <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
 
             <!--Pivotsteuerelement-->
-            <phone:Pivot ManipulationDelta="pinch_out">
+            <phone:Pivot ManipulationDelta="pinch_out" 
+                         HeaderTemplate="{StaticResource PivotHeader}" 
+                         ItemTemplate="{StaticResource PivotItem}"
+                         ItemsSource="{Binding Types}"
+                         x:Name="PivotMain">
                 <phone:Pivot.Title>
                     <TextBlock Foreground="Black" Text="TYPEN"/>
                 </phone:Pivot.Title>
-
-                    <!--Pivotelement eins-->
-            <phone:PivotItem Tap="navUeberblick">
-                <phone:PivotItem.Header>
-                    <TextBlock FontSize="50" Text="Charaktere" Foreground="Black"/>
-                </phone:PivotItem.Header>
-                    <Grid>
-                        <!--<phone:LongListSelector 
-                            Height="Auto" 
-                            Margin="0,0,0,50" 
-                            Width="Auto" 
-                            ItemsSource="{Binding Typen}"
-                            LayoutMode="Grid"
-                            GridCellSize="450, 150"
-                            ItemTemplate="{StaticResource TypesTemplate}">
-                            
-                        </phone:LongListSelector>-->
-                        <!--<TextBlock Text="zu Überblick Typen" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>-->
-                    </Grid>
-                </phone:PivotItem>
-
-            <!--Pivotelement zwei-->
-            <phone:PivotItem>
-                <phone:PivotItem.Header>
-                    <TextBlock FontSize="50" Text="Handlungsorte" Foreground="Black"/>
-                </phone:PivotItem.Header>
-                    <Grid>
-                        <TextBlock Text="Hogwarts" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
-                    </Grid>
-                </phone:PivotItem>
-
-            <!--Pivotelement drei-->
-            <phone:PivotItem>
-                <phone:PivotItem.Header>
-                    <TextBlock FontSize="50" Text="Neuer Typ" Foreground="Black"/>
-                </phone:PivotItem.Header>
-                    <Grid>
-                        <TextBlock Text="Neuer Typ" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
-                    </Grid>
-                </phone:PivotItem>
-
-                <!--Pivotelement vier-->
-                <phone:PivotItem>
-                    <phone:PivotItem.Header>
-                        <TextBlock FontSize="50" Text="Endlos" Foreground="Black"/>
-                    </phone:PivotItem.Header>
-                    <Grid>
-                        <TextBlock Text="4" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
-                    </Grid>
-                </phone:PivotItem>
-
-                <!--Pivotelement fünf-->
-                <phone:PivotItem>
-                    <phone:PivotItem.Header>
-                        <TextBlock FontSize="50" Text="Endlos" Foreground="Black"/>
-                    </phone:PivotItem.Header>
-                    <Grid>
-                        <TextBlock Text="5" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
-                    </Grid>
-                </phone:PivotItem>
             </phone:Pivot>
         </Grid>
     </Grid>
