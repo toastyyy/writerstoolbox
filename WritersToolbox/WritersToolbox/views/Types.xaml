@@ -15,7 +15,7 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True">
 
-    <phone:PhoneApplicationPage.Resources>
+    <!--<phone:PhoneApplicationPage.Resources>
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <DataTemplate x:Key="TypesTemplate">
             <Grid Width="Auto" Height="Auto" Margin="0,0,0,15">
@@ -42,7 +42,7 @@
             </Grid>
         </DataTemplate>
 
-    </phone:PhoneApplicationPage.Resources>
+    </phone:PhoneApplicationPage.Resources>-->
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
@@ -65,7 +65,7 @@
                     <TextBlock FontSize="50" Text="Charaktere" Foreground="Black"/>
                 </phone:PivotItem.Header>
                     <Grid>
-                        <phone:LongListSelector 
+                        <!--<phone:LongListSelector 
                             Height="Auto" 
                             Margin="0,0,0,50" 
                             Width="Auto" 
@@ -74,7 +74,7 @@
                             GridCellSize="450, 150"
                             ItemTemplate="{StaticResource TypesTemplate}">
                             
-                        </phone:LongListSelector>
+                        </phone:LongListSelector>-->
                         <!--<TextBlock Text="zu Überblick Typen" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>-->
                     </Grid>
                 </phone:PivotItem>
