@@ -95,7 +95,25 @@ namespace WritersToolbox.demo
 
             WritersToolbox.models.Type type1 = new WritersToolbox.models.Type() {
                 title = "Charakter",
-                color = "ff0000"
+                color = "#ff0000"
+            };
+
+            WritersToolbox.models.Type type2 = new WritersToolbox.models.Type()
+            {
+                title = "Handlungsort",
+                color = "#00ff00"
+            };
+
+            WritersToolbox.models.Type type3 = new WritersToolbox.models.Type()
+            {
+                title = "Formeln",
+                color = "#ff0000"
+            };
+
+            WritersToolbox.models.Type type4 = new WritersToolbox.models.Type()
+            {
+                title = "Gruppierungen",
+                color = "#ffffff"
             };
 
             TypeObject typeObject1 = new TypeObject() 
@@ -126,6 +144,10 @@ namespace WritersToolbox.demo
             db.GetTable<MemoryNote>().InsertOnSubmit(mn1);
 
             db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type1);
+            db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type2);
+            db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type3);
+            db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type4);
+
             db.GetTable<TypeObject>().InsertOnSubmit(typeObject1);
             db.GetTable<MemoryNote>().InsertOnSubmit(mn2);
 
