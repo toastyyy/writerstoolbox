@@ -122,6 +122,47 @@ namespace WritersToolbox.demo
                 obj_Type = type1
             };
 
+            TypeObject typeObject2= new TypeObject()
+            {
+                name = "Ron Weasley",
+                obj_Type = type1
+            };
+
+            TypeObject typeObject3 = new TypeObject()
+            {
+                name = "Hogwarts",
+                obj_Type = type2
+            };
+
+            TypeObject typeObject4 = new TypeObject()
+            {
+                name = "Zauberwald",
+                obj_Type = type2
+            };
+
+            TypeObject typeObject5 = new TypeObject()
+            {
+                name = "Frodo Beutlin",
+                obj_Type = type1
+            };
+
+            TypeObject typeObject6 = new TypeObject()
+            {
+                name = "Bilbo Beutlin",
+                obj_Type = type1
+            };
+
+            TypeObject typeObject7 = new TypeObject()
+            {
+                name = "Gandalf",
+                obj_Type = type1
+            };
+            TypeObject typeObject8 = new TypeObject()
+            {
+                name = "Gollum",
+                obj_Type = type1
+            };
+
             MemoryNote mn2 = new MemoryNote()
             {
                 addedDate = DateTime.Now,
@@ -149,6 +190,13 @@ namespace WritersToolbox.demo
             db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type4);
 
             db.GetTable<TypeObject>().InsertOnSubmit(typeObject1);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject2);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject3);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject4);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject5);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject6);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject7);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject8);
             db.GetTable<MemoryNote>().InsertOnSubmit(mn2);
 
             db.SubmitChanges();

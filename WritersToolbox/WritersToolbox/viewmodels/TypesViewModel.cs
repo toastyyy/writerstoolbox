@@ -239,8 +239,8 @@ namespace WritersToolbox.viewmodels
         }
 
 
-        private ObservableCollection<models.TypeObject> typeObjects;
-        public ObservableCollection<models.TypeObject> TypeObjects
+        private EntitySet<models.TypeObject> typeObjects;
+        public EntitySet<models.TypeObject> TypeObjects
         {
             get { return typeObjects; }
             set
@@ -258,9 +258,18 @@ namespace WritersToolbox.viewmodels
             Types = new ObservableCollection<models.Type>(this.tableType.ToList());
             foreach(models.Type ty in Types)
             {
+                
                 int ti = ty.typeID;
-                TypeObjects = new ObservableCollection<TypeObject>(from t in tableTypeObject
-                         where t.fk_typeID == ti select t);
+                TypeObjects = new EntitySet<TypeObject>();
+                var result = from t in tableTypeObject
+                             where t.fk_typeID == ti
+                             select t;
+                foreach (TypeObject to in result)
+                {
+                    TypeObjects.Add(to);
+                }
+                
+                ty.typeObjects = TypeObjects;
             }
             IsDataLoaded = true;
         }
