@@ -119,13 +119,16 @@ namespace WritersToolbox.demo
             TypeObject typeObject1 = new TypeObject() 
             { 
                 name = "Harry Potter",
-                obj_Type = type1
+                obj_Type = type1,
+                used = true,
+                color = "#ff0000"
             };
 
             TypeObject typeObject2= new TypeObject()
             {
                 name = "Ron Weasley",
-                obj_Type = type1
+                obj_Type = type1,
+                used = true
             };
 
             TypeObject typeObject3 = new TypeObject()

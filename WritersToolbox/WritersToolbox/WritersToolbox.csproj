@@ -124,6 +124,12 @@
     <Compile Include="views\addnote_test.xaml.cs">
       <DependentUpon>addnote_test.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\AddType.xaml.cs">
+      <DependentUpon>AddType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\AddTypeObject.xaml.cs">
+      <DependentUpon>AddTypeObject.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\GridManager.cs" />
     <Compile Include="views\ImageView.xaml.cs">
       <DependentUpon>ImageView.xaml</DependentUpon>
@@ -161,6 +167,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\addnote_test.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\AddType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\AddTypeObject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

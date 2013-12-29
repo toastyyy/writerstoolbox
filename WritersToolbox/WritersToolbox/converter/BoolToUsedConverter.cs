@@ -7,14 +7,18 @@ using System.Windows.Data;
 
 namespace WritersToolbox.converter
 {
-    class BoolToUsedConverter : IValueConverter
+    public class BoolToUsedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType,
         object parameter, System.Globalization.CultureInfo culture)
         {
-            string used = "verwendet";
-            if (!(bool) value)
-                used = "nicht verwendet";
+            string used = "";
+            if ((bool)value)
+            {
+                used = "wird verwendet";
+            }
+            
+                
             return used;
         }
 

@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using WritersToolbox.viewmodels;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using WritersToolbox.models;
 namespace WritersToolbox.views
 {
     public partial class TypesOverview : PhoneApplicationPage
@@ -20,7 +21,6 @@ namespace WritersToolbox.views
         {
             InitializeComponent();
             DataContext = Types.Types_VM;
-            
         }
 
 
@@ -40,9 +40,22 @@ namespace WritersToolbox.views
             }
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void list_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            
+            LongListSelector selector = sender as LongListSelector;
+            if (selector == null)
+                return;
+            models.Type t = selector.SelectedItem as models.Type;
+            if (t == null)
+                return;
+            if (t.typeID == -1)
+            {
+                NavigationService.Navigate(new Uri("/views/AddType.xaml", UriKind.Relative));
+            }
+            else
+                NavigationService.Navigate(new Uri("/views/Types.xaml?item=" + t.typeID, UriKind.Relative));
+
+            selector.SelectedItem = null;
         }
 
        

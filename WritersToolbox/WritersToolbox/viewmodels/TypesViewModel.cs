@@ -227,7 +227,15 @@ namespace WritersToolbox.viewmodels
             return Color.FromArgb(255, colorR, colorG, colorB);
         }
 
+        /// <summary>
+        /// Alle vorhandenen Typen
+        /// </summary>
         private ObservableCollection<models.Type> types;
+
+        /// <summary>
+        /// Property für alle vorhandenen Typen.
+        /// Informiert mit NotifyPropertyChanged.
+        /// </summary>
         public ObservableCollection<models.Type> Types 
         {
             get { return types; }
@@ -238,8 +246,17 @@ namespace WritersToolbox.viewmodels
             }
         }
 
-
+        /// <summary>
+        /// Alle Typobjekte, die zu einer bestimmten ID eines Typs passen in 
+        /// einem EntitySet abgelegt.
+        /// </summary>
         private EntitySet<models.TypeObject> typeObjects;
+
+        /// <summary>
+        /// Property aller Typobjekte, die zu einer bestimmten ID eines Typs passen in 
+        /// einem EntitySet abgelegt.
+        /// Informiert mit NotifyPropertyChanged.
+        /// </summary>
         public EntitySet<models.TypeObject> TypeObjects
         {
             get { return typeObjects; }
@@ -256,11 +273,10 @@ namespace WritersToolbox.viewmodels
         public void LoadData()
         {
             Types = new ObservableCollection<models.Type>(this.tableType.ToList());
-            foreach(models.Type ty in Types)
+            foreach(models.Type typ in Types)
             {
-                
-                int ti = ty.typeID;
                 TypeObjects = new EntitySet<TypeObject>();
+                int ti = typ.typeID;
                 var result = from t in tableTypeObject
                              where t.fk_typeID == ti
                              select t;
@@ -268,10 +284,24 @@ namespace WritersToolbox.viewmodels
                 {
                     TypeObjects.Add(to);
                 }
-                
-                ty.typeObjects = TypeObjects;
+
+                addNewTypeObjectControl();
+                typ.typeObjects = TypeObjects;
             }
+            addNewTypeControl();
             IsDataLoaded = true;
+        }
+
+        private void addNewTypeControl()
+        {
+            TypeObjects.Clear();
+            TypeObjects.Add(new TypeObject() { name = "Neuer Typ anlegen", imageString = "../icons/add.png", fk_typeID = -1 });
+            Types.Add(new models.Type() { title = "Neuer Typ", imageString = "../icons/add.png", color = "#FF919191", typeObjects = TypeObjects, typeID = -1 });
+        }
+
+        private void addNewTypeObjectControl()
+        {
+            TypeObjects.Add(new TypeObject() { name = "Neues Objekt", imageString = "../icons/add.png", fk_typeID = -2 });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
