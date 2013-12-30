@@ -8,9 +8,13 @@ using WritersToolbox.models;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Controls;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using System.Diagnostics;
+using Microsoft.Phone.Controls;
 namespace WritersToolbox.viewmodels
 {
-    class TypesViewModel
+    public class TypesViewModel : INotifyPropertyChanged
     {
         private WritersToolboxDatebase db;
         private Table<models.Type> tableType;
@@ -65,11 +69,13 @@ namespace WritersToolbox.viewmodels
         /// </summary>
         /// <param name="typeID">ID des vorgegebenen Typs</param>
         /// <returns>Titel als String (z.B. "Charakter")</returns>
-        public String getTitleForType(int typeID) 
+        public string getTitleForType(int typeID) 
         {
             var result = from t in tableType
                          where t.typeID == typeID
                          select t.title;
+            
+
 
             return result.First();
         }
@@ -219,6 +225,94 @@ namespace WritersToolbox.viewmodels
             Byte colorB = Convert.ToByte(hex.Substring(4, 2));
 
             return Color.FromArgb(255, colorR, colorG, colorB);
+        }
+
+        /// <summary>
+        /// Alle vorhandenen Typen
+        /// </summary>
+        private ObservableCollection<models.Type> types;
+
+        /// <summary>
+        /// Property für alle vorhandenen Typen.
+        /// Informiert mit NotifyPropertyChanged.
+        /// </summary>
+        public ObservableCollection<models.Type> Types 
+        {
+            get { return types; }
+            set
+            {
+                types = value;
+                NotifyPropertyChanged("Types");
+            }
+        }
+
+        /// <summary>
+        /// Alle Typobjekte, die zu einer bestimmten ID eines Typs passen in 
+        /// einem EntitySet abgelegt.
+        /// </summary>
+        private EntitySet<models.TypeObject> typeObjects;
+
+        /// <summary>
+        /// Property aller Typobjekte, die zu einer bestimmten ID eines Typs passen in 
+        /// einem EntitySet abgelegt.
+        /// Informiert mit NotifyPropertyChanged.
+        /// </summary>
+        public EntitySet<models.TypeObject> TypeObjects
+        {
+            get { return typeObjects; }
+            set
+            {
+                typeObjects = value;
+                NotifyPropertyChanged("TypeObjects");
+            }
+        }
+
+      
+        public bool IsDataLoaded { get; set; }
+
+        public void LoadData()
+        {
+            Types = new ObservableCollection<models.Type>(this.tableType.ToList());
+            foreach(models.Type typ in Types)
+            {
+                TypeObjects = new EntitySet<TypeObject>();
+                int ti = typ.typeID;
+                var result = from t in tableTypeObject
+                             where t.fk_typeID == ti
+                             select t;
+                foreach (TypeObject to in result)
+                {
+                    TypeObjects.Add(to);
+                }
+
+                addNewTypeObjectControl();
+                typ.typeObjects = TypeObjects;
+            }
+            addNewTypeControl();
+            IsDataLoaded = true;
+        }
+
+        private void addNewTypeControl()
+        {
+            TypeObjects.Clear();
+            TypeObjects.Add(new TypeObject() { name = "Neuer Typ anlegen", imageString = "../icons/add.png", fk_typeID = -1 });
+            Types.Add(new models.Type() { title = "Neuer Typ", imageString = "../icons/add.png", color = "#FF919191", typeObjects = TypeObjects, typeID = -1 });
+        }
+
+        private void addNewTypeObjectControl()
+        {
+            TypeObjects.Add(new TypeObject() { name = "Neues Objekt", imageString = "../icons/add.png", fk_typeID = -2 });
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Used to notify the app that a property has changed.
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

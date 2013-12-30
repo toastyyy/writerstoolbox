@@ -12,7 +12,7 @@ using System.ComponentModel;
 namespace WritersToolbox.models
 {
     [Table(Name="Types")]
-    class Type : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Type : INotifyPropertyChanging, INotifyPropertyChanged
     {
         public Type() {
             _typeObjects = new EntitySet<TypeObject>();

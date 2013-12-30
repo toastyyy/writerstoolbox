@@ -6,12 +6,72 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="clr-namespace:WritersToolbox.converter"
     mc:Ignorable="d"
+    d:DataContext="{d:DesignData ../sampleData/sampleDataTyp.xaml}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    Style="{StaticResource TransitionPageStyle}">
+
+    <phone:PhoneApplicationPage.Resources>
+        <!--Converter von boolean zu Used-->
+        <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
+        <!--Template für PivotHeader-->
+        <DataTemplate x:Key="PivotHeader">
+            <TextBlock Text="{Binding title}" Margin="9,10,0,0" Foreground="Black" FontFamily="Portable User Interface" FontSize="65"/>
+        </DataTemplate>
+        <!--Template für Pivotitem-->
+        <DataTemplate x:Key="PivotItem">
+            <Grid>
+                <phone:LongListSelector 
+                    Height="Auto" 
+                    Margin="20,10,10,50" 
+                    Width="Auto" 
+                    ItemsSource="{Binding typeObjects}"
+                    LayoutMode="Grid"
+                    GridCellSize="450, 150"
+                    x:Name="LongList"
+                    SelectionChanged="LongList_SelectionChanged"
+                    >
+                    <!--Template für LongListSelector-item-->
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="135"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Background="Red">
+                                    <Image Source="{Binding imageString}"/>
+                                </Border>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Grid.Column="1" 
+                                               Text="{Binding name}" 
+                                               FontSize="40" 
+                                               Foreground="Black"
+                                               Margin="20,0,0,10"
+                                               VerticalAlignment="Top"
+                                               TextWrapping="Wrap"
+                                               Width="280" FontFamily="Portable User Interface" HorizontalAlignment="Left"/>
+                                    <TextBlock Grid.Column="1" 
+                                               Text="{Binding used, Converter={StaticResource boolToUsedCon}}" 
+                                               FontSize="20" 
+                                               Foreground="Black"
+                                               Margin="20,0,0,10"
+                                               VerticalAlignment="Top"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+                <TextBlock Text="klick" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
+            </Grid>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+   
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
@@ -23,60 +83,14 @@
             <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
 
             <!--Pivotsteuerelement-->
-            <phone:Pivot ManipulationDelta="pinch_out">
+            <phone:Pivot ManipulationDelta="pinch_out" 
+                         HeaderTemplate="{StaticResource PivotHeader}" 
+                         ItemTemplate="{StaticResource PivotItem}"
+                         ItemsSource="{Binding Types}"
+                         x:Name="PivotMain">
                 <phone:Pivot.Title>
-                    <TextBlock Foreground="Black" Text="TYPEN"/>
+                    <TextBlock Foreground="Black" Margin="9,0,0,0" Text="TYPEN" FontSize="22" FontFamily="Segoe WP Semibold" />
                 </phone:Pivot.Title>
-
-                    <!--Pivotelement eins-->
-            <phone:PivotItem Tap="navUeberblick">
-                <phone:PivotItem.Header>
-                    <TextBlock FontSize="50" Text="Charaktere" Foreground="Black"/>
-                </phone:PivotItem.Header>
-                    <Grid>
-                        <TextBlock Text="Harry Potter" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
-                    </Grid>
-                </phone:PivotItem>
-
-            <!--Pivotelement zwei-->
-            <phone:PivotItem>
-                <phone:PivotItem.Header>
-                    <TextBlock FontSize="50" Text="Handlungsorte" Foreground="Black"/>
-                </phone:PivotItem.Header>
-                    <Grid>
-                        <TextBlock Text="Hogwarts" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
-                    </Grid>
-                </phone:PivotItem>
-
-            <!--Pivotelement drei-->
-            <phone:PivotItem>
-                <phone:PivotItem.Header>
-                    <TextBlock FontSize="50" Text="Neuer Typ" Foreground="Black"/>
-                </phone:PivotItem.Header>
-                    <Grid>
-                        <TextBlock Text="Neuer Typ" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
-                    </Grid>
-                </phone:PivotItem>
-
-                <!--Pivotelement vier-->
-                <phone:PivotItem>
-                    <phone:PivotItem.Header>
-                        <TextBlock FontSize="50" Text="Endlos" Foreground="Black"/>
-                    </phone:PivotItem.Header>
-                    <Grid>
-                        <TextBlock Text="4" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
-                    </Grid>
-                </phone:PivotItem>
-
-                <!--Pivotelement fünf-->
-                <phone:PivotItem>
-                    <phone:PivotItem.Header>
-                        <TextBlock FontSize="50" Text="Endlos" Foreground="Black"/>
-                    </phone:PivotItem.Header>
-                    <Grid>
-                        <TextBlock Text="5" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48"/>
-                    </Grid>
-                </phone:PivotItem>
             </phone:Pivot>
         </Grid>
     </Grid>

@@ -12,7 +12,9 @@
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True"
+    Style="{StaticResource TransitionPageStyle}">
+
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
         <!--Pivotsteuerelement-->
@@ -25,7 +27,7 @@
                             <Canvas Height="72" Width="432">
                                 <TextBox x:Name="titelTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titelTextBox_GotFocus" LostFocus="titelTextBox_LostFocus"/>
                                 <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro1_Tap"/>
-                            </Canvas>
+                        </Canvas>
                             <TextBox x:Name="detailsTextBox" Height="408" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus"/>
                             <Image x:Name="micro2" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro2_Tap"/>
                         </StackPanel>
@@ -57,7 +59,7 @@
                             </DataTemplate>
                         </toolkit:LongListMultiSelector.ItemTemplate>
                     </toolkit:LongListMultiSelector>
-                </Grid>
+                    </Grid>
 
 
             </phone:PivotItem>

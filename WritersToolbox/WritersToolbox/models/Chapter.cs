@@ -13,7 +13,7 @@ namespace WritersToolbox.models
 {
 
     [Table(Name = "Chapters")]
-    class Chapter : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Chapter : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.

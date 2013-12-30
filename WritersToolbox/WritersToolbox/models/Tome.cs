@@ -12,7 +12,7 @@ using System.ComponentModel;
 namespace WritersToolbox.models
 {
     [Table(Name = "Tomes")]
-    class Tome : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Tome : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.

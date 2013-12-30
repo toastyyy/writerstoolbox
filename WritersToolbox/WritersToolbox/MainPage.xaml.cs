@@ -10,6 +10,9 @@ using Microsoft.Phone.Shell;
 using WritersToolbox.Resources;
 using WritersToolbox.models;
 using WritersToolbox.demo;
+using System.IO.IsolatedStorage;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Devices;
 namespace WritersToolbox
 {
     public partial class MainPage : PhoneApplicationPage
@@ -34,6 +37,11 @@ namespace WritersToolbox
             {
                 Console.WriteLine(ex.StackTrace);
             }
+
+            if (Microsoft.Devices.Environment.DeviceType == DeviceType.Emulator)
+            {
+                EmulatorHelper.AddDebugImages();
+            }
         }
 
         private void pageLoaded(object sender, RoutedEventArgs e)
@@ -56,5 +64,62 @@ namespace WritersToolbox
         //    ApplicationBarMenuItem appBarMenuItem = new ApplicationBarMenuItem(AppResources.AppBarMenuItemText);
         //    ApplicationBar.MenuItems.Add(appBarMenuItem);
         //}
+    }
+
+    public static class EmulatorHelper
+    {
+        const string flagName = "__emulatorTestImagesAdded";
+
+        public static void AddDebugImages()
+        {
+            bool alreadyAdded = CheckAlreadyAdded();
+            if (!alreadyAdded)
+            {
+                AddImages();
+                SetAddedFlag();
+            }
+        }
+
+        private static bool CheckAlreadyAdded()
+        {
+            IsolatedStorageSettings userSettings = IsolatedStorageSettings.ApplicationSettings;
+
+            try
+            {
+                bool alreadyAdded = (bool)userSettings[flagName];
+                return alreadyAdded;
+            }
+            catch (KeyNotFoundException)
+            {
+                return false;
+            }
+            catch (ArgumentException)
+            {
+                return false;
+            }
+        }
+
+        private static void SetAddedFlag()
+        {
+            IsolatedStorageSettings userSettings = IsolatedStorageSettings.ApplicationSettings;
+            userSettings.Add(flagName, true);
+            userSettings.Save();
+        }
+
+        private static void AddImages()
+        {
+            string[] fileNames = { "img10", "img11", "img12", "img7", "img8", "img9" };
+            foreach (var fileName in fileNames)
+            {
+                MediaLibrary myMediaLibrary = new MediaLibrary();
+                Uri myUri = new Uri(String.Format(@"tests/images/{0}.jpg", fileName), UriKind.Relative);
+
+                System.IO.Stream photoStream = App.GetResourceStream(myUri).Stream;
+                byte[] buffer = new byte[photoStream.Length];
+                photoStream.Read(buffer, 0, Convert.ToInt32(photoStream.Length));
+                myMediaLibrary.SavePicture(String.Format("{0}.jpg", fileName), buffer);
+                photoStream.Close();
+            }
+        }
     }
 }

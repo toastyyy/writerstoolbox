@@ -96,12 +96,74 @@ namespace WritersToolbox.demo
 
             WritersToolbox.models.Type type1 = new WritersToolbox.models.Type() {
                 title = "Charakter",
-                color = "ff0000"
+                color = "#ff0000"
+            };
+
+            WritersToolbox.models.Type type2 = new WritersToolbox.models.Type()
+            {
+                title = "Handlungsort",
+                color = "#00ff00"
+            };
+
+            WritersToolbox.models.Type type3 = new WritersToolbox.models.Type()
+            {
+                title = "Formeln",
+                color = "#ff0000"
+            };
+
+            WritersToolbox.models.Type type4 = new WritersToolbox.models.Type()
+            {
+                title = "Gruppierungen",
+                color = "#ffffff"
             };
 
             TypeObject typeObject1 = new TypeObject() 
             { 
                 name = "Harry Potter",
+                obj_Type = type1,
+                used = true,
+                color = "#ff0000"
+            };
+
+            TypeObject typeObject2= new TypeObject()
+            {
+                name = "Ron Weasley",
+                obj_Type = type1,
+                used = true
+            };
+
+            TypeObject typeObject3 = new TypeObject()
+            {
+                name = "Hogwarts",
+                obj_Type = type2
+            };
+
+            TypeObject typeObject4 = new TypeObject()
+            {
+                name = "Zauberwald",
+                obj_Type = type2
+            };
+
+            TypeObject typeObject5 = new TypeObject()
+            {
+                name = "Frodo Beutlin",
+                obj_Type = type1
+            };
+
+            TypeObject typeObject6 = new TypeObject()
+            {
+                name = "Bilbo Beutlin",
+                obj_Type = type1
+            };
+
+            TypeObject typeObject7 = new TypeObject()
+            {
+                name = "Gandalf",
+                obj_Type = type1
+            };
+            TypeObject typeObject8 = new TypeObject()
+            {
+                name = "Gollum",
                 obj_Type = type1
             };
 
@@ -127,7 +189,18 @@ namespace WritersToolbox.demo
             db.GetTable<MemoryNote>().InsertOnSubmit(mn1);
 
             db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type1);
+            db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type2);
+            db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type3);
+            db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type4);
+
             db.GetTable<TypeObject>().InsertOnSubmit(typeObject1);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject2);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject3);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject4);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject5);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject6);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject7);
+            db.GetTable<TypeObject>().InsertOnSubmit(typeObject8);
             db.GetTable<MemoryNote>().InsertOnSubmit(mn2);
 
             db.SubmitChanges();
