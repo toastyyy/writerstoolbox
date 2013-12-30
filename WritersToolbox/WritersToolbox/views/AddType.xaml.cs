@@ -21,5 +21,16 @@ namespace WritersToolbox.views
         {
 
         }
+
+        private void SaveType(object sender, EventArgs e)
+        {
+
+        }
+
+
+        private void CancelType(object sender, EventArgs e)
+        {
+
+        }
     }
 }

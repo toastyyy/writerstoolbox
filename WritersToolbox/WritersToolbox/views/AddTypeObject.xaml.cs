@@ -16,5 +16,15 @@ namespace WritersToolbox.views
         {
             InitializeComponent();
         }
+
+        private void SaveTypeObject(object sender, EventArgs e)
+        {
+
+        }
+
+        private void CancelTypeObject(object sender, EventArgs e)
+        {
+
+        }
     }
 }
