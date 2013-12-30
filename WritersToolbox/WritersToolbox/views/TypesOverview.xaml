@@ -15,6 +15,7 @@
     shell:SystemTray.IsVisible="True">
     
     <phone:PhoneApplicationPage.Resources>
+        <!--Template für LongListSelector-item-->
         <DataTemplate x:Key="TypesOverviewTemplate">
             <Grid Width="Auto" 
                   Height="Auto" 
@@ -71,7 +72,6 @@
                     ItemTemplate="{StaticResource TypesOverviewTemplate}"
                     x:Name="list"
                     SelectionChanged="list_SelectionChanged">
-                    
                 </phone:LongListSelector>
             </Grid>
         </Grid>

@@ -18,7 +18,9 @@ namespace WritersToolbox.views
     {
 
         public static TypesViewModel types_VM = null;
-
+        /// <summary>
+        /// ViewModel für Types und TypesOverview wird erstellt.
+        /// </summary>
         public static TypesViewModel Types_VM
         {
             get
@@ -38,6 +40,7 @@ namespace WritersToolbox.views
         public Types()
         {
             InitializeComponent();
+            // ViewModel wird der View als DataContext zugewiesen
             DataContext = Types_VM;
             
         }
@@ -48,7 +51,11 @@ namespace WritersToolbox.views
         
 
         
-
+        /// <summary>
+        /// Die Methode erkennt die Zoomout-Geste und navigiert zu TypesOverview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pinch_out(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
             
@@ -65,7 +72,11 @@ namespace WritersToolbox.views
             
             
         }
-
+        /// <summary>
+        /// Hilfsmethode solange man Zoom nicht testen kann.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
@@ -73,7 +84,11 @@ namespace WritersToolbox.views
 
         
 
-        
+        /// <summary>
+        /// Die Methode wird aufgerufen, wenn ein Item im LongListSelector angeklickt wurde.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LongList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LongListSelector selector = sender as LongListSelector;
@@ -82,10 +97,13 @@ namespace WritersToolbox.views
             TypeObject to = selector.SelectedItem as TypeObject;
             if (to == null)
                 return;
+
+            // ein Objekt Type hat TypID = -1
             if (to.fk_typeID == -1)
             {
                 NavigationService.Navigate(new Uri("/views/AddType.xaml", UriKind.Relative));
             }
+                // ein Objekt TypeObject hat TypID = -2
             else if (to.fk_typeID == -2)
             {
                 NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml", UriKind.Relative));
@@ -93,6 +111,11 @@ namespace WritersToolbox.views
             selector.SelectedItem = null;
         }
 
+        /// <summary>
+        /// Wird auf diese Page naviert, überprüft die Methode, ob zu einem gewünschten Pivotitem
+        /// navigiert werden soll.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
