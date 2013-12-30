@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls" xmlns:ms="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -36,8 +37,16 @@
 
             <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
             <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,50">
-                
+
             </Grid>
+            <TextBox HorizontalAlignment="Left" Height="73" Margin="14,17,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Black" BorderThickness="1,1,1,1"/>
+            <TextBlock HorizontalAlignment="Left" Margin="14,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Width="149" Foreground="Black"/>
+            <TextBlock HorizontalAlignment="Left" Margin="14,90,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" Foreground="Black"/>
+            <Grid HorizontalAlignment="Left" Height="173" Margin="27,122,0,0" Grid.Row="1" VerticalAlignment="Top" Width="414">
+                <c4f:ColorPicker x:Name="slider"></c4f:ColorPicker>
+            </Grid>
+            <TextBlock HorizontalAlignment="Left" Margin="14,321,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" Foreground="Black"/>
+            <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,348,0,0" Grid.Row="1" VerticalAlignment="Top" BorderBrush="Black" Height="65" Width="446" BorderThickness="2" Foreground="Black" FontSize="20"/>
         </Grid>
     </Grid>
 
