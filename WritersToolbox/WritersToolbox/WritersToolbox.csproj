@@ -233,6 +233,12 @@
     <Content Include="icons\save.png" />
     <Content Include="icons\saveAs.png" />
     <Content Include="README_FIRST.txt" />
+    <Content Include="tests\images\img10.jpg" />
+    <Content Include="tests\images\img11.jpg" />
+    <Content Include="tests\images\img12.jpg" />
+    <Content Include="tests\images\img7.jpg" />
+    <Content Include="tests\images\img8.jpg" />
+    <Content Include="tests\images\img9.jpg" />
     <None Include="icons\micro.png" />
   </ItemGroup>
   <ItemGroup>
@@ -254,9 +260,7 @@
       <HintPath>..\packages\WPtoolkit.Kinnara.4.2013.09.06\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="tests\" />
-  </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.
