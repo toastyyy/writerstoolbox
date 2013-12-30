@@ -9,6 +9,8 @@ using System.Windows.Controls;
 using System.Data.Linq;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.BackgroundAudio;
+using System.IO;
+using Microsoft.Xna.Framework.Media;
 namespace WritersToolbox.viewmodels
 {
     /* *
@@ -17,13 +19,27 @@ namespace WritersToolbox.viewmodels
      * die verschiedene Daten von MemoryNote und ihre entsprechende Eigenschaften bereitstellt.
      * 
      * */
-    class AddNoteViewModel
+    class AddNoteViewModel 
     {
         private WritersToolboxDatebase db;
         private Table<MemoryNote> memoryNote;
         private MemoryNote obj_memoryNote;
+        private ObservableCollection<Image> _imageList;
         private const char SEPARATOR = '|';
 
+
+        /// <summary>
+        /// A log of a starting process
+        /// </summary>
+        public ObservableCollection<Image> imageList
+        {
+            get { return _imageList; }
+
+            set
+            {
+                _imageList = value;
+            }
+        }
         /* *
          * 
          * Im Defaultkonstruktor wird die Verbindung zur Datenbank erstellt und
@@ -297,7 +313,7 @@ namespace WritersToolbox.viewmodels
          * Die getImages()-Methode, liefert eine Liste von Image-Objekten, die zu einer Notiz gehören.
          * 
          * */
-        public List<Image> getImages(int memoryNoteID)
+        public ObservableCollection<MyImage> getImages(int memoryNoteID)
         {
 
             string imagePath = (from note in memoryNote
@@ -307,16 +323,66 @@ namespace WritersToolbox.viewmodels
             
             string[] str_result = imagePath.Split(SEPARATOR);
 
-            List<Image> imageList = new List<Image>();
+            ObservableCollection<MyImage> imageList = new ObservableCollection<MyImage>();
 
             for (int i = 0; i < str_result.Length; i++)
             {
-                BitmapImage obj_bitmapeimage = new BitmapImage(new Uri(str_result[i]));
-                Image obj_image = new Image();
-                obj_image.Source = obj_bitmapeimage;
-                imageList.Add(obj_image);
-            }
+                MediaLibrary medianbibliothek = new MediaLibrary();
+
+                foreach (Picture picture in medianbibliothek.Pictures)
+                {
+                    if (picture.Name.Equals(Path.GetFileName(str_result[i])))
+                    {
+                        MyImage foto = new MyImage(picture);
+                        imageList.Add(foto);
+                    }
+                }
+           }
             return imageList;          
+        }
+
+        /* *
+ * 
+ * Die getImages()-Methode, liefert eine Liste von Image-Objekten, die zu einer Notiz gehören.
+ * 
+ * */
+        public ObservableCollection<MyImage> getImages(int memoryNoteID, string deletedImages, string addImages)
+        {
+
+            string imagePath = (from note in memoryNote
+                                where note.memoryNoteID == memoryNoteID
+                                select note.ContentImageString).FirstOrDefault();
+
+
+            List<String> str_result = imagePath.Split(SEPARATOR).ToList<String>();
+            List<String> str_result_deletedImages = deletedImages.Split(SEPARATOR).ToList<String>();
+            List<String> str_result_addImages = addImages.Split(SEPARATOR).ToList<String>();
+
+            foreach (string str_item in str_result_addImages)
+            {
+                str_result.Add(str_item);
+            }
+            foreach (string str_item in str_result_deletedImages)
+            {
+                str_result.Remove(str_item);
+            }
+            ObservableCollection<MyImage> imageList = new ObservableCollection<MyImage>();
+
+            for (int i = 0; i < str_result.Count; i++)
+            {
+                MediaLibrary medianbibliothek = new MediaLibrary();
+                
+                foreach (Picture picture in medianbibliothek.Pictures)
+                {
+                    if (picture.Name.Equals(Path.GetFileName(str_result[i])))
+                    {
+                        MyImage foto = new MyImage(picture);
+                        imageList.Add(foto);
+                    }
+                }
+            }
+
+            return imageList;
         }
 
         /* *

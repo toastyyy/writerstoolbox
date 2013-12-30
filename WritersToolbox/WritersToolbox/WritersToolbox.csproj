@@ -103,6 +103,7 @@
     </Compile>
     <Compile Include="demo\Data.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="models\MyImage.cs" />
     <Compile Include="models\WritersToolboxDatebase.cs" />
     <Compile Include="models\Book.cs" />
     <Compile Include="models\BookType.cs" />
@@ -214,10 +215,10 @@
     <Content Include="icons\add.png" />
     <Content Include="icons\cancel.png" />
     <Content Include="icons\delete.png" />
+    <Content Include="icons\micro.png" />
     <Content Include="icons\save.png" />
     <Content Include="icons\saveAs.png" />
     <Content Include="README_FIRST.txt" />
-    <None Include="icons\micro.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">

@@ -8,11 +8,9 @@
     <!--Application Resources-->
     <!--<Application.Resources>
         <local:LocalizedStrings xmlns:local="clr-namespace:WritersToolbox" x:Key="LocalizedStrings"/>
+        <converter:ImageResourceNameToBitmapImageConverter xmlns:converter="clr-namespace:WritersToolbox.views" x:Key="ImageConverter"></converter:ImageResourceNameToBitmapImageConverter>
     </Application.Resources>-->
 
-    <!--<Application.Resources>
-        <local:LocalizedStrings xmlns:local="clr-namespace:WPLocalization" x:Key="LocalizedStrings" />
-    </Application.Resources>-->
     <Application.ApplicationLifetimeObjects>
         <!--Required object that handles lifetime events for the application-->
         <shell:PhoneApplicationService

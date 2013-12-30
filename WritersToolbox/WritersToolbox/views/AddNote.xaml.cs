@@ -207,15 +207,23 @@ namespace WritersToolbox.views
             sr.Settings.ExampleText = "geburtstaggeschenck";
             sr.Settings.ReadoutEnabled = true;
             sr.Settings.ShowConfirmation = false;
-
+            sr.Recognizer.Grammars.AddGrammarFromPredefinedType(
+                 "webSearch", SpeechPredefinedGrammar.WebSearch);
             var result = await sr.RecognizeWithUIAsync();
             if (result.ResultStatus == SpeechRecognitionUIStatus.Succeeded)
             {
-                ////string spokenText = result.RecognitionResult.Text;
-                ////detailsNote.Text += result.RecognitionResult.Text + result.RecognitionResult.TextConfidence.ToString();
-                //Console.WriteLine(result.RecognitionResult.Text);
-                //Console.WriteLine(result.RecognitionResult.TextConfidence.ToString());
-                detailsNote.Text = result.RecognitionResult.Text;
+                if ((int)result.RecognitionResult.TextConfidence < (int)SpeechRecognitionConfidence.Medium)
+                {
+                    // If the confidence level of the result is too low, prompt the user to try again and restart recognition.
+                    MessageBox.Show("Not sure what you said! Try again.");
+                    await sr.RecognizeWithUIAsync();
+                }
+
+                    // If the confidence level of the result is good, display a confirmation.
+                else
+                {
+                    MessageBox.Show("Searching for " + result.RecognitionResult.Text);
+                }
             }
         }
 
