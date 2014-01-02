@@ -24,22 +24,9 @@ namespace WritersToolbox.viewmodels
         private WritersToolboxDatebase db;
         private Table<MemoryNote> memoryNote;
         private MemoryNote obj_memoryNote;
-        private ObservableCollection<Image> _imageList;
         private const char SEPARATOR = '|';
-
-
-        /// <summary>
-        /// A log of a starting process
-        /// </summary>
-        public ObservableCollection<Image> imageList
-        {
-            get { return _imageList; }
-
-            set
-            {
-                _imageList = value;
-            }
-        }
+        
+        //Fertig
         /* *
          * 
          * Im Defaultkonstruktor wird die Verbindung zur Datenbank erstellt und
@@ -65,12 +52,12 @@ namespace WritersToolbox.viewmodels
          * Die save-Methode() speichert und ändert Notize, die nicht zugeordnet sind.
          * 
          * */
-        public void save(int memoryNoteID,DateTime addedDate, string title, string contentText, List<Image> contentImages,
-            List<AudioTrack> contentAudios, string tags, DateTime updatedDate)
+        public void save(int memoryNoteID,DateTime addedDate, string title, string contentText, ObservableCollection<MyImage> contentImages,
+            ObservableCollection<SoundData> contentAudios, string tags, DateTime updatedDate)
         {
             try
             {
-                if (memoryNoteID == -1) //neue MemoryNote speichern.
+                if (memoryNoteID == 0) //neue MemoryNote speichern.
                 {
                     obj_memoryNote = new MemoryNote();
                     obj_memoryNote.addedDate = addedDate;
@@ -78,16 +65,16 @@ namespace WritersToolbox.viewmodels
                     obj_memoryNote.contentText = contentText;
 
                     string contentImagesPath = "";
-                    foreach (Image img in contentImages)
+                    foreach (MyImage img in contentImages)
                     {
-                        contentImagesPath += ((BitmapImage)img.Source).UriSource.ToString() + "|";
+                        contentImagesPath += img.Name + "|";
                     }
                     obj_memoryNote.ContentImageString = contentImagesPath;
 
                     string contentAudiosPath = "";
-                    foreach (AudioTrack track in contentAudios)
+                    foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.Source.AbsoluteUri.ToString() + "|";
+                        contentAudiosPath += track.FilePath + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
@@ -103,21 +90,20 @@ namespace WritersToolbox.viewmodels
                 {
                     obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
 
-                    obj_memoryNote.addedDate = addedDate;
                     obj_memoryNote.title = title;
                     obj_memoryNote.contentText = contentText;
 
                     string contentImagesPath = "";
-                    foreach (Image img in contentImages)
+                    foreach (MyImage img in contentImages)
                     {
-                        contentImagesPath += ((BitmapImage)img.Source).UriSource.ToString() + "|";
+                        contentImagesPath += img.Name + "|";
                     }
                     obj_memoryNote.ContentImageString = contentImagesPath;
 
                     string contentAudiosPath = "";
-                    foreach (AudioTrack track in contentAudios)
+                    foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.Source.AbsoluteUri.ToString() + "|";
+                        contentAudiosPath += track.FilePath + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
@@ -138,13 +124,183 @@ namespace WritersToolbox.viewmodels
 
         }
 
+        //Fertig
+        /* *
+         * 
+         * Die getImages()-Methode, liefert eine Liste von Image-Objekten, die zu einer Notiz gehören.
+         * 
+         * */
+        public ObservableCollection<MyImage> getImages(int memoryNoteID)
+        {
+
+            string imagePath = (from note in memoryNote
+                                where note.memoryNoteID == memoryNoteID
+                                select note.ContentImageString).FirstOrDefault();
+
+            ObservableCollection<MyImage> imageList = new ObservableCollection<MyImage>();
+
+            if (imagePath != null)
+            {
+                string[] str_result = imagePath.Split(SEPARATOR);
+
+                for (int i = 0; i < str_result.Length; i++)
+                {
+                    MediaLibrary medianbibliothek = new MediaLibrary();
+
+                   
+                    foreach (Picture picture in medianbibliothek.SavedPictures)
+                    {
+                        if (picture.Name.Equals(Path.GetFileName(str_result[i])) && !str_result[i].Trim().Equals(""))
+                        {
+                            MyImage foto = new MyImage(picture);
+                            imageList.Add(foto);
+                        }
+                    }
+                }
+            }
+
+            return imageList;          
+        }
+
+        //Fertig
+        /* *
+ * 
+ * Die getImages()-Methode, liefert eine Liste von Image-Objekten, die zu einer Notiz gehören.
+ * 
+ * */
+        public ObservableCollection<MyImage> getImages(int memoryNoteID, string deletedImages, string addImages)
+        {
+
+            string imagePath = (from note in memoryNote
+                                where note.memoryNoteID == memoryNoteID
+                                select note.ContentImageString).FirstOrDefault();
+
+            ObservableCollection<MyImage> imageList = new ObservableCollection<MyImage>();
+
+            if (imagePath != null)
+            {
+                List<String> str_result = imagePath.Split(SEPARATOR).ToList<String>();
+                List<String> str_result_deletedImages = deletedImages.Split(SEPARATOR).ToList<String>();
+                List<String> str_result_addImages = addImages.Split(SEPARATOR).ToList<String>();
+
+                foreach (string str_item in str_result_addImages)
+                {
+                    str_result.Add(str_item);
+                }
+                foreach (string str_item in str_result_deletedImages)
+                {
+                    str_result.Remove(str_item);
+                }
+
+                for (int i = 0; i < str_result.Count; i++)
+                {
+                    MediaLibrary medianbibliothek = new MediaLibrary();
+
+                    foreach (Picture picture in medianbibliothek.SavedPictures)
+                    {
+                        if (picture.Name.Equals(Path.GetFileName(str_result[i])) && !str_result[i].Trim().Equals(""))
+                        {
+                            MyImage foto = new MyImage(picture);
+                            imageList.Add(foto);
+                        }
+                    }
+                }
+            }
+
+            if (imagePath == null && addImages.Length > 0)
+            {
+                List<String> str_result_addImages = addImages.Split(SEPARATOR).ToList<String>();
+                if (deletedImages.Length > 0)
+                {
+                    List<String> str_result_deletedImages = deletedImages.Split(SEPARATOR).ToList<String>();
+                    foreach (string str_item in str_result_deletedImages)
+                    {
+                        str_result_addImages.Remove(str_item);
+                    }
+                }
+                for (int i = 0; i < str_result_addImages.Count; i++)
+                {
+                    MediaLibrary medianbibliothek = new MediaLibrary();
+
+                    foreach (Picture picture in medianbibliothek.SavedPictures)
+                    {
+                        if (picture.Name.Equals(Path.GetFileName(str_result_addImages[i])) && !str_result_addImages[i].Trim().Equals(""))
+                        {
+                            MyImage foto = new MyImage(picture);
+                            imageList.Add(foto);
+                        }
+                    }
+                }
+            }
+
+
+            return imageList;
+        }
+
+        //Fertig
+        /* *
+         * 
+         * Die getAudios()-Methode, liefert eine Liste von Audio-Objekten, die zu einer Notiz gehören.
+         * 
+         * */
+        public ObservableCollection<SoundData> getAudios(int memoryNoteID)
+        {
+
+            string audioPath = (from note in memoryNote
+                                where note.memoryNoteID == memoryNoteID
+                                select note.contentAudioString).FirstOrDefault();
+
+            ObservableCollection<SoundData> audioList = new ObservableCollection<SoundData>();
+            if (audioPath != null)
+            {
+                string[] str_result = audioPath.Split(SEPARATOR);
+                for (int i = 0; i < str_result.Length; i++)
+                {
+                    if (!str_result[i].Trim().Equals(""))
+                    {
+                        audioList.Add(new SoundData() { FilePath = str_result[i] });
+                    }
+                    
+                }
+            }
+            return audioList;
+        }
+
+        public string getTitle(int memoryNoteID)
+        {
+            string title = (from note in memoryNote
+                                where note.memoryNoteID == memoryNoteID
+                                select note.title).FirstOrDefault();
+
+            return title == null ? "" : title;
+        }
+
+        public string getDetails(int memoryNoteID)
+        {
+            string details = (from note in memoryNote
+                            where note.memoryNoteID == memoryNoteID
+                            select note.contentText).FirstOrDefault();
+
+            return details == null ? "" : details;
+        }
+
+        public string getTags(int memoryNoteID)
+        {
+            string tags = (from note in memoryNote
+                              where note.memoryNoteID == memoryNoteID
+                              select note.tags).FirstOrDefault();
+
+            return tags == null ? "" : tags;
+        }
+
+        //TODO
         /* *
          * 
          * Die saveAsTypeObject()-Methode speichert und ändert eine Notiz, die zu einem TypObjekt zugeordnet ist.
          * 
          * */
         public void saveAsTypeObject(int memoryNoteID, DateTime addedDate, string title, string contentText, List<Image> contentImages,
-            List<AudioTrack> contentAudios, string tags, DateTime updatedDate, int typeObjectID)
+            ObservableCollection<SoundData> contentAudios, string tags, DateTime updatedDate, int typeObjectID)
         {
             try
             {
@@ -163,9 +319,9 @@ namespace WritersToolbox.viewmodels
                     obj_memoryNote.ContentImageString = contentImagesPath;
 
                     string contentAudiosPath = "";
-                    foreach (AudioTrack track in contentAudios)
+                    foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.Source.AbsoluteUri.ToString() + "|";
+                        contentAudiosPath += track.FilePath + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
@@ -197,9 +353,9 @@ namespace WritersToolbox.viewmodels
                     obj_memoryNote.ContentImageString = contentImagesPath;
 
                     string contentAudiosPath = "";
-                    foreach (AudioTrack track in contentAudios)
+                    foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.Source.AbsoluteUri.ToString() + "|";
+                        contentAudiosPath += track.FilePath + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
@@ -223,6 +379,7 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+        //TODO
         /* *
          * 
          * Die saveAsEvent()-Methode speichert und ändert eine Notiz, die zu einem Event zugeordnet ist.
@@ -308,104 +465,5 @@ namespace WritersToolbox.viewmodels
             }
         }
 
-        /* *
-         * 
-         * Die getImages()-Methode, liefert eine Liste von Image-Objekten, die zu einer Notiz gehören.
-         * 
-         * */
-        public ObservableCollection<MyImage> getImages(int memoryNoteID)
-        {
-
-            string imagePath = (from note in memoryNote
-                                where note.memoryNoteID == memoryNoteID
-                                select note.ContentImageString).FirstOrDefault(); 
-
-            
-            string[] str_result = imagePath.Split(SEPARATOR);
-
-            ObservableCollection<MyImage> imageList = new ObservableCollection<MyImage>();
-
-            for (int i = 0; i < str_result.Length; i++)
-            {
-                MediaLibrary medianbibliothek = new MediaLibrary();
-
-                foreach (Picture picture in medianbibliothek.Pictures)
-                {
-                    if (picture.Name.Equals(Path.GetFileName(str_result[i])))
-                    {
-                        MyImage foto = new MyImage(picture);
-                        imageList.Add(foto);
-                    }
-                }
-           }
-            return imageList;          
-        }
-
-        /* *
- * 
- * Die getImages()-Methode, liefert eine Liste von Image-Objekten, die zu einer Notiz gehören.
- * 
- * */
-        public ObservableCollection<MyImage> getImages(int memoryNoteID, string deletedImages, string addImages)
-        {
-
-            string imagePath = (from note in memoryNote
-                                where note.memoryNoteID == memoryNoteID
-                                select note.ContentImageString).FirstOrDefault();
-
-
-            List<String> str_result = imagePath.Split(SEPARATOR).ToList<String>();
-            List<String> str_result_deletedImages = deletedImages.Split(SEPARATOR).ToList<String>();
-            List<String> str_result_addImages = addImages.Split(SEPARATOR).ToList<String>();
-
-            foreach (string str_item in str_result_addImages)
-            {
-                str_result.Add(str_item);
-            }
-            foreach (string str_item in str_result_deletedImages)
-            {
-                str_result.Remove(str_item);
-            }
-            ObservableCollection<MyImage> imageList = new ObservableCollection<MyImage>();
-
-            for (int i = 0; i < str_result.Count; i++)
-            {
-                MediaLibrary medianbibliothek = new MediaLibrary();
-                
-                foreach (Picture picture in medianbibliothek.Pictures)
-                {
-                    if (picture.Name.Equals(Path.GetFileName(str_result[i])))
-                    {
-                        MyImage foto = new MyImage(picture);
-                        imageList.Add(foto);
-                    }
-                }
-            }
-
-            return imageList;
-        }
-
-        /* *
-         * 
-         * Die getAudios()-Methode, liefert eine Liste von Audio-Objekten, die zu einer Notiz gehören.
-         * 
-         * */
-        public List<AudioTrack> getAudios(int memoryNoteID)
-        {
-
-            string audioPath = (from note in memoryNote
-                                where note.memoryNoteID == memoryNoteID
-                                select note.ContentImageString).FirstOrDefault();
-
-            string[] str_result = audioPath.Split(SEPARATOR);
-
-            List<AudioTrack> audioList = new List<AudioTrack>();
-
-            for (int i = 0; i < str_result.Length; i++)
-            {
-                audioList.Add(new AudioTrack(new Uri(str_result[i]), null, null, null, null));
-            }
-            return audioList;
-        }
     }
 }

@@ -25,23 +25,8 @@ namespace WritersToolbox.views
         {
             InitializeComponent();
             PhoneApplicationService.Current.State["OppendImageView"] = "true";
-        }
-
-        protected override void OnNavigatedTo(NavigationEventArgs e)
-        {
-
-            try
-            {
-                im = PhoneApplicationService.Current.State["imageView"] as Image;
-                imageView.Source = im.Source;
-
-            }
-            catch (Exception ex)
-            {
-                System.Diagnostics.Debug.WriteLine(ex.Message);
-                System.Diagnostics.Debug.WriteLine(ex.StackTrace);
-            }
-
+            im = PhoneApplicationService.Current.State["imageView"] as Image;
+            imageView.Source = im.Source;
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -58,9 +43,14 @@ namespace WritersToolbox.views
                 PhoneApplicationService.Current.State["deletedImages"] = cachImages;
             }
 
-            NavigationService.go(new Uri("/views/addnote_test.xaml", UriKind.Relative));
+            PhoneApplicationService.Current.State.Remove("imageView");
             NavigationService.GoBack();
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            PhoneApplicationService.Current.State.Remove("imageView");
+            NavigationService.GoBack();
+        }
     }
 }

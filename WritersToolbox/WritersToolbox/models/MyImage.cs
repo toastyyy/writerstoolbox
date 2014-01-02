@@ -11,18 +11,18 @@ namespace WritersToolbox.models
     {
                 
         private Picture picture;
+        private string id { get { return name; } }
         private string name;
         private BitmapImage vorschaubild;
         private BitmapImage bild;
 
         public string Name { get { return name; } }
         public BitmapImage Vorschaubild { get { return vorschaubild; } }
- 
+        
         public MyImage(Picture picture)
         {
             this.picture = picture;
             this.name = picture.Name;
-
             this.vorschaubild = new BitmapImage();
             vorschaubild.SetSource(picture.GetThumbnail());
 
@@ -31,6 +31,11 @@ namespace WritersToolbox.models
         {
             this.vorschaubild = bitmap;
             this.name = name;
+        }
+
+        public override bool Equals(object obj)
+        {
+            return name.Equals(((MyImage)obj).name);
         }
 
         public BitmapImage GetBild()

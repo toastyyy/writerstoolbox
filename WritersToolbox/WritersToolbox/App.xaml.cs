@@ -97,10 +97,19 @@ namespace WritersToolbox
         // Code to execute on Unhandled Exceptions
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            if (Debugger.IsAttached)
+
+            try
+            {
+             if (Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger
-                Debugger.Break();
+                //Debugger.Break();
+            }
+            }
+            catch (Exception ex)
+            {
+               System.Diagnostics.Debug.WriteLine(ex.Message); 
+               System.Diagnostics.Debug.WriteLine(ex.StackTrace);
             }
         }
 
