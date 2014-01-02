@@ -14,34 +14,43 @@ using System.Windows.Media;
 using System.Windows.Input;
 using Microsoft.Devices.Sensors;
 using Microsoft.Xna.Framework;
+using WritersToolbox.models;
 
 namespace WritersToolbox.views
 {
     public partial class ImageView : PhoneApplicationPage
     {
+        Image im;
         public ImageView()
         {
             InitializeComponent();
+            PhoneApplicationService.Current.State["OppendImageView"] = "true";
+            im = PhoneApplicationService.Current.State["imageView"] as Image;
+            imageView.Source = im.Source;
         }
 
-        protected override void OnNavigatedTo(NavigationEventArgs e)
+        private void deleteButton_Click(object sender, EventArgs e)
         {
-            string strCodeTiers = string.Empty;
-            if (NavigationContext.QueryString.TryGetValue("path",out strCodeTiers))
+            if (PhoneApplicationService.Current.State.ContainsKey("deletedImages"))
             {
-                 using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
-                 {
-                     using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(NavigationContext.QueryString["path"], FileMode.Open, FileAccess.Read))
-                     {
-                         BitmapImage bi = new BitmapImage();
-                         bi.SetSource(fileStream);
-                         
-                         imageView.Source = bi;
-
-                     }
-                 }
-                 
+                string cachImages = (PhoneApplicationService.Current.State["deletedImages"] as string);
+                cachImages += ((MyImage)im.DataContext).Name + "|";
+                PhoneApplicationService.Current.State["deletedImages"] = cachImages;
             }
+            else
+            {
+                string cachImages = ((MyImage)im.DataContext).Name + "|";
+                PhoneApplicationService.Current.State["deletedImages"] = cachImages;
+            }
+
+            PhoneApplicationService.Current.State.Remove("imageView");
+            NavigationService.GoBack();
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            PhoneApplicationService.Current.State.Remove("imageView");
+            NavigationService.GoBack();
         }
     }
 }

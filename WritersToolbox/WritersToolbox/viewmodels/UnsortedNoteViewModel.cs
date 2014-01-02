@@ -45,9 +45,9 @@ namespace WritersToolbox.viewmodels
                 {
                     title = ((MemoryNote)item).title
                     ,
-                    contents = ((MemoryNote)item).contentText.Substring(0, ((MemoryNote)item).contentText.Length > 15 ? 15 : ((MemoryNote)item).contentText.Length) + "..."
+                    contents = ((MemoryNote)item).contentText.Substring(0, ((MemoryNote)item).contentText.Length > 15 ? 15 : ((MemoryNote)item).contentText.Length) + " ..."
                     ,
-                    updatedNote = ((MemoryNote)item).updatedDate.ToString("F")
+                    updatedNote = new DateTime(((MemoryNote)item).updatedDate.Year,((MemoryNote)item).updatedDate.Month,((MemoryNote)item).updatedDate.Day).ToShortDateString()
                     ,
                     memoryNoteID = ((MemoryNote)item).memoryNoteID
                 });

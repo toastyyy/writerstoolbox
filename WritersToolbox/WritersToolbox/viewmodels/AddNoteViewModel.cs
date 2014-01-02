@@ -60,7 +60,7 @@ namespace WritersToolbox.viewmodels
                 if (memoryNoteID == 0) //neue MemoryNote speichern.
                 {
                     obj_memoryNote = new MemoryNote();
-                    obj_memoryNote.addedDate = addedDate;
+                    obj_memoryNote.addedDate = new DateTime(addedDate.Year, addedDate.Month, addedDate.Day);
                     obj_memoryNote.title = title;
                     obj_memoryNote.contentText = contentText;
 
@@ -80,7 +80,7 @@ namespace WritersToolbox.viewmodels
 
                     obj_memoryNote.tags = tags;
 
-                    obj_memoryNote.updatedDate = updatedDate;
+                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
                     obj_memoryNote.associated = false;
 
                     //obj_memoryNote in DataContext hinzufügen.
@@ -109,7 +109,7 @@ namespace WritersToolbox.viewmodels
 
                     obj_memoryNote.tags = tags;
 
-                    obj_memoryNote.updatedDate = updatedDate;
+                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
                     obj_memoryNote.associated = false;
                 }
 
@@ -147,8 +147,8 @@ namespace WritersToolbox.viewmodels
                 {
                     MediaLibrary medianbibliothek = new MediaLibrary();
 
-                   
-                    foreach (Picture picture in medianbibliothek.SavedPictures)
+
+                    foreach (Picture picture in medianbibliothek.Pictures)
                     {
                         if (picture.Name.Equals(Path.GetFileName(str_result[i])) && !str_result[i].Trim().Equals(""))
                         {
@@ -196,7 +196,7 @@ namespace WritersToolbox.viewmodels
                 {
                     MediaLibrary medianbibliothek = new MediaLibrary();
 
-                    foreach (Picture picture in medianbibliothek.SavedPictures)
+                    foreach (Picture picture in medianbibliothek.Pictures)
                     {
                         if (picture.Name.Equals(Path.GetFileName(str_result[i])) && !str_result[i].Trim().Equals(""))
                         {
@@ -222,7 +222,7 @@ namespace WritersToolbox.viewmodels
                 {
                     MediaLibrary medianbibliothek = new MediaLibrary();
 
-                    foreach (Picture picture in medianbibliothek.SavedPictures)
+                    foreach (Picture picture in medianbibliothek.Pictures)
                     {
                         if (picture.Name.Equals(Path.GetFileName(str_result_addImages[i])) && !str_result_addImages[i].Trim().Equals(""))
                         {

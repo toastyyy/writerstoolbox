@@ -1,4 +1,6 @@
 ﻿using System;
+using System.Resources;
+using System.Reflection;
 using System.Collections.Generic;
 using System.Linq;
 using System.Net;
@@ -7,264 +9,904 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using Microsoft.Phone.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Input;
-using System.Windows.Shapes;
+using Microsoft.Phone.Tasks;
+using System.IO.IsolatedStorage;
+using System.IO;
 using Windows.Phone.Speech.Recognition;
-using Microsoft.Phone.Controls;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
+using WritersToolbox.viewmodels;
+using WritersToolbox.models;
+using Windows.Storage;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Media.PhoneExtensions;
+using Microsoft.Xna.Framework.Audio;
+using Coding4Fun.Toolkit.Audio;
+
+
+using Coding4Fun.Toolkit.Audio.Helpers;
+
 namespace WritersToolbox.views
 {
-    public partial class AddNote : PhoneApplicationPage
+    public partial class PivotPage1 : PhoneApplicationPage
     {
+        private PhotoChooserTask photoChooserTask; //
+        private AddNoteViewModel anvm; //
+        private int NoteID; //
+        private bool isPhotochooser; // 
+        private ObservableCollection<MyImage> Image_Items; //
+        private ObservableCollection<SoundData> sound_Items;
+        private MicrophoneRecorder recorder;
+        private IsolatedStorageFileStream _audioStream;//
+        private string tempTitle, tempDetails, tempTags;
+        private ObservableCollection<MyImage> tempImage_Items; //
+        private ObservableCollection<SoundData> tempSound_Items;
+        private bool isselected1, isselected2, isselected3;
 
-        PhotoChooserTask photoChooserTask;
-        Image img;
-        HashSet<Rectangle> rectangles;
-        List<Image> imageList = new List<Image>();
-        int index = -1;
-        SpeechRecognizerUI recoWithUI;
-
-        public AddNote()
+        public PivotPage1()
         {
             InitializeComponent();
+            isPhotochooser = false;
+            isselected1 = false;
+            isselected2 = false;
+            NoteID = 0;
             photoChooserTask = new PhotoChooserTask();
+            recorder = new MicrophoneRecorder(); 
             photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
-            rectangles = new HashSet<Rectangle>();
-            detailsNote.VerticalScrollBarVisibility = ScrollBarVisibility.Auto;
+            anvm = new AddNoteViewModel();
+
+            sound_Items = new ObservableCollection<SoundData>();
+
+            if (!isPhotochooser)
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("memoryNoteID"))
+                {
+                    try
+                    {
+                        NoteID = int.Parse(PhoneApplicationService.Current.State["memoryNoteID"] as String);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Fehler beim Parsen von String to Int aufgetretten");
+                    }
+                }
+                if (NoteID == 0)
+                {
+                    Image_Items = new ObservableCollection<MyImage>();
+
+                }
+                else
+                {
+                    Image_Items = anvm.getImages(NoteID);
+                }
+
+            }
+            else
+            {
+                Image_Items = anvm.getImages(NoteID);
+            }
+
+            sound_Items = anvm.getAudios(NoteID);
+            string temp_title = anvm.getTitle(NoteID);
+            string temp_details = anvm.getDetails(NoteID);
+            titleTextBox.Text = temp_title.Equals("") ? "Title" : temp_title;
+            detailsTextBox.Text = temp_details.Equals("") ? "Details" : temp_details;
+            schlagwoerterTextBox.Text = anvm.getTags(NoteID);
+
+            this.llms_records.ItemsSource = sound_Items;
+            this.llms_images.ItemsSource = Image_Items;
+
+            if (Image_Items.Count > 0)
+                selectAllCheckBox.Visibility = Visibility.Visible;
+            else
+                selectAllCheckBox.Visibility = Visibility.Collapsed;
+
+            if (sound_Items.Count > 0)
+                selectAllRecordCheckBox.Visibility = Visibility.Visible;
+            else
+                selectAllRecordCheckBox.Visibility = Visibility.Collapsed;
+
+            deleteButton.Visibility = Visibility.Collapsed;
+            zurueckButton.Visibility = Visibility.Collapsed;
+            deleteRecordButton.Visibility = Visibility.Collapsed;
+            zurueckRecordButton.Visibility = Visibility.Collapsed;
         }
 
-        private void saveButton_Click(object sender, RoutedEventArgs e)
+        //Fertig
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
+            e.Cancel = true;
+        }
+
+        //Fertig
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+
+            if (PhoneApplicationService.Current.State.ContainsKey("OppendImageView"))
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("deletedImages")
+                    && PhoneApplicationService.Current.State.ContainsKey("addedImages"))
+                {
+                    Image_Items = anvm.getImages(NoteID, (PhoneApplicationService.Current.State["deletedImages"] as string)
+                        , (PhoneApplicationService.Current.State["addedImages"] as string));
+                }
+                else if (PhoneApplicationService.Current.State.ContainsKey("deletedImages"))
+                {
+                    Image_Items = anvm.getImages(NoteID, (PhoneApplicationService.Current.State["deletedImages"] as string)
+                        , "");
+                }
+                else if (PhoneApplicationService.Current.State.ContainsKey("addedImages"))
+                {
+                    Image_Items = anvm.getImages(NoteID, ""
+                        , (PhoneApplicationService.Current.State["addedImages"] as string));
+                }
+                else
+                {
+                    Image_Items = anvm.getImages(NoteID, "", "");
+                }
+
+            }
+            llms_images.ItemsSource = Image_Items;
+
+            if (PhoneApplicationService.Current.State.ContainsKey("edit"))
+            {
+                tempTitle = titleTextBox.Text;
+                tempDetails = detailsTextBox.Text;
+                tempTags = schlagwoerterTextBox.Text;
+
+                tempSound_Items = new ObservableCollection<SoundData>(sound_Items);
+                tempImage_Items = new ObservableCollection<MyImage>(Image_Items);
+                
+            }
+        }
+
+        //Fertig
+        private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            double height = heightCalculator(detailsTextBox.Text, detailsTextBox.FontFamily, detailsTextBox.FontSize,
+                detailsTextBox.FontStyle, detailsTextBox.FontWeight);
+            if (height > 410)
+            {
+                detailsTextBox.Height = height;
+            }
+
+        }
+
+        //Fertig
+        private double heightCalculator(String str, FontFamily font, double size,
+            FontStyle fontstyle, FontWeight fontweight)
+        {
+            TextBlock l = new TextBlock();
+            l.FontFamily = font;
+            l.FontSize = size;
+            l.FontStyle = fontstyle;
+            l.FontWeight = fontweight;
+            l.Text = str;
+            return l.ActualHeight + 70;
+        }
+
+        //Fertig
+        private void photoChooserTask_Completed(object sender, PhotoResult e)
+        {
+
+            if (e.TaskResult == TaskResult.OK)
+            {
+                choose(e.OriginalFileName);
+                if (Image_Items.Count > 0)
+                {
+                    selectAllCheckBox.Visibility = Visibility.Visible;
+                }
+             }
+         }
+
+        //Fertig
+        public void choose(string filename)
+        {
+            isPhotochooser = true;
+
+            MediaLibrary medianbibliothek = new MediaLibrary();
+
+            foreach (Picture picture in medianbibliothek.Pictures)
+            {
+                if (picture.Name.Equals(Path.GetFileName(filename)))
+                {
+                    MyImage foto = new MyImage(picture);
+                    Image_Items.Insert(0, foto);
+
+                    if (PhoneApplicationService.Current.State.ContainsKey("addedImages"))
+                    {
+                        string cachImages = (PhoneApplicationService.Current.State["addedImages"] as string);
+                        cachImages += foto.Name + "|";
+                        PhoneApplicationService.Current.State["addedImages"] = cachImages;
+                    }
+                    else
+                    {
+                        string cachImages = foto.Name + "|";
+                        PhoneApplicationService.Current.State["addedImages"] = cachImages;
+                    }
+
+                }
+
+            }
+        }
+
+        //Fertig
+        public void img_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            llms_images.EnforceIsSelectionEnabled = true;
+            deleteButton.Visibility = Visibility.Visible;
+            zurueckButton.Visibility = Visibility.Visible;
+        }
+
+        //Fertig
+        private void titleTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (titleTextBox.Text.ToString().Trim().ToUpper().Equals("TITLE"))
+            {
+                titleTextBox.Text = "";
+            }
+        }
+
+        //Fertig
+        private void titleTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (titleTextBox.Text.Trim().ToString().Trim().ToUpper().Equals("TITLE"))
+            {
+                titleTextBox.Text = "Title";
+            }
+        }
+
+        //Fertig
+        private void detailsTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            if (detailsTextBox.Text.ToString().ToUpper().Equals("DETAILS"))
+            {
+                detailsTextBox.Text = "";
+            }
+        }
+
+        //Fertig
+        private void detailsTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (detailsTextBox.Text.Trim().ToString().ToUpper().Equals("DETAILS"))
+            {
+                detailsTextBox.Text = "Details";
+            }
+        }
+
+        //Fertig
+        private async void micro1_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var sr = new SpeechRecognizerUI();
+            sr.Settings.ReadoutEnabled = true;
+            sr.Settings.ShowConfirmation = false;
+            var result = await sr.RecognizeWithUIAsync();
+            sr.Recognizer.Grammars.AddGrammarFromPredefinedType("webSearch", SpeechPredefinedGrammar.WebSearch);
+
+            if (result.ResultStatus == SpeechRecognitionUIStatus.Succeeded)
+            {
+                if ((int)result.RecognitionResult.TextConfidence < (int)SpeechRecognitionConfidence.Medium)
+                {
+
+                    MessageBox.Show("Wir haben nicht verstanden, versuchen Sie nochmal !!");
+                    await sr.RecognizeWithUIAsync();
+                }
+                else
+                {
+                    if (titleTextBox.Text.ToString().Trim().ToUpper().Equals("TITLE"))
+                    {
+                        titleTextBox.Text = "";
+                    }
+                    titleTextBox.Text += result.RecognitionResult.Text + " ";
+                }
+            }
+        }
+
+        //Fertig
+        private async void micro2_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            var sr = new SpeechRecognizerUI();
+            sr.Settings.ReadoutEnabled = true;
+            sr.Settings.ShowConfirmation = false;
+            var result = await sr.RecognizeWithUIAsync();
+            sr.Recognizer.Grammars.AddGrammarFromPredefinedType("webSearch", SpeechPredefinedGrammar.WebSearch);
+
+            if (result.ResultStatus == SpeechRecognitionUIStatus.Succeeded)
+            {
+                if ((int)result.RecognitionResult.TextConfidence < (int)SpeechRecognitionConfidence.Medium)
+                {
+
+                    MessageBox.Show("Wir haben nicht verstanden, versuchen Sie nochmal !!");
+                    await sr.RecognizeWithUIAsync();
+                }
+                else
+                {
+                    if (detailsTextBox.Text.ToString().ToUpper().Trim().Equals("DETAILS"))
+                    {
+                        detailsTextBox.Text = "";
+                    }
+                    detailsTextBox.Text += result.RecognitionResult.Text + " ";
+                }
+            }
+        }
+
+        //Fertig
+        private void imageView_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Image i = sender as Image;
+            PhoneApplicationService.Current.State["imageView"] = i;
+            NavigationService.Navigate(new Uri("/views/ImageView.xaml", UriKind.Relative));
+            
+        }
+
+        //Fertig
+        private void image_selectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+
+                if (!llms_images.SelectedItems.Contains((MyImage)e.AddedItems[0]))
+                {
+                    llms_images.SelectedItems.Add(((MyImage)e.AddedItems[0]));
+                }
+            }
+            if (e.RemovedItems.Count > 0)
+            {
+
+                if (llms_images.SelectedItems.Contains((MyImage)e.RemovedItems[0]))
+                {
+                    llms_images.SelectedItems.Remove(((MyImage)e.RemovedItems[0]));
+                }
+
+            }
+
+            if (llms_images.SelectedItems.Count < llms_images.ItemsSource.Count)
+            {
+                isselected2 = false;
+                selectAllCheckBox.IsChecked = false;
+
+            }
+            else if (llms_images.SelectedItems.Count == llms_images.ItemsSource.Count)
+            {
+                isselected2 = true;
+                selectAllCheckBox.IsChecked = true;
+
+            }
+            if (llms_images.SelectedItems.Count == 0)
+            {
+                llms_images.EnforceIsSelectionEnabled = false;
+                zurueckButton.Visibility = Visibility.Collapsed;
+                deleteButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                zurueckButton.Visibility = Visibility.Visible;
+                deleteButton.Visibility = Visibility.Visible;
+            } 
+        }
+
+        //Fertig
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            bool issaved = false;
+
+            if(!titleTextBox.Text.Trim().Equals("") || !titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+            {
+                issaved = true;
+            }
+            if(!detailsTextBox.Text.Trim().Equals("") || !detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS"))
+            {
+                issaved = true;
+            }
+            if(!schlagwoerterTextBox.Text.Trim().Equals(""))
+            {
+                issaved = true;
+            }
+            if(Image_Items.Count >= 1)
+            {
+                issaved = true;
+            }
+            if(sound_Items.Count >= 1)
+            {
+                issaved = true;
+            }
+            if (!issaved)
+            {
+                MessageBox.Show("Sie müssen mindestens Details der Notiz eingeben!!");
+            }
+            else
+            {
+                string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+                    ? DateTime.Now.ToString("F")
+                    : titleTextBox.Text.Trim();
+
+                string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS"))
+                    ? ""
+                    : detailsTextBox.Text.Trim();
+                anvm.save(NoteID, DateTime.Now, title, details,
+                    Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now);
+
+                PhoneApplicationService.Current.State.Remove("deletedImages");
+                PhoneApplicationService.Current.State.Remove("addedImages");
+                PhoneApplicationService.Current.State.Remove("OppendImageView");
+                PhoneApplicationService.Current.State.Remove("memoryNoteID");
+
+                NavigationService.GoBack();
+            }
+
+
+        }
+
+        //Fertig
+        private void imageView_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Image image = (Image)sender;
+            BitmapImage i = (BitmapImage) image.Source;
+
+            llms_images.EnforceIsSelectionEnabled = true;
+
+            llms_images.SelectedItems.Add(((MyImage)image.DataContext));
+
+            deleteButton.Visibility = Visibility.Visible;
+            zurueckButton.Visibility = Visibility.Visible;
+        }
+
+        //Fertig
+        private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            if (!isselected2)
+            {
+                isselected2 = false;
+                llms_images.EnforceIsSelectionEnabled = true;
+                deleteButton.Visibility = Visibility.Visible;
+                zurueckButton.Visibility = Visibility.Visible;
+                llms_images.SelectedItems.Clear();
+                ObservableCollection<MyImage> items = (ObservableCollection<MyImage>)llms_images.ItemsSource;
+
+                foreach (MyImage item in items)
+                {
+                    llms_images.SelectedItems.Add(item);
+                }
+                isselected2 = true;
+            }
+          
+        }
+
+        //Fertig
+        private void addButton_Click(object sender, RoutedEventArgs e)
+        {
+
             photoChooserTask.Show();
         }
 
-        void photoChooserTask_Completed(object sender, PhotoResult e)
+        //Fertig
+        private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            if (e.TaskResult == TaskResult.OK)
+
+            if (llms_images.SelectedItems.Count == llms_images.ItemsSource.Count)
             {
-                BitmapImage bi = new BitmapImage();
-                bi.SetSource(e.ChosenPhoto);
-                WriteableBitmap b = new WriteableBitmap(bi);
-                img = new Image();
-                img.Source = b;
-                img.Hold += new EventHandler<System.Windows.Input.GestureEventArgs>(img_hold);
-                img.Height = 150;
-                img.Width = 200;
-                Canvas.SetLeft(img, Canvas.GetLeft(detailsNote) + 40);
-                Canvas.SetTop(img, Canvas.GetTop(detailsNote) + 50);
-                canvasNote.Children.Add(img);
-                imageList.Add(img);
-                index++;
+                llms_images.SelectedItems.Clear();
+                llms_images.EnforceIsSelectionEnabled = false;
+                deleteButton.Visibility = Visibility.Collapsed;
+                zurueckButton.Visibility = Visibility.Collapsed;
             }
-        }
-
-        private void img_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
-        {
 
         }
 
-        private void img_hold(object sender, System.Windows.Input.GestureEventArgs e)
+        //Fertig
+        private void zurueckButton_Click(object sender, RoutedEventArgs e)
         {
-            MessageBoxResult m = MessageBox.Show("möchten sie es löschen!?", "löschen", MessageBoxButton.OKCancel);
-            if (m == MessageBoxResult.OK)
+            llms_images.SelectedItems.Clear();
+            llms_images.EnforceIsSelectionEnabled = false;
+            deleteButton.Visibility = Visibility.Collapsed;
+            zurueckButton.Visibility = Visibility.Collapsed;
+        }
+
+        //Fertig
+        private void deleteButton_Click(object sender, RoutedEventArgs e)
+        {
+            ObservableCollection<MyImage> tempitems = new ObservableCollection<MyImage>(
+                (ObservableCollection<MyImage>)llms_images.ItemsSource);
+
+            foreach (MyImage item in tempitems)
             {
-                canvasNote.Children.Remove(imageList[index]);
-            }
-        }
-        private void detailsNote_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
-        {
-            if (index >= 0)
-            {
-                Image temp_img = imageList[index];
-                if (e.PinchManipulation != null)
+                if (llms_images.SelectedItems.Contains(item))
                 {
-                    CompositeTransform ctf = new CompositeTransform();
-                    temp_img.RenderTransform = ctf;
-                    var transform = (CompositeTransform)temp_img.RenderTransform;
-                    var x = Canvas.GetLeft(temp_img);
-                    var y = Canvas.GetTop(temp_img);
-                    // Scale Manipulation
-                    if (x + e.DeltaManipulation.Translation.X > Canvas.GetLeft(detailsNote)
-                            && y + e.DeltaManipulation.Translation.Y > Canvas.GetTop(detailsNote)
-                            && x + e.DeltaManipulation.Translation.X < Canvas.GetLeft(detailsNote) + temp_img.Width
-                            && y + e.DeltaManipulation.Translation.Y < Canvas.GetTop(detailsNote) + temp_img.Height + 100)
+                    if (PhoneApplicationService.Current.State.ContainsKey("deletedImages"))
                     {
-                        transform.ScaleX = e.PinchManipulation.CumulativeScale;
-                        transform.ScaleY = e.PinchManipulation.CumulativeScale;
-
-                        // Translate manipulation
-                        var originalCenter = e.PinchManipulation.Original.Center;
-                        var newCenter = e.PinchManipulation.Current.Center;
-                        transform.TranslateX = newCenter.X - originalCenter.X;
-                        transform.TranslateY = newCenter.Y - originalCenter.Y;
+                        string cachImages = (PhoneApplicationService.Current.State["deletedImages"] as string);
+                        cachImages += item.Name + "|";
+                        PhoneApplicationService.Current.State["deletedImages"] = cachImages;
+                    }
+                    else
+                    {
+                        string cachImages = item.Name + "|";
+                        PhoneApplicationService.Current.State["deletedImages"] = cachImages;
                     }
 
-                    // end 
-                    e.Handled = true;
+                    llms_images.ItemsSource.Remove(item);
+                    llms_images.SelectedItems.Remove(item);
+                    Image_Items.Remove(item);
                 }
-                if (e.DeltaManipulation != null)
+            }
+
+            if (llms_images.ItemsSource.Count == 0)
+            {
+                selectAllCheckBox.IsChecked = false;
+            }
+        }
+
+        //Fertig
+        private bool isImageCollectionEquals(ObservableCollection<MyImage> c1, ObservableCollection<MyImage> c2)
+        {
+            bool isequals = false;
+            if (c1.Count == c2.Count)
+            {
+                if (c1.Count == 0 && c2.Count == 0)
                 {
-                    var x = Canvas.GetLeft(temp_img);
-                    var y = Canvas.GetTop(temp_img);
-                    if (x + e.DeltaManipulation.Translation.X > Canvas.GetLeft(canvasNote)
-                        && y + e.DeltaManipulation.Translation.Y > Canvas.GetTop(canvasNote)
-                        && x + e.DeltaManipulation.Translation.X < Canvas.GetLeft(canvasNote) + temp_img.Width
-                        && y + e.DeltaManipulation.Translation.Y < Canvas.GetTop(canvasNote) + temp_img.Height + 100)
+                    isequals = true;
+                }
+                for (int i = 0; i < c1.Count && !isequals; i++)
+                {
+                    isequals = c1[i].Equals(c2[i]);
+                }
+            }
+            return isequals;
+        }
+
+        //Fertig
+        private bool isSoundCollectionEquals(ObservableCollection<SoundData> c1, ObservableCollection<SoundData> c2)
+        {
+            bool isequals = false;
+            if (c1.Count == c2.Count)
+            {
+                if (c1.Count == 0 && c2.Count == 0)
+                {
+                    isequals = true;
+                }
+                for (int i = 0; i < c1.Count && !isequals; i++)
+                {
+                    isequals = c1[i].Equals(c2[i]);
+                }
+            }
+            return isequals;
+        }
+
+        //Fertig
+        private void cancelButton_Click(object sender, EventArgs e)
+        {
+
+            //!Image_Items.Equals(tempImage_Items) ||
+            //            !sound_Items.Equals(tempSound_Items)
+            bool isfully = false;
+            MessageBoxResult result = MessageBoxResult.Cancel ;
+            if (PhoneApplicationService.Current.State.ContainsKey("edit"))
+            {
+                if (!titleTextBox.Text.Trim().Equals(tempTitle) || 
+                        !detailsTextBox.Text.Trim().Equals(tempDetails) ||
+                        !schlagwoerterTextBox.Text.Trim().Equals(tempTags)
+                    || !isImageCollectionEquals(tempImage_Items, Image_Items)
+                    || !isSoundCollectionEquals(tempSound_Items, sound_Items))
+                {
+                    isfully = true;
+                }
+            }
+            else if((!titleTextBox.Text.Trim().Equals("") && !titleTextBox.Text.Trim().ToUpper().Equals("TITLE")) ||
+                (!detailsTextBox.Text.Trim().Equals("") && !detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS")) ||
+                !schlagwoerterTextBox.Text.Trim().Equals("") ||
+                Image_Items.Count >= 1 ||
+                sound_Items.Count >= 1)
+            {
+                isfully = true;
+            }
+
+            if (isfully)
+            {
+                result = MessageBox.Show("möchten Sie Ihre Einträge wegwerfen !",
+                        "schließen", MessageBoxButton.OKCancel);
+            }
+
+            if (result == MessageBoxResult.OK || !isfully)
+            {
+                PhoneApplicationService.Current.State.Remove("memoryNoteID");
+                PhoneApplicationService.Current.State.Remove("deletedImages");
+                PhoneApplicationService.Current.State.Remove("addedImages");
+                PhoneApplicationService.Current.State.Remove("OppendImageView");
+                PhoneApplicationService.Current.State.Remove("edit");
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    foreach (SoundData item in sound_Items)
                     {
-                        Canvas.SetLeft(temp_img, x + e.DeltaManipulation.Translation.X);
-                        Canvas.SetTop(temp_img, y + e.DeltaManipulation.Translation.Y);
+                        if (isoStore.FileExists(item.FilePath))
+                        {
+                            isoStore.DeleteFile(item.FilePath);
+                        }
                     }
-
-                    e.Handled = true;
                 }
-            }
-
-        }
-
-        private void detailsNote_GotFocus(object sender, RoutedEventArgs e)
-        {
-            detailsNote.Background = new SolidColorBrush(Colors.Transparent);
-            if (detailsNote.Text.Equals("details"))
-            {
-                detailsNote.Text = "";
+                NavigationService.GoBack();
             }
         }
 
-        private void detailsNote_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        //Fertig
+        private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
-            detailsNote.Focus();
         }
 
-        private void detailsNote_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        //Fertig
+        private void RecordAudioChecked(object sender, RoutedEventArgs e)
         {
-            if (index >= 0)
+            llms_records.IsEnabled = false;
+            recorder.Start();
+        }
+
+        //Fertig
+        private void RecordAudioUnchecked(object sender, RoutedEventArgs e)
+        {
+            recorder.Stop();
+
+            SaveTempAudio(recorder.Buffer);
+
+            llms_records.IsEnabled = true;
+
+            if (sound_Items.Count > 0)
             {
-                MessageBoxResult m = MessageBox.Show("möchten sie es löschen!?", "löschen", MessageBoxButton.OKCancel);
-                if (m == MessageBoxResult.OK)
+                selectAllRecordCheckBox.Visibility = Visibility.Visible;
+            }
+        }
+
+        //Fertig 
+        private void SaveTempAudio(MemoryStream buffer)
+        {
+
+            if (buffer == null)
+                throw new ArgumentNullException("Leere Buffer.");
+
+            if (_audioStream != null)
+            {
+                AudioPlayer.Stop();
+                AudioPlayer.Source = null;
+
+                _audioStream.Dispose();
+            }
+
+            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                string _tempFileName = string.Format("{0}.wav", DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
+
+                if (isoStore.FileExists(_tempFileName))
+                    isoStore.DeleteFile(_tempFileName);
+          
+
+                var bytes = buffer.GetWavAsByteArray(recorder.SampleRate);
+
+                _audioStream = isoStore.CreateFile(_tempFileName);
+                _audioStream.Write(bytes, 0, bytes.Length);
+                
+                SoundData mysound = new SoundData() {FilePath = _tempFileName };
+                sound_Items.Add(mysound);
+                llms_records.ItemsSource = sound_Items;
+                _audioStream.Close();
+            }
+        }
+
+        //Fertig
+        private void record_selectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (e.AddedItems.Count > 0)
+            {
+
+                if (!llms_records.SelectedItems.Contains((SoundData)e.AddedItems[0]))
                 {
-                    canvasNote.Children.Remove(imageList[index]);
+                    llms_records.SelectedItems.Add(((SoundData)e.AddedItems[0]));
                 }
+            }
+            if (e.RemovedItems.Count > 0)
+            {
+
+                if (llms_records.SelectedItems.Contains((SoundData)e.RemovedItems[0]))
+                {
+                    llms_records.SelectedItems.Remove(((SoundData)e.RemovedItems[0]));
+                }
+
+            }
+
+            if (llms_records.SelectedItems.Count < llms_records.ItemsSource.Count)
+            {
+                isselected1 = false;
+                if (isselected3)
+                {
+                    selectAllRecordCheckBox.IsChecked = false;
+                }
+                
+
+            }
+            else if (llms_records.SelectedItems.Count == llms_records.ItemsSource.Count)
+            {
+                isselected1 = true;
+                selectAllRecordCheckBox.IsChecked = true;
+
+            }
+            if (llms_records.SelectedItems.Count == 0)
+            {
+                llms_records.EnforceIsSelectionEnabled = false;
+                zurueckRecordButton.Visibility = Visibility.Collapsed;
+                deleteRecordButton.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                zurueckRecordButton.Visibility = Visibility.Visible;
+                deleteRecordButton.Visibility = Visibility.Visible;
+            } 
+        }
+
+        //Fertig
+        private void Sound_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+            Grid selector = sender as Grid;
+
+            if (selector == null)
+                return;
+
+            string text = ((SoundData)selector.DataContext).FilePath;
+            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            {
+                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(text, FileMode.Open, FileAccess.Read))
+                {
+                    AudioPlayer.SetSource(fileStream);
+                }
+            }
+            lastPlay.Text = text;
+            zurueckRecordButton.Visibility = Visibility.Visible;
+            deleteRecordButton.Visibility = Visibility.Visible;
+        }
+
+        //Fertig
+        private void deleteRecordButton_Click(object sender, RoutedEventArgs e)
+        {
+
+            if (llms_records.EnforceIsSelectionEnabled)
+            {
+                ObservableCollection<SoundData> tempitems = new ObservableCollection<SoundData>(
+                (ObservableCollection<SoundData>)llms_records.ItemsSource);
+
+                foreach (SoundData item in tempitems)
+                {
+                    if (llms_records.SelectedItems.Contains(item))
+                    {
+                        llms_records.ItemsSource.Remove(item);
+                        llms_records.SelectedItems.Remove(item);
+                        sound_Items.Remove(item);
+                    }
+                }
+                lastPlay.Text = "";
+            }
+            else
+            {
+                string temp_sound = lastPlay.Text;
+                SoundData s = ((ObservableCollection<SoundData>)llms_records.ItemsSource).Single(x => x.FilePath == temp_sound);
+                if (llms_records.ItemsSource.Contains(s))
+                {
+                    llms_records.ItemsSource.Remove(s);
+                    sound_Items.Remove(s);
+                }
+                lastPlay.Text = "";
+            }
+
+            if (llms_records.ItemsSource.Count == 0 )
+            {
+                selectAllRecordCheckBox.IsChecked = false;
+            }
+
+            deleteRecordButton.Visibility = Visibility.Collapsed;
+            zurueckRecordButton.Visibility = Visibility.Collapsed;
+
+        }
+
+        //Fertig
+        private void zurueckRecordButton_Click(object sender, RoutedEventArgs e)
+        {
+            llms_records.EnforceIsSelectionEnabled = false;
+            lastPlay.Text = "";
+            deleteRecordButton.Visibility = Visibility.Collapsed;
+            zurueckRecordButton.Visibility = Visibility.Collapsed;
+        }
+
+        //Fertig
+        private void selectAllRecordCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+
+            if (llms_records.SelectedItems.Count == llms_records.ItemsSource.Count)
+            {
+                llms_records.EnforceIsSelectionEnabled = false;
+                llms_records.SelectedItems.Clear();
+            }
+            if (lastPlay.Text.Trim().Equals(""))
+            {
+                deleteRecordButton.Visibility = Visibility.Collapsed;
+                zurueckRecordButton.Visibility = Visibility.Collapsed;
             }
         }
 
-        private void detailsNote_TextChanged_1(object sender, TextChangedEventArgs e)
+        //Fertig
+        private void selectAllRecordCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            //this.ScrollBar.
-            //this.ScrollBar.UpdateLayout();
+            if (!isselected1)
+            {
+                isselected3 = false;
+                llms_records.EnforceIsSelectionEnabled = true;
+                deleteRecordButton.Visibility = Visibility.Visible;
+                zurueckRecordButton.Visibility = Visibility.Visible;
+                llms_records.SelectedItems.Clear();
+                ObservableCollection<SoundData> items = (ObservableCollection<SoundData>)llms_records.ItemsSource;
+
+                foreach (SoundData item in items)
+                {
+                    llms_records.SelectedItems.Add(item);
+                }
+                isselected3 = true;
+            }
         }
 
-        private async void closeButton_Click(object sender, RoutedEventArgs e)
+        //Fertig
+        private void Grid_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            test();
-           
-            //try
-            //{
-            //    recoWithUI = new SpeechRecognizerUI();
+            Grid g = (Grid)sender;
+            
+            llms_records.EnforceIsSelectionEnabled = true;
 
-            //    // Start recognition (load the dictation grammar by default).
-            //    SpeechRecognitionUIResult recoResult = await recoWithUI.RecognizeWithUIAsync();
+            llms_records.SelectedItems.Add(((SoundData)g.DataContext));
 
-            //    // Do something with the recognition result.
-            //    MessageBox.Show(string.Format("You said {0}.", recoResult.RecognitionResult.Text));
-
-            //    detailsNote.Text += recoResult.RecognitionResult.Text;
-            //    //IReadOnlyCollection<SpeechRecognizerInformation> voices = InstalledSpeechRecognizers.All;
-            //    //String t = "";
-            //    //foreach (SpeechRecognizerInformation s in voices)
-            //    //{
-            //    //    t += ", " + s.Language;
-            //    //}
-            //    //MessageBox.Show(string.Format("You said {0}.", t));
-
-            //}
-
-            //// Catch errors related to the recognition operation.
-            //catch (Exception err)
-            //{
-            //    // Define a variable that holds the error for the speech recognition privacy policy. 
-            //    // This value maps to the SPERR_SPEECH_PRIVACY_POLICY_NOT_ACCEPTED error, 
-            //    // as described in the Windows.Phone.Speech.Recognition error codes section later on.
-            //    const int privacyPolicyHResult = unchecked((int)0x80045509);
-
-            //    // Check whether the error is for the speech recognition privacy policy.
-            //    if (err.HResult == privacyPolicyHResult)
-            //    {
-            //        MessageBox.Show("You will need to accept the speech privacy policy in order to use speech recognition in this app.");
-            //    }
-            //    else
-            //    {
-            //        // Handle other types of errors here.
-            //    }
-            //}
+            deleteRecordButton.Visibility = Visibility.Visible;
+            zurueckRecordButton.Visibility = Visibility.Visible;
         }
 
-        private async void test() 
+        //TODO
+        private void saveAsButton_Click(object sender, EventArgs e)
+        {
+            //PhoneApplicationService.Current.State.Remove("deletedImages");
+            //PhoneApplicationService.Current.State.Remove("addedImages");
+            //PhoneApplicationService.Current.State.Remove("OppendImageView");
+            //PhoneApplicationService.Current.State.Remove("memoryNoteID");
+        }
+
+        //Fertig
+        private void schlagwoerterTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            double height = heightCalculator(schlagwoerterTextBox.Text, schlagwoerterTextBox.FontFamily, schlagwoerterTextBox.FontSize,
+                     schlagwoerterTextBox.FontStyle, schlagwoerterTextBox.FontWeight);
+            if (height > 300)
+            {
+                detailsTextBox.Height = height;
+            }
+        }
+
+        //Fertig
+        private async void micro3_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             var sr = new SpeechRecognizerUI();
-            sr.Settings.ListenText = "Notiz erfassen";
-            sr.Settings.ExampleText = "geburtstaggeschenck";
             sr.Settings.ReadoutEnabled = true;
             sr.Settings.ShowConfirmation = false;
-
             var result = await sr.RecognizeWithUIAsync();
+            sr.Recognizer.Grammars.AddGrammarFromPredefinedType("webSearch", SpeechPredefinedGrammar.WebSearch);
+
             if (result.ResultStatus == SpeechRecognitionUIStatus.Succeeded)
             {
-                ////string spokenText = result.RecognitionResult.Text;
-                ////detailsNote.Text += result.RecognitionResult.Text + result.RecognitionResult.TextConfidence.ToString();
-                //Console.WriteLine(result.RecognitionResult.Text);
-                //Console.WriteLine(result.RecognitionResult.TextConfidence.ToString());
-                detailsNote.Text = result.RecognitionResult.Text;
-            }
-        }
-
-        private void detailsNote_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            saveButton.Focus();
-            Point p = e.GetPosition(detailsNote);
-            Point p1;
-            for (int i = imageList.Count - 1; i >= 0; i--)
-            {
-                var x1 = Canvas.GetLeft(imageList[i]);
-                var y1 = Canvas.GetTop(imageList[i]);
-                p1 = new Point(x1, y1);
-                if (p.X > p1.X && p.Y > p1.Y && p.X < p1.X + imageList[i].Width && p.Y < p1.Y + imageList[i].Height)
+                if ((int)result.RecognitionResult.TextConfidence < (int)SpeechRecognitionConfidence.Medium)
                 {
-                    index = i;
-                    break;
+
+                    MessageBox.Show("Wir haben nicht verstanden, versuchen Sie nochmal !!");
+                    await sr.RecognizeWithUIAsync();
+                }
+                else
+                {
+                   schlagwoerterTextBox.Text += result.RecognitionResult.Text + "; ";
                 }
             }
         }
 
-        private void detailsNote_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (detailsNote.Text.Equals(""))
-            {
-                detailsNote.Text = "details";
-            }
-        }
-
-        private void titleNote_GotFocus(object sender, RoutedEventArgs e)
-        {
-            if (titleNote.Text.Equals("title"))
-            {
-                titleNote.Text = "";
-            }
-        }
-
-        private void titleNote_LostFocus(object sender, RoutedEventArgs e)
-        {
-            if (titleNote.Text.Equals(""))
-            {
-                titleNote.Text = "title";
-            }
-        }
-
-        private void saveAsButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
 
     }
 }

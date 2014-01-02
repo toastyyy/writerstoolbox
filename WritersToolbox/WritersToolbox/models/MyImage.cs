@@ -11,7 +11,7 @@ namespace WritersToolbox.models
     {
                 
         private Picture picture;
-        private string id { get { return name; } }
+        public string id { get; set; }
         private string name;
         private BitmapImage vorschaubild;
         private BitmapImage bild;
@@ -25,27 +25,18 @@ namespace WritersToolbox.models
             this.name = picture.Name;
             this.vorschaubild = new BitmapImage();
             vorschaubild.SetSource(picture.GetThumbnail());
-
+            this.id = DateTime.Now.ToString("yyyyMMddHHmmssfff");
         }
         public MyImage(BitmapImage bitmap, string name)
         {
             this.vorschaubild = bitmap;
             this.name = name;
+            this.id = DateTime.Now.ToString("yyyyMMddHHmmssfff");
         }
 
         public override bool Equals(object obj)
         {
-            return name.Equals(((MyImage)obj).name);
-        }
-
-        public BitmapImage GetBild()
-        {
-            if (bild == null) // Wenn das Bild noch nie eingelesen wurde
-            {
-                bild = new BitmapImage();
-                bild.SetSource(picture.GetThumbnail());
-            }
-            return bild;
+            return id.Equals(((MyImage)obj).id);
         }
     }
 }
