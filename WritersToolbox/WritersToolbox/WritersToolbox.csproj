@@ -147,6 +147,9 @@
       <DependentUpon>AppResources.resx</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
+    <Compile Include="views\TypeObjectDetails.xaml.cs">
+      <DependentUpon>TypeObjectDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\Types.xaml.cs">
       <DependentUpon>Types.xaml</DependentUpon>
     </Compile>
@@ -186,6 +189,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\TypeObjectDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
