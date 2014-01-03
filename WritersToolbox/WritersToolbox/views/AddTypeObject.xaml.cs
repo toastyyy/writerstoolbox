@@ -7,11 +7,15 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Windows.Media;
+using System.Diagnostics;
 
 namespace WritersToolbox.views
 {
     public partial class AddTypeObject : PhoneApplicationPage
     {
+        private int typeID;
+
         public AddTypeObject()
         {
             InitializeComponent();
@@ -19,12 +23,42 @@ namespace WritersToolbox.views
 
         private void SaveTypeObject(object sender, EventArgs e)
         {
+            Color c = slider.Color;
+
+            String r = c.R.ToString("X2");
+            String g = c.G.ToString("X2");
+            String b = c.B.ToString("X2");
+
+            String color = "#" + r + g + b;
+            String name = toName.Text;
+
+            try 
+            {
+                Debug.WriteLine(typeID);
+                Types.types_VM.createTypeObject(name, color, "", typeID);
+            }
+            catch(Exception ex)
+            {
+                Console.WriteLine("Objekt konnte nicht erstellt werden");
+            }
+
+            NavigationService.GoBack();
 
         }
 
         private void CancelTypeObject(object sender, EventArgs e)
         {
+            NavigationService.GoBack();
+        }
 
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (NavigationContext.QueryString.ContainsKey("typeID"))
+            {
+                var tID = NavigationContext.QueryString["typeID"];
+                typeID = int.Parse(tID);
+            }
         }
     }
 }

@@ -219,6 +219,7 @@ namespace WritersToolbox.viewmodels
 
             this.tableTypeObject.InsertOnSubmit(to);
             this.db.SubmitChanges();
+            this.LoadData();
         }
 
         private Color fromHexToColor(String hex)

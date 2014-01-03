@@ -106,7 +106,7 @@ namespace WritersToolbox.views
             // ein Objekt TypeObject hat TypID = -2
             else if (to.fk_typeID == -2)
             {
-                NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml", UriKind.Relative));
+                NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml?typeID=" + (PivotMain.SelectedIndex + 1), UriKind.Relative));
             }
             selector.SelectedItem = null;
         }
