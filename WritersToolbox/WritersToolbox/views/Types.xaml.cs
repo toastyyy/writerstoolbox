@@ -125,6 +125,14 @@ namespace WritersToolbox.views
                 var indexParsed = int.Parse(item);
                 PivotMain.SelectedIndex = indexParsed - 1;
             }
+            else if (PhoneApplicationService.Current.State.ContainsKey("New"))
+            {
+                PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
+            }
+                
+           
+            
+        
         }
 
 

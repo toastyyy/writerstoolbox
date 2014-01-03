@@ -17,10 +17,6 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
 
         private void SaveType(object sender, EventArgs e)
         {
@@ -35,6 +31,7 @@ namespace WritersToolbox.views
 
             Types.types_VM.createType(title, color, "");
 
+
             NavigationService.GoBack();
         }
 
@@ -42,6 +39,12 @@ namespace WritersToolbox.views
         private void CancelType(object sender, EventArgs e)
         {
             NavigationService.GoBack();
+        }
+
+        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            PhoneApplicationService.Current.State["New"] = tTitle;
         }
     }
 }
