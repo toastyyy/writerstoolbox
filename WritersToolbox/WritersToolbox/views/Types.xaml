@@ -44,7 +44,7 @@
                                     <ColumnDefinition Width="135"/>
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
-                                <Border Background="Red">
+                                <Border Background="{Binding color}">
                                     <Image Source="{Binding imageString}"/>
                                 </Border>
                                 <StackPanel Grid.Column="1">

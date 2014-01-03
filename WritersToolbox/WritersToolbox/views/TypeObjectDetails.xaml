@@ -51,7 +51,7 @@
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
             <StackPanel Grid.Row="0" Margin="12,17,0,28">
                 <TextBlock Text="Charakter" Margin="9,0,0,0" FontSize="22" Foreground="Black" FontFamily="Segoe WP Semibold"/>
-                <TextBlock Text="Harry Potter" Margin="9,25,0,0" Foreground="Black" FontSize="50" FontFamily="Portable User Interface" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding TypeObject.name}" Margin="9,25,0,0" Foreground="Black" FontSize="50" FontFamily="Portable User Interface" TextWrapping="Wrap"/>
             </StackPanel>
 
             <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
@@ -61,8 +61,8 @@
                         <ColumnDefinition Width="150"/>
                         <ColumnDefinition Width="Auto"/>
                     </Grid.ColumnDefinitions>
-                    <Border Background="Red">
-                        <Image Source="{Binding imageString}"/>
+                    <Border Background="{Binding TypeObject.color}">
+                        <Image Source="{Binding TypeObject.imageString}"/>
                     </Border>
                     <StackPanel Grid.Column="1">
                         <TextBlock Grid.Column="1" 

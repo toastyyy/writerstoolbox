@@ -17,7 +17,7 @@ namespace WritersToolbox.models
         public TypeObject() 
         {
             _notes = new EntitySet<MemoryNote>();
-            color = "0000ff"; // default farbe blau
+            color = "#0000FF"; // default farbe blau
         }
 
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.

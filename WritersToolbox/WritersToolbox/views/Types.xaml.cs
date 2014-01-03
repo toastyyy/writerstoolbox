@@ -108,6 +108,11 @@ namespace WritersToolbox.views
             {
                 NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml?typeID=" + (PivotMain.SelectedIndex + 1), UriKind.Relative));
             }
+            // detailansicht fuer typobject
+            else 
+            {
+                NavigationService.Navigate(new Uri("/views/TypeObjectDetails.xaml?item=" + to.typeObjectID, UriKind.Relative));
+            }
             selector.SelectedItem = null;
         }
 
