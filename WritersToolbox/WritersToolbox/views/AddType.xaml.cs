@@ -34,12 +34,14 @@ namespace WritersToolbox.views
             String title = tTitle.Text;
 
             Types.types_VM.createType(title, color, "");
+
+            NavigationService.GoBack();
         }
 
 
         private void CancelType(object sender, EventArgs e)
         {
-
+            NavigationService.GoBack();
         }
     }
 }
