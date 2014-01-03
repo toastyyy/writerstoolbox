@@ -251,28 +251,6 @@ namespace WritersToolbox.viewmodels
             }
         }
 
-        /// <summary>
-        /// Alle Typobjekte, die zu einer bestimmten ID eines Typs passen in 
-        /// einem EntitySet abgelegt.
-        /// </summary>
-        private List<datawrapper.TypeObject> typeObjects;
-
-        /// <summary>
-        /// Property aller Typobjekte, die zu einer bestimmten ID eines Typs passen in 
-        /// einem EntitySet abgelegt.
-        /// Informiert mit NotifyPropertyChanged.
-        /// </summary>
-        public List<datawrapper.TypeObject> TypeObjects
-        {
-            get { return typeObjects; }
-            set
-            {
-                typeObjects = value;
-                NotifyPropertyChanged("TypeObjects");
-            }
-        }
-
-
         public bool IsDataLoaded { get; set; }
 
         public void LoadData()
@@ -280,7 +258,10 @@ namespace WritersToolbox.viewmodels
             this.db.Refresh(RefreshMode.KeepChanges);
             tableType = this.db.GetTable<models.Type>();
             tableTypeObject = this.db.GetTable<TypeObject>();
-            Types = new ObservableCollection<datawrapper.Type>();
+
+            // aenderungen muessen separat gespeichert werden, weil sonst bei jedem
+            // add das propertyChanged ereignis gefeuert wird.
+            ObservableCollection<datawrapper.Type> tmpTypes = new ObservableCollection<datawrapper.Type>();
             var sqlTypes = from t in tableType
                            select t;
             foreach (var t in sqlTypes)
@@ -295,7 +276,7 @@ namespace WritersToolbox.viewmodels
                 var result = from to in tableTypeObject
                              where to.fk_typeID == t.typeID
                              select to;
-                TypeObjects = new List<datawrapper.TypeObject>();
+                List<datawrapper.TypeObject> TypeObjects = new List<datawrapper.TypeObject>();
                 foreach (TypeObject to in result)
                 {
                     datawrapper.TypeObject wrappedTO = new datawrapper.TypeObject()
@@ -310,25 +291,22 @@ namespace WritersToolbox.viewmodels
                     TypeObjects.Add(wrappedTO);
                 }
 
-                addNewTypeObjectControl();
+                // Neues Typobjekt
+                TypeObjects.Add(new datawrapper.TypeObject() { name = "Neues Objekt", imageString = "../icons/add.png", fk_typeID = -2 });
+
                 wrappedType.typeObjects = TypeObjects;
-                Types.Add(wrappedType);
+                tmpTypes.Add(wrappedType);
             }
-            addNewTypeControl();
+
+            // hinzufuegen fuer neuer Typ
+            List<datawrapper.TypeObject> t_o = new List<datawrapper.TypeObject>();
+            t_o.Add(new datawrapper.TypeObject() { name = "Neuer Typ anlegen", imageString = "../icons/add.png", fk_typeID = -1 });
+            tmpTypes.Add(new datawrapper.Type() { title = "Neuer Typ", imageString = "../icons/add.png", color = "#919191", typeObjects = t_o, typeID = -1 });
+
             this.NotifyPropertyChanged("Types");
+
+            Types = tmpTypes;
             IsDataLoaded = true;
-        }
-
-        private void addNewTypeControl()
-        {
-            TypeObjects.Clear();
-            TypeObjects.Add(new datawrapper.TypeObject() { name = "Neuer Typ anlegen", imageString = "../icons/add.png", fk_typeID = -1 });
-            Types.Add(new datawrapper.Type() { title = "Neuer Typ", imageString = "../icons/add.png", color = "#919191", typeObjects = TypeObjects, typeID = -1 });
-        }
-
-        private void addNewTypeObjectControl()
-        {
-            TypeObjects.Add(new datawrapper.TypeObject() { name = "Neues Objekt", imageString = "../icons/add.png", fk_typeID = -2 });
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
