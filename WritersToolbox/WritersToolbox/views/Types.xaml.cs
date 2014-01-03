@@ -94,7 +94,7 @@ namespace WritersToolbox.views
             LongListSelector selector = sender as LongListSelector;
             if (selector == null)
                 return;
-            TypeObject to = selector.SelectedItem as TypeObject;
+            datawrapper.TypeObject to = selector.SelectedItem as datawrapper.TypeObject;
             if (to == null)
                 return;
 
