@@ -102,6 +102,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="converter\BoolToUsedConverter.cs" />
+    <Compile Include="datawrapper\Type.cs" />
+    <Compile Include="datawrapper\TypeObject.cs" />
     <Compile Include="demo\Data.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="models\MyImage.cs" />
@@ -275,7 +277,7 @@
       <HintPath>..\packages\Coding4Fun.Toolkit.Audio.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Audio.dll</HintPath>
     </Reference>
     <Reference Include="Coding4Fun.Toolkit.Controls">
-      <HintPath>..\..\..\..\..\Desktop\App_WP8\Coding4Fun.Toolkit.Controls.dll</HintPath>
+      <HintPath>..\packages\Coding4Fun.Toolkit.Controls.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Coding4Fun.Toolkit.Net">
       <HintPath>..\packages\Coding4Fun.Toolkit.Net.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Net.dll</HintPath>

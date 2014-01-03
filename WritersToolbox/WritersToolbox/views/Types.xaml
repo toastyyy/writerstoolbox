@@ -71,7 +71,7 @@
             </Grid>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
-   
+
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
@@ -86,7 +86,7 @@
             <phone:Pivot ManipulationDelta="pinch_out" 
                          HeaderTemplate="{StaticResource PivotHeader}" 
                          ItemTemplate="{StaticResource PivotItem}"
-                         ItemsSource="{Binding Types}"
+                         ItemsSource="{Binding Path=Types, Mode=OneWay}"
                          x:Name="PivotMain">
                 <phone:Pivot.Title>
                     <TextBlock Foreground="Black" Margin="9,0,0,0" Text="TYPEN" FontSize="22" FontFamily="Segoe WP Semibold" />
@@ -94,5 +94,5 @@
             </phone:Pivot>
         </Grid>
     </Grid>
-    
+
 </phone:PhoneApplicationPage>

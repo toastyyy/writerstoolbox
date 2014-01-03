@@ -38,7 +38,7 @@
 
             <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
             <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,50">
-                <TextBox HorizontalAlignment="Left" Height="73" Margin="14,17,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Black" BorderThickness="1,1,1,1"/>
+                <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,17,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Black" BorderThickness="1,1,1,1"/>
                 <TextBlock HorizontalAlignment="Left" Margin="14,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Width="149" Foreground="Black"/>
                 <TextBlock HorizontalAlignment="Left" Margin="14,90,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" Foreground="Black"/>
                 <Grid HorizontalAlignment="Left" Height="173" Margin="27,122,0,0" Grid.Row="1" VerticalAlignment="Top" Width="414">

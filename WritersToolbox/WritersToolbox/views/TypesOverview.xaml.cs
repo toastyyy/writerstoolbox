@@ -55,7 +55,7 @@ namespace WritersToolbox.views
             LongListSelector selector = sender as LongListSelector;
             if (selector == null)
                 return;
-            models.Type t = selector.SelectedItem as models.Type;
+            datawrapper.Type t = selector.SelectedItem as datawrapper.Type;
             if (t == null)
                 return;
             // ein Objekt Type hat TypID = -1
@@ -70,8 +70,13 @@ namespace WritersToolbox.views
             selector.SelectedItem = null;
         }
 
-       
+        private void pageLoaded(object sender, RoutedEventArgs e)
+        {
+            this.InitializeComponent();
+        }
 
-        
+
+
+
     }
 }

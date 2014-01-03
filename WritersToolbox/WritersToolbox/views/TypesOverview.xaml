@@ -13,8 +13,8 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    Style="{StaticResource TransitionPageStyle}">
-    
+    Style="{StaticResource TransitionPageStyle}" Loaded="pageLoaded">
+
     <phone:PhoneApplicationPage.Resources>
         <!--Template für LongListSelector-item-->
         <DataTemplate x:Key="TypesOverviewTemplate">
@@ -66,7 +66,7 @@
                     Height="Auto" 
                     Margin="0,0,0,0" 
                     Width="Auto" 
-                    ItemsSource="{Binding  Types}"
+                    ItemsSource="{Binding Path=Types, Mode=TwoWay}"
                     LayoutMode="Grid"
                     GridCellSize="200, 200" 
                     Padding="20,10"

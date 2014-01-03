@@ -24,16 +24,16 @@ namespace WritersToolbox.views
         public static TypesViewModel Types_VM
         {
             get
+            {
+                if (types_VM == null)
                 {
-                    if (types_VM == null)
-                    {
-                        types_VM = new TypesViewModel();
-                        if (!types_VM.IsDataLoaded)
-                            types_VM.LoadData();
-                        
-                    }
-                    return types_VM;
+                    types_VM = new TypesViewModel();
+                    if (!types_VM.IsDataLoaded)
+                        types_VM.LoadData();
+
                 }
+                return types_VM;
+            }
         }
 
 
@@ -42,15 +42,14 @@ namespace WritersToolbox.views
             InitializeComponent();
             // ViewModel wird der View als DataContext zugewiesen
             DataContext = Types_VM;
-            
         }
 
-        
 
 
-        
 
-        
+
+
+
         /// <summary>
         /// Die Methode erkennt die Zoomout-Geste und navigiert zu TypesOverview
         /// </summary>
@@ -58,19 +57,20 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void pinch_out(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-            
-            if(e.PinchManipulation != null)
+
+            if (e.PinchManipulation != null)
             {
                 if (e.PinchManipulation.CumulativeScale > 1d)
                 {
                     System.Diagnostics.Debug.WriteLine("Zoomout");
                     NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
-                } else
+                }
+                else
                     System.Diagnostics.Debug.WriteLine("Zoomin");
-                                
+
             }
-            
-            
+
+
         }
         /// <summary>
         /// Hilfsmethode solange man Zoom nicht testen kann.
@@ -82,7 +82,7 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
         }
 
-        
+
 
         /// <summary>
         /// Die Methode wird aufgerufen, wenn ein Item im LongListSelector angeklickt wurde.
@@ -103,11 +103,11 @@ namespace WritersToolbox.views
             {
                 NavigationService.Navigate(new Uri("/views/AddType.xaml", UriKind.Relative));
             }
-                // ein Objekt TypeObject hat TypID = -2
+            // ein Objekt TypeObject hat TypID = -2
             else if (to.fk_typeID == -2)
             {
                 NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml", UriKind.Relative));
-            } 
+            }
             selector.SelectedItem = null;
         }
 
@@ -126,7 +126,7 @@ namespace WritersToolbox.views
                 PivotMain.SelectedIndex = indexParsed - 1;
             }
         }
-        
-        
+
+
     }
 }
