@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -15,6 +16,6 @@ namespace WritersToolbox.datawrapper
         public String color { get; set;  }
         public String imageString { get; set; }
         public Boolean used { get; set; }
-        public List<MemoryNote> notes { get; set; }
+        public ObservableCollection<MemoryNote> notes { get; set; }
     }
 }

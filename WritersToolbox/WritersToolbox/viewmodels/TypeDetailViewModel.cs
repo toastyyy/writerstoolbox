@@ -15,7 +15,7 @@ using Microsoft.Phone.Controls;
 
 namespace WritersToolbox.viewmodels
 {
-    class TypeDetailViewModel
+    class TypeDetailViewModel : INotifyPropertyChanged
     {
         private WritersToolboxDatebase wtb;
         private Table<TypeObject> tableTypeObject;
@@ -43,7 +43,7 @@ namespace WritersToolbox.viewmodels
             var notes = from n in tableMemoryNote
                         where n.obj_TypeObject.typeObjectID == id
                         select n;
-            List<datawrapper.MemoryNote> listNotes = new List<datawrapper.MemoryNote>();
+            ObservableCollection<datawrapper.MemoryNote> listNotes = new ObservableCollection<datawrapper.MemoryNote>();
 
             foreach (var n in notes) 
             {
@@ -64,6 +64,7 @@ namespace WritersToolbox.viewmodels
                     updatedDate = n.updatedDate, 
                 };
                 listNotes.Add(note);
+                
             }
  
             typeObject = new datawrapper.TypeObject() 
@@ -76,6 +77,18 @@ namespace WritersToolbox.viewmodels
                 name = o.name,
                 notes = listNotes
             };
+            this.NotifyPropertyChanged("TypeObject");
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Used to notify the app that a property has changed.
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
     }
 }

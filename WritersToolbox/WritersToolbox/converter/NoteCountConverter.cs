@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,7 +14,7 @@ namespace WritersToolbox.converter
         object parameter, System.Globalization.CultureInfo culture)
         {
             string noteCount = "Anzahl Notizen: ";
-            int count = ((List<datawrapper.MemoryNote>)value).Count;
+            int count = ((ObservableCollection<datawrapper.MemoryNote>)value).Count;
 
             noteCount += count;
             return noteCount;
