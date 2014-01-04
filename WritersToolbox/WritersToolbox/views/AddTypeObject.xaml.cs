@@ -34,7 +34,6 @@ namespace WritersToolbox.views
 
             try 
             {
-                Debug.WriteLine(typeID);
                 Types.types_VM.createTypeObject(name, color, "", typeID);
             }
             catch(Exception ex)

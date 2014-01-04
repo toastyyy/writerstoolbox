@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -17,11 +18,10 @@ namespace WritersToolbox.converter
             {
                 used = "wird verwendet";
             }
-            else {
+            else if(parameter != null && parameter.Equals("showUnused"))
+            {
                 used = "wird nicht verwendet";
-            }
-            
-                
+            }  
             return used;
         }
 
