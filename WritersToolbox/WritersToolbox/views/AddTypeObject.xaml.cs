@@ -60,5 +60,11 @@ namespace WritersToolbox.views
                 typeID = int.Parse(tID);
             }
         }
+
+        //protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        //{
+        //    base.OnNavigatedTo(e);
+        //    PhoneApplicationService.Current.State["NewTypeObject"] = typeID;
+        //}
     }
 }

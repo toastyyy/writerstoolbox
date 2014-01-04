@@ -293,7 +293,7 @@ namespace WritersToolbox.viewmodels
                 }
 
                 // Neues Typobjekt
-                TypeObjects.Add(new datawrapper.TypeObject() { name = "Neues Objekt", imageString = "../icons/add.png", fk_typeID = -2 });
+                TypeObjects.Add(new datawrapper.TypeObject() { name = "Neues Objekt", imageString = "../icons/add.png", fk_typeID = -2, color = "#919191" });
 
                 wrappedType.typeObjects = TypeObjects;
                 tmpTypes.Add(wrappedType);
@@ -301,7 +301,7 @@ namespace WritersToolbox.viewmodels
 
             // hinzufuegen fuer neuer Typ
             List<datawrapper.TypeObject> t_o = new List<datawrapper.TypeObject>();
-            t_o.Add(new datawrapper.TypeObject() { name = "Neuer Typ anlegen", imageString = "../icons/add.png", fk_typeID = -1 });
+            t_o.Add(new datawrapper.TypeObject() { name = "Neuer Typ anlegen", imageString = "../icons/add.png", fk_typeID = -1, color = "#919191" });
             tmpTypes.Add(new datawrapper.Type() { title = "Neuer Typ", imageString = "../icons/add.png", color = "#919191", typeObjects = t_o, typeID = -1 });
 
             this.NotifyPropertyChanged("Types");

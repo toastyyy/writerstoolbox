@@ -44,7 +44,7 @@ namespace WritersToolbox.views
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            PhoneApplicationService.Current.State["New"] = tTitle;
+            PhoneApplicationService.Current.State["NewType"] = tTitle;
         }
     }
 }
