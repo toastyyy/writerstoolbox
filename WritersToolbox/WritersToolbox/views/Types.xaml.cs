@@ -99,12 +99,12 @@ namespace WritersToolbox.views
                 return;
 
             // ein Objekt Type hat TypID = -1
-            if (to.fk_typeID == -1)
+            if (to.type.typeID == -1)
             {
                 NavigationService.Navigate(new Uri("/views/AddType.xaml", UriKind.Relative));
             }
             // ein Objekt TypeObject hat TypID = -2
-            else if (to.fk_typeID == -2)
+            else if (to.type.typeID == -2)
             {
                 NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml?typeID=" + (PivotMain.SelectedIndex + 1), UriKind.Relative));
             }

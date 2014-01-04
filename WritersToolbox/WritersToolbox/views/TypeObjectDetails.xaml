@@ -18,21 +18,48 @@
     <phone:PhoneApplicationPage.Resources>
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <converter:NoteCountConverter x:Key="noteCountConverter"/>
+        <converter:NoteShortContentConverter x:Key="noteShortContentConverter"/>
 
         <DataTemplate x:Key="NotesTemplate">
-            <Grid Height="120">
+            <Grid Width="Auto" 
+                  Height="Auto" 
+                  Margin="10,10,10,10">
                 <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="120"/>
+                    <ColumnDefinition Width="80"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Border>
-                    <Image Source="/icons/note.png" Margin="0,0,5,10"/>
-                </Border>
-                <StackPanel Grid.Column="1">
-                    <TextBlock x:Name="titleNoteTextBlock" Text="{Binding title}" FontSize="40" />
-                    <TextBlock x:Name="shortDetailsNoteTextBlock" Text="" FontSize="20"/>
-                    <TextBlock x:Name="updatNoteTextBlock"  Text="" FontSize="15"/>
-                </StackPanel>
+                <Grid Grid.Column="0" Background="Red" Height="80">
+                     <Image Source="../icons/note.png" Height="80" Width="Auto"/>
+                </Grid>
+                <Grid Grid.Column="1" Margin="10,0,0,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="40"/>
+                        <RowDefinition Height="40"/>
+                    </Grid.RowDefinitions>
+                    <Grid Grid.Row="0">
+                                            <TextBlock
+                           Text="{Binding title}" 
+                           TextWrapping="NoWrap"  
+                           Foreground="Black" 
+                           FontSize="38" 
+                           VerticalAlignment="Top" 
+                           HorizontalAlignment="Left"
+                            LineStackingStrategy="BlockLineHeight" LineHeight="38"
+                     />
+                    </Grid> 
+                    <Grid Grid.Row="1" Margin="5,0,0,0">
+                        <TextBlock
+                        Text="{Binding contentText, Converter={StaticResource noteShortContentConverter}}"
+                        TextWrapping="Wrap"
+                        Foreground="#FF111111"
+                        FontSize="18"
+                        VerticalAlignment="Top"
+                        HorizontalAlignment="Left"
+                        LineHeight="18" />
+                    </Grid>
+
+                </Grid>
+
             </Grid>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
@@ -54,7 +81,7 @@
 
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
             <StackPanel Grid.Row="0" Margin="12,17,0,28">
-                <TextBlock Text="Charakter" Margin="9,0,0,0" FontSize="22" Foreground="Black" FontFamily="Segoe WP Semibold"/>
+                <TextBlock Text="{Binding TypeObject.type.title}" Margin="9,0,0,0" FontSize="22" Foreground="Black" FontFamily="Segoe WP Semibold"/>
                 <TextBlock Text="{Binding TypeObject.name}" Margin="9,25,0,0" Foreground="Black" FontSize="50" FontFamily="Portable User Interface" TextWrapping="Wrap"/>
             </StackPanel>
 

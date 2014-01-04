@@ -102,6 +102,7 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="converter\BoolToUsedConverter.cs" />
+    <Compile Include="converter\NoteShortContentConverter.cs" />
     <Compile Include="converter\NoteCountConverter.cs" />
     <Compile Include="datawrapper\MemoryNote.cs" />
     <Compile Include="datawrapper\Type.cs" />

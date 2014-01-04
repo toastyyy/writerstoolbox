@@ -20,7 +20,7 @@ namespace WritersToolbox.viewmodels
         private WritersToolboxDatebase wtb;
         private Table<TypeObject> tableTypeObject;
         private Table<MemoryNote> tableMemoryNote;
-
+        private Table<models.Type> tableType;
         private datawrapper.TypeObject typeObject;
 
         public datawrapper.TypeObject TypeObject {
@@ -33,7 +33,7 @@ namespace WritersToolbox.viewmodels
             wtb = WritersToolboxDatebase.getInstance();
             tableTypeObject = wtb.GetTable<TypeObject>();
             tableMemoryNote = wtb.GetTable<MemoryNote>();
-
+            tableType = wtb.GetTable<models.Type>();
             var v = from to in tableTypeObject
                     where to.typeObjectID == id
                     select to;
@@ -67,10 +67,22 @@ namespace WritersToolbox.viewmodels
                 
             }
  
+            // zugehoerigen typ ermitteln
+
+            models.Type typ = (from t in tableType
+                                   where t.typeID == o.fk_typeID
+                                   select t).Single();
+
+            datawrapper.Type wrappedType = new datawrapper.Type() { 
+                color = typ.color,
+                imageString = typ.imageString,
+                title = typ.title,
+                typeID = typ.typeID
+            };
             typeObject = new datawrapper.TypeObject() 
             { 
                 color = o.color,
-                fk_typeID = o.fk_typeID,
+                type = wrappedType,
                 imageString = o.imageString,
                 typeObjectID = o.typeObjectID,
                 used = o.used,
