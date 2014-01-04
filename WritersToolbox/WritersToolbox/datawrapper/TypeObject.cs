@@ -15,5 +15,6 @@ namespace WritersToolbox.datawrapper
         public String color { get; set;  }
         public String imageString { get; set; }
         public Boolean used { get; set; }
+        public List<MemoryNote> notes { get; set; }
     }
 }

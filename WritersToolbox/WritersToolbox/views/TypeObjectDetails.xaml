@@ -5,6 +5,7 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:converter="clr-namespace:WritersToolbox.converter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -15,6 +16,9 @@
     Style="{StaticResource TransitionPageStyle}">
     
     <phone:PhoneApplicationPage.Resources>
+        <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
+        <converter:NoteCountConverter x:Key="noteCountConverter"/>
+
         <DataTemplate x:Key="NotesTemplate">
             <Grid Height="120">
                 <Grid.ColumnDefinitions>
@@ -25,7 +29,7 @@
                     <Image Source="/icons/note.png" Margin="0,0,5,10"/>
                 </Border>
                 <StackPanel Grid.Column="1">
-                    <TextBlock x:Name="titleNoteTextBlock" Text="" FontSize="40" />
+                    <TextBlock x:Name="titleNoteTextBlock" Text="{Binding title}" FontSize="40" />
                     <TextBlock x:Name="shortDetailsNoteTextBlock" Text="" FontSize="20"/>
                     <TextBlock x:Name="updatNoteTextBlock"  Text="" FontSize="15"/>
                 </StackPanel>
@@ -66,7 +70,7 @@
                     </Border>
                     <StackPanel Grid.Column="1">
                         <TextBlock Grid.Column="1" 
-                                               Text="wird verwendet" 
+                                               Text="{Binding TypeObject.used, Converter={StaticResource boolToUsedCon}}" 
                                                FontSize="20" 
                                                Foreground="Black"
                                                Margin="30,5,0,10"
@@ -74,7 +78,7 @@
                                                TextWrapping="Wrap"
                                                Width="280" FontFamily="Portable User Interface" HorizontalAlignment="Left"/>
                         <TextBlock Grid.Column="1" 
-                                               Text="Anzahl Notizen:" 
+                                               Text="{Binding TypeObject.notes, Converter={StaticResource noteCountConverter}}" 
                                                FontSize="20" 
                                                Foreground="Black"
                                                Margin="30,0,0,10"
@@ -86,8 +90,8 @@
                     Height="Auto" 
                     Margin="20,10,10,50" 
                     Width="Auto"
+                    ItemsSource="{Binding TypeObject.notes}"
                     ItemTemplate="{StaticResource NotesTemplate}">
-                    
                 </phone:LongListSelector>
             </StackPanel>
         </Grid>

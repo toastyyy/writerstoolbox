@@ -14,7 +14,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
-    Style="{StaticResource TransitionPageStyle}">
+    Style="{StaticResource TransitionPageStyle}" Margin="0,1,0,-1">
 
     <phone:PhoneApplicationPage.Resources>
         <!--Converter von boolean zu Used-->

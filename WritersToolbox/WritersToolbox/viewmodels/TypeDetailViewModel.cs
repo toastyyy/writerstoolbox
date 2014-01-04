@@ -19,6 +19,8 @@ namespace WritersToolbox.viewmodels
     {
         private WritersToolboxDatebase wtb;
         private Table<TypeObject> tableTypeObject;
+        private Table<MemoryNote> tableMemoryNote;
+
         private datawrapper.TypeObject typeObject;
 
         public datawrapper.TypeObject TypeObject {
@@ -30,6 +32,7 @@ namespace WritersToolbox.viewmodels
         {
             wtb = WritersToolboxDatebase.getInstance();
             tableTypeObject = wtb.GetTable<TypeObject>();
+            tableMemoryNote = wtb.GetTable<MemoryNote>();
 
             var v = from to in tableTypeObject
                     where to.typeObjectID == id
@@ -37,6 +40,32 @@ namespace WritersToolbox.viewmodels
 
             var o = v.Single();
 
+            var notes = from n in tableMemoryNote
+                        where n.obj_TypeObject.typeObjectID == id
+                        select n;
+            List<datawrapper.MemoryNote> listNotes = new List<datawrapper.MemoryNote>();
+
+            foreach (var n in notes) 
+            {
+                datawrapper.MemoryNote note = new datawrapper.MemoryNote()
+                {
+                    addedDate = n.addedDate,
+                    associated = n.associated,
+                    contentAudioString = n.contentAudioString,
+                    contentImageString = n.ContentImageString,
+                    contentText = n.contentText,
+                    deleted = n.deleted,
+                    fk_eventID = (n.obj_Event == null) ? -1 : n.obj_Event.eventID,
+                    fk_typeObjectID = (n.obj_TypeObject == null) ? -1 : n.obj_TypeObject.typeObjectID,
+                    location = n.location,
+                    memoryNoteID = n.memoryNoteID,
+                    tags = n.tags,
+                    title = n.title,
+                    updatedDate = n.updatedDate, 
+                };
+                listNotes.Add(note);
+            }
+ 
             typeObject = new datawrapper.TypeObject() 
             { 
                 color = o.color,
@@ -44,7 +73,8 @@ namespace WritersToolbox.viewmodels
                 imageString = o.imageString,
                 typeObjectID = o.typeObjectID,
                 used = o.used,
-                name = o.name
+                name = o.name,
+                notes = listNotes
             };
         }
     }

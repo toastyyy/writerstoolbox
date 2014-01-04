@@ -178,6 +178,17 @@ namespace WritersToolbox.demo
                 obj_TypeObject = typeObject1
             };
 
+            MemoryNote mn3 = new MemoryNote()
+            {
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                contentText = "blablub trololololol",
+                title = "testnotiz an harry",
+                associated = true,
+                tags = "harry|potter|test",
+                obj_TypeObject = typeObject1
+            };
+
             db.GetTable<BookType>().InsertOnSubmit(bt);
             db.GetTable<Book>().InsertOnSubmit(b);
             db.GetTable<Tome>().InsertOnSubmit(t1);
@@ -202,6 +213,7 @@ namespace WritersToolbox.demo
             db.GetTable<TypeObject>().InsertOnSubmit(typeObject7);
             db.GetTable<TypeObject>().InsertOnSubmit(typeObject8);
             db.GetTable<MemoryNote>().InsertOnSubmit(mn2);
+            db.GetTable<MemoryNote>().InsertOnSubmit(mn3);
 
             db.SubmitChanges();
         }
