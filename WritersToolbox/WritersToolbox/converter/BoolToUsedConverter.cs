@@ -17,6 +17,9 @@ namespace WritersToolbox.converter
             {
                 used = "wird verwendet";
             }
+            else {
+                used = "wird nicht verwendet";
+            }
             
                 
             return used;
