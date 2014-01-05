@@ -104,7 +104,11 @@
     <Compile Include="converter\BoolToUsedConverter.cs" />
     <Compile Include="converter\NoteShortContentConverter.cs" />
     <Compile Include="converter\NoteCountConverter.cs" />
+    <Compile Include="datawrapper\Book.cs" />
+    <Compile Include="datawrapper\BookType.cs" />
+    <Compile Include="datawrapper\Chapter.cs" />
     <Compile Include="datawrapper\MemoryNote.cs" />
+    <Compile Include="datawrapper\Tome.cs" />
     <Compile Include="datawrapper\Type.cs" />
     <Compile Include="datawrapper\TypeObject.cs" />
     <Compile Include="demo\Data.cs" />
@@ -124,6 +128,7 @@
     <Compile Include="sampleData\Typ.cs" />
     <Compile Include="sampleData\TypObject.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
+    <Compile Include="viewmodels\BooksViewModel.cs" />
     <Compile Include="viewmodels\TypeDetailViewModel.cs" />
     <Compile Include="viewmodels\TypesViewModel.cs" />
     <Compile Include="viewmodels\UnsortedNoteViewModel.cs" />
@@ -135,6 +140,9 @@
     </Compile>
     <Compile Include="views\AddTypeObject.xaml.cs">
       <DependentUpon>AddTypeObject.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Books.xaml.cs">
+      <DependentUpon>Books.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\GridManager.cs" />
     <Compile Include="views\ImageView.xaml.cs">
@@ -183,6 +191,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\AddTypeObject.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Books.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
