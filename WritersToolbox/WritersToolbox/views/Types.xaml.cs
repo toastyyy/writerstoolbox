@@ -140,6 +140,13 @@ namespace WritersToolbox.views
         
         }
 
+        private void deleteTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            TypeObject to = (sender as Grid).DataContext as TypeObject;
+            if (to == null)
+                return;
+            Types_VM.deleteTypeObject(to);
+        }
 
     }
 }

@@ -222,6 +222,13 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+
+        public void deleteTypeObject(TypeObject to)
+        {
+            
+        }
+
+
         private Color fromHexToColor(String hex)
         {
             if (hex.StartsWith("#"))
