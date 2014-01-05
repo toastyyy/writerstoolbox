@@ -223,7 +223,7 @@ namespace WritersToolbox.viewmodels
         }
 
 
-        public void deleteTypeObject(TypeObject to)
+        public void deleteTypeObject(int typeObjectID)
         {
             
         }

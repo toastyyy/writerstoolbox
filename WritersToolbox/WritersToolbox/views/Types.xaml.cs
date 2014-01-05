@@ -142,10 +142,13 @@ namespace WritersToolbox.views
 
         private void deleteTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            TypeObject to = (sender as Grid).DataContext as TypeObject;
+            datawrapper.TypeObject to = (sender as Grid).DataContext as datawrapper.TypeObject;
             if (to == null)
                 return;
-            Types_VM.deleteTypeObject(to);
+            MessageBoxResult result = MessageBox.Show("Wollen Sie das Typobjekt wirklich löschen?",
+            "Typobjekt löschen", MessageBoxButton.OKCancel);
+            if(result == MessageBoxResult.OK)
+                Types_VM.deleteTypeObject(to.typeObjectID);
         }
 
     }
