@@ -19,6 +19,7 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -28,6 +29,26 @@ namespace WritersToolbox.views
                 tdvm = new TypeDetailViewModel(toID);
                 this.DataContext = tdvm;
             }
+        }
+
+
+        /// <summary>
+        /// Eine zu einem Typobjekt zugeordnete Notiz wurde ausgewählt.
+        /// Sie wird zur Bearbeitung geöffnet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void NoteSelected(object sender, SelectionChangedEventArgs e)
+        {
+            LongListSelector selector = sender as LongListSelector;
+            if (selector == null)
+                return;
+            datawrapper.MemoryNote n = selector.SelectedItem as datawrapper.MemoryNote;
+            if (n == null)
+                return;
+            PhoneApplicationService.Current.State["memoryNoteID"] = n.memoryNoteID.ToString();
+            PhoneApplicationService.Current.State["edit"] = "true";
+            NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
         }
     }
 }
