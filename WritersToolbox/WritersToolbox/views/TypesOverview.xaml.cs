@@ -83,6 +83,17 @@ namespace WritersToolbox.views
                 list.ScrollTo(list.ItemsSource[list.ItemsSource.Count - 2]);
         }
 
+        private void deleteType(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            datawrapper.Type t = (sender as Grid).DataContext as datawrapper.Type;
+            if (t == null)
+                return;
+            MessageBoxResult result = MessageBox.Show("Wollen Sie das Typobjekt wirklich löschen?",
+            "Typobjekt löschen", MessageBoxButton.OKCancel);
+            if (result == MessageBoxResult.OK)
+                Types.Types_VM.deleteType(t.typeID);
+        }
+
 
     }
 }
