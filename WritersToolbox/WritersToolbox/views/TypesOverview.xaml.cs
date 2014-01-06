@@ -27,7 +27,7 @@ namespace WritersToolbox.views
 
 
         /// <summary>
-        /// ie Methode erkennt die Zoomout-Geste und navigiert zu Types
+        /// Die Methode erkennt die Zoomout-Geste und navigiert zu Types
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -76,6 +76,11 @@ namespace WritersToolbox.views
             this.InitializeComponent();
         }
 
+        /// <summary>
+        /// Beim Navigieren zu dieser Seite wird der Current State der App abgefragt
+        /// und bei einem neuen Typ wird zu diesem gescrollt.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -83,13 +88,20 @@ namespace WritersToolbox.views
                 list.ScrollTo(list.ItemsSource[list.ItemsSource.Count - 2]);
         }
 
+        /// <summary>
+        /// Die Methode wird bei einem Hold-Event auf einen Typ aufgerufen, ermittelt die 
+        /// jeweilige TypID und übergibt diese dem ViewModel zum Löschen des Typs.
+        /// Vorher wird eine Abfrage erzeugt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteType(object sender, System.Windows.Input.GestureEventArgs e)
         {
             datawrapper.Type t = (sender as Grid).DataContext as datawrapper.Type;
             if (t == null)
                 return;
-            MessageBoxResult result = MessageBox.Show("Wollen Sie das Typobjekt wirklich löschen?",
-            "Typobjekt löschen", MessageBoxButton.OKCancel);
+            MessageBoxResult result = MessageBox.Show("Wollen Sie den Typ wirklich löschen?",
+            "Typ löschen", MessageBoxButton.OKCancel);
             if (result == MessageBoxResult.OK)
                 Types.Types_VM.deleteType(t.typeID);
         }

@@ -17,7 +17,11 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
-
+        /// <summary>
+        /// Ein neuer Typ wird erzeugt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveType(object sender, EventArgs e)
         {
             Color c = slider.Color;
@@ -35,12 +39,22 @@ namespace WritersToolbox.views
             NavigationService.GoBack();
         }
 
-
+        /// <summary>
+        /// Cancelt die Erstellungen eines Typs und geht eine Seite zurück.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelType(object sender, EventArgs e)
         {
             NavigationService.GoBack();
         }
 
+
+        /// <summary>
+        /// Beim Verlassen dieser Seite wird dem Current State der App mitgeteilt,
+        /// dass ein neuer Typ erstellt wurde.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);

@@ -19,7 +19,12 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
-
+        /// <summary>
+        /// Beim Navigieren zu dieser Seite wird das ausgewählte Objekt aus
+        /// dem Navigationskontext herausgefiltert und die Details dazu mit dem
+        /// Viewmodel geladen.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
