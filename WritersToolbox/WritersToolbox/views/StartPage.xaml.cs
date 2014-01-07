@@ -15,7 +15,7 @@ namespace WritersToolbox.gui
         public Page1()
         {
             InitializeComponent();
-            Database.WritersToolboxDatebase db = new Database.WritersToolboxDatebase();
+            models.WritersToolboxDatebase db = new models.WritersToolboxDatebase();
             try
             {
                 if (db.DatabaseExists() == false)
@@ -30,6 +30,11 @@ namespace WritersToolbox.gui
             }
             
             
+        }
+
+        private void newNote(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
         }
     }
 }

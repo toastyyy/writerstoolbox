@@ -22,14 +22,24 @@
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="MEINE ANWENDUNG" Style="{StaticResource PhoneTextNormalStyle}"/>
-            <TextBlock Text="Seitenname" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}"/>
+            <TextBlock Text="neue Notiz anlegen" Style="{StaticResource PhoneTextNormalStyle}"/>
         </StackPanel>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
+            <Canvas x:Name="canvasNote" HorizontalAlignment="Left" Height="440" Margin="10,134,0,0" VerticalAlignment="Top" Background="Transparent" Width="436" >
+                <TextBlock Canvas.Left="130" TextWrapping="Wrap" Text="TextBlock" Canvas.Top="116" KeyUp="TextBlock_KeyUp"/>
+            </Canvas>
+            <Viewbox Margin="80,346,48,122">
+                <Canvas x:Name="imageContainer" HorizontalAlignment="Left" Height="812" Margin="170,338,0,0" Grid.Row="1" VerticalAlignment="Top" Width="1473" Background="Transparent" ManipulationDelta="test_ManipulationDelta">
 
+                </Canvas>
+            </Viewbox>
         </Grid>
+        <Button x:Name="saveButton" Content="S" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="104,610,0,0" Grid.Row="1" Click="saveButton_Click"/>
+        <Button x:Name="saveAsButton" Content="Sas" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="195,610,0,0" Grid.Row="1"/>
+        <Button x:Name="closeButton" Content="C" HorizontalAlignment="Left" Height="74" VerticalAlignment="Top" Width="86" Margin="278,610,0,0" Grid.Row="1"/>
+        <ContentControl Content="ContentControl" HorizontalAlignment="Left" VerticalAlignment="Top"/>
     </Grid>
 
 </phone:PhoneApplicationPage>

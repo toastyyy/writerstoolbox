@@ -8,18 +8,20 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.Resources;
-using WritersToolbox.dao;
+using WritersToolbox.models;
 namespace WritersToolbox
 {
     public partial class MainPage : PhoneApplicationPage
     {
+        private WritersToolboxDatebase db;
         // Constructor
         public MainPage()
         {
             InitializeComponent();
-            Database.WritersToolboxDatebase db = new Database.WritersToolboxDatebase();
+            db = new WritersToolboxDatebase();
             try
             {
+                db.DeleteDatabase();
                 if (db.DatabaseExists() == false)
                 {
                     db.CreateDatabase();
@@ -28,22 +30,14 @@ namespace WritersToolbox
             }
             catch (Exception ex)
             {
-                Console.WriteLine(ex.Message);
+                Console.WriteLine(ex.StackTrace);
             }
-
-            // NavigationService ist hier noch nicht verfügbar!
-
-            
-            
-            
-            // Sample code to localize the ApplicationBar
-            //BuildLocalizedApplicationBar();
+            db.Dispose();
         }
-
 
         private void pageLoaded(object sender, RoutedEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/gui/StartPage.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
         }
 
         // Sample code for building a localized ApplicationBar
