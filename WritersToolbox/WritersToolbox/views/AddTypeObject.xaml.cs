@@ -21,6 +21,11 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Ein neues Typobjekt wird erzeugt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveTypeObject(object sender, EventArgs e)
         {
             Color c = slider.Color;
@@ -45,11 +50,22 @@ namespace WritersToolbox.views
 
         }
 
+        /// <summary>
+        /// Cancelt die Erstellungen eines TypObjekts und geht eine Seite zurück.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelTypeObject(object sender, EventArgs e)
         {
             NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// Beim Navigieren zu dieser Seite wird der ausgewählte Typ aus
+        /// dem Navigationskontext herausgefiltert um das zu erstellende neue
+        /// Typobjekt dem Typ zuordnen zu können.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -60,10 +76,5 @@ namespace WritersToolbox.views
             }
         }
 
-        //protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
-        //{
-        //    base.OnNavigatedTo(e);
-        //    PhoneApplicationService.Current.State["NewTypeObject"] = typeID;
-        //}
     }
 }

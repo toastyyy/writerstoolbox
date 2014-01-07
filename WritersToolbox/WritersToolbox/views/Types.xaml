@@ -39,7 +39,7 @@
                     <!--Template für LongListSelector-item-->
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15">
+                            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15" Hold="deleteTypeObject">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="135"/>
                                     <ColumnDefinition Width="Auto"/>

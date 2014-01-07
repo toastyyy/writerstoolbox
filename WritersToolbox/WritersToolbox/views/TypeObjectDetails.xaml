@@ -37,15 +37,15 @@
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                                            <TextBlock
+                           <TextBlock
                            Text="{Binding title}" 
                            TextWrapping="NoWrap"  
                            Foreground="Black" 
                            FontSize="38" 
                            VerticalAlignment="Top" 
                            HorizontalAlignment="Left"
-                            LineStackingStrategy="BlockLineHeight" LineHeight="38"
-                     />
+                           LineStackingStrategy="BlockLineHeight" LineHeight="38"
+                            />
                     </Grid> 
                     <Grid Grid.Row="1" Margin="5,0,0,0">
                         <TextBlock
@@ -57,9 +57,7 @@
                         HorizontalAlignment="Left"
                         LineHeight="18" />
                     </Grid>
-
                 </Grid>
-
             </Grid>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
@@ -118,7 +116,8 @@
                     Margin="20,10,10,50" 
                     Width="Auto"
                     ItemsSource="{Binding TypeObject.notes}"
-                    ItemTemplate="{StaticResource NotesTemplate}">
+                    ItemTemplate="{StaticResource NotesTemplate}"
+                    SelectionChanged="NoteSelected">
                 </phone:LongListSelector>
             </StackPanel>
         </Grid>

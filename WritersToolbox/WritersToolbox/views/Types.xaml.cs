@@ -46,10 +46,6 @@ namespace WritersToolbox.views
 
 
 
-
-
-
-
         /// <summary>
         /// Die Methode erkennt die Zoomout-Geste und navigiert zu TypesOverview
         /// </summary>
@@ -140,6 +136,23 @@ namespace WritersToolbox.views
         
         }
 
+        /// <summary>
+        /// Die Methode wird bei einem Hold-Event auf ein TypObjekt aufgerufen, ermittelt die 
+        /// jeweilige TypObjektID und übergibt diese dem ViewModel zum Löschen des TypObjekts.
+        /// Vorher wird eine Abfrage erzeugt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void deleteTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            datawrapper.TypeObject to = (sender as Grid).DataContext as datawrapper.TypeObject;
+            if (to == null)
+                return;
+            MessageBoxResult result = MessageBox.Show("Wollen Sie das Typobjekt wirklich löschen?",
+            "Typobjekt löschen", MessageBoxButton.OKCancel);
+            if(result == MessageBoxResult.OK)
+                Types_VM.deleteTypeObject(to.typeObjectID);
+        }
 
     }
 }

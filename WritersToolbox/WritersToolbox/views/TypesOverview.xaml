@@ -21,7 +21,8 @@
             <Grid Width="Auto" 
                   Height="Auto" 
                   Margin="10,10,10,10" 
-                  Background="{Binding color}">
+                  Background="{Binding color}"
+                  Hold="deleteType">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
