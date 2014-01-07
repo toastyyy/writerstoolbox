@@ -12,8 +12,11 @@ using System.ComponentModel;
 namespace WritersToolbox.models
 {
     [Table(Name="Types")]
-    class Type : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Type : INotifyPropertyChanging, INotifyPropertyChanged
     {
+        public Type() {
+            _typeObjects = new EntitySet<TypeObject>();
+        }
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]
         private Binary version;
@@ -68,6 +71,23 @@ namespace WritersToolbox.models
 
         }
 
+        private String stg_imageString;
+        [Column(CanBeNull = true,
+            Storage = "stg_imageString")]
+        public String imageString
+        {
+            get { return stg_imageString; }
+            set
+            {
+                if (stg_imageString != value)
+                {
+                    sendPropertyChanging("imageString");
+                    stg_imageString = value;
+                    sendPropertyChanged("imageString");
+                }
+            }
+        }
+
         private EntitySet<TypeObject> _typeObjects;
 
         [Association(Name = "Type_TypeObjects",
@@ -88,6 +108,21 @@ namespace WritersToolbox.models
             }
         }
 
+        private Boolean stg_deleted;
+        [Column(Storage = "stg_deleted")]
+        public Boolean deleted
+        {
+            get { return stg_deleted; }
+            set
+            {
+                if (stg_deleted != value)
+                {
+                    sendPropertyChanging("deleted");
+                    stg_deleted = value;
+                    sendPropertyChanged("deleted");
+                }
+            }
+        }
 
         //Datenbank optimierung
         //Benachrichtigt Clients, dass sich ein Eigenschaftswert ändert.

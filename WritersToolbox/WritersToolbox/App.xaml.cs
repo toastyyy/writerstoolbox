@@ -12,6 +12,8 @@ namespace WritersToolbox
 {
     public partial class App : Application
     {
+
+
         /// <summary>
         /// Provides easy access to the root frame of the Phone Application.
         /// </summary>
@@ -23,6 +25,7 @@ namespace WritersToolbox
         /// </summary>
         public App()
         {
+            
             // Global handler for uncaught exceptions.
             UnhandledException += Application_UnhandledException;
 
@@ -94,10 +97,19 @@ namespace WritersToolbox
         // Code to execute on Unhandled Exceptions
         private void Application_UnhandledException(object sender, ApplicationUnhandledExceptionEventArgs e)
         {
-            if (Debugger.IsAttached)
+
+            try
+            {
+             if (Debugger.IsAttached)
             {
                 // An unhandled exception has occurred; break into the debugger
-                Debugger.Break();
+                //Debugger.Break();
+            }
+            }
+            catch (Exception ex)
+            {
+               System.Diagnostics.Debug.WriteLine(ex.Message); 
+               System.Diagnostics.Debug.WriteLine(ex.StackTrace);
             }
         }
 
@@ -114,7 +126,9 @@ namespace WritersToolbox
 
             // Create the frame but don't set it as RootVisual yet; this allows the splash
             // screen to remain active until the application is ready to render.
-            RootFrame = new PhoneApplicationFrame();
+            //RootFrame = new PhoneApplicationFrame();
+            // Set new NavigationStyle
+            RootFrame = new TransitionFrame();
             RootFrame.Navigated += CompleteInitializePhoneApplication;
 
             // Handle navigation failures

@@ -12,7 +12,7 @@ using System.ComponentModel;
 namespace WritersToolbox.models
 {
     [Table(Name = "Books")]
-    class Book : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Book : INotifyPropertyChanging, INotifyPropertyChanged
     {
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]
@@ -127,6 +127,22 @@ namespace WritersToolbox.models
                 sendPropertyChanging("_booktypes");
                 _booktypes.Entity = value;
                 sendPropertyChanged("_booktypes");
+            }
+        }
+
+        private Boolean stg_deleted;
+        [Column(Storage = "stg_deleted")]
+        public Boolean deleted
+        {
+            get { return stg_deleted; }
+            set
+            {
+                if (stg_deleted != value)
+                {
+                    sendPropertyChanging("deleted");
+                    stg_deleted = value;
+                    sendPropertyChanged("deleted");
+                }
             }
         }
 

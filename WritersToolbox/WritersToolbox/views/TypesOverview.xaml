@@ -1,0 +1,82 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="WritersToolbox.views.TypesOverview"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:wt="clr-namespace:WritersToolbox.viewmodels"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True"
+    Style="{StaticResource TransitionPageStyle}" Loaded="pageLoaded">
+
+    <phone:PhoneApplicationPage.Resources>
+        <!--Template für LongListSelector-item-->
+        <DataTemplate x:Key="TypesOverviewTemplate">
+            <Grid Width="Auto" 
+                  Height="Auto" 
+                  Margin="10,10,10,10" 
+                  Background="{Binding color}"
+                  Hold="deleteType">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Image Source="{Binding imageString}"/>
+                <TextBlock Grid.Row="1" 
+                           Text="{Binding title}" 
+                           TextWrapping="Wrap"  
+                           Foreground="Black" 
+                           FontSize="16" 
+                           VerticalAlignment="Bottom" 
+                           HorizontalAlignment="Center" 
+                           Margin="0,0,0,5"/>
+            </Grid>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+
+    <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid>
+            <Grid.Background>
+                <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
+            </Grid.Background>
+
+            <Grid.RowDefinitions>
+                <RowDefinition Height="Auto"/>
+                <RowDefinition Height="*"/>
+            </Grid.RowDefinitions>
+            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
+            <Rectangle Grid.Row="1" Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
+
+
+            <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
+            <StackPanel Grid.Row="0" Margin="12,17,0,28">
+                <TextBlock Text="TYPEN" Margin="9,0,0,0" FontSize="22" Foreground="Black" FontFamily="Segoe WP Semibold"/>
+                <TextBlock Text="Überblick" Margin="9,10,0,0" Foreground="Black" FontSize="65" FontFamily="Portable User Interface"/>
+            </StackPanel>
+
+            <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
+            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,50" ManipulationDelta="pinch_out">
+                <phone:LongListSelector 
+                    Height="Auto" 
+                    Margin="0,0,0,0" 
+                    Width="Auto" 
+                    ItemsSource="{Binding Path=Types, Mode=TwoWay}"
+                    LayoutMode="Grid"
+                    GridCellSize="200, 200" 
+                    Padding="20,10"
+                    ItemTemplate="{StaticResource TypesOverviewTemplate}"
+                    x:Name="list"
+                    SelectionChanged="list_SelectionChanged">
+                </phone:LongListSelector>
+            </Grid>
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>

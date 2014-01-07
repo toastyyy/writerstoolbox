@@ -13,7 +13,7 @@ namespace WritersToolbox.models
 {
 
     [Table(Name = "Chapters")]
-    class Chapter : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Chapter : INotifyPropertyChanging, INotifyPropertyChanged
     {
 
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
@@ -146,6 +146,22 @@ namespace WritersToolbox.models
                 sendPropertyChanging("obj_tome");
                 _tomes.Entity = value;
                 sendPropertyChanged("obj_tome");
+            }
+        }
+
+        private Boolean stg_deleted;
+        [Column(Storage = "stg_deleted")]
+        public Boolean deleted
+        {
+            get { return stg_deleted; }
+            set
+            {
+                if (stg_deleted != value)
+                {
+                    sendPropertyChanging("deleted");
+                    stg_deleted = value;
+                    sendPropertyChanged("deleted");
+                }
             }
         }
 

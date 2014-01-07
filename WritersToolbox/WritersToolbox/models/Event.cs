@@ -13,8 +13,13 @@ namespace WritersToolbox.models
 {
 
     [Table(Name = "Events")]
-    class Event : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Event : INotifyPropertyChanging, INotifyPropertyChanged
     {
+
+        public Event() 
+        {
+            _notes = new EntitySet<MemoryNote>();
+        }
 
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]
@@ -119,6 +124,21 @@ namespace WritersToolbox.models
             }
         }
 
+        private Boolean stg_deleted;
+        [Column(Storage = "stg_deleted")]
+        public Boolean deleted
+        {
+            get { return stg_deleted; }
+            set
+            {
+                if (stg_deleted != value)
+                {
+                    sendPropertyChanging("deleted");
+                    stg_deleted = value;
+                    sendPropertyChanged("deleted");
+                }
+            }
+        }
         
         //Datenbank optimierung
         //Benachrichtigt Clients, dass sich ein Eigenschaftswert ändert.

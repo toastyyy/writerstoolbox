@@ -7,6 +7,8 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.IO.IsolatedStorage;
+using WritersToolbox.viewmodels;
 
 namespace WritersToolbox.gui
 {
@@ -15,10 +17,13 @@ namespace WritersToolbox.gui
         public Page1()
         {
             InitializeComponent();
-            models.WritersToolboxDatebase db = new models.WritersToolboxDatebase();
+
+            //IsolatedStorageFile.GetUserStoreForApplication().Remove(); //Um Isolated Storge zu leeren.
+
+            models.WritersToolboxDatebase db = models.WritersToolboxDatebase.getInstance();
             try
             {
-                if (db.DatabaseExists() == false)
+                if (!db.DatabaseExists())
                 {
                     db.CreateDatabase();
                 }
@@ -28,13 +33,35 @@ namespace WritersToolbox.gui
             {
                 Console.WriteLine(ex.Message);
             }
-            
-            
+           
         }
-
+        
+        //Fertig
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            UnsortedNoteViewModel usnvm = new UnsortedNoteViewModel();
+            NumberUN.Text = usnvm.getNumberOfUnsortedNote() + "";
+        }
         private void newNote(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
         }
+
+        private void navigateToTypes(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
+        }
+
+        private void navigateToUnsortedNote(object sender, RoutedEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/UnsortedNote.xaml", UriKind.Relative));
+        }
+
+        private void navigateToBooks(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Books.xaml", UriKind.Relative));
+        }
+
+        
     }
 }

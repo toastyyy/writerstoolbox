@@ -101,6 +101,20 @@
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
+    <Compile Include="converter\BoolToUsedConverter.cs" />
+    <Compile Include="converter\NoteShortContentConverter.cs" />
+    <Compile Include="converter\NoteCountConverter.cs" />
+    <Compile Include="datawrapper\Book.cs" />
+    <Compile Include="datawrapper\BookType.cs" />
+    <Compile Include="datawrapper\Chapter.cs" />
+    <Compile Include="datawrapper\MemoryNote.cs" />
+    <Compile Include="datawrapper\Tome.cs" />
+    <Compile Include="datawrapper\Type.cs" />
+    <Compile Include="datawrapper\TypeObject.cs" />
+    <Compile Include="demo\Data.cs" />
+    <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="models\MyImage.cs" />
+    <Compile Include="models\SoundData.cs" />
     <Compile Include="models\WritersToolboxDatebase.cs" />
     <Compile Include="models\Book.cs" />
     <Compile Include="models\BookType.cs" />
@@ -110,9 +124,29 @@
     <Compile Include="models\Tome.cs" />
     <Compile Include="models\Type.cs" />
     <Compile Include="models\TypeObject.cs" />
-    <Compile Include="viewmodels\MemoryNoteViewModel.cs" />
+    <Compile Include="sampleData\SampleDataTyp.cs" />
+    <Compile Include="sampleData\Typ.cs" />
+    <Compile Include="sampleData\TypObject.cs" />
+    <Compile Include="viewmodels\AddNoteViewModel.cs" />
+    <Compile Include="viewmodels\BooksViewModel.cs" />
+    <Compile Include="viewmodels\TypeDetailViewModel.cs" />
+    <Compile Include="viewmodels\TypesViewModel.cs" />
+    <Compile Include="viewmodels\UnsortedNoteViewModel.cs" />
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\AddType.xaml.cs">
+      <DependentUpon>AddType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\AddTypeObject.xaml.cs">
+      <DependentUpon>AddTypeObject.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Books.xaml.cs">
+      <DependentUpon>Books.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\GridManager.cs" />
+    <Compile Include="views\ImageView.xaml.cs">
+      <DependentUpon>ImageView.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\StartPage.xaml.cs">
       <DependentUpon>StartPage.xaml</DependentUpon>
@@ -125,16 +159,46 @@
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Compile>
-    <Compile Include="views\testseite.xaml.cs">
-      <DependentUpon>testseite.xaml</DependentUpon>
+    <Compile Include="views\TypeObjectDetails.xaml.cs">
+      <DependentUpon>TypeObjectDetails.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Types.xaml.cs">
+      <DependentUpon>Types.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\TypesOverview.xaml.cs">
+      <DependentUpon>TypesOverview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\UnsortedNote.xaml.cs">
+      <DependentUpon>UnsortedNote.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
       <SubType>Designer</SubType>
     </Page>
+    <Page Include="sampleData\sampleDataTyp.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="views\AddNote.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\AddType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\AddTypeObject.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Books.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\ImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -146,13 +210,27 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="views\testseite.xaml">
+    <Page Include="views\TypeObjectDetails.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Types.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\TypesOverview.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\UnsortedNote.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
-    <None Include="packages.config" />
+    <None Include="packages.config">
+      <SubType>Designer</SubType>
+    </None>
     <None Include="Properties\AppManifest.xml" />
     <None Include="Properties\WMAppManifest.xml">
       <SubType>Designer</SubType>
@@ -163,6 +241,7 @@
     <Content Include="Assets\ApplicationIcon.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\start_background.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -178,17 +257,60 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\add.png" />
+    <Content Include="icons\cancel.png" />
+    <Content Include="icons\delete.png" />
+    <Content Include="icons\micro.png" />
+    <Content Include="icons\note.png" />
+    <Content Include="icons\play.png" />
+    <Content Include="icons\save.png" />
+    <Content Include="icons\saveAs.png" />
+    <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
+    <Content Include="README_FIRST.txt" />
+    <Content Include="tests\images\img10.jpg" />
+    <Content Include="tests\images\img11.jpg" />
+    <Content Include="tests\images\img12.jpg" />
+    <Content Include="tests\images\img7.jpg" />
+    <Content Include="tests\images\img8.jpg" />
+    <Content Include="tests\images\img9.jpg" />
+    <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <None Include="icons\micro.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+      <SubType>Designer</SubType>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
     <WCFMetadata Include="Service References\" />
   </ItemGroup>
-  <ItemGroup />
+  <ItemGroup>
+    <Reference Include="Coding4Fun.Toolkit.Audio">
+      <HintPath>..\packages\Coding4Fun.Toolkit.Audio.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Audio.dll</HintPath>
+    </Reference>
+    <Reference Include="Coding4Fun.Toolkit.Controls">
+      <HintPath>..\packages\Coding4Fun.Toolkit.Controls.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Controls.dll</HintPath>
+    </Reference>
+    <Reference Include="Coding4Fun.Toolkit.Net">
+      <HintPath>..\packages\Coding4Fun.Toolkit.Net.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Net.dll</HintPath>
+    </Reference>
+    <Reference Include="Coding4Fun.Toolkit.Storage">
+      <HintPath>..\packages\Coding4Fun.Toolkit.Storage.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Storage.dll</HintPath>
+    </Reference>
+    <Reference Include="Microsoft.Expression.Controls, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls, Version=8.0.0.0, Culture=neutral, PublicKeyToken=24eec0d8c86cda1e, processorArchitecture=MSIL" />
+    <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=8.0.1.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\WPtoolkit.Kinnara.4.2013.09.06\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="record\" />
+  </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it.

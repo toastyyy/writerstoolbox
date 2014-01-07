@@ -1,0 +1,17 @@
+﻿<wt:SampleDataTyp
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:wt="clr-namespace:WritersToolbox.sampleData">
+    <wt:SampleDataTyp.Typen>
+        <wt:Typ Namen="Peter" gebraucht="True">
+            <wt:Typ.TypObjekt>
+                <wt:TypObject Namen="Hans"/>
+                <wt:TypObject Namen="Hänsel"/>
+            </wt:Typ.TypObjekt>
+        </wt:Typ>
+        <wt:Typ Namen="Paul" gebraucht="False">
+            
+        </wt:Typ>
+        
+    </wt:SampleDataTyp.Typen>
+</wt:SampleDataTyp>

@@ -1,0 +1,83 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="WritersToolbox.views.Books"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="clr-namespace:WritersToolbox.converter"
+    mc:Ignorable="d"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait"  Orientation="Portrait"
+    shell:SystemTray.IsVisible="True">
+
+    <!-- Templates und converter -->
+    <phone:PhoneApplicationPage.Resources>
+        <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
+        <!--Template für PivotHeader-->
+        <DataTemplate x:Key="PivotHeader">
+            <TextBlock Text="{Binding name}" Margin="9,10,0,0" Foreground="Black" FontFamily="Portable User Interface" FontSize="65"/>
+        </DataTemplate>
+        <!--Template für Pivotitem-->
+        <DataTemplate x:Key="PivotItem">
+            <Grid>
+                <phone:LongListSelector 
+                    Height="Auto" 
+                    Margin="20,10,10,50" 
+                    Width="Auto" 
+                    ItemsSource="{Binding tomes}"
+                    LayoutMode="Grid"
+                    GridCellSize="450, 150"
+                    x:Name="LongList"
+                    >
+                    <!--Template für LongListSelector-item-->
+                    <phone:LongListSelector.ItemTemplate>
+                        <DataTemplate>
+                            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15">
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="135"/>
+                                    <ColumnDefinition Width="Auto"/>
+                                </Grid.ColumnDefinitions>
+                                <Border Background="Red">
+                                </Border>
+                                <StackPanel Grid.Column="1">
+                                    <TextBlock Grid.Column="1" 
+                                               Text="{Binding title}" 
+                                               FontSize="40" 
+                                               Foreground="Black"
+                                               Margin="20,0,0,10"
+                                               VerticalAlignment="Top"
+                                               TextWrapping="Wrap"
+                                               Width="280" FontFamily="Portable User Interface" HorizontalAlignment="Left"/>
+                                </StackPanel>
+                            </Grid>
+                        </DataTemplate>
+                    </phone:LongListSelector.ItemTemplate>
+                </phone:LongListSelector>
+            </Grid>
+        </DataTemplate>
+    </phone:PhoneApplicationPage.Resources>
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="White">
+        <!--Pivot Control-->
+        <Grid>
+            <Grid.Background>
+                <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
+            </Grid.Background>
+            <phone:Pivot ManipulationDelta="pinch_out" 
+                         HeaderTemplate="{StaticResource PivotHeader}" 
+                         ItemTemplate="{StaticResource PivotItem}"
+                         ItemsSource="{Binding Path=Books, Mode=OneWay}"
+                         x:Name="PivotMain">
+            <phone:Pivot.Title>
+                <TextBlock Foreground="Black" Margin="9,0,0,0" Text="BÜCHER" FontSize="22" FontFamily="Segoe WP Semibold" />
+            </phone:Pivot.Title>
+        </phone:Pivot>
+        </Grid>
+        
+    </Grid>
+    
+</phone:PhoneApplicationPage>
