@@ -17,6 +17,9 @@
     <!-- Templates und converter -->
     <phone:PhoneApplicationPage.Resources>
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
+        <converter:DateConverter x:Key="dateCon"/>
+        <converter:CollectionCountConverter x:Key="collectionCountCon"/>
+
         <!--Template für PivotHeader-->
         <DataTemplate x:Key="PivotHeader">
             <TextBlock Text="{Binding name}" Margin="9,10,0,0" Foreground="Black" FontFamily="Portable User Interface" FontSize="65"/>
@@ -42,17 +45,41 @@
                                     <ColumnDefinition Width="Auto"/>
                                 </Grid.ColumnDefinitions>
                                 <Border Background="Red">
+                                    <Image Source="../icons/book.png" Margin="10,10,10,10"></Image>
                                 </Border>
-                                <StackPanel Grid.Column="1">
-                                    <TextBlock Grid.Column="1" 
+                                <Grid Grid.Column="1">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="45"/>
+                                        <RowDefinition Height="30"/>
+                                        <RowDefinition Height="30"/>
+                                    </Grid.RowDefinitions>
+                                    <TextBlock
+                                               Grid.Row="0"
                                                Text="{Binding title}" 
-                                               FontSize="40" 
+                                               FontSize="38" 
                                                Foreground="Black"
                                                Margin="20,0,0,10"
                                                VerticalAlignment="Top"
-                                               TextWrapping="Wrap"
-                                               Width="280" FontFamily="Portable User Interface" HorizontalAlignment="Left"/>
-                                </StackPanel>
+                                               TextWrapping="NoWrap"
+                                               Width="280" FontFamily="Portable User Interface" HorizontalAlignment="Left"
+                                    />
+                                    <TextBlock
+                                        Grid.Row="1"
+                                        Text="{Binding addedDate, Converter={StaticResource dateCon}, ConverterParameter=Erstellt-am}"
+                                        Foreground="Black"
+                                        Margin="25,0,0,0"
+                                        TextWrapping="NoWrap"
+                                        FontFamily="Portable User Interface"
+                                    />
+                                    <TextBlock
+                                        Grid.Row="2"
+                                        Text="{Binding chapters, Converter={StaticResource collectionCountCon}, ConverterParameter=Kapitelanzahl:}"
+                                        Foreground="Black"
+                                        Margin="25,0,0,0"
+                                        TextWrapping="NoWrap"
+                                        FontFamily="Portable User Interface"
+                                    />
+                                </Grid>
                             </Grid>
                         </DataTemplate>
                     </phone:LongListSelector.ItemTemplate>
