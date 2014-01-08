@@ -102,6 +102,8 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="converter\BoolToUsedConverter.cs" />
+    <Compile Include="converter\CollectionCountConverter.cs" />
+    <Compile Include="converter\DateConverter.cs" />
     <Compile Include="converter\NoteShortContentConverter.cs" />
     <Compile Include="converter\NoteCountConverter.cs" />
     <Compile Include="datawrapper\Book.cs" />
@@ -260,6 +262,7 @@
     <Content Include="icons\add.png" />
     <Content Include="icons\aufnahme_aktiv.png" />
     <Content Include="icons\aufnahme.png" />
+    <Content Include="icons\book.png" />
     <Content Include="icons\cancel.png" />
     <Content Include="icons\delete.png" />
     <Content Include="icons\micro.png" />

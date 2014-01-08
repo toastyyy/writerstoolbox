@@ -23,11 +23,13 @@ namespace WritersToolbox.viewmodels
         private WritersToolboxDatebase wtb;
         private Table<Book> tableBook;
         private Table<Tome> tableTome;
+        private Table<Chapter> tableChapter;
         public BooksViewModel() {
             dataLoaded = false;
             wtb = WritersToolboxDatebase.getInstance();
             tableBook = wtb.GetTable<Book>();
             tableTome = wtb.GetTable<Tome>();
+            tableChapter = wtb.GetTable<Chapter>();
         }
 
         public Boolean isDataLoaded() 
@@ -51,13 +53,26 @@ namespace WritersToolbox.viewmodels
 
                 foreach(var t in sqlTomes) 
                 {
+                    var sqlChapters = from c in tableChapter
+                                      where c.obj_tome.tomeID == t.tomeID
+                                      select c;
+
+                    List<datawrapper.Chapter> listChapter = new List<datawrapper.Chapter>();
+                    foreach (var c in sqlChapters) 
+                    {
+                        datawrapper.Chapter chapter = new datawrapper.Chapter() { 
+                            
+                        };
+                        listChapter.Add(chapter);
+                    }
                     datawrapper.Tome tome = new datawrapper.Tome() { 
                         addedDate = t.addedDate,
                         deleted = t.deleted,
                         title = t.title,
                         tomeID = t.tomeID,
                         tomeNumber = t.tomeNumber,
-                        updatedDate = t.updatedDate
+                        updatedDate = t.updatedDate,
+                        chapters = listChapter
                     };
 
                     tmpTomes.Add(tome);
