@@ -17,8 +17,11 @@
     Style="{StaticResource TransitionPageStyle}">
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" />
+        </Grid.Background>
+        <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
         <!--Pivotsteuerelement-->
         <phone:Pivot Title="Neue Notiz anlegen">
 
@@ -28,10 +31,10 @@
                     <ScrollViewer x:Name='scroller_Notiz' VerticalScrollBarVisibility='Visible' Margin="0,0,0,-95" Height="524" VerticalAlignment="Top" >
                         <StackPanel x:Name='listItems_Notiz'>
                             <Canvas Height="72" Width="432">
-                                <TextBox x:Name="titleTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus"/>
+                                <TextBox x:Name="titleTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Background="#BFA8A3A3"/>
                                 <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro1_Tap"/>
                             </Canvas>
-                            <TextBox x:Name="detailsTextBox" Height="408" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus"/>
+                            <TextBox x:Name="detailsTextBox" Height="408" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Background="#BFA8A3A3"/>
                             <Image x:Name="micro2" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro2_Tap"/>
                         </StackPanel>
                     </ScrollViewer>
@@ -149,8 +152,8 @@
         </phone:Pivot>
     </Grid>
     <!--Sample code showing usage of ApplicationBar-->
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="false">
+    <phone:PhoneApplicationPage.ApplicationBar >
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="false" BackgroundColor="#FF72A91C">
             <shell:ApplicationBarIconButton x:Name="saveAsButton" IconUri="/icons/speichernUnter.png" Text="zuordnen" Click="saveAsButton_Click" />
             <shell:ApplicationBarIconButton x:Name="saveButton" IconUri="/icons/speichern.png" Text="speichern" Click="saveButton_Click" />
             <shell:ApplicationBarIconButton x:Name="cancelButton" IconUri="/icons/cancel.png" Text="schließen" Click="cancelButton_Click" />
