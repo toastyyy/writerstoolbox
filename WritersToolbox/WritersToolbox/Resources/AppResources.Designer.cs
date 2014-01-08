@@ -100,6 +100,26 @@ namespace WritersToolbox.Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        public static byte[] aufnahme {
+            get {
+                object obj = ResourceManager.GetObject("aufnahme", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        public static byte[] aufnahme_aktiv {
+            get {
+                object obj = ResourceManager.GetObject("aufnahme_aktiv", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         public static byte[] cancel {
             get {
                 object obj = ResourceManager.GetObject("cancel", resourceCulture);
@@ -162,6 +182,36 @@ namespace WritersToolbox.Resources {
         public static string ResourceLanguage {
             get {
                 return ResourceManager.GetString("ResourceLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        public static byte[] speichern {
+            get {
+                object obj = ResourceManager.GetObject("speichern", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        public static byte[] speichernUnter {
+            get {
+                object obj = ResourceManager.GetObject("speichernUnter", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        public static byte[] zurueck {
+            get {
+                object obj = ResourceManager.GetObject("zurueck", resourceCulture);
+                return ((byte[])(obj));
             }
         }
     }
