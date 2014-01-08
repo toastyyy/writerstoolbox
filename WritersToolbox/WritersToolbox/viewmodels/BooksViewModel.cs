@@ -88,6 +88,12 @@ namespace WritersToolbox.viewmodels
                 tmpBooks.Add(book);
             }
 
+            tmpBooks.Add(new datawrapper.Book()
+            {
+                name="Neues Werk",
+                bookID=-1,
+                addedDate = new DateTime(2012,6,3,22,10,22)
+            });
             this.Books = tmpBooks;
         }
     }
