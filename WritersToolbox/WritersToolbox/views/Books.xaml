@@ -133,9 +133,30 @@
         <!-- Popup fuer Buchtyp -->
         <Popup x:Name="booktype_popup" Grid.Row="2" Margin="10,80,10,0" VerticalAlignment="Stretch">
             <Border Margin="10">
-                <StackPanel Background="#EE72A91C">
+                <StackPanel Background="#F172A91C">
                     <TextBlock Text="Buchtyp wählen" TextAlignment="Center" FontSize="40" Margin="10,0" />
-                    <TextBlock Text="Hier stehen dann hoffentlich bald Buchtypen" FontSize="21" Margin="10,0" />
+                    <TextBlock Text="Bitte wählen Sie einen Buchtyp" FontSize="21" Margin="10,0" />
+                    <Grid Width="400" Height="400" Margin="0,10,0,0">
+                        <phone:LongListSelector ItemsSource="{Binding BookTypes}">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Grid Grid.Column="0" Background="White">
+                                            <Image Source="../icons/book.png" />
+                                        </Grid>
+                                        <Grid Grid.Column="1" Margin="15,0,0,0">
+                                            <TextBlock Text="{Binding name}" FontSize="38" />
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
+                    </Grid>
                     <StackPanel Orientation="Horizontal" Margin="0,10">
                         <Button x:Name="btn_continue"  Content="Speichern" Width="215" />
                         <Button x:Name="btn_cancel"    Content="Abbrechen"   Width="215" Tap="bookTypeCancel" />
