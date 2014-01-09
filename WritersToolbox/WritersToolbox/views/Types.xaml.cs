@@ -42,15 +42,10 @@ namespace WritersToolbox.views
             InitializeComponent();
             // ViewModel wird der View als DataContext zugewiesen
             DataContext = Types_VM;
-            
         }
 
         
 
-
-        
-
-        
         /// <summary>
         /// Die Methode erkennt die Zoomout-Geste und navigiert zu TypesOverview
         /// </summary>
@@ -59,13 +54,14 @@ namespace WritersToolbox.views
         private void pinch_out(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
             
-            if(e.PinchManipulation != null)
+            if (e.PinchManipulation != null)
             {
                 if (e.PinchManipulation.CumulativeScale > 1d)
                 {
                     System.Diagnostics.Debug.WriteLine("Zoomout");
                     NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
-                } else
+                }
+                else
                     System.Diagnostics.Debug.WriteLine("Zoomin");
                                 
             }
@@ -79,7 +75,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
+            NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
         }
 
         
@@ -94,19 +90,24 @@ namespace WritersToolbox.views
             LongListSelector selector = sender as LongListSelector;
             if (selector == null)
                 return;
-            TypeObject to = selector.SelectedItem as TypeObject;
+            datawrapper.TypeObject to = selector.SelectedItem as datawrapper.TypeObject;
             if (to == null)
                 return;
 
             // ein Objekt Type hat TypID = -1
-            if (to.fk_typeID == -1)
+            if (to.type.typeID == -1)
             {
                 NavigationService.Navigate(new Uri("/views/AddType.xaml", UriKind.Relative));
             }
                 // ein Objekt TypeObject hat TypID = -2
-            else if (to.fk_typeID == -2)
+            else if (to.type.typeID == -2)
             {
-                NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml", UriKind.Relative));
+                NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml?typeID=" + (PivotMain.SelectedIndex + 1), UriKind.Relative));
+            }
+            // detailansicht fuer typobject
+            else 
+            {
+                NavigationService.Navigate(new Uri("/views/TypeObjectDetails.xaml?item=" + to.typeObjectID, UriKind.Relative));
             } 
             selector.SelectedItem = null;
         }
@@ -125,17 +126,33 @@ namespace WritersToolbox.views
                 var indexParsed = int.Parse(item);
                 PivotMain.SelectedIndex = indexParsed - 1;
             }
-        }
-
-        private void layoutContent_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
-        {
-            if (e.PinchManipulation != null)
+            else if (PhoneApplicationService.Current.State.ContainsKey("NewType"))
             {
-                NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
-                e.Handled = true;
+                PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
             }
+                
+           
+            
+        
         }
         
+        /// <summary>
+        /// Die Methode wird bei einem Hold-Event auf ein TypObjekt aufgerufen, ermittelt die 
+        /// jeweilige TypObjektID und übergibt diese dem ViewModel zum Löschen des TypObjekts.
+        /// Vorher wird eine Abfrage erzeugt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void deleteTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            datawrapper.TypeObject to = (sender as Grid).DataContext as datawrapper.TypeObject;
+            if (to == null)
+                return;
+            MessageBoxResult result = MessageBox.Show("Wollen Sie das Typobjekt wirklich löschen?",
+            "Typobjekt löschen", MessageBoxButton.OKCancel);
+            if(result == MessageBoxResult.OK)
+                Types_VM.deleteTypeObject(to.typeObjectID);
+        }
         
     }
 }

@@ -57,6 +57,11 @@ namespace WritersToolbox.gui
             NavigationService.Navigate(new Uri("/views/UnsortedNote.xaml", UriKind.Relative));
         }
 
+        private void navigateToBooks(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Books.xaml", UriKind.Relative));
+        }
+
         
     }
 }

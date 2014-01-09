@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:Coding4Fun="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -16,38 +17,54 @@
     Style="{StaticResource TransitionPageStyle}">
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
-       
+    <Grid x:Name="LayoutRoot">
+        <Grid.Background>
+            <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" />
+        </Grid.Background>
+        <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
         <!--Pivotsteuerelement-->
         <phone:Pivot Title="Neue Notiz anlegen">
-           
+
             <!--Pivotelement eins-->
             <phone:PivotItem Header="Notiz" Margin="12,28,12,10">
                 <Grid x:Name="ContentPanel_Notiz" Grid.Row="1" Margin="12,0,12,0">
                     <ScrollViewer x:Name='scroller_Notiz' VerticalScrollBarVisibility='Visible' Margin="0,0,0,-95" Height="524" VerticalAlignment="Top" >
                         <StackPanel x:Name='listItems_Notiz'>
                             <Canvas Height="72" Width="432">
-                                <TextBox x:Name="titleTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus"/>
+                                <TextBox x:Name="titleTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Background="#BFA8A3A3"/>
                                 <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro1_Tap"/>
-                        </Canvas>
-                            <TextBox x:Name="detailsTextBox" Height="408" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus"/>
+                            </Canvas>
+                            <TextBox x:Name="detailsTextBox" Height="408" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Background="#BFA8A3A3"/>
                             <Image x:Name="micro2" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro2_Tap"/>
                         </StackPanel>
                     </ScrollViewer>
                     <Canvas/>
                 </Grid>
             </phone:PivotItem>
-            
+
             <!--Pivote zwei-->
             <phone:PivotItem Header="Record" Margin="12,28,12,10">
-                
+
                 <Grid>
                     <MediaElement x:Name="AudioPlayer" Volume="1" />
 
-                    <Button x:Name="deleteRecordButton" Content="D" HorizontalAlignment="Left" Margin="312,-5,0,0" VerticalAlignment="Top" Height="70" Width="72" BorderThickness="1" Click="deleteRecordButton_Click" />
-                    <ToggleButton x:Name="addRecordButton" Content="A" HorizontalAlignment="Right" Margin="0,-5,0,0" Height="70" Width="72" BorderThickness="1" VerticalAlignment="Top" Checked="RecordAudioChecked" Unchecked="RecordAudioUnchecked" />
-                    <Button x:Name="zurueckRecordButton" Content="Z" HorizontalAlignment="Right" Margin="0,-5,144,0" Height="70" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckRecordButton_Click" />
-                    <CheckBox x:Name="selectAllRecordCheckBox" Content="Select All" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="191" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" />
+                    <Coding4Fun:RoundButton Content="" x:Name="deleteRecordButton" HorizontalAlignment="Left" Margin="312,10,0,0" VerticalAlignment="Top" Height="55" Width="72" BorderThickness="1" Click="deleteRecordButton_Click" >
+                        <Coding4Fun:RoundButton.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="/icons/delete.png"/>
+                        </Coding4Fun:RoundButton.Background>
+                        </Coding4Fun:RoundButton>
+                    <Coding4Fun:RoundToggleButton Content="" x:Name="addRecordButton"  HorizontalAlignment="Right" Margin="0,10,0,0" Height="53" Width="72" BorderThickness="1" VerticalAlignment="Top" Checked="RecordAudioChecked" Unchecked="RecordAudioUnchecked" >
+                        <Coding4Fun:RoundToggleButton.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="/icons/aufnahme.png"/>
+                        </Coding4Fun:RoundToggleButton.Background>
+                    </Coding4Fun:RoundToggleButton>
+
+                    <Coding4Fun:RoundButton Content="" x:Name="zurueckRecordButton"  HorizontalAlignment="Right" Margin="0,10,144,0" Height="54" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckRecordButton_Click">
+                        <Coding4Fun:RoundButton.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="/icons/zurueck.png"/>
+                        </Coding4Fun:RoundButton.Background>
+                    </Coding4Fun:RoundButton>
+                    <CheckBox x:Name="selectAllRecordCheckBox" Content="Alles auswählen" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="235" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" RenderTransformOrigin="0.5,0.5" />
                     <Canvas Margin="0,65,0,429">
                         <TextBlock Text="Last play :" Width="99"/>
                         <TextBlock x:Name="lastPlay" Width="325" Canvas.Left="121"/>
@@ -58,7 +75,7 @@
                     LayoutMode="Grid" GridCellSize="200,200" 
                     x:Name="llms_records" 
                     DataContext="{Binding}" 
-                    IsGroupingEnabled="False" Background="#FFE44545" Margin="0,92,0,5" >
+                    IsGroupingEnabled="False" Background="#FFE44545" Margin="0,109,0,5" >
                         <toolkit:LongListMultiSelector.ItemTemplate>
                             <DataTemplate>
                                 <Grid Background="{StaticResource PhoneAccentBrush}"
@@ -87,11 +104,23 @@
             <!--Pivotelement drei-->
             <phone:PivotItem Header="Bilder" Margin="12,28,12,10">
                 <Grid>
-                    <Button x:Name="deleteButton" Content="D" HorizontalAlignment="Left" Margin="312,-5,0,0" VerticalAlignment="Top" Height="70" Width="72" BorderThickness="1" Click="deleteButton_Click"/>
-                    <Button x:Name="addButton" Content="A" HorizontalAlignment="Right" Margin="0,-5,0,0" Height="70" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="addButton_Click"/>
-                    <Button x:Name="zurueckButton" Content="Z" HorizontalAlignment="Right" Margin="0,-5,144,0" Height="70" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckButton_Click"/>
-                    
-                    <CheckBox x:Name="selectAllCheckBox" Content="Select All" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="191" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
+                    <Coding4Fun:RoundButton  x:Name="deleteButton" Content="" HorizontalAlignment="Left" Margin="312,10,0,0" VerticalAlignment="Top" Height="53" Width="72" BorderThickness="1" Click="deleteButton_Click">
+                        <Coding4Fun:RoundButton.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="/icons/delete.png"/>
+                        </Coding4Fun:RoundButton.Background>
+                    </Coding4Fun:RoundButton>
+                    <Coding4Fun:RoundButton x:Name="addButton" Content="" HorizontalAlignment="Right" Margin="0,9,0,0" Height="54" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="addButton_Click">
+                        <Coding4Fun:RoundButton.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="/icons/add.png"/>
+                        </Coding4Fun:RoundButton.Background>
+                    </Coding4Fun:RoundButton>
+                    <Coding4Fun:RoundButton x:Name="zurueckButton" Content="" HorizontalAlignment="Right" Margin="0,10,144,0" Height="53" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckButton_Click">
+                        <Coding4Fun:RoundButton.Background>
+                            <ImageBrush Stretch="Fill" ImageSource="/icons/zurueck.png"/>
+                        </Coding4Fun:RoundButton.Background>
+                    </Coding4Fun:RoundButton>
+
+                    <CheckBox x:Name="selectAllCheckBox" Content="alles auswählen" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="240" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" Height="77"/>
                     <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="image_selectionChanged" 
@@ -108,7 +137,7 @@
                             </DataTemplate>
                         </toolkit:LongListMultiSelector.ItemTemplate>
                     </toolkit:LongListMultiSelector>
-                    </Grid>
+                </Grid>
             </phone:PivotItem>
 
             <phone:PivotItem Header="Schlagwörter" Margin="12,28,12,10">
@@ -120,13 +149,13 @@
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
-        </phone:Pivot> 
+        </phone:Pivot>
     </Grid>
     <!--Sample code showing usage of ApplicationBar-->
-    <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="false">
-            <shell:ApplicationBarIconButton x:Name="saveAsButton" IconUri="/icons/saveAs.png" Text="zuordnen" Click="saveAsButton_Click" />
-            <shell:ApplicationBarIconButton x:Name="saveButton" IconUri="/icons/save.png" Text="speichern" Click="saveButton_Click" />
+    <phone:PhoneApplicationPage.ApplicationBar >
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="false" BackgroundColor="#FF72A91C">
+            <shell:ApplicationBarIconButton x:Name="saveAsButton" IconUri="/icons/speichernUnter.png" Text="zuordnen" Click="saveAsButton_Click" />
+            <shell:ApplicationBarIconButton x:Name="saveButton" IconUri="/icons/speichern.png" Text="speichern" Click="saveButton_Click" />
             <shell:ApplicationBarIconButton x:Name="cancelButton" IconUri="/icons/cancel.png" Text="schließen" Click="cancelButton_Click" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

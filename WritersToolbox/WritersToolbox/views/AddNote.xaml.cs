@@ -638,6 +638,9 @@ namespace WritersToolbox.views
         private void RecordAudioChecked(object sender, RoutedEventArgs e)
         {
             llms_records.IsEnabled = false;
+            ImageBrush brush = new ImageBrush();
+            brush.ImageSource = new BitmapImage(new Uri("/icons/aufnahme_aktiv.png", UriKind.Relative));
+            addRecordButton.Background = brush;
             recorder.Start();
         }
 
@@ -654,6 +657,9 @@ namespace WritersToolbox.views
             {
                 selectAllRecordCheckBox.Visibility = Visibility.Visible;
             }
+            ImageBrush brush = new ImageBrush();
+            brush.ImageSource = new BitmapImage(new Uri("/icons/aufnahme.png", UriKind.Relative));
+            addRecordButton.Background = brush;
         }
 
         //Fertig 

@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,21 +7,19 @@ using System.Windows.Data;
 
 namespace WritersToolbox.converter
 {
-    public class BoolToUsedConverter : IValueConverter
+    public class NoteShortContentConverter : IValueConverter
     {
         public object Convert(object value, Type targetType,
         object parameter, System.Globalization.CultureInfo culture)
         {
-            string used = "";
-            if ((bool)value)
+            string content = (String) value;
+            if (content.Length > 40)
             {
-                used = "wird verwendet";
+                content = content.Substring(0, 40) + "...";
             }
-            else if(parameter != null && parameter.Equals("showUnused"))
-            {
-                used = "wird nicht verwendet";
-            }  
-            return used;
+            
+                
+            return content;
         }
 
         // ConvertBack is not implemented for a OneWay binding.

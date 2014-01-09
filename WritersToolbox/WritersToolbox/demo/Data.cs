@@ -27,6 +27,12 @@ namespace WritersToolbox.demo
             b.updatedDate = DateTime.Now;
             b.obj_bookType = bt;
 
+            Book b2 = new Book();
+            b2.name = "Der Herr der Ringe";
+            b2.addedDate = DateTime.Now;
+            b2.updatedDate = DateTime.Now;
+            b2.obj_bookType = bt;
+
             Tome t1 = new Tome() 
             {
                 title = "Stein der Weisen",
@@ -41,6 +47,14 @@ namespace WritersToolbox.demo
                 addedDate = DateTime.Now,
                 updatedDate = DateTime.Now,
                 obj_book = b
+            };
+
+            Tome t3 = new Tome()
+            {
+                title = "Die Gefährten",
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                obj_book = b2
             };
 
             Chapter c1 = new Chapter() 
@@ -178,10 +192,23 @@ namespace WritersToolbox.demo
                 obj_TypeObject = typeObject1
             };
 
+            MemoryNote mn3 = new MemoryNote()
+            {
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                contentText = "blablub trololololol",
+                title = "testnotiz an harry",
+                associated = true,
+                tags = "harry|potter|test",
+                obj_TypeObject = typeObject1
+            };
+
             db.GetTable<BookType>().InsertOnSubmit(bt);
             db.GetTable<Book>().InsertOnSubmit(b);
+            db.GetTable<Book>().InsertOnSubmit(b2);
             db.GetTable<Tome>().InsertOnSubmit(t1);
             db.GetTable<Tome>().InsertOnSubmit(t2);
+            db.GetTable<Tome>().InsertOnSubmit(t3);
             db.GetTable<Chapter>().InsertOnSubmit(c1);
             db.GetTable<Chapter>().InsertOnSubmit(c2);
             db.GetTable<Event>().InsertOnSubmit(e1);
@@ -202,6 +229,7 @@ namespace WritersToolbox.demo
             db.GetTable<TypeObject>().InsertOnSubmit(typeObject7);
             db.GetTable<TypeObject>().InsertOnSubmit(typeObject8);
             db.GetTable<MemoryNote>().InsertOnSubmit(mn2);
+            db.GetTable<MemoryNote>().InsertOnSubmit(mn3);
 
             db.SubmitChanges();
         }

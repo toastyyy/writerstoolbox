@@ -102,6 +102,17 @@
       <DependentUpon>App.xaml</DependentUpon>
     </Compile>
     <Compile Include="converter\BoolToUsedConverter.cs" />
+    <Compile Include="converter\CollectionCountConverter.cs" />
+    <Compile Include="converter\DateConverter.cs" />
+    <Compile Include="converter\NoteShortContentConverter.cs" />
+    <Compile Include="converter\NoteCountConverter.cs" />
+    <Compile Include="datawrapper\Book.cs" />
+    <Compile Include="datawrapper\BookType.cs" />
+    <Compile Include="datawrapper\Chapter.cs" />
+    <Compile Include="datawrapper\MemoryNote.cs" />
+    <Compile Include="datawrapper\Tome.cs" />
+    <Compile Include="datawrapper\Type.cs" />
+    <Compile Include="datawrapper\TypeObject.cs" />
     <Compile Include="demo\Data.cs" />
     <Compile Include="LocalizedStrings.cs" />
     <Compile Include="models\MyImage.cs" />
@@ -118,7 +129,11 @@
     <Compile Include="sampleData\SampleDataTyp.cs" />
     <Compile Include="sampleData\Typ.cs" />
     <Compile Include="sampleData\TypObject.cs" />
+    <Compile Include="templateselector\PivotContentTemplateSelector.cs" />
+    <Compile Include="templateselector\TemplateSelector.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
+    <Compile Include="viewmodels\BooksViewModel.cs" />
+    <Compile Include="viewmodels\TypeDetailViewModel.cs" />
     <Compile Include="viewmodels\TypesViewModel.cs" />
     <Compile Include="viewmodels\UnsortedNoteViewModel.cs" />
     <Compile Include="views\AddNote.xaml.cs">
@@ -129,6 +144,9 @@
     </Compile>
     <Compile Include="views\AddTypeObject.xaml.cs">
       <DependentUpon>AddTypeObject.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Books.xaml.cs">
+      <DependentUpon>Books.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\GridManager.cs" />
     <Compile Include="views\ImageView.xaml.cs">
@@ -146,6 +164,9 @@
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Compile>
+    <Compile Include="views\TypeObjectDetails.xaml.cs">
+      <DependentUpon>TypeObjectDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\Types.xaml.cs">
       <DependentUpon>Types.xaml</DependentUpon>
@@ -177,6 +198,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="views\Books.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="views\ImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -186,6 +211,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="MainPage.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\TypeObjectDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -233,6 +262,9 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\add.png" />
+    <Content Include="icons\aufnahme_aktiv.png" />
+    <Content Include="icons\aufnahme.png" />
+    <Content Include="icons\book.png" />
     <Content Include="icons\cancel.png" />
     <Content Include="icons\delete.png" />
     <Content Include="icons\micro.png" />
@@ -240,6 +272,9 @@
     <Content Include="icons\play.png" />
     <Content Include="icons\save.png" />
     <Content Include="icons\saveAs.png" />
+    <Content Include="icons\speichernUnter.png" />
+    <Content Include="icons\speichern.png" />
+    <Content Include="icons\zurueck.png" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
     <Content Include="README_FIRST.txt" />
     <Content Include="tests\images\img10.jpg" />
@@ -248,8 +283,11 @@
     <Content Include="tests\images\img7.jpg" />
     <Content Include="tests\images\img8.jpg" />
     <Content Include="tests\images\img9.jpg" />
+    <Content Include="Toolkit.Content\ApplicationBar.Add.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Cancel.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
+    <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
     <None Include="icons\micro.png" />
   </ItemGroup>
   <ItemGroup>
@@ -268,7 +306,7 @@
       <HintPath>..\packages\Coding4Fun.Toolkit.Audio.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Audio.dll</HintPath>
     </Reference>
     <Reference Include="Coding4Fun.Toolkit.Controls">
-      <HintPath>..\..\..\..\..\Desktop\App_WP8\Coding4Fun.Toolkit.Controls.dll</HintPath>
+      <HintPath>..\packages\Coding4Fun.Toolkit.Controls.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Coding4Fun.Toolkit.Net">
       <HintPath>..\packages\Coding4Fun.Toolkit.Net.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Net.dll</HintPath>
@@ -279,7 +317,7 @@
     <Reference Include="Microsoft.Expression.Controls, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit, Version=8.0.1.0, Culture=neutral, PublicKeyToken=b772ad94eb9ca604, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\packages\WPtoolkit.Kinnara.4.2013.09.06\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+      <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
