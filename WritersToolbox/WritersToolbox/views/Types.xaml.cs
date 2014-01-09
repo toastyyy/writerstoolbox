@@ -79,7 +79,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
         }
 
         
@@ -124,6 +124,15 @@ namespace WritersToolbox.views
                 var item = NavigationContext.QueryString["item"];
                 var indexParsed = int.Parse(item);
                 PivotMain.SelectedIndex = indexParsed - 1;
+            }
+        }
+
+        private void layoutContent_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+        {
+            if (e.PinchManipulation != null)
+            {
+                NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
+                e.Handled = true;
             }
         }
         
