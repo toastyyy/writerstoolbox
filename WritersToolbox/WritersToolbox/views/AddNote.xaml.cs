@@ -7,6 +7,7 @@ using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
+using System.Windows.Threading;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Windows.Media;
@@ -632,7 +633,10 @@ namespace WritersToolbox.views
         //Fertig
         private void PlayButton_Click(object sender, RoutedEventArgs e)
         {
+
         }
+
+       
 
         //Fertig
         private void RecordAudioChecked(object sender, RoutedEventArgs e)
@@ -762,11 +766,102 @@ namespace WritersToolbox.views
                 using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(text, FileMode.Open, FileAccess.Read))
                 {
                     AudioPlayer.SetSource(fileStream);
+                    
                 }
             }
             lastPlay.Text = text;
+            //soundbar_hintergrund.Visibility = Visibility.Visible;
             zurueckRecordButton.Visibility = Visibility.Visible;
             deleteRecordButton.Visibility = Visibility.Visible;
+            soundbar_pausePlayButton.Visibility = Visibility.Visible;
+            soundbar_stop_button.Visibility = Visibility.Visible;
+            soundbar_forward_button.Visibility = Visibility.Visible;
+            soundbar_reward_button.Visibility = Visibility.Visible;
+            progressbar.Visibility = Visibility.Visible;
+            EndTimer.Visibility = Visibility.Visible;
+            CurrentTime.Visibility = Visibility.Visible;
+            
+            soundbar_pausePlayButton.IsChecked = false;
+
+            //progressbar          
+            DispatcherTimer playTimer;
+            playTimer = new DispatcherTimer();
+            playTimer.Interval = TimeSpan.FromMilliseconds(1000); //eine Sekunde
+            playTimer.Tick += new EventHandler(playTimer_Tick);
+            playTimer.Start();
+
+
+           
+        }
+
+
+        //stellt die Current Time und die Endtime des abgespieleten soundfiles dar
+        //und erzeugt die "Füllung" der progressbar
+        public void playTimer_Tick(object sender, EventArgs e) {
+
+            string totalSeconds = AudioPlayer.NaturalDuration.TimeSpan.TotalSeconds.ToString();
+            progressbar.Maximum = Convert.ToDouble(totalSeconds);
+            progressbar.Value = AudioPlayer.Position.Seconds;
+
+                CurrentTime.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.Position);
+                EndTimer.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.NaturalDuration.ToString()).Substring(0,8);
+
+            
+            
+        }
+
+        private void soundbar_pausePlayButton_Checked(object sender, RoutedEventArgs e)
+        {
+            AudioPlayer.Pause();
+        }
+
+        private void soundbar_pausePlayButton_Unchecked(object sender, RoutedEventArgs e)
+        {
+            AudioPlayer.Play();
+        }
+
+        
+
+        private void soundbar_reward_button_Click(object sender, RoutedEventArgs e)
+        {
+            //TimeSpan ts;
+          
+            //ts = AudioPlayer.Position;
+            //if (ts.Seconds > 3)
+            //{
+            AudioPlayer.Position.Subtract(new TimeSpan(0, 0, 4));
+            //}
+        }
+
+        
+
+        private void soundbar_forward_button_Click(object sender, RoutedEventArgs e)
+        {
+            //TimeSpan ts;
+            //ts = AudioPlayer.Position;
+            //if (ts.Seconds + 3 < ts.TotalSeconds)
+            //{
+                AudioPlayer.Position.Add(new TimeSpan(0, 0, 4));
+            //}
+        }
+
+        private void soundbar_stop_button_Click(object sender, RoutedEventArgs e)
+        {
+            
+            llms_records.EnforceIsSelectionEnabled = false;
+            lastPlay.Text = "";
+            deleteRecordButton.Visibility = Visibility.Collapsed;
+            zurueckRecordButton.Visibility = Visibility.Collapsed;
+            soundbar_pausePlayButton.Visibility = Visibility.Collapsed;
+            soundbar_stop_button.Visibility = Visibility.Collapsed;
+            soundbar_forward_button.Visibility = Visibility.Collapsed;
+            soundbar_reward_button.Visibility = Visibility.Collapsed;
+            soundbar_pausePlayButton.IsChecked = false;
+            progressbar.Visibility = Visibility.Collapsed;
+            EndTimer.Visibility = Visibility.Collapsed;
+            CurrentTime.Visibility = Visibility.Collapsed;
+            //soundbar_hintergrund.Visibility = Visibility.Collapsed;
+            AudioPlayer.Stop();
         }
 
         //Fertig
@@ -808,6 +903,16 @@ namespace WritersToolbox.views
 
             deleteRecordButton.Visibility = Visibility.Collapsed;
             zurueckRecordButton.Visibility = Visibility.Collapsed;
+            soundbar_pausePlayButton.Visibility = Visibility.Collapsed;
+            soundbar_stop_button.Visibility = Visibility.Collapsed;
+            soundbar_forward_button.Visibility = Visibility.Collapsed;
+            soundbar_reward_button.Visibility = Visibility.Collapsed;
+            soundbar_pausePlayButton.IsChecked = false;
+            progressbar.Visibility = Visibility.Collapsed;
+            EndTimer.Visibility = Visibility.Collapsed;
+            CurrentTime.Visibility = Visibility.Collapsed;
+            //soundbar_hintergrund.Visibility = Visibility.Collapsed;
+            AudioPlayer.Stop();
 
         }
 
@@ -818,6 +923,17 @@ namespace WritersToolbox.views
             lastPlay.Text = "";
             deleteRecordButton.Visibility = Visibility.Collapsed;
             zurueckRecordButton.Visibility = Visibility.Collapsed;
+            soundbar_pausePlayButton.Visibility = Visibility.Collapsed;
+            soundbar_stop_button.Visibility = Visibility.Collapsed;
+            soundbar_forward_button.Visibility = Visibility.Collapsed;
+            soundbar_reward_button.Visibility = Visibility.Collapsed;
+            soundbar_pausePlayButton.IsChecked = false;
+            progressbar.Visibility = Visibility.Collapsed;
+            EndTimer.Visibility = Visibility.Collapsed;
+            CurrentTime.Visibility = Visibility.Collapsed;
+            //soundbar_hintergrund.Visibility = Visibility.Collapsed;
+            AudioPlayer.Stop();
+
         }
 
         //Fertig
@@ -912,6 +1028,12 @@ namespace WritersToolbox.views
                 }
             }
         }
+
+       
+
+        
+
+        
 
 
     }

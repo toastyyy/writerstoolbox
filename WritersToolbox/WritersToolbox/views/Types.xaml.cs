@@ -10,13 +10,16 @@ using Microsoft.Phone.Shell;
 using WritersToolbox.viewmodels;
 using System.Diagnostics;
 using WritersToolbox.models;
+using System.Windows.Media;
+using Coding4Fun.Toolkit.Controls;
 
 
 namespace WritersToolbox.views
 {
     public partial class Types : PhoneApplicationPage
     {
-
+        private TextBox newTypeTitle = new TextBox();
+        private ColorPicker picker = new ColorPicker();
         public static TypesViewModel types_VM = null;
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
@@ -24,16 +27,16 @@ namespace WritersToolbox.views
         public static TypesViewModel Types_VM
         {
             get
+            {
+                if (types_VM == null)
                 {
-                    if (types_VM == null)
-                    {
-                        types_VM = new TypesViewModel();
-                        if (!types_VM.IsDataLoaded)
-                            types_VM.LoadData();
-                        
-                    }
-                    return types_VM;
+                    types_VM = new TypesViewModel();
+                    if (!types_VM.IsDataLoaded)
+                        types_VM.LoadData();
+
                 }
+                return types_VM;
+            }
         }
 
 
@@ -44,7 +47,7 @@ namespace WritersToolbox.views
             DataContext = Types_VM;
         }
 
-        
+
 
         /// <summary>
         /// Die Methode erkennt die Zoomout-Geste und navigiert zu TypesOverview
@@ -53,7 +56,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void pinch_out(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-            
+
             if (e.PinchManipulation != null)
             {
                 if (e.PinchManipulation.CumulativeScale > 1d)
@@ -63,10 +66,10 @@ namespace WritersToolbox.views
                 }
                 else
                     System.Diagnostics.Debug.WriteLine("Zoomin");
-                                
+
             }
-            
-            
+
+
         }
         /// <summary>
         /// Hilfsmethode solange man Zoom nicht testen kann.
@@ -78,7 +81,7 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
         }
 
-        
+
 
         /// <summary>
         /// Die Methode wird aufgerufen, wenn ein Item im LongListSelector angeklickt wurde.
@@ -94,12 +97,7 @@ namespace WritersToolbox.views
             if (to == null)
                 return;
 
-            // ein Objekt Type hat TypID = -1
-            if (to.type.typeID == -1)
-            {
-                NavigationService.Navigate(new Uri("/views/AddType.xaml", UriKind.Relative));
-            }
-                // ein Objekt TypeObject hat TypID = -2
+            // ein Objekt TypeObject hat TypID = -2
             else if (to.type.typeID == -2)
             {
                 NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml?typeID=" + (PivotMain.SelectedIndex + 1), UriKind.Relative));
@@ -108,7 +106,7 @@ namespace WritersToolbox.views
             else 
             {
                 NavigationService.Navigate(new Uri("/views/TypeObjectDetails.xaml?item=" + to.typeObjectID, UriKind.Relative));
-            } 
+            }
             selector.SelectedItem = null;
         }
 
@@ -126,16 +124,10 @@ namespace WritersToolbox.views
                 var indexParsed = int.Parse(item);
                 PivotMain.SelectedIndex = indexParsed - 1;
             }
-            else if (PhoneApplicationService.Current.State.ContainsKey("NewType"))
-            {
-                PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
-            }
                 
            
-            
-        
         }
-        
+
         /// <summary>
         /// Die Methode wird bei einem Hold-Event auf ein TypObjekt aufgerufen, ermittelt die 
         /// jeweilige TypObjektID und übergibt diese dem ViewModel zum Löschen des TypObjekts.
@@ -153,6 +145,69 @@ namespace WritersToolbox.views
             if(result == MessageBoxResult.OK)
                 Types_VM.deleteTypeObject(to.typeObjectID);
         }
-        
+
+        /// <summary>
+        /// Ein neuer Typ wird erzeugt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void SaveType(object sender, EventArgs e)
+        {
+            Color c = picker.Color;
+
+            String r = c.R.ToString("X2");
+            String g = c.G.ToString("X2");
+            String b = c.B.ToString("X2");
+
+            String color = "#" + r + g + b;
+            String title = newTypeTitle.Text;
+
+            Types.types_VM.createType(title, color, "");
+            
+            PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
+        }
+
+        /// <summary>
+        /// Cancelt die Erstellungen eines Typs und geht eine Seite zurück.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void CancelType(object sender, EventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+
+        private void TitleGotFocus(object sender, RoutedEventArgs e)
+        {
+            newTypeTitle = sender as TextBox;
+            
+        }
+
+        private void ColorChanged(object sender, Color color)
+        {
+            picker = sender as ColorPicker;
+        }
+
+        private void PivotSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Pivot p = sender as Pivot;
+            if (p == null)
+                return;
+            datawrapper.Type t = p.SelectedItem as datawrapper.Type;
+            if (t == null)
+                return;
+            if (t.typeID == -1)
+            {
+                ApplicationBar.IsVisible = true;
+                BottomRec.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                BottomRec.Visibility = Visibility.Visible;
+                ApplicationBar.IsVisible = false;
+            }
+        }
+
     }
 }
