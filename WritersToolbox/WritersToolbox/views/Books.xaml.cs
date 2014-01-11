@@ -43,5 +43,20 @@ namespace WritersToolbox.views
         {
 
         }
+
+        private void pageLoaded(object sender, RoutedEventArgs e)
+        {
+        
+        }
+
+        private void changeBookType(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            booktype_popup.IsOpen = true;
+        }
+
+        private void bookTypeCancel(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            booktype_popup.IsOpen = false;
+        }
     }
 }

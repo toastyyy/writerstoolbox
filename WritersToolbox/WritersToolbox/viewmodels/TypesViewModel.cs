@@ -225,12 +225,22 @@ namespace WritersToolbox.viewmodels
 
         public void deleteType(int typeID)
         {
-
+            var type = (from t in tableType
+                    where t.typeID == typeID
+                    select t).Single();
+            type.deleted = true;
+            this.db.SubmitChanges();
+            this.LoadData();
         }
 
         public void deleteTypeObject(int typeObjectID)
         {
-            
+            var typeObject = (from to in tableTypeObject
+                              where to.typeObjectID == typeObjectID
+                              select to).Single();
+            typeObject.deleted = true;
+            this.db.SubmitChanges();
+            this.LoadData();
         }
 
 
@@ -276,6 +286,7 @@ namespace WritersToolbox.viewmodels
             // add das propertyChanged ereignis gefeuert wird.
             ObservableCollection<datawrapper.Type> tmpTypes = new ObservableCollection<datawrapper.Type>();
             var sqlTypes = from t in tableType
+                           where t.deleted == false
                            select t;
             foreach (var t in sqlTypes)
             {
@@ -287,7 +298,7 @@ namespace WritersToolbox.viewmodels
                     title = t.title,
                 };
                 var result = from to in tableTypeObject
-                             where to.fk_typeID == t.typeID
+                             where to.fk_typeID == t.typeID && to.deleted == false
                              select to;
                 List<datawrapper.TypeObject> TypeObjects = new List<datawrapper.TypeObject>();
                 foreach (TypeObject to in result)
