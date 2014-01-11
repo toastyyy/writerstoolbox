@@ -130,6 +130,7 @@
     <Compile Include="sampleData\Typ.cs" />
     <Compile Include="sampleData\TypObject.cs" />
     <Compile Include="templateselector\PivotContentTemplateSelector.cs" />
+    <Compile Include="templateselector\PivotTypeTemplateSelector.cs" />
     <Compile Include="templateselector\TemplateSelector.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
     <Compile Include="viewmodels\BooksViewModel.cs" />

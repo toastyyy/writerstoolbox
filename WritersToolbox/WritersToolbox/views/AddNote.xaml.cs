@@ -390,7 +390,7 @@ namespace WritersToolbox.views
             } 
         }
 
-        //Fertig
+        //Frtig
         private void saveButton_Click(object sender, EventArgs e)
         {
             bool issaved = false;
