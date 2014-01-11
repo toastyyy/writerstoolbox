@@ -244,6 +244,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\start_background.png" />
+    <Content Include="Assets\testbild.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
@@ -265,13 +266,17 @@
     <Content Include="icons\book.png" />
     <Content Include="icons\cancel.png" />
     <Content Include="icons\delete.png" />
+    <Content Include="icons\forward.png" />
     <Content Include="icons\micro.png" />
     <Content Include="icons\note.png" />
+    <Content Include="icons\pause.png" />
     <Content Include="icons\play.png" />
+    <Content Include="icons\reward.png" />
     <Content Include="icons\save.png" />
     <Content Include="icons\saveAs.png" />
     <Content Include="icons\speichernUnter.png" />
     <Content Include="icons\speichern.png" />
+    <Content Include="icons\stop.png" />
     <Content Include="icons\zurueck.png" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
     <Content Include="README_FIRST.txt" />
