@@ -175,6 +175,12 @@ namespace WritersToolbox.viewmodels
             models.Type t = new models.Type();
             if (title.Equals(""))
                 throw new ArgumentException("Titel muss ausgefüllt sein", "Title");
+            var sqlT = from types in tableType
+                       where types.title.Equals(title)
+                       select types;
+            if (sqlT.Count() > 0) {
+                throw new ArgumentException("Ein Typ mit dem angegebenen Namen ist bereits vorhanden.", "Title");
+            }
             t.title = title;
             t.color = color;
             t.imageString = image;

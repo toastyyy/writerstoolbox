@@ -161,10 +161,15 @@ namespace WritersToolbox.views
 
             String color = "#" + r + g + b;
             String title = newTypeTitle.Text;
-
-            Types.types_VM.createType(title, color, "");
-            
-            PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
+            try 
+            { 
+                Types.types_VM.createType(title, color, "");
+                PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
+            }
+            catch (ArgumentException ae) 
+            {
+                MessageBox.Show(ae.Message, "Fehler", MessageBoxButton.OK);
+            }
         }
 
         /// <summary>
@@ -207,6 +212,11 @@ namespace WritersToolbox.views
                 BottomRec.Visibility = Visibility.Visible;
                 ApplicationBar.IsVisible = false;
             }
+        }
+
+        private void layoutContent_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+        {
+
         }
 
     }
