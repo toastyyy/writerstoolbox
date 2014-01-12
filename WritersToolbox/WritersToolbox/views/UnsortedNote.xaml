@@ -15,20 +15,24 @@
     shell:SystemTray.IsVisible="True">
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot" Background="Transparent">
+    <Grid x:Name="LayoutRoot" >
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
+        <Grid.Background>
+            <ImageBrush ImageSource="/Assets/hintergrund_neueIdee_unsortiert.png"/>
+        </Grid.Background>
+
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Unsortierte Notize" Margin="9,-7,0,0" FontSize="50" />
+            <TextBlock Text="Unsortierte Notize" Margin="9,-7,0,0" FontSize="50" FontFamily="/WritersToolbox;component/Fonts/Fonts.zip#Yu Gothic" />
         </StackPanel>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <CheckBox x:Name="selectAllCheckBox" Content="Select All" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="191" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
+            <CheckBox x:Name="selectAllCheckBox" Content="Select All" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="191" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts/Fonts.zip#Yu Gothic"/>
             <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="unsortedNote_selectionChanged" 

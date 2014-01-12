@@ -115,6 +115,11 @@ namespace WritersToolbox.views
             zurueckButton.Visibility = Visibility.Collapsed;
             deleteRecordButton.Visibility = Visibility.Collapsed;
             zurueckRecordButton.Visibility = Visibility.Collapsed;
+            EndTimer.Visibility = Visibility.Collapsed;
+            progressbar_background.Visibility = Visibility.Collapsed;
+            progressbar.Visibility = Visibility.Collapsed;
+            CurrentTime.Visibility = Visibility.Collapsed;
+            
         }
 
         //Fertig
@@ -305,6 +310,9 @@ namespace WritersToolbox.views
                     titleTextBox.Text += result.RecognitionResult.Text + " ";
                 }
             }
+
+            
+
         }
 
         //Fertig
@@ -648,6 +656,13 @@ namespace WritersToolbox.views
             brush.ImageSource = new BitmapImage(new Uri("/icons/aufnahme_aktiv.png", UriKind.Relative));
             addRecordButton.Background = brush;
             recorder.Start();
+
+
+            
+            EndTimer.Visibility = Visibility.Collapsed;
+            progressbar_background.Visibility = Visibility.Collapsed;
+            progressbar.Visibility = Visibility.Collapsed;
+            CurrentTime.Visibility = Visibility.Collapsed;
         }
 
         //Fertig
@@ -776,57 +791,73 @@ namespace WritersToolbox.views
             {
                 removeManagementApplicationBarButton();
                 addMediaApplicationBarButton();
+                bar_status = 2;
+
+                zurueckRecordButton.Visibility = Visibility.Visible;
+                deleteRecordButton.Visibility = Visibility.Visible;
+                progressbar.Visibility = Visibility.Visible;
+                EndTimer.Visibility = Visibility.Visible;
+                CurrentTime.Visibility = Visibility.Visible;
+                progressbar_background.Visibility = Visibility.Visible;
+               // tick_feld.Text = "Neeee, tu ich nicht";
             }
             else
             {
-                pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
+                //pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
+                //AudioPlayer.Stop();
+               // tick_feld.Text = "ja, ich geh in die schleife";
+                
             }
             pp_status = 1;
-            //soundbar_hintergrund.Visibility = Visibility.Visible;
-            zurueckRecordButton.Visibility = Visibility.Visible;
-            deleteRecordButton.Visibility = Visibility.Visible;
-
-            progressbar.Visibility = Visibility.Visible;
-            EndTimer.Visibility = Visibility.Visible;
-            CurrentTime.Visibility = Visibility.Visible;
-           
 
             //progressbar          
-           
+            
             playTimer = new DispatcherTimer();
-            playTimer.Interval = TimeSpan.FromMilliseconds(100); //eine Sekunde
+            playTimer.Interval = TimeSpan.FromMilliseconds(1000); //eine Sekunde
             playTimer.Tick += new EventHandler(playTimer_Tick);
             playTimer.Start();
+            pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
          
         }
 
-
-        //Notiz: kann man die buttons in einen "container" tun und diesen visible setzten? (beeinflusst das die buttons?)
+        
 
         //stellt die Current Time und die Endtime des abgespieleten soundfiles dar
         //und erzeugt die "Füllung" der progressbar
         public void playTimer_Tick(object sender, EventArgs e) {
 
             string totalSeconds = AudioPlayer.NaturalDuration.TimeSpan.TotalSeconds.ToString();
-            progressbar.Maximum = Convert.ToDouble(totalSeconds) - 1;
+            progressbar.Maximum = Convert.ToDouble(totalSeconds)  - 1;
             progressbar.Value = AudioPlayer.Position.Seconds;
+            TimeSpan _tsEndTime = AudioPlayer.NaturalDuration.TimeSpan.Subtract(new TimeSpan(0, 0, 1));
+            //pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
 
                 CurrentTime.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.Position);
-                EndTimer.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.NaturalDuration.ToString()).Substring(0,8);
+                EndTimer.Text = String.Format(@"{0:hh\:mm\:ss}", _tsEndTime.ToString()).Substring(0, 8);
 
+        
 
         }
 
+
+              
+
         private void progressbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            TimeSpan _t = new TimeSpan(0, 0, (int)progressbar.Value);
-            AudioPlayer.Position = _t;
-            if (progressbar.Maximum == AudioPlayer.Position.Seconds)
+            //hier nimmt er nicht nur die händischen veränderungen, sondern jede -> folge: erspielt jede sekunde doppelt ab.
+                //TimeSpan _t = new TimeSpan(0, 0, (int)progressbar.Value);
+                //AudioPlayer.Position = _t;
+
+
+            if (progressbar.Value  == progressbar.Maximum)
             {
+               
                 pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
                 pp_status = 0;
                 playTimer.Stop();
+               
             }
+            
         }
 
         //Die Methode wird beim Laden, Stop, löschen und zurück aufgerufen.
@@ -906,6 +937,7 @@ namespace WritersToolbox.views
         private void play_pause_Click(object sender, EventArgs e)
         {
             pp_status += 1;
+            
 
             if (pp_status == 1)
             {
@@ -933,6 +965,9 @@ namespace WritersToolbox.views
                 TimeSpan _t = new TimeSpan(0, 0, 3);
                 AudioPlayer.Position -= _t;
                 AudioPlayer.Play();
+                playTimer.Start();
+                pp_status = 1;
+                pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
             }
         }
 
@@ -947,6 +982,9 @@ namespace WritersToolbox.views
                 TimeSpan _t = new TimeSpan(0, 0, 3);
                 AudioPlayer.Position += _t;
                 AudioPlayer.Play();
+                playTimer.Start();
+                pp_status = 1;
+                pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
             }
         }
 
@@ -959,9 +997,14 @@ namespace WritersToolbox.views
             llms_records.EnforceIsSelectionEnabled = false;
             removeMediaApplicationBarButton();
             addManagementApplicationBarButton();
+            bar_status = 1;
             lastPlay.Text = "";
             AudioPlayer.Stop();
             playTimer.Stop();
+            progressbar.Visibility = Visibility.Collapsed;
+            EndTimer.Visibility = Visibility.Collapsed;
+            CurrentTime.Visibility = Visibility.Collapsed;
+            progressbar_background.Visibility = Visibility.Collapsed;
            
         }
 
@@ -1007,11 +1050,13 @@ namespace WritersToolbox.views
             if (bar_status == 2) {
                 removeMediaApplicationBarButton();
                 addManagementApplicationBarButton();
+                bar_status = 1;
             }
             pp_status = 1;
             progressbar.Visibility = Visibility.Collapsed;
             EndTimer.Visibility = Visibility.Collapsed;
             CurrentTime.Visibility = Visibility.Collapsed;
+            progressbar_background.Visibility = Visibility.Collapsed;
             //soundbar_hintergrund.Visibility = Visibility.Collapsed;
             AudioPlayer.Stop();
             if (playTimer != null)
@@ -1032,11 +1077,13 @@ namespace WritersToolbox.views
             {
                 removeMediaApplicationBarButton();
                 addManagementApplicationBarButton();
+                bar_status = 1;
             }
             
             progressbar.Visibility = Visibility.Collapsed;
             EndTimer.Visibility = Visibility.Collapsed;
             CurrentTime.Visibility = Visibility.Collapsed;
+            progressbar_background.Visibility = Visibility.Collapsed;
             //soundbar_hintergrund.Visibility = Visibility.Collapsed;
             AudioPlayer.Stop();
             if(playTimer != null)
