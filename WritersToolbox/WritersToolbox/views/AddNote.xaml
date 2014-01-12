@@ -89,48 +89,13 @@
                             </DataTemplate>
                         </toolkit:LongListMultiSelector.ItemTemplate>
                     </toolkit:LongListMultiSelector>
-                    <Coding4Fun:RoundButton x:Name="soundbar_stop_button" HorizontalAlignment="Left" Content=" " Margin="262,449,0,0" VerticalAlignment="Top" Click="soundbar_stop_button_Click" Visibility="Collapsed" PressedBrush="{x:Null}">
-                        <Coding4Fun:RoundButton.Background>
-                            <ImageBrush ImageSource="/icons/stop.png" Stretch="None"/>
-                        </Coding4Fun:RoundButton.Background>
-                        <Coding4Fun:RoundButton.Foreground>
-                            <ImageBrush ImageSource="/icons/stop.png"/>
-                        </Coding4Fun:RoundButton.Foreground>
-                    </Coding4Fun:RoundButton>
-                    <Coding4Fun:RoundButton x:Name="soundbar_reward_button" HorizontalAlignment="Left" Content=" " Margin="49,449,0,0" VerticalAlignment="Top" Click="soundbar_reward_button_Click" PressedBrush="{x:Null}" Visibility="Collapsed">
-                        <Coding4Fun:RoundButton.Background>
-                            <ImageBrush Stretch="None" ImageSource="/icons/reward.png"/>
-                        </Coding4Fun:RoundButton.Background>
-                        <Coding4Fun:RoundButton.Foreground>
-                            <ImageBrush Stretch="Fill"  ImageSource="/icons/reward.png"/>
-                        </Coding4Fun:RoundButton.Foreground>
-                    </Coding4Fun:RoundButton>
-                    <Coding4Fun:RoundButton x:Name="soundbar_forward_button" HorizontalAlignment="Left" Content=" " Margin="177,449,0,0" VerticalAlignment="Top" Click="soundbar_forward_button_Click" Visibility="Collapsed" PressedBrush="{x:Null}">
-                        <Coding4Fun:RoundButton.Background>
-                            <ImageBrush Stretch="None" ImageSource="/icons/forward.png"/>
-                        </Coding4Fun:RoundButton.Background>
-                        <Coding4Fun:RoundButton.Foreground>
-                            <ImageBrush Stretch="Fill" ImageSource="/icons/forward.png"/>
-                        </Coding4Fun:RoundButton.Foreground>
-                    </Coding4Fun:RoundButton>
-                    <Coding4Fun:RoundButton Content="" x:Name="deleteRecordButton" HorizontalAlignment="Left" Margin="334,449,0,0" VerticalAlignment="Top" Height="55" Width="72" BorderThickness="1" Click="deleteRecordButton_Click" Visibility="Collapsed" PressedBrush="{x:Null}" >
+                    <Coding4Fun:RoundButton Content="" x:Name="deleteRecordButton" HorizontalAlignment="Left" Margin="234,8,0,0" VerticalAlignment="Top" Height="55" Width="72" BorderThickness="1" Click="deleteRecordButton_Click" PressedBrush="{x:Null}" >
                         <Coding4Fun:RoundButton.Background>
                             <ImageBrush Stretch="Fill" ImageSource="/icons/delete.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
                     <TextBlock  Text="Last play :" Margin="10,353,347,141" Visibility="Collapsed"/>
-                    <Coding4Fun:RoundToggleButton x:Name="soundbar_pausePlayButton" HorizontalAlignment="Left" Content=" " Margin="110,450,0,0" VerticalAlignment="Top" Checked="soundbar_pausePlayButton_Checked" Unchecked="soundbar_pausePlayButton_Unchecked" Visibility="Collapsed">
-                    	<Coding4Fun:RoundToggleButton.CheckedBrush>
-                    		<ImageBrush Stretch="Fill" ImageSource="/icons/play.png"/>
-                    	</Coding4Fun:RoundToggleButton.CheckedBrush>
-                    	<Coding4Fun:RoundToggleButton.Background>
-                    		<ImageBrush Stretch="Fill" ImageSource="/icons/pause.png"/>
-                    	</Coding4Fun:RoundToggleButton.Background>
-                    	<Coding4Fun:RoundToggleButton.Foreground>
-                    		<ImageBrush Stretch="Fill" ImageSource="/icons/pause.png"/>
-                    	</Coding4Fun:RoundToggleButton.Foreground>
-                    </Coding4Fun:RoundToggleButton>
-                    <Coding4Fun:SuperSlider x:Name="progressbar" HorizontalAlignment="Left" Height="53" Margin="10,391,0,0" VerticalAlignment="Top" Width="436" Foreground="{StaticResource PhoneAccentBrush}" Background="#FF417A26" Visibility="Collapsed"/>
+                    <Slider x:Name="progressbar" HorizontalAlignment="Left" Margin="0,373,0,0" VerticalAlignment="Top" Width="446" ValueChanged="progressbar_ValueChanged"/>
                     <TextBlock x:Name="CurrentTime" Margin="10,407,347,87">
                     	<Run Text=" "/>
                     	<LineBreak/>
@@ -200,9 +165,9 @@
 
     <phone:PhoneApplicationPage.ApplicationBar >
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="false" BackgroundColor="#FF72A91C">
-            <shell:ApplicationBarIconButton x:Name="saveAsButton" IconUri="/icons/speichernUnter.png" Text="zuordnen" Click="saveAsButton_Click" />
+            <!--<shell:ApplicationBarIconButton x:Name="saveAsButton" IconUri="/icons/speichernUnter.png" Text="zuordnen" Click="saveAsButton_Click" />
             <shell:ApplicationBarIconButton x:Name="saveButton" IconUri="/icons/speichern.png" Text="speichern" Click="saveButton_Click" />
-            <shell:ApplicationBarIconButton x:Name="cancelButton" IconUri="/icons/cancel.png" Text="schließen" Click="cancelButton_Click" />
+            <shell:ApplicationBarIconButton x:Name="cancelButton" IconUri="/icons/cancel.png" Text="schließen" Click="cancelButton_Click" />-->
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

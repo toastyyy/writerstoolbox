@@ -109,6 +109,8 @@ namespace WritersToolbox.views
             else
                 selectAllRecordCheckBox.Visibility = Visibility.Collapsed;
 
+
+            addManagementApplicationBarButton();
             deleteButton.Visibility = Visibility.Collapsed;
             zurueckButton.Visibility = Visibility.Collapsed;
             deleteRecordButton.Visibility = Visibility.Collapsed;
@@ -750,7 +752,7 @@ namespace WritersToolbox.views
                 deleteRecordButton.Visibility = Visibility.Visible;
             } 
         }
-
+        private DispatcherTimer playTimer;
         //Fertig
         private void Sound_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
@@ -770,98 +772,197 @@ namespace WritersToolbox.views
                 }
             }
             lastPlay.Text = text;
+            if (bar_status == 1)
+            {
+                removeManagementApplicationBarButton();
+                addMediaApplicationBarButton();
+            }
+            else
+            {
+                pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
+            }
+            pp_status = 1;
             //soundbar_hintergrund.Visibility = Visibility.Visible;
             zurueckRecordButton.Visibility = Visibility.Visible;
             deleteRecordButton.Visibility = Visibility.Visible;
-            soundbar_pausePlayButton.Visibility = Visibility.Visible;
-            soundbar_stop_button.Visibility = Visibility.Visible;
-            soundbar_forward_button.Visibility = Visibility.Visible;
-            soundbar_reward_button.Visibility = Visibility.Visible;
+
             progressbar.Visibility = Visibility.Visible;
             EndTimer.Visibility = Visibility.Visible;
             CurrentTime.Visibility = Visibility.Visible;
-            
-            soundbar_pausePlayButton.IsChecked = false;
+           
 
             //progressbar          
-            DispatcherTimer playTimer;
+           
             playTimer = new DispatcherTimer();
-            playTimer.Interval = TimeSpan.FromMilliseconds(1000); //eine Sekunde
+            playTimer.Interval = TimeSpan.FromMilliseconds(100); //eine Sekunde
             playTimer.Tick += new EventHandler(playTimer_Tick);
             playTimer.Start();
-
-
-           
+         
         }
 
+
+        //Notiz: kann man die buttons in einen "container" tun und diesen visible setzten? (beeinflusst das die buttons?)
 
         //stellt die Current Time und die Endtime des abgespieleten soundfiles dar
         //und erzeugt die "Füllung" der progressbar
         public void playTimer_Tick(object sender, EventArgs e) {
 
             string totalSeconds = AudioPlayer.NaturalDuration.TimeSpan.TotalSeconds.ToString();
-            progressbar.Maximum = Convert.ToDouble(totalSeconds);
+            progressbar.Maximum = Convert.ToDouble(totalSeconds) - 1;
             progressbar.Value = AudioPlayer.Position.Seconds;
 
                 CurrentTime.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.Position);
                 EndTimer.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.NaturalDuration.ToString()).Substring(0,8);
 
-            
-            
+
         }
 
-        private void soundbar_pausePlayButton_Checked(object sender, RoutedEventArgs e)
+        private void progressbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            AudioPlayer.Pause();
+            TimeSpan _t = new TimeSpan(0, 0, (int)progressbar.Value);
+            AudioPlayer.Position = _t;
+            if (progressbar.Maximum == AudioPlayer.Position.Seconds)
+            {
+                pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                pp_status = 0;
+                playTimer.Stop();
+            }
         }
 
-        private void soundbar_pausePlayButton_Unchecked(object sender, RoutedEventArgs e)
+        //Die Methode wird beim Laden, Stop, löschen und zurück aufgerufen.
+        private ApplicationBarIconButton saveAs, save, cancel;
+        private int bar_status = 1; // 1 = Management, 2 = Media.
+        private void addManagementApplicationBarButton()
         {
-            AudioPlayer.Play();
+            removeMediaApplicationBarButton();
+            saveAs = new ApplicationBarIconButton(new Uri("/icons/speichernUnter.png", UriKind.Relative));
+            save = new ApplicationBarIconButton(new Uri("/icons/speichern.png", UriKind.Relative));
+            cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+
+            saveAs.Text = "zuordnen";
+            save.Text = "speichern";
+            cancel.Text = "schließen";
+
+            saveAs.Click += saveAsButton_Click;
+            save.Click += saveButton_Click;
+            cancel.Click += cancelButton_Click;
+
+            ApplicationBar.Buttons.Add(saveAs);
+            ApplicationBar.Buttons.Add(save);
+            ApplicationBar.Buttons.Add(cancel);
+            bar_status = 1;
         }
 
-        
-
-        private void soundbar_reward_button_Click(object sender, RoutedEventArgs e)
+        private ApplicationBarIconButton pp, reward, forward, stop;
+        private void addMediaApplicationBarButton()
         {
-            //TimeSpan ts;
-          
-            //ts = AudioPlayer.Position;
-            //if (ts.Seconds > 3)
-            //{
-            AudioPlayer.Position.Subtract(new TimeSpan(0, 0, 4));
-            //}
+            removeManagementApplicationBarButton();
+
+            pp = new ApplicationBarIconButton(new Uri("/icons/pause.png", UriKind.Relative));
+            reward = new ApplicationBarIconButton(new Uri("/icons/reward.png", UriKind.Relative));
+            forward = new ApplicationBarIconButton(new Uri("/icons/forward.png", UriKind.Relative));
+            stop = new ApplicationBarIconButton(new Uri("/icons/stop.png", UriKind.Relative));
+
+            pp.Text = "pp";
+            reward.Text = "rückwärts";
+            forward.Text = "vorwärts";
+            stop.Text = "stop";
+
+            pp.Click += play_pause_Click;   //TODO
+            reward.Click += soundbar_reward_button_Click;
+            forward.Click += soundbar_forward_button_Click;
+            stop.Click += soundbar_stop_button_Click;
+
+            ApplicationBar.Buttons.Add(pp);
+            ApplicationBar.Buttons.Add(reward);
+            ApplicationBar.Buttons.Add(forward);
+            ApplicationBar.Buttons.Add(stop);
+
+            bar_status = 2;
+
+
         }
 
-        
 
-        private void soundbar_forward_button_Click(object sender, RoutedEventArgs e)
+        //Fertig
+        private void removeManagementApplicationBarButton()
         {
-            //TimeSpan ts;
-            //ts = AudioPlayer.Position;
-            //if (ts.Seconds + 3 < ts.TotalSeconds)
-            //{
-                AudioPlayer.Position.Add(new TimeSpan(0, 0, 4));
-            //}
+            ApplicationBar.Buttons.Remove(saveAs);
+            ApplicationBar.Buttons.Remove(save);
+            ApplicationBar.Buttons.Remove(cancel);
         }
 
-        private void soundbar_stop_button_Click(object sender, RoutedEventArgs e)
+        //Fertig
+        private void removeMediaApplicationBarButton()
+        {
+            ApplicationBar.Buttons.Remove(pp);
+            ApplicationBar.Buttons.Remove(forward);
+            ApplicationBar.Buttons.Remove(reward);
+            ApplicationBar.Buttons.Remove(stop);
+        }
+
+        //Fertig
+        int pp_status = 1;  //1 = play, 2 = pause.
+        private void play_pause_Click(object sender, EventArgs e)
+        {
+            pp_status += 1;
+
+            if (pp_status == 1)
+            {
+                pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
+                AudioPlayer.Play();
+                playTimer.Start();
+            }
+            else 
+            {
+                pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                AudioPlayer.Pause();
+                playTimer.Stop();
+                pp_status = 0;
+            }
+
+        }
+
+        //Fertig
+        private void soundbar_reward_button_Click(object sender, EventArgs e)
+        {
+            TimeSpan ts;         
+            ts = AudioPlayer.Position;
+            if (ts.Seconds > 3)
+            {
+                TimeSpan _t = new TimeSpan(0, 0, 3);
+                AudioPlayer.Position -= _t;
+                AudioPlayer.Play();
+            }
+        }
+
+
+        //Fertig
+        private void soundbar_forward_button_Click(object sender, EventArgs e)
+        {
+            TimeSpan ts;
+            ts = AudioPlayer.Position;
+            if (ts.Seconds + 3 < AudioPlayer.NaturalDuration.TimeSpan.TotalSeconds)
+            {
+                TimeSpan _t = new TimeSpan(0, 0, 3);
+                AudioPlayer.Position += _t;
+                AudioPlayer.Play();
+            }
+        }
+
+
+
+        //F.Fertig
+        private void soundbar_stop_button_Click(object sender, EventArgs e)
         {
             
             llms_records.EnforceIsSelectionEnabled = false;
+            removeMediaApplicationBarButton();
+            addManagementApplicationBarButton();
             lastPlay.Text = "";
-            deleteRecordButton.Visibility = Visibility.Collapsed;
-            zurueckRecordButton.Visibility = Visibility.Collapsed;
-            soundbar_pausePlayButton.Visibility = Visibility.Collapsed;
-            soundbar_stop_button.Visibility = Visibility.Collapsed;
-            soundbar_forward_button.Visibility = Visibility.Collapsed;
-            soundbar_reward_button.Visibility = Visibility.Collapsed;
-            soundbar_pausePlayButton.IsChecked = false;
-            progressbar.Visibility = Visibility.Collapsed;
-            EndTimer.Visibility = Visibility.Collapsed;
-            CurrentTime.Visibility = Visibility.Collapsed;
-            //soundbar_hintergrund.Visibility = Visibility.Collapsed;
             AudioPlayer.Stop();
+            playTimer.Stop();
+           
         }
 
         //Fertig
@@ -903,16 +1004,20 @@ namespace WritersToolbox.views
 
             deleteRecordButton.Visibility = Visibility.Collapsed;
             zurueckRecordButton.Visibility = Visibility.Collapsed;
-            soundbar_pausePlayButton.Visibility = Visibility.Collapsed;
-            soundbar_stop_button.Visibility = Visibility.Collapsed;
-            soundbar_forward_button.Visibility = Visibility.Collapsed;
-            soundbar_reward_button.Visibility = Visibility.Collapsed;
-            soundbar_pausePlayButton.IsChecked = false;
+            if (bar_status == 2) {
+                removeMediaApplicationBarButton();
+                addManagementApplicationBarButton();
+            }
+            pp_status = 1;
             progressbar.Visibility = Visibility.Collapsed;
             EndTimer.Visibility = Visibility.Collapsed;
             CurrentTime.Visibility = Visibility.Collapsed;
             //soundbar_hintergrund.Visibility = Visibility.Collapsed;
             AudioPlayer.Stop();
+            if (playTimer != null)
+            {
+                playTimer.Stop();
+            }
 
         }
 
@@ -923,16 +1028,22 @@ namespace WritersToolbox.views
             lastPlay.Text = "";
             deleteRecordButton.Visibility = Visibility.Collapsed;
             zurueckRecordButton.Visibility = Visibility.Collapsed;
-            soundbar_pausePlayButton.Visibility = Visibility.Collapsed;
-            soundbar_stop_button.Visibility = Visibility.Collapsed;
-            soundbar_forward_button.Visibility = Visibility.Collapsed;
-            soundbar_reward_button.Visibility = Visibility.Collapsed;
-            soundbar_pausePlayButton.IsChecked = false;
+            if (bar_status == 2)
+            {
+                removeMediaApplicationBarButton();
+                addManagementApplicationBarButton();
+            }
+            
             progressbar.Visibility = Visibility.Collapsed;
             EndTimer.Visibility = Visibility.Collapsed;
             CurrentTime.Visibility = Visibility.Collapsed;
             //soundbar_hintergrund.Visibility = Visibility.Collapsed;
             AudioPlayer.Stop();
+            if(playTimer != null)
+            {
+                playTimer.Stop();
+            }
+            
 
         }
 
@@ -1028,6 +1139,8 @@ namespace WritersToolbox.views
                 }
             }
         }
+
+
 
        
 

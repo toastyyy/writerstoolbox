@@ -58,7 +58,7 @@ namespace WritersToolbox.models
 
         private DateTime stg_updatedDate;
         [Column(CanBeNull = false,
-            Storage = "stg_addedDate")]
+            Storage = "stg_updatedDate")]
         public DateTime updatedDate
         {
             get { return stg_updatedDate; }
