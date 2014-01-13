@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Diagnostics;
 using System.Resources;
 using System.Reflection;
 using System.Collections.Generic;
@@ -28,6 +29,7 @@ using Coding4Fun.Toolkit.Audio;
 
 
 using Coding4Fun.Toolkit.Audio.Helpers;
+using System.Threading;
 
 namespace WritersToolbox.views
 {
@@ -251,6 +253,9 @@ namespace WritersToolbox.views
         //Fertig
         private void titleTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            titleTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
+            SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
+            titleTextBox.Background = _s;
             if (titleTextBox.Text.ToString().Trim().ToUpper().Equals("TITLE"))
             {
                 titleTextBox.Text = "";
@@ -260,7 +265,8 @@ namespace WritersToolbox.views
         //Fertig
         private void titleTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (titleTextBox.Text.Trim().ToString().Trim().ToUpper().Equals("TITLE"))
+            titleTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
+            if (titleTextBox.Text.Trim().Length == 0)
             {
                 titleTextBox.Text = "Title";
             }
@@ -269,6 +275,9 @@ namespace WritersToolbox.views
         //Fertig
         private void detailsTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
+            detailsTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
+            SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
+            detailsTextBox.Background = _s;
             if (detailsTextBox.Text.ToString().ToUpper().Equals("DETAILS"))
             {
                 detailsTextBox.Text = "";
@@ -278,7 +287,8 @@ namespace WritersToolbox.views
         //Fertig
         private void detailsTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            if (detailsTextBox.Text.Trim().ToString().ToUpper().Equals("DETAILS"))
+            detailsTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
+            if (detailsTextBox.Text.Trim().Length == 0)
             {
                 detailsTextBox.Text = "Details";
             }
@@ -640,25 +650,21 @@ namespace WritersToolbox.views
             }
         }
 
-        //Fertig
-        private void PlayButton_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
-
-       
 
         //Fertig
         private void RecordAudioChecked(object sender, RoutedEventArgs e)
         {
+            AudioPlayer.Stop();
             llms_records.IsEnabled = false;
             ImageBrush brush = new ImageBrush();
             brush.ImageSource = new BitmapImage(new Uri("/icons/aufnahme_aktiv.png", UriKind.Relative));
             addRecordButton.Background = brush;
             recorder.Start();
-
-
-            
+            if(bar_status == 2)
+            {
+                removeMediaApplicationBarButton();
+                addManagementApplicationBarButton();
+            }
             EndTimer.Visibility = Visibility.Collapsed;
             progressbar_background.Visibility = Visibility.Collapsed;
             progressbar.Visibility = Visibility.Collapsed;
@@ -771,93 +777,111 @@ namespace WritersToolbox.views
         //Fertig
         private void Sound_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
-            Grid selector = sender as Grid;
-
-            if (selector == null)
-                return;
-
-            string text = ((SoundData)selector.DataContext).FilePath;
-            using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+            if (!(bool)addRecordButton.IsChecked)
             {
-                using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(text, FileMode.Open, FileAccess.Read))
+                Grid selector = sender as Grid;
+
+                if (selector == null)
+                    return;
+
+                string text = ((SoundData)selector.DataContext).FilePath;
+                using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    AudioPlayer.SetSource(fileStream);
-                    
+                    using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(text, FileMode.Open, FileAccess.Read))
+                    {
+                        AudioPlayer.SetSource(fileStream);
+                        fileStream.Close();
+
+                    }
                 }
-            }
-            lastPlay.Text = text;
-            if (bar_status == 1)
-            {
-                removeManagementApplicationBarButton();
-                addMediaApplicationBarButton();
-                bar_status = 2;
+                lastPlay.Text = text;
+                if (bar_status == 1)
+                {
+                    removeManagementApplicationBarButton();
+                    addMediaApplicationBarButton();
+                    zurueckRecordButton.Visibility = Visibility.Visible;
+                    deleteRecordButton.Visibility = Visibility.Visible;
+                    progressbar.Visibility = Visibility.Visible;
+                    EndTimer.Visibility = Visibility.Visible;
+                    CurrentTime.Visibility = Visibility.Visible;
+                    progressbar_background.Visibility = Visibility.Visible;
+                }
 
-                zurueckRecordButton.Visibility = Visibility.Visible;
-                deleteRecordButton.Visibility = Visibility.Visible;
-                progressbar.Visibility = Visibility.Visible;
-                EndTimer.Visibility = Visibility.Visible;
-                CurrentTime.Visibility = Visibility.Visible;
-                progressbar_background.Visibility = Visibility.Visible;
-               // tick_feld.Text = "Neeee, tu ich nicht";
-            }
-            else
-            {
-                //pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
-                //AudioPlayer.Stop();
-               // tick_feld.Text = "ja, ich geh in die schleife";
-                
-            }
-            pp_status = 1;
+                pp_status = 1;
 
-            //progressbar          
-            
-            playTimer = new DispatcherTimer();
-            playTimer.Interval = TimeSpan.FromMilliseconds(1000); //eine Sekunde
-            playTimer.Tick += new EventHandler(playTimer_Tick);
-            playTimer.Start();
-            pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
+                //progressbar          
+
+                timer();
+                pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
+
          
+            }
+            
         }
 
-        
+        private void timer()
+        {
+            if (playTimer == null)
+            {
+                playTimer = new DispatcherTimer();
+                playTimer.Interval = TimeSpan.FromMilliseconds(100); //eine Sekunde
+                playTimer.Tick += new EventHandler(playTimer_Tick);                
+                playTimer.Start();
+            }
+            _test = false;
 
+        }
+
+        bool _test = false;
         //stellt die Current Time und die Endtime des abgespieleten soundfiles dar
         //und erzeugt die "Füllung" der progressbar
         public void playTimer_Tick(object sender, EventArgs e) {
 
-            string totalSeconds = AudioPlayer.NaturalDuration.TimeSpan.TotalSeconds.ToString();
-            progressbar.Maximum = Convert.ToDouble(totalSeconds)  - 1;
-            progressbar.Value = AudioPlayer.Position.Seconds;
+            string totalSeconds = AudioPlayer.NaturalDuration.TimeSpan.TotalMilliseconds.ToString();
+            progressbar.Maximum = Convert.ToDouble(totalSeconds);
+            progressbar.ValueChanged -= progressbar_ValueChanged;
+            progressbar.Value = AudioPlayer.Position.TotalMilliseconds;
+            progressbar.ValueChanged += progressbar_ValueChanged;
+
             TimeSpan _tsEndTime = AudioPlayer.NaturalDuration.TimeSpan.Subtract(new TimeSpan(0, 0, 1));
             //pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
-
-                CurrentTime.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.Position);
-                EndTimer.Text = String.Format(@"{0:hh\:mm\:ss}", _tsEndTime.ToString()).Substring(0, 8);
-
-        
-
+            Debug.WriteLine(progressbar.Value + " / " + progressbar.Maximum);
+            CurrentTime.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.Position);
+            EndTimer.Text = String.Format(@"{0:hh\:mm\:ss}", _tsEndTime.ToString()).Substring(0, 8);
+            if (progressbar.Value > 0)
+                _test = true;
+            if (_test && progressbar.Value == 0  && progressbar.Maximum >0)
+            {
+                pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                pp_status = 0;                
+                CurrentTime.Text = "bin da";
+                
+                if (playTimer != null)
+                {
+                    playTimer.Stop();
+                    playTimer = null;
+                    _test = false;
+                }
+                //playTimer = null;
+                //playTimer.Tick -= playTimer_Tick;
+                
+            }
+            
         }
 
 
-              
+        //private bool playCompleted = false;
 
         private void progressbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            //hier nimmt er nicht nur die händischen veränderungen, sondern jede -> folge: erspielt jede sekunde doppelt ab.
-                //TimeSpan _t = new TimeSpan(0, 0, (int)progressbar.Value);
-                //AudioPlayer.Position = _t;
-
-
-            if (progressbar.Value  == progressbar.Maximum)
-            {
-               
-                pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
-                pp_status = 0;
-                playTimer.Stop();
-               
-            }
             
+            //hier nimmt er nicht nur die händischen veränderungen, sondern jede -> folge: erspielt jede sekunde doppelt ab.
+                TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)progressbar.Value);
+            //new TimeSpan(
+                AudioPlayer.Position = _t;
+
+                
+
         }
 
         //Die Methode wird beim Laden, Stop, löschen und zurück aufgerufen.
@@ -943,6 +967,10 @@ namespace WritersToolbox.views
             {
                 pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
                 AudioPlayer.Play();
+                if (playTimer == null)
+                {
+                    timer();
+                }
                 playTimer.Start();
             }
             else 
@@ -950,6 +978,7 @@ namespace WritersToolbox.views
                 pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
                 AudioPlayer.Pause();
                 playTimer.Stop();
+                playTimer = null;
                 pp_status = 0;
             }
 
@@ -965,7 +994,10 @@ namespace WritersToolbox.views
                 TimeSpan _t = new TimeSpan(0, 0, 3);
                 AudioPlayer.Position -= _t;
                 AudioPlayer.Play();
-                playTimer.Start();
+                if (playTimer!= null && !playTimer.IsEnabled) {
+                    playTimer.Start();
+                }
+                
                 pp_status = 1;
                 pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
             }
@@ -982,7 +1014,10 @@ namespace WritersToolbox.views
                 TimeSpan _t = new TimeSpan(0, 0, 3);
                 AudioPlayer.Position += _t;
                 AudioPlayer.Play();
-                playTimer.Start();
+                if (playTimer != null && !playTimer.IsEnabled)
+                {
+                    playTimer.Start();
+                }
                 pp_status = 1;
                 pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
             }
@@ -997,10 +1032,15 @@ namespace WritersToolbox.views
             llms_records.EnforceIsSelectionEnabled = false;
             removeMediaApplicationBarButton();
             addManagementApplicationBarButton();
+            playTimer.Stop();
+            _test = false;
+            if (playTimer != null) {
+                playTimer = null;
+            }
             bar_status = 1;
             lastPlay.Text = "";
             AudioPlayer.Stop();
-            playTimer.Stop();
+            
             progressbar.Visibility = Visibility.Collapsed;
             EndTimer.Visibility = Visibility.Collapsed;
             CurrentTime.Visibility = Visibility.Collapsed;
@@ -1185,6 +1225,20 @@ namespace WritersToolbox.views
                    schlagwoerterTextBox.Text += result.RecognitionResult.Text + "; ";
                 }
             }
+        }
+
+        //Fertigs
+        private void schlagwoerterTextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            schlagwoerterTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
+            SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
+            schlagwoerterTextBox.Background = _s;
+        }
+
+        //Fertig
+        private void schlagwoerterTextBox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            schlagwoerterTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
         }
 
 

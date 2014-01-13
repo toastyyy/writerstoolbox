@@ -24,15 +24,15 @@
         <Rectangle Fill="#FF72A91C" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
         <!--Pivotsteuerelement-->
         <!--Neue Notiz anlegen-->
-        <phone:Pivot Title="" Margin="0,28,0,0" FontFamily="/WritersToolbox;component/Fonts/Fonts.zip#Yu Gothic">
+        <phone:Pivot Title="" Margin="0,28,0,0" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic">
 
             <!--Pivotelement eins-->
-            <phone:PivotItem Header="Notiz" Margin="12,28,12,10" FontFamily="/WritersToolbox;component/Fonts/Fonts.zip#Yu Gothic">
+            <phone:PivotItem Header="Notiz" Margin="12,28,12,10" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic">
                 <Grid x:Name="ContentPanel_Notiz" Grid.Row="1" Margin="12,0,12,0">
-                    <ScrollViewer x:Name='scroller_Notiz' VerticalScrollBarVisibility='Visible' Margin="0,0,0,-95" Height="524" VerticalAlignment="Top" >
+                    <ScrollViewer x:Name='scroller_Notiz' VerticalScrollBarVisibility='Visible' Margin="0,0,0,-95" Height="524" VerticalAlignment="Top" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" >
                         <StackPanel x:Name='listItems_Notiz'>
                             <Canvas Height="72" Width="432">
-                                <TextBox x:Name="titleTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Foreground="White" FontFamily="/WritersToolbox;component/Fonts/Fonts.zip#Yu Gothic" FontSize="26.667">
+                                <TextBox x:Name="titleTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Foreground="White" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="26.667" SelectionForeground="White" SelectionBackground="Transparent">
                                     <TextBox.Background>
                                         <SolidColorBrush Color="#333C3C3C"/>
                                     </TextBox.Background>
@@ -42,7 +42,7 @@
                                 </TextBox>
                                 <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro1_Tap"/>
                             </Canvas>
-                            <TextBox x:Name="detailsTextBox" Height="408" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Foreground="#FFFFF8F8" FontFamily="/WritersToolbox;component/Fonts/Fonts.zip#Yu Gothic" FontSize="26.667">
+                            <TextBox x:Name="detailsTextBox" Height="408" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Foreground="#FFFFF8F8" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="26.667" SelectionForeground="White" SelectionBackground="#643C3C3C">
                                 <TextBox.BorderBrush>
                                     <SolidColorBrush Color="#33636161"/>
                                 </TextBox.BorderBrush>
@@ -77,7 +77,7 @@
                             <ImageBrush Stretch="Fill" ImageSource="/icons/zurueck.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
-                    <CheckBox x:Name="selectAllRecordCheckBox" Content="Alles auswählen" HorizontalAlignment="Left" Margin="0,-5,0,0" VerticalAlignment="Top" Width="235" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" RenderTransformOrigin="0.5,0.5" FontFamily="/WritersToolbox;component/Fonts/Fonts.zip#Yu Gothic" />
+                    <CheckBox x:Name="selectAllRecordCheckBox" Content="Alles auswählen" HorizontalAlignment="Left" Margin="0,-5,0,0" VerticalAlignment="Top" Width="235" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" RenderTransformOrigin="0.5,0.5" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" />
                     <Canvas Margin="0,65,0,442">
                         <TextBlock x:Name="lastPlay" Width="325" Canvas.Left="121"/>
                     </Canvas>
@@ -169,22 +169,19 @@
             <phone:PivotItem Header="Schlagwörter" Margin="12,28,12,10">
                 <ScrollViewer x:Name="scroller_Schlagwoerter" VerticalScrollBarVisibility='Visible' Margin="0,0,0,-95" Height="524" VerticalAlignment="Top" >
                     <StackPanel x:Name="listItems_Schlagwoerter">
-                        <TextBox x:Name="schlagwoerterTextBox" Height="300" TextWrapping="Wrap" Width="432" AcceptsReturn="True" TextChanged="schlagwoerterTextBox_TextChanged" Background="#333C3C3C" BorderBrush="#33636161"/>
+                        <TextBox x:Name="schlagwoerterTextBox" Height="300" TextWrapping="Wrap" Width="432" AcceptsReturn="True" TextChanged="schlagwoerterTextBox_TextChanged" Background="#333C3C3C" BorderBrush="#33636161" SelectionBackground="#663C3C3C" Foreground="White" GotFocus="schlagwoerterTextBox_GotFocus" LostFocus="schlagwoerterTextBox_LostFocus"/>
                         <Image x:Name="micro3" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro3_Tap"/>
                         <TextBlock Text="     Bitte trennen Sie die Wörter mit Semikolon ( ; )" VerticalAlignment="Top" Height="44" />
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>
         </phone:Pivot>
-        <TextBlock HorizontalAlignment="Left" Height="52" TextWrapping="Wrap" Text="neue Notiz anlegen" VerticalAlignment="Top" Width="440" LineHeight="13.333" FontFamily="/WritersToolbox;component/Fonts/Fonts.zip#Yu Gothic" FontSize="26.667" Margin="28,6,0,0"/>
+        <TextBlock HorizontalAlignment="Left" Height="52" TextWrapping="Wrap" Text="neue Notiz anlegen" VerticalAlignment="Top" Width="440" LineHeight="13.333" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="26.667" Margin="28,6,0,0"/>
     </Grid>
     <!--Sample code showing usage of ApplicationBar-->
 
     <phone:PhoneApplicationPage.ApplicationBar >
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="false" BackgroundColor="#FF72A91C">
-            <!--<shell:ApplicationBarIconButton x:Name="saveAsButton" IconUri="/icons/speichernUnter.png" Text="zuordnen" Click="saveAsButton_Click" />
-            <shell:ApplicationBarIconButton x:Name="saveButton" IconUri="/icons/speichern.png" Text="speichern" Click="saveButton_Click" />
-            <shell:ApplicationBarIconButton x:Name="cancelButton" IconUri="/icons/cancel.png" Text="schließen" Click="cancelButton_Click" />-->
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

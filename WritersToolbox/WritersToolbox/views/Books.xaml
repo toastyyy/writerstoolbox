@@ -72,7 +72,7 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
-                                    <Border Background="Red">
+                                    <Border Background="Green">
                                     <Image Source="../icons/book.png" Margin="10,10,10,10"></Image>
                                     </Border>
                                 </Grid>
