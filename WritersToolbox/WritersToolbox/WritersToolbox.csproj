@@ -101,6 +101,7 @@
   <ItemGroup>
     <Compile Include="App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
+      <SubType>Code</SubType>
     </Compile>
     <Compile Include="converter\BoolToUsedConverter.cs" />
     <Compile Include="converter\CollectionCountConverter.cs" />
@@ -251,6 +252,7 @@
     <Content Include="Assets\hintergrund_neueIdee_lampe_2.png" />
     <Content Include="Assets\hintergrund_neueIdee_lampe_3.png" />
     <Content Include="Assets\hintergrund_neueIdee_unsortiert.png" />
+    <Content Include="Assets\hintergrund_neueIdee_unsortiert_rot.png" />
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten.png" />
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten_2.png" />
     <Content Include="Assets\start_background.png" />
@@ -336,6 +338,16 @@
   <ItemGroup>
     <Folder Include="Fonts\" />
     <Folder Include="record\" />
+  </ItemGroup>
+  <ItemGroup>
+    <BlendEmbeddedFont Include="WritersTollbox_font.ttf">
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
+    <BlendEmbeddedFont Include="WritersTollbox_font.ttf_bold.ttf">
+      <All>True</All>
+      <AutoFill>True</AutoFill>
+    </BlendEmbeddedFont>
   </ItemGroup>
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).$(TargetFrameworkVersion).Overrides.targets" />
   <Import Project="$(MSBuildExtensionsPath)\Microsoft\$(TargetFrameworkIdentifier)\$(TargetFrameworkVersion)\Microsoft.$(TargetFrameworkIdentifier).CSharp.targets" />
