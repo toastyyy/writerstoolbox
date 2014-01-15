@@ -33,10 +33,15 @@ namespace WritersToolbox.views
             String color = "#" + r + g + b;
             String title = tTitle.Text;
 
-            Types.types_VM.createType(title, color, "");
-
-
-            NavigationService.GoBack();
+            try
+            {
+                Types.types_VM.createType(title, color, "");
+                NavigationService.GoBack();
+            }
+            catch (ArgumentException ae)
+            {
+                MessageBox.Show(ae.Message, "Fehler", MessageBoxButton.OK);
+            }
         }
 
         /// <summary>

@@ -7,46 +7,76 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converter="clr-namespace:WritersToolbox.converter"
+    xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
     mc:Ignorable="d"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="pageLoaded">
 
     <!-- Templates und converter -->
     <phone:PhoneApplicationPage.Resources>
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <converter:DateConverter x:Key="dateCon"/>
         <converter:CollectionCountConverter x:Key="collectionCountCon"/>
-
+        
         <!--Template für PivotHeader-->
         <DataTemplate x:Key="PivotHeader">
             <TextBlock Text="{Binding name}" Margin="9,10,0,0" Foreground="Black" FontFamily="Portable User Interface" FontSize="65"/>
         </DataTemplate>
+        
+        <DataTemplate x:Key="PivotAddItem">
+            <Grid Width="450" Height="Auto" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="30"/>
+                    <RowDefinition Height="70"/>
+                    <RowDefinition Height="*" />
+                </Grid.RowDefinitions>
+                <TextBlock Grid.Row="0" Margin="30,0,0,0" Text="Name des Werkes" Foreground="Black" />
+                <TextBox Width="Auto" Margin="40,0,20,0" Grid.Row="1" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="2" Foreground="Black" ToolTipService.ToolTip=""/>
+                <TextBlock Grid.Row="2" Margin="30,0,0,0" Text="Buchtyp" Foreground="Black" />
+                
+                <Grid Grid.Row="3">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="200" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <TextBlock Margin="30,0,0,0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Text="Roman" FontSize="28" Foreground="DarkGreen" TextDecorations="Underline"/>
+                    <Button Width="Auto" Content="Ändern..." Grid.Column="1" Margin="40,0,20,0" Foreground="Black" Background="White" BorderBrush="Black" BorderThickness="3" Height="70" Tap="changeBookType"/>
+                </Grid>
+                
+                <Button Height="90" Margin="30,0,30,0" VerticalAlignment="Bottom" Grid.Row="4" Width="Auto" HorizontalAlignment="Stretch" Content="Hinzufügen" BorderBrush="Black" BorderThickness="3" Background="White" Foreground="Black" />
+            </Grid>
+        </DataTemplate>
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
-            <Grid>
+            <Grid Margin="1,1,1,1" Width="450" Height="Auto" HorizontalAlignment="Stretch">
                 <phone:LongListSelector 
                     Height="Auto" 
-                    Margin="20,10,10,50" 
-                    Width="Auto" 
+                    Margin="0,10,10,50" 
+                    Width="Auto"
+                    HorizontalAlignment="Stretch"
                     ItemsSource="{Binding tomes}"
                     LayoutMode="Grid"
                     GridCellSize="450, 150"
-                    x:Name="LongList"
-                    >
+                    x:Name="LongList">
                     <!--Template für LongListSelector-item-->
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <Grid Width="Auto" Height="Auto" Margin="0,0,0,15">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="135"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
-                                <Border Background="Red">
+                                <Grid Grid.Column="0">
+                                    <Border Background="Green">
                                     <Image Source="../icons/book.png" Margin="10,10,10,10"></Image>
-                                </Border>
+                                    </Border>
+                                </Grid>
+                                
                                 <Grid Grid.Column="1">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="45"/>
@@ -86,20 +116,67 @@
                 </phone:LongListSelector>
             </Grid>
         </DataTemplate>
+
+        <DataTemplate x:Key="PivotContent">    
+            <StackPanel Width="Auto" Height="Auto">
+                <templateselector:PivotContentTemplateSelector 
+                Content="{Binding}"
+                viewBook="{StaticResource PivotItem}"
+                addBook="{StaticResource PivotAddItem}" 
+                    Width="Auto"/>
+            </StackPanel>                             
+        </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
+
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="White">
+        <!-- Popup fuer Buchtyp -->
+        <Popup x:Name="booktype_popup" Grid.Row="2" Margin="10,80,10,0" VerticalAlignment="Stretch">
+            <Border Margin="10">
+                <StackPanel Background="#F172A91C">
+                    <TextBlock Text="Buchtyp wählen" TextAlignment="Center" FontSize="40" Margin="10,0" />
+                    <TextBlock Text="Bitte wählen Sie einen Buchtyp" FontSize="21" Margin="10,0" />
+                    <Grid Width="400" Height="400" Margin="0,10,0,0">
+                        <phone:LongListSelector ItemsSource="{Binding BookTypes}">
+                            <phone:LongListSelector.ItemTemplate>
+                                <DataTemplate>
+                                    <Grid>
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="50" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        
+                                        <Grid Grid.Column="0" Background="White">
+                                            <Image Source="../icons/book.png" />
+                                        </Grid>
+                                        <Grid Grid.Column="1" Margin="15,0,0,0">
+                                            <TextBlock Text="{Binding name}" FontSize="38" />
+                                        </Grid>
+                                    </Grid>
+                                </DataTemplate>
+                            </phone:LongListSelector.ItemTemplate>
+                        </phone:LongListSelector>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Margin="0,10">
+                        <Button x:Name="btn_continue"  Content="Speichern" Width="215" />
+                        <Button x:Name="btn_cancel"    Content="Abbrechen"   Width="215" Tap="bookTypeCancel" />
+                    </StackPanel>
+                </StackPanel>
+            </Border>
+        </Popup>
         <!--Pivot Control-->
         <Grid>
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
             </Grid.Background>
+            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
+            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
             <phone:Pivot ManipulationDelta="pinch_out" 
                          HeaderTemplate="{StaticResource PivotHeader}" 
-                         ItemTemplate="{StaticResource PivotItem}"
+                         ItemTemplate="{StaticResource PivotContent}"
                          ItemsSource="{Binding Path=Books, Mode=OneWay}"
                          x:Name="PivotMain">
-            <phone:Pivot.Title>
+                    <phone:Pivot.Title>
                 <TextBlock Foreground="Black" Margin="9,0,0,0" Text="BÜCHER" FontSize="22" FontFamily="Segoe WP Semibold" />
             </phone:Pivot.Title>
         </phone:Pivot>

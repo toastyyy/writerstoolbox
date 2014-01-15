@@ -153,4 +153,19 @@
   <data name="note" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\note.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
   </data>
+  <data name="aufnahme" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\aufnahme.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="aufnahme_aktiv" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\aufnahme_aktiv.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="speichern" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\speichern.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="speichernUnter" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\speichernUnter.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="zurueck" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\zurueck.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
 </root>

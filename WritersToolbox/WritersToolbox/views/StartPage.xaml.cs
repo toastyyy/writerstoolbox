@@ -41,6 +41,8 @@ namespace WritersToolbox.gui
         {
             UnsortedNoteViewModel usnvm = new UnsortedNoteViewModel();
             NumberUN.Text = usnvm.getNumberOfUnsortedNote() + "";
+            
+            
         }
         private void newNote(object sender, RoutedEventArgs e)
         {

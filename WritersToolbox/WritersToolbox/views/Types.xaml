@@ -7,6 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converter="clr-namespace:WritersToolbox.converter"
+    xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
+    xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
     mc:Ignorable="d"
     d:DataContext="{d:DesignData ../sampleData/sampleDataTyp.xaml}"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -25,7 +27,7 @@
         </DataTemplate>
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
-            <Grid>
+            <Grid Width="480">
                 <phone:LongListSelector 
                     Height="Auto" 
                     Margin="20,10,10,50" 
@@ -70,29 +72,56 @@
                 <TextBlock Text="klick" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
             </Grid>
         </DataTemplate>
+        <!--Template für neuen Typ-->
+        <DataTemplate x:Key="newType">
+            <Grid x:Name="ContentPanel" Margin="0">
+                <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Black" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus"/>
+                <TextBlock HorizontalAlignment="Left" Margin="14,0,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Width="149" Foreground="Black"/>
+                <TextBlock HorizontalAlignment="Left" Margin="14,90,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" Foreground="Black"/>
+                <Grid HorizontalAlignment="Left" Height="173" Margin="27,122,0,0" VerticalAlignment="Top" Width="414">
+                    <c4f:ColorPicker x:Name="slider" ColorChanged="ColorChanged"></c4f:ColorPicker>
+                </Grid>
+                <TextBlock HorizontalAlignment="Left" Margin="14,321,0,0" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" Foreground="Black"/>
+                <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,348,0,0" VerticalAlignment="Top" BorderBrush="Black" Height="65" Width="446" BorderThickness="2" Foreground="Black" FontSize="20"/>
+
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="SelectingTemplate">
+                <templateselector:PivotTypeTemplateSelector
+                Content="{Binding}"
+                viewTypes="{StaticResource PivotItem}"
+                addType="{StaticResource newType}" 
+                />
+            
+        </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
 
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
-        <Grid>
+        <Grid x:Name="layoutContent">
             <Grid.Background>
                 <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
             </Grid.Background>
             <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
-            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
+            <Rectangle x:Name="BottomRec" Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
 
             <!--Pivotsteuerelement-->
             <phone:Pivot ManipulationDelta="pinch_out" 
                          HeaderTemplate="{StaticResource PivotHeader}" 
-                         ItemTemplate="{StaticResource PivotItem}"
+                         ItemTemplate="{StaticResource SelectingTemplate}"
                          ItemsSource="{Binding Path=Types, Mode=OneWay}"
-                         x:Name="PivotMain">
+                         x:Name="PivotMain" SelectionChanged="PivotSelectionChanged">
                 <phone:Pivot.Title>
                     <TextBlock Foreground="Black" Margin="9,0,0,0" Text="TYPEN" FontSize="22" FontFamily="Segoe WP Semibold" />
                 </phone:Pivot.Title>
             </phone:Pivot>
         </Grid>
     </Grid>
-
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="False" IsMenuEnabled="True" BackgroundColor="#FF72A91C">
+            <shell:ApplicationBarIconButton IconUri="/icons/save.png" Text="Save" Click="SaveType"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/cancel.png" Text="Cancel" Click="CancelType" />
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

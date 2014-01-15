@@ -14,7 +14,10 @@ namespace WritersToolbox.converter
         {
             DateTime val = (DateTime)value;
 
-            String pre = ((String)parameter).Replace("-"," ");
+            String pre = "";
+            if (parameter != null) {
+                pre = ((String)parameter).Replace("-", " ");
+            }
             return pre + " " + val.ToString("dd.MM.yyyy");
         }
 

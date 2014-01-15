@@ -19,17 +19,20 @@ namespace WritersToolbox.viewmodels
     public class BooksViewModel
     {
         public ObservableCollection<datawrapper.Book> Books { get; set; }
+        public ObservableCollection<datawrapper.BookType> BookTypes { get; set; }
         private Boolean dataLoaded { get; set; }
         private WritersToolboxDatebase wtb;
         private Table<Book> tableBook;
         private Table<Tome> tableTome;
         private Table<Chapter> tableChapter;
+        private Table<BookType> tableBookType;
         public BooksViewModel() {
             dataLoaded = false;
             wtb = WritersToolboxDatebase.getInstance();
             tableBook = wtb.GetTable<Book>();
             tableTome = wtb.GetTable<Tome>();
             tableChapter = wtb.GetTable<Chapter>();
+            tableBookType = wtb.GetTable<BookType>();
         }
 
         public Boolean isDataLoaded() 
@@ -39,6 +42,24 @@ namespace WritersToolbox.viewmodels
 
         public void loadData() 
         {
+            // buchtypen laden
+            var sqlBookTypes = from bt in tableBookType
+                               select bt;
+            ObservableCollection<datawrapper.BookType> tmpBookTypes = new ObservableCollection<datawrapper.BookType>();
+            foreach(var bt in sqlBookTypes) {
+                tmpBookTypes.Add(
+                    new datawrapper.BookType() { 
+                        name = bt.name,
+                        numberOfChapter = bt.numberOfChapter,
+                        updatedDate = bt.updatedDate,
+                        addedDate = bt.updatedDate,
+                        bookTypeID = bt.bookTypeID
+                    }
+                );
+            }
+
+            this.BookTypes = tmpBookTypes;
+            // buecher laden
             var sqlBooks = from b in tableBook
                                    select b;
 
@@ -88,6 +109,12 @@ namespace WritersToolbox.viewmodels
                 tmpBooks.Add(book);
             }
 
+            tmpBooks.Add(new datawrapper.Book()
+            {
+                name="Neues Werk",
+                bookID=-1,
+                addedDate = new DateTime(2012,6,3,22,10,22)
+            });
             this.Books = tmpBooks;
         }
     }
