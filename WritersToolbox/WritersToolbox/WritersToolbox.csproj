@@ -259,6 +259,7 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\WritersToolboxstartseiteWT.png" />
     <Content Include="icons\add.png" />
     <Content Include="icons\book.png" />
     <Content Include="icons\cancel.png" />
