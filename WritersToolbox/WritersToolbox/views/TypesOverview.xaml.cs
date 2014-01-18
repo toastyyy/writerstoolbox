@@ -106,6 +106,8 @@ namespace WritersToolbox.views
                 Types.Types_VM.deleteType(t.typeID);
         }
 
+        
+
 
     }
 }

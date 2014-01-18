@@ -104,14 +104,15 @@
                 <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
             </Grid.Background>
             <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
-            <Popup x:Name="deleteTypePopup" Height="250" VerticalAlignment="Top" Margin="0,50,0,0">
-                <Grid Background="#FF72A91C" Height="250" Width="480" HorizontalAlignment="Stretch">
+            <!--Popup für Löschen des Typs-->
+            <Popup x:Name="deleteTypePopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+                <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
-                        <RowDefinition Height="150"/>
+                        <RowDefinition Height="250"/>
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel>
-                        <TextBlock Text="Wollen Sie diesen Typ löschen?" Margin="20,10,0,0" FontSize="22"/>
+                        <TextBlock Text="Wollen Sie diesen Typ löschen?" Margin="20,40,0,0" FontSize="22"/>
                         <CheckBox IsChecked="True" Content="Alle Typobjekte erhalten" Margin="10,10,0,0"/>
                     </StackPanel>
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteType"/>

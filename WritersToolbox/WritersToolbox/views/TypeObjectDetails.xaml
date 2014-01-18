@@ -73,9 +73,23 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
+            
             <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
-            <Rectangle Grid.Row="1" Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
-
+            <!--Popup für Löschen des Typs-->
+            <Popup Grid.RowSpan="2" x:Name="deleteTypeObjectPopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+                <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock Text="Wollen Sie diesen Typobjekt löschen?" Margin="20,40,0,0" FontSize="22"/>
+                        <CheckBox IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0"/>
+                    </StackPanel>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteTypeObject"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
+                </Grid>
+            </Popup>
 
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
             <StackPanel Grid.Row="0" Margin="12,17,0,28">
@@ -113,7 +127,7 @@
                 <TextBlock Margin="10,15,0,0" Text="Angehängte Notizen:" Foreground="Black"/>
                 <phone:LongListSelector 
                     Height="Auto" 
-                    Margin="20,10,10,50" 
+                    Margin="20,10,10,0" 
                     Width="Auto"
                     ItemsSource="{Binding TypeObject.notes}"
                     ItemTemplate="{StaticResource NotesTemplate}"
@@ -122,5 +136,10 @@
             </StackPanel>
         </Grid>
     </Grid>
-
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF72A91C">
+            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern" Click="ChangeTypeObject"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="TryDeleteTypeObject"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
