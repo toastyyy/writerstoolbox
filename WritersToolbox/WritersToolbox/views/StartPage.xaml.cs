@@ -63,6 +63,10 @@ namespace WritersToolbox.gui
         {
             NavigationService.Navigate(new Uri("/views/Books.xaml", UriKind.Relative));
         }
+        private void navigateToTrash(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Trashbin.xaml", UriKind.Relative));
+        }
 
         
     }

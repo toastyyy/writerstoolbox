@@ -136,6 +136,7 @@
     <Compile Include="templateselector\TemplateSelector.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
     <Compile Include="viewmodels\BooksViewModel.cs" />
+    <Compile Include="viewmodels\TrashbinViewModel.cs" />
     <Compile Include="viewmodels\TypeDetailViewModel.cs" />
     <Compile Include="viewmodels\TypesViewModel.cs" />
     <Compile Include="viewmodels\UnsortedNoteViewModel.cs" />
@@ -150,6 +151,9 @@
     </Compile>
     <Compile Include="views\Books.xaml.cs">
       <DependentUpon>Books.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\UnsortedNote.xaml.cs">
+      <DependentUpon>UnsortedNote.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\GridManager.cs" />
     <Compile Include="views\ImageView.xaml.cs">
@@ -177,8 +181,8 @@
     <Compile Include="views\TypesOverview.xaml.cs">
       <DependentUpon>TypesOverview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="views\UnsortedNote.xaml.cs">
-      <DependentUpon>UnsortedNote.xaml</DependentUpon>
+    <Compile Include="views\Trashbin.xaml.cs">
+      <DependentUpon>Trashbin.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -205,6 +209,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="views\UnsortedNote.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="views\ImageView.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -229,7 +237,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="views\UnsortedNote.xaml">
+    <Page Include="views\Trashbin.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
