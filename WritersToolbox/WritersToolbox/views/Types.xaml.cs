@@ -182,6 +182,30 @@ namespace WritersToolbox.views
             NavigationService.GoBack();
         }
 
+        private void ChangeType(object sender, EventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+
+        private void TryDeleteType(object sender, EventArgs e)
+        {
+            deleteTypePopup.IsOpen = true;
+        }
+
+        private void DeleteType(object sender, EventArgs e)
+        {
+            datawrapper.Type t = PivotMain.SelectedItem as datawrapper.Type;
+            if (t == null)
+                return;
+            Types.Types_VM.deleteType(t.typeID);
+            deleteTypePopup.IsOpen = false;
+        }
+
+        private void DoNotDeleteType(object sender, EventArgs e)
+        {
+            deleteTypePopup.IsOpen = false;
+        }
 
         private void TitleGotFocus(object sender, RoutedEventArgs e)
         {
@@ -202,15 +226,29 @@ namespace WritersToolbox.views
             datawrapper.Type t = p.SelectedItem as datawrapper.Type;
             if (t == null)
                 return;
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
             if (t.typeID == -1)
             {
-                ApplicationBar.IsVisible = true;
-                BottomRec.Visibility = Visibility.Collapsed;
+                btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
+                btn1.Text = "speichern";
+                btn1.Click -= new EventHandler(ChangeType);
+                btn1.Click += new EventHandler(SaveType);
+                btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+                btn2.Text = "abbrechen";
+                btn2.Click -= new EventHandler(TryDeleteType);
+                btn2.Click += new EventHandler(CancelType);
             }
             else
             {
-                BottomRec.Visibility = Visibility.Visible;
-                ApplicationBar.IsVisible = false;
+                btn1.IconUri = new Uri("/icons/speichernUnter.png", UriKind.Relative);
+                btn1.Text = "ändern";
+                btn1.Click -= new EventHandler(SaveType);
+                btn1.Click += new EventHandler(ChangeType);
+                btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
+                btn2.Text = "löschen";
+                btn2.Click -= new EventHandler(CancelType);
+                btn2.Click += new EventHandler(TryDeleteType);
             }
         }
 
