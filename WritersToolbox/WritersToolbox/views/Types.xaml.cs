@@ -169,6 +169,7 @@ namespace WritersToolbox.views
             catch (ArgumentException ae) 
             {
                 MessageBox.Show(ae.Message, "Fehler", MessageBoxButton.OK);
+                NavigationService.GoBack();
             }
         }
 
@@ -184,7 +185,11 @@ namespace WritersToolbox.views
 
         private void ChangeType(object sender, EventArgs e)
         {
-            NavigationService.GoBack();
+            datawrapper.Type t =  PivotMain.SelectedItem as datawrapper.Type;
+            if (t == null)
+                return;
+            NavigationService.Navigate(new Uri("/views/ChangeType.xaml?item=" + t.typeID , UriKind.Relative));
+            
         }
 
 

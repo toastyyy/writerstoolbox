@@ -132,8 +132,8 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF72A91C">
-            <shell:ApplicationBarIconButton IconUri="/icons/save.png" Text="Save"/>
-            <shell:ApplicationBarIconButton IconUri="/icons/cancel.png" Text="Cancel"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

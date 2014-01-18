@@ -7,16 +7,17 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using Coding4Fun.Toolkit.Controls;
 using System.Windows.Media;
+
 namespace WritersToolbox.views
 {
-    public partial class AddType : PhoneApplicationPage
+    public partial class ChangeType : PhoneApplicationPage
     {
-        public AddType()
+        public ChangeType()
         {
             InitializeComponent();
         }
-
         /// <summary>
         /// Ein neuer Typ wird erzeugt.
         /// </summary>
@@ -54,16 +55,18 @@ namespace WritersToolbox.views
             NavigationService.GoBack();
         }
 
-
-        /// <summary>
-        /// Beim Verlassen dieser Seite wird dem Current State der App mitgeteilt,
-        /// dass ein neuer Typ erstellt wurde.
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            PhoneApplicationService.Current.State["NewType"] = tTitle;
+            if (NavigationContext.QueryString.ContainsKey("item"))
+            {
+                var item = NavigationContext.QueryString["item"];
+                var indexParsed = int.Parse(item);
+                tTitle.Text = Types.Types_VM.getTitleForType(indexParsed);
+                slider.Color = Types.Types_VM.getColorForType(indexParsed);
+            }
+
+
         }
     }
 }

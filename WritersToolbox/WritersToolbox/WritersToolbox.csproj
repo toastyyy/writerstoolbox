@@ -143,14 +143,14 @@
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
-    <Compile Include="views\AddType.xaml.cs">
-      <DependentUpon>AddType.xaml</DependentUpon>
-    </Compile>
     <Compile Include="views\AddTypeObject.xaml.cs">
       <DependentUpon>AddTypeObject.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\Books.xaml.cs">
       <DependentUpon>Books.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\ChangeType.xaml.cs">
+      <DependentUpon>ChangeType.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\UnsortedNote.xaml.cs">
       <DependentUpon>UnsortedNote.xaml</DependentUpon>
@@ -197,15 +197,15 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="views\AddType.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="views\AddTypeObject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\Books.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\ChangeType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
