@@ -21,7 +21,7 @@
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
         <Grid.Background>
-            <ImageBrush ImageSource="/Assets/hintergrund_neueIdee_trashbin_white.png"/>
+            <ImageBrush ImageSource="/Assets/hintergrund_trashbin_white.png"/>
         </Grid.Background>
 
 
