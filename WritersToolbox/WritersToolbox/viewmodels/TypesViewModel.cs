@@ -291,6 +291,25 @@ namespace WritersToolbox.viewmodels
 
         public bool IsDataLoaded { get; set; }
 
+        public void updateType(int typeID, String title, String color) { 
+            var type = (from t in tableType
+                         where t.typeID == typeID
+                         select t).Single();
+            type.title = title;
+            type.color = color;
+            this.db.SubmitChanges();
+        }
+
+        public void updateTypeObject(int typeObjectID, String name, String color, String imageString) {
+            var t = (from to in tableTypeObject
+                    where to.typeObjectID == typeObjectID
+                    select to).Single();
+            t.name = name;
+            t.color = color;
+            t.imageString = imageString;
+           
+            this.db.SubmitChanges();
+        }
         public void LoadData()
         {
             this.db.Refresh(RefreshMode.KeepChanges);
