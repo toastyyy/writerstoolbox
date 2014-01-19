@@ -41,7 +41,7 @@
                     <!--Template für LongListSelector-item-->
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15" Hold="deleteTypeObject">
+                            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15" Hold="TryDeleteTypeObject">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="135"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -112,11 +112,26 @@
                         <RowDefinition Height="*"/>
                     </Grid.RowDefinitions>
                     <StackPanel>
-                        <TextBlock Text="Wollen Sie diesen Typ löschen?" Margin="20,40,0,0" FontSize="22"/>
+                        <TextBlock x:Name="TypeDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
                         <CheckBox IsChecked="True" Content="Alle Typobjekte erhalten" Margin="10,10,0,0"/>
                     </StackPanel>
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteType"/>
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteType"/>
+                </Grid>
+            </Popup>
+            <!--Popup für Löschen des TypObjekts-->
+            <Popup x:Name="deleteTypeObjectPopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+                <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock x:Name="TypeObjectDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
+                        <CheckBox IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0"/>
+                    </StackPanel>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteTypeObject"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
                 </Grid>
             </Popup>
             <!--Pivotsteuerelement-->

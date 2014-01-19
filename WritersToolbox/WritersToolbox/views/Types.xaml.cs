@@ -18,8 +18,11 @@ namespace WritersToolbox.views
 {
     public partial class Types : PhoneApplicationPage
     {
+
+
         private TextBox newTypeTitle = new TextBox();
         private ColorPicker picker = new ColorPicker();
+        private datawrapper.TypeObject holdTypeobject;
         public static TypesViewModel types_VM = null;
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
@@ -135,15 +138,24 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void deleteTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
+        private void TryDeleteTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            datawrapper.TypeObject to = (sender as Grid).DataContext as datawrapper.TypeObject;
-            if (to == null)
+            holdTypeobject = (sender as Grid).DataContext as datawrapper.TypeObject;
+            if (holdTypeobject == null)
                 return;
-            MessageBoxResult result = MessageBox.Show("Wollen Sie das Typobjekt wirklich löschen?",
-            "Typobjekt löschen", MessageBoxButton.OKCancel);
-            if(result == MessageBoxResult.OK)
-                Types_VM.deleteTypeObject(to.typeObjectID);
+            TypeObjectDeleteQuestion.Text = "Wollen Sie das Typobjekt \"" + holdTypeobject.name.ToString() + "\" löschen?";
+            deleteTypeObjectPopup.IsOpen = true;
+        }
+
+        private void DeleteTypeObject(object sender, EventArgs e)
+        {
+            Types.Types_VM.deleteTypeObject(holdTypeobject.typeObjectID);
+            deleteTypeObjectPopup.IsOpen = false;
+        }
+
+        private void DoNotDeleteTypeObject(object sender, EventArgs e)
+        {
+            deleteTypeObjectPopup.IsOpen = false;
         }
 
         /// <summary>
@@ -195,6 +207,10 @@ namespace WritersToolbox.views
 
         private void TryDeleteType(object sender, EventArgs e)
         {
+            datawrapper.Type t = PivotMain.SelectedItem as datawrapper.Type;
+            if (t == null)
+                return;
+            TypeDeleteQuestion.Text = "Wollen Sie den Typ \"" + t.title.ToString() +  "\" löschen?";
             deleteTypePopup.IsOpen = true;
         }
 

@@ -33,7 +33,7 @@
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
             <StackPanel Grid.Row="0" Margin="12,17,0,28">
                 <TextBlock Text="TYPEN" Margin="9,0,0,0" FontSize="22" Foreground="Black" FontFamily="Segoe WP Semibold"/>
-                <TextBlock Text="Neues Objekt" Margin="9,10,0,0" Foreground="Black" FontSize="65" FontFamily="Portable User Interface"/>
+                <TextBlock x:Name="Title" Text="Neues Objekt" Margin="9,10,0,0" Foreground="Black" FontSize="65" FontFamily="Portable User Interface"/>
             </StackPanel>
 
             <!--ContentPanel - zusätzliche Inhalte hier platzieren-->

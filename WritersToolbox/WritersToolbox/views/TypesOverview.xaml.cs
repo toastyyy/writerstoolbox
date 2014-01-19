@@ -16,7 +16,7 @@ namespace WritersToolbox.views
 {
     public partial class TypesOverview : PhoneApplicationPage
     {
-
+        private datawrapper.Type selectedType;
 
         public TypesOverview()
         {
@@ -95,18 +95,25 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void deleteType(object sender, System.Windows.Input.GestureEventArgs e)
+        private void TryDeleteType(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            datawrapper.Type t = (sender as Grid).DataContext as datawrapper.Type;
-            if (t == null)
+            selectedType = (sender as Grid).DataContext as datawrapper.Type;
+            if (selectedType == null)
                 return;
-            MessageBoxResult result = MessageBox.Show("Wollen Sie den Typ wirklich löschen?",
-            "Typ löschen", MessageBoxButton.OKCancel);
-            if (result == MessageBoxResult.OK)
-                Types.Types_VM.deleteType(t.typeID);
+            TypeDeleteQuestion.Text = "Wollen Sie den Typ \"" + selectedType.title.ToString() + "\" löschen?";
+            deleteTypePopup.IsOpen = true;
         }
 
-        
+        private void DeleteType(object sender, EventArgs e)
+        {
+            Types.Types_VM.deleteType(selectedType.typeID);
+            deleteTypePopup.IsOpen = false;
+        }
+
+        private void DoNotDeleteType(object sender, EventArgs e)
+        {
+            deleteTypePopup.IsOpen = false;
+        }
 
 
     }

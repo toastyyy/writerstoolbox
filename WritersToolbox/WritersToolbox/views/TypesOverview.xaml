@@ -22,7 +22,7 @@
                   Height="Auto" 
                   Margin="10,10,10,10" 
                   Background="{Binding color}"
-                  Hold="deleteType">
+                  Hold="TryDeleteType">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
@@ -53,7 +53,21 @@
             </Grid.RowDefinitions>
             <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
             <Rectangle Grid.Row="1" Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
-
+            <!--Popup für Löschen des Typs-->
+            <Popup x:Name="deleteTypePopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+                <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock x:Name="TypeDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
+                        <CheckBox IsChecked="True" Content="Alle Typobjekte erhalten" Margin="10,10,0,0"/>
+                    </StackPanel>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteType"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteType"/>
+                </Grid>
+            </Popup>
 
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
             <StackPanel Grid.Row="0" Margin="12,17,0,28">

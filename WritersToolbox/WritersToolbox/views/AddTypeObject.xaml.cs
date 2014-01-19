@@ -73,6 +73,7 @@ namespace WritersToolbox.views
             {
                 var tID = NavigationContext.QueryString["typeID"];
                 typeID = int.Parse(tID);
+                Title.Text = "Neues Objekt";
             }
             else if (NavigationContext.QueryString.ContainsKey("item"))
             {
@@ -80,6 +81,7 @@ namespace WritersToolbox.views
                 var indexParsed = int.Parse(item);
                 toName.Text = Types.Types_VM.getNameForTypeObject(indexParsed);
                 slider.Color = Types.Types_VM.getColorForTypeObject(indexParsed);
+                Title.Text = "Objekt ändern";
             }
         }
 
