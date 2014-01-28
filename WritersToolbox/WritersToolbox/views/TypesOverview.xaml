@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wt="clr-namespace:WritersToolbox.viewmodels"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
@@ -31,7 +31,6 @@
                 <TextBlock Grid.Row="1" 
                            Text="{Binding title}" 
                            TextWrapping="Wrap"  
-                           Foreground="Black" 
                            FontSize="16" 
                            VerticalAlignment="Bottom" 
                            HorizontalAlignment="Center" 
@@ -42,17 +41,14 @@
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
-        <Grid>
-            <Grid.Background>
-                <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
-            </Grid.Background>
+        <Grid Background="Black">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
-            <Rectangle Grid.Row="1" Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
+            <Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
+            <Rectangle Grid.Row="1" Fill="#FF911124" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="72"></Rectangle>
             <!--Popup für Löschen des Typs-->
             <Popup x:Name="deleteTypePopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
                 <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
@@ -71,12 +67,12 @@
 
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
             <StackPanel Grid.Row="0" Margin="12,17,0,28">
-                <TextBlock Text="TYPEN" Margin="9,0,0,0" FontSize="22" Foreground="Black" FontFamily="Segoe WP Semibold"/>
-                <TextBlock Text="Überblick" Margin="9,10,0,0" Foreground="Black" FontSize="65" FontFamily="Portable User Interface"/>
+                <TextBlock Text="TYPEN" Margin="9,0,0,0" FontSize="22"/>
+                <TextBlock Text="Überblick" Margin="9,15,0,0" FontSize="65"/>
             </StackPanel>
 
             <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
-            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,50" ManipulationDelta="pinch_out">
+            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,72" ManipulationDelta="pinch_out">
                 <phone:LongListSelector 
                     Height="Auto" 
                     Margin="0,0,0,0" 
@@ -92,5 +88,5 @@
             </Grid>
         </Grid>
     </Grid>
-    
+
 </phone:PhoneApplicationPage>

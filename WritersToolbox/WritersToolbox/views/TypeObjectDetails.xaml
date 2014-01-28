@@ -7,14 +7,14 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:converter="clr-namespace:WritersToolbox.converter"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
     Style="{StaticResource TransitionPageStyle}">
-    
+
     <phone:PhoneApplicationPage.Resources>
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <converter:NoteCountConverter x:Key="noteCountConverter"/>
@@ -29,7 +29,7 @@
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
                 <Grid Grid.Column="0" Background="Red" Height="80">
-                     <Image Source="../icons/note.png" Height="80" Width="Auto"/>
+                    <Image Source="../icons/note.png" Height="80" Width="Auto"/>
                 </Grid>
                 <Grid Grid.Column="1" Margin="10,0,0,0">
                     <Grid.RowDefinitions>
@@ -37,21 +37,19 @@
                         <RowDefinition Height="40"/>
                     </Grid.RowDefinitions>
                     <Grid Grid.Row="0">
-                           <TextBlock
-                           Text="{Binding title}" 
-                           TextWrapping="NoWrap"  
-                           Foreground="Black" 
-                           FontSize="38" 
-                           VerticalAlignment="Top" 
-                           HorizontalAlignment="Left"
-                           LineStackingStrategy="BlockLineHeight" LineHeight="38"
-                            />
-                    </Grid> 
+                        <TextBlock
+                            Text="{Binding title}" 
+                            TextWrapping="NoWrap"  
+                            FontSize="38" 
+                            VerticalAlignment="Top" 
+                            HorizontalAlignment="Left"
+                            LineStackingStrategy="BlockLineHeight" 
+                            LineHeight="38"/>
+                    </Grid>
                     <Grid Grid.Row="1" Margin="5,0,0,0">
                         <TextBlock
                         Text="{Binding contentText, Converter={StaticResource noteShortContentConverter}, ConverterParameter=showUnused}"
                         TextWrapping="Wrap"
-                        Foreground="#FF111111"
                         FontSize="18"
                         VerticalAlignment="Top"
                         HorizontalAlignment="Left"
@@ -64,17 +62,14 @@
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
-        <Grid>
-            <Grid.Background>
-                <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
-            </Grid.Background>
+        <Grid Background="Black">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            
-            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
+
+            <Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
             <!--Popup für Löschen des TypObjekts-->
             <Popup Grid.RowSpan="2" x:Name="deleteTypeObjectPopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
                 <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
@@ -93,8 +88,8 @@
 
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
             <StackPanel Grid.Row="0" Margin="12,17,0,28">
-                <TextBlock Text="{Binding TypeObject.type.title}" Margin="9,0,0,0" FontSize="22" Foreground="Black" FontFamily="Segoe WP Semibold"/>
-                <TextBlock Text="{Binding TypeObject.name}" Margin="9,25,0,0" Foreground="Black" FontSize="50" FontFamily="Portable User Interface" TextWrapping="Wrap"/>
+                <TextBlock Text="{Binding TypeObject.type.title}" Margin="9,0,0,0" FontSize="22"/>
+                <TextBlock Text="{Binding TypeObject.name}" Margin="9,25,0,0" FontSize="50" TextWrapping="Wrap"/>
             </StackPanel>
 
             <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
@@ -109,22 +104,21 @@
                     </Border>
                     <StackPanel Grid.Column="1">
                         <TextBlock Grid.Column="1" 
-                                               Text="{Binding TypeObject.used, Converter={StaticResource boolToUsedCon}, ConverterParameter=showUnused}" 
-                                               FontSize="20" 
-                                               Foreground="Black"
-                                               Margin="30,5,0,10"
-                                               VerticalAlignment="Top"
-                                               TextWrapping="Wrap"
-                                               Width="280" FontFamily="Portable User Interface" HorizontalAlignment="Left"/>
+                                   Text="{Binding TypeObject.used, Converter={StaticResource boolToUsedCon}, ConverterParameter=showUnused}" 
+                                   FontSize="20" 
+                                   Margin="30,5,0,10"
+                                   VerticalAlignment="Top"
+                                   TextWrapping="Wrap"
+                                   Width="280"
+                                   HorizontalAlignment="Left"/>
                         <TextBlock Grid.Column="1" 
-                                               Text="{Binding TypeObject.notes, Converter={StaticResource noteCountConverter}}" 
-                                               FontSize="20" 
-                                               Foreground="Black"
-                                               Margin="30,0,0,10"
-                                               VerticalAlignment="Top"/>
+                                   Text="{Binding TypeObject.notes, Converter={StaticResource noteCountConverter}}" 
+                                   FontSize="20"
+                                   Margin="30,0,0,10"
+                                   VerticalAlignment="Top"/>
                     </StackPanel>
                 </Grid>
-                <TextBlock Margin="10,15,0,0" Text="Angehängte Notizen:" Foreground="Black"/>
+                <TextBlock Margin="10,15,0,0" Text="Angehängte Notizen:"/>
                 <phone:LongListSelector 
                     Height="Auto" 
                     Margin="20,10,10,0" 
@@ -137,7 +131,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF72A91C">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF911124">
             <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern" Click="ChangeTypeObject"/>
             <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="TryDeleteTypeObject"/>
         </shell:ApplicationBar>
