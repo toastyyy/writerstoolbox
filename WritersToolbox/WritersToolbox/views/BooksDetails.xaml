@@ -1,0 +1,66 @@
+﻿<phone:PhoneApplicationPage
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:WritersToolbox="clr-namespace:WritersToolbox"
+    x:Class="WritersToolbox.views.BooksDetails"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True"
+    Style="{StaticResource TransitionPageStyle}">
+
+    <phone:PhoneApplicationPage.Background>
+        <ImageBrush Stretch="Fill"/>
+    </phone:PhoneApplicationPage.Background>
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="19*"/>
+            <ColumnDefinition Width="13*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" MinHeight="223"/>
+            <RowDefinition/>
+        </Grid.RowDefinitions>
+
+        <!--<StackPanel Grid.Row="0" Margin="10,10,-10,58" Height="120">-->
+        <!-- <TextBlock Text="Writers Toolbox" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" HorizontalAlignment="Center" FontSize="44"/>-->
+        <!-- </StackPanel>-->
+
+        <!--TitlePanel contains the name of the application and page title-->
+        <Grid x:Name="title" Grid.Row="0" Margin="10,0,10,115" Grid.ColumnSpan="2" >
+            <TextBlock x:Name="BookName" Text="Bookname" HorizontalAlignment="Left" Height="89" Margin="31,10,0,0" TextWrapping="Wrap"  VerticalAlignment="Top" Width="394" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="53.333" TextAlignment="Center"/>
+        </Grid>
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Margin="25,133,25,10" Grid.ColumnSpan="2" Grid.RowSpan="2">
+
+            <Button HorizontalAlignment="Left" Margin="0,10,0,0" VerticalAlignment="Top" Background="#FF72A91C" BorderThickness="0" Width="290" Height="142" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Click="charsAndPlaces">
+                <TextBlock x:Name="SiteCount" VerticalAlignment="Center" FontSize="26.667" Foreground="White" Width="256" Height="49" HorizontalAlignment="Center" TextAlignment="Center" Text="SiteCount" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"/>
+            
+            </Button>
+
+            <Button HorizontalAlignment="Left" Margin="0,215,0,0" VerticalAlignment="Top" Background="#FF911124" BorderThickness="0" Height="120" Width="376" VerticalContentAlignment="Bottom" Padding="9,0,5,2" HorizontalContentAlignment="Left" Click="charsAndPlaces">
+                <TextBlock VerticalAlignment="Center" FontSize="26.667" Foreground="White" Width="324" Height="61" HorizontalAlignment="Center" TextAlignment="Center" Text="Charaktere und Orte" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"/>
+            </Button>
+
+            <Button HorizontalAlignment="Right" Margin="0,423,10,0" VerticalAlignment="Top" Background="#FFCD9B05" BorderThickness="0" Height="110" Width="220" VerticalContentAlignment="Bottom" Padding="50,0,5,2" HorizontalContentAlignment="Left">
+                <TextBlock Height="58" TextWrapping="Wrap" Text="Settings" Width="123" RenderTransformOrigin="0.707,0.638"/>
+            </Button>
+
+            <Button HorizontalAlignment="Right" Margin="0,10,0,0" VerticalAlignment="Top" Background="#FF911124" BorderThickness="0" Width="150" Height="200" Padding="9,0,5,2" Grid.ColumnSpan="2" Grid.Column="1" Grid.RowSpan="2" Click="charsAndPlaces" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="24" RenderTransformOrigin="0.5,0.5">
+                <Button.RenderTransform>
+                    <CompositeTransform/>
+                </Button.RenderTransform>
+                <TextBlock x:Name="NumberUN" VerticalAlignment="Center" FontSize="96" Foreground="White" Width="110" Height="114" HorizontalAlignment="Center" TextAlignment="Center"/>
+            </Button>
+
+        </Grid>
+    </Grid>
+</phone:PhoneApplicationPage>

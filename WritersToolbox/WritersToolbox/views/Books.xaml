@@ -72,8 +72,8 @@
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
-                                    <Border Background="Green">
-                                    <Image Source="../icons/book.png" Margin="10,10,10,10"></Image>
+                                    <Border Background="Green">                                      
+                                        <Image Source="../icons/book.png" Margin="10,10,10,10"></Image>
                                     </Border>
                                 </Grid>
                                 
@@ -141,11 +141,12 @@
                             <phone:LongListSelector.ItemTemplate>
                                 <DataTemplate>
                                     <Grid>
-                                        <Grid.ColumnDefinitions>
+                                        
+                                            <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="50" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        
+                                    <!--    <Button Tap="navigateToBooksDetails"> </Button>  Doesnt Create a Button :( -->
                                         <Grid Grid.Column="0" Background="White">
                                             <Image Source="../icons/book.png" />
                                         </Grid>

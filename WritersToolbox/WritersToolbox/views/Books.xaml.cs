@@ -43,7 +43,10 @@ namespace WritersToolbox.views
         {
 
         }
-
+        //private void navigateToBooksDetails(object sender, RoutedEventArgs e)
+        //{
+        //    NavigationService.Navigate(new Uri("/views/BooksDetails.xaml", UriKind.Relative));
+        //}
         private void pageLoaded(object sender, RoutedEventArgs e)
         {
         

@@ -184,6 +184,9 @@
     <Compile Include="views\Trashbin.xaml.cs">
       <DependentUpon>Trashbin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\BooksDetails.xaml.cs">
+      <DependentUpon>BooksDetails.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
@@ -238,6 +241,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\Trashbin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\BooksDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
