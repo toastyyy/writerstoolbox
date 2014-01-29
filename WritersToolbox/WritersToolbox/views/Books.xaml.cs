@@ -39,17 +39,66 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
-        private void pinch_out(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
-        {
-
-        }
         //private void navigateToBooksDetails(object sender, RoutedEventArgs e)
         //{
         //    NavigationService.Navigate(new Uri("/views/BooksDetails.xaml", UriKind.Relative));
         //}
-        private void pageLoaded(object sender, RoutedEventArgs e)
+
+
+        /// <summary>
+        /// Die Methode erkennt die Zoomout-Geste und navigiert zu TypesOverview
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void pinch_out(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-        
+
+            if (e.PinchManipulation != null)
+            {
+                if (e.PinchManipulation.CumulativeScale > 1d)
+                {
+                    System.Diagnostics.Debug.WriteLine("Zoomout");
+                    NavigationService.Navigate(new Uri("/views/BooksOverview.xaml", UriKind.Relative));
+                }
+                else
+                    System.Diagnostics.Debug.WriteLine("Zoomin");
+
+            }
+
+
+        }
+
+        /// <summary>
+        /// Wird auf diese Page naviert, überprüft die Methode, ob zu einem gewünschten Pivotitem
+        /// navigiert werden soll.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnNavigatedTo(NavigationEventArgs e)
+        {
+            base.OnNavigatedTo(e);
+            if (NavigationContext.QueryString.ContainsKey("item"))
+            {
+                var item = NavigationContext.QueryString["item"];
+                var indexParsed = int.Parse(item);
+                if (indexParsed == -1)
+                {
+                    PivotMain.SelectedIndex = Books_VM.getBookCount() - 1;
+                } else 
+                    PivotMain.SelectedIndex = indexParsed - 1;
+            }
+
+
+        }
+
+
+        /// <summary>
+        /// Hilfsmethode solange man Zoom nicht testen kann.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/BooksOverview.xaml", UriKind.Relative));
         }
 
         private void changeBookType(object sender, System.Windows.Input.GestureEventArgs e)

@@ -125,7 +125,11 @@ namespace WritersToolbox.views
             {
                 var item = NavigationContext.QueryString["item"];
                 var indexParsed = int.Parse(item);
-                PivotMain.SelectedIndex = indexParsed - 1;
+                if (indexParsed == -1)
+                {
+                    PivotMain.SelectedIndex = Types_VM.getTypeCount() - 1;
+                } else 
+                    PivotMain.SelectedIndex = indexParsed - 1;
             }
                 
            

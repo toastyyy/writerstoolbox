@@ -135,7 +135,8 @@
                          HeaderTemplate="{StaticResource PivotHeader}" 
                          ItemTemplate="{StaticResource SelectingTemplate}"
                          ItemsSource="{Binding Path=Types, Mode=OneWay}"
-                         x:Name="PivotMain" SelectionChanged="PivotSelectionChanged" 
+                         x:Name="PivotMain" 
+                         SelectionChanged="PivotSelectionChanged" 
                          VerticalAlignment="Top"
                          VerticalContentAlignment="Top">
                 <phone:Pivot.Title>

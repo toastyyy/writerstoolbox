@@ -258,6 +258,11 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+        public int getTypeCount()
+        {
+            return Types.Count;
+        }
+
 
         private Color fromHexToColor(String hex)
         {
