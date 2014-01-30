@@ -14,6 +14,7 @@ namespace WritersToolbox.views
     public partial class Books : PhoneApplicationPage
     {
         public static BooksViewModel books_VM = null;
+        private datawrapper.Book selectedBook;
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
         /// </summary>
@@ -109,6 +110,36 @@ namespace WritersToolbox.views
         private void bookTypeCancel(object sender, System.Windows.Input.GestureEventArgs e)
         {
             booktype_popup.IsOpen = false;
+        }
+
+        
+        private void TryDeleteBook(object sender, EventArgs e)
+        {
+            datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
+            if (b == null)
+                return;
+            BookDeleteQuestion.Text = "Wollen Sie das Werk \"" + b.name.ToString() + "\" löschen?";
+            deleteBookPopup.IsOpen = true;
+        }
+
+        private void DeleteBook(object sender, EventArgs e)
+        {
+            deleteBookPopup.IsOpen = false;
+        }
+
+        private void DoNotDeleteBook(object sender, EventArgs e)
+        {
+            deleteBookPopup.IsOpen = false;
+        }
+
+
+        private void ChangeBook(object sender, EventArgs e)
+        {
+            datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
+            if (b == null)
+                return;
+            NavigationService.Navigate(new Uri("/views/ChangeBook.xaml?item=" + b.bookID, UriKind.Relative));
+
         }
     }
 }

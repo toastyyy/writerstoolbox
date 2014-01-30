@@ -68,17 +68,6 @@ namespace WritersToolbox.views
         {
         }
 
-        /// <summary>
-        /// Beim Navigieren zu dieser Seite wird der Current State der App abgefragt
-        /// und bei einem neuen Typ wird zu diesem gescrollt.
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnNavigatedTo(System.Windows.Navigation.NavigationEventArgs e)
-        {
-            base.OnNavigatedTo(e);
-            if(PhoneApplicationService.Current.State.ContainsKey("New"))
-                list.ScrollTo(list.ItemsSource[list.ItemsSource.Count - 2]);
-        }
 
         /// <summary>
         /// Die Methode wird bei einem Hold-Event auf einen Typ aufgerufen, ermittelt die 

@@ -49,7 +49,7 @@
             </Grid.RowDefinitions>
             <Rectangle Fill="#FF72A91C" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
             <Rectangle Grid.Row="1" Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="72"></Rectangle>
-            <!--Popup für Löschen des Typs-->
+            <!--Popup für Löschen des Werkes-->
             <Popup x:Name="deleteBookPopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
                 <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
@@ -58,7 +58,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock x:Name="BookDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
-                        <CheckBox IsChecked="True" Content="Alle Typobjekte erhalten" Margin="10,10,0,0"/>
+                        <CheckBox IsChecked="True" Content="Alle Bände erhalten" Margin="10,10,0,0"/>
                     </StackPanel>
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteBook"/>
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteBook"/>

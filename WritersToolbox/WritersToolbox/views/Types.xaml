@@ -147,8 +147,8 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF911124">
-            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern"/>
-            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern" Click="ChangeType"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="TryDeleteType"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

@@ -155,6 +155,9 @@
     <Compile Include="views\BooksOverview.xaml.cs">
       <DependentUpon>BooksOverview.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\ChangeBook.xaml.cs">
+      <DependentUpon>ChangeBook.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\UnsortedNote.xaml.cs">
       <DependentUpon>UnsortedNote.xaml</DependentUpon>
     </Compile>
@@ -216,6 +219,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\BooksOverview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\ChangeBook.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>

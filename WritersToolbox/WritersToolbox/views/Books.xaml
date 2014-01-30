@@ -147,10 +147,24 @@
                 </StackPanel>
             </Grid>
         </Popup>
+        <!--Popup für Löschen des Werkes-->
+        <Popup x:Name="deleteBookPopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+            <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="250"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBlock x:Name="BookDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
+                    <CheckBox IsChecked="True" Content="Alle Bände erhalten" Margin="10,10,0,0"/>
+                </StackPanel>
+                <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteBook"/>
+                <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteBook"/>
+            </Grid>
+        </Popup>
         <!--Pivot Control-->
         <Grid Background="Black">
             <Rectangle Fill="#FF72A91C" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
-            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
             <phone:Pivot ManipulationDelta="pinch_out" 
                          HeaderTemplate="{StaticResource PivotHeader}" 
                          ItemTemplate="{StaticResource PivotContent}"
@@ -161,7 +175,11 @@
                 </phone:Pivot.Title>
             </phone:Pivot>
         </Grid>
-
     </Grid>
-
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF72A91C">
+            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern" Click="ChangeBook"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="TryDeleteBook"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
