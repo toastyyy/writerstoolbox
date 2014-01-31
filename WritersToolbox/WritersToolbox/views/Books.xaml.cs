@@ -139,7 +139,52 @@ namespace WritersToolbox.views
             if (b == null)
                 return;
             NavigationService.Navigate(new Uri("/views/ChangeBook.xaml?item=" + b.bookID, UriKind.Relative));
-
         }
+
+
+        private void PivotSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            Pivot p = sender as Pivot;
+            if (p == null)
+                return;
+            datawrapper.Book b = p.SelectedItem as datawrapper.Book;
+            if (b == null)
+                return;
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            if (b.bookID == -1)
+            {
+                btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
+                btn1.Text = "speichern";
+                btn1.Click -= new EventHandler(ChangeBook);
+                btn1.Click += new EventHandler(SaveBook);
+                btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+                btn2.Text = "abbrechen";
+                btn2.Click -= new EventHandler(TryDeleteBook);
+                btn2.Click += new EventHandler(CancelBook);
+            }
+            else
+            {
+                btn1.IconUri = new Uri("/icons/speichernUnter.png", UriKind.Relative);
+                btn1.Text = "ändern";
+                btn1.Click -= new EventHandler(SaveBook);
+                btn1.Click += new EventHandler(ChangeBook);
+                btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
+                btn2.Text = "löschen";
+                btn2.Click -= new EventHandler(CancelBook);
+                btn2.Click += new EventHandler(TryDeleteBook);
+            }
+        }
+
+        private void SaveBook(object sender, EventArgs e)
+        {
+            PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
+        }
+
+        private void CancelBook(object sender, EventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
     }
 }

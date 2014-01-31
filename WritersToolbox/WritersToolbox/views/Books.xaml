@@ -47,7 +47,6 @@
                     <TextBlock Margin="30,0,0,0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Text="Roman" FontSize="28" Foreground="DarkGreen" TextDecorations="Underline"/>
                     <Button Width="Auto" Content="Ändern..." Grid.Column="1" Margin="40,0,20,0" Foreground="Black" Background="White" BorderBrush="Black" BorderThickness="3" Height="70" Tap="changeBookType"/>
                 </Grid>
-                <Button Height="90" Margin="30,0,30,0" VerticalAlignment="Bottom" Grid.Row="4" Width="Auto" HorizontalAlignment="Stretch" Content="Hinzufügen" BorderBrush="Black" BorderThickness="3" Background="White" Foreground="Black" />
             </Grid>
         </DataTemplate>
         <!--Template für Pivotitem-->
@@ -169,7 +168,8 @@
                          HeaderTemplate="{StaticResource PivotHeader}" 
                          ItemTemplate="{StaticResource PivotContent}"
                          ItemsSource="{Binding Path=Books, Mode=OneWay}"
-                         x:Name="PivotMain">
+                         x:Name="PivotMain"
+                         SelectionChanged="PivotSelectionChanged">
                 <phone:Pivot.Title>
                     <TextBlock Margin="9,0,0,0" Text="BÜCHER" FontSize="22"/>
                 </phone:Pivot.Title>
@@ -178,8 +178,8 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF72A91C">
-            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern" Click="ChangeBook"/>
-            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="TryDeleteBook"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
