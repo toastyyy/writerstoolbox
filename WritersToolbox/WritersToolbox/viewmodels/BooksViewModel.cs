@@ -40,6 +40,11 @@ namespace WritersToolbox.viewmodels
             return dataLoaded;
         }
 
+        public int getBookCount()
+        {
+            return this.Books.Count;
+        }
+
         public void loadData() 
         {
             // buchtypen laden

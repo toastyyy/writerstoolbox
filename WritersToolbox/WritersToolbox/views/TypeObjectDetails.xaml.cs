@@ -55,5 +55,28 @@ namespace WritersToolbox.views
             PhoneApplicationService.Current.State["edit"] = "true";
             NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
         }
+
+        private void DeleteTypeObject(object sender, EventArgs e)
+        {
+            Types.Types_VM.deleteTypeObject(tdvm.TypeObject.typeObjectID);
+            deleteTypeObjectPopup.IsOpen = false;
+            NavigationService.GoBack();
+        }
+
+        private void DoNotDeleteTypeObject(object sender, EventArgs e)
+        {
+            deleteTypeObjectPopup.IsOpen = false;
+        }
+
+        private void ChangeTypeObject(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml?item=" + tdvm.TypeObject.typeObjectID, UriKind.Relative));
+        }
+
+        private void TryDeleteTypeObject(object sender, EventArgs e)
+        {
+            TypeObjectDeleteQuestion.Text = "Wollen Sie das Typobjekt \"" + tdvm.TypeObject.name.ToString() + "\" löschen?";
+            deleteTypeObjectPopup.IsOpen = true;
+        }
     }
 }

@@ -117,6 +117,15 @@ namespace WritersToolbox.viewmodels
                     select to.name).FirstOrDefault();
         }
 
+        public Color getColorForTypeObject(int typeObjectID)
+        {
+            var result = from to in tableTypeObject
+                         where to.typeObjectID== typeObjectID
+                         select to.color;
+
+            return fromHexToColor(result.FirstOrDefault());
+        }
+
         /// <summary>
         /// Gibt die Datenbank-IDs aller zum Typ-Objekt gehörenden Notizen zurück.
         /// </summary>
@@ -247,6 +256,11 @@ namespace WritersToolbox.viewmodels
             typeObject.deleted = true;
             this.db.SubmitChanges();
             this.LoadData();
+        }
+
+        public int getTypeCount()
+        {
+            return Types.Count;
         }
 
 

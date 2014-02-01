@@ -136,20 +136,30 @@
     <Compile Include="templateselector\TemplateSelector.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
     <Compile Include="viewmodels\BooksViewModel.cs" />
+    <Compile Include="viewmodels\TrashbinViewModel.cs" />
     <Compile Include="viewmodels\TypeDetailViewModel.cs" />
     <Compile Include="viewmodels\TypesViewModel.cs" />
     <Compile Include="viewmodels\UnsortedNoteViewModel.cs" />
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
-    <Compile Include="views\AddType.xaml.cs">
-      <DependentUpon>AddType.xaml</DependentUpon>
-    </Compile>
     <Compile Include="views\AddTypeObject.xaml.cs">
       <DependentUpon>AddTypeObject.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\Books.xaml.cs">
       <DependentUpon>Books.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\ChangeType.xaml.cs">
+      <DependentUpon>ChangeType.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\BooksOverview.xaml.cs">
+      <DependentUpon>BooksOverview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\ChangeBook.xaml.cs">
+      <DependentUpon>ChangeBook.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\UnsortedNote.xaml.cs">
+      <DependentUpon>UnsortedNote.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\GridManager.cs" />
     <Compile Include="views\ImageView.xaml.cs">
@@ -177,8 +187,11 @@
     <Compile Include="views\TypesOverview.xaml.cs">
       <DependentUpon>TypesOverview.xaml</DependentUpon>
     </Compile>
-    <Compile Include="views\UnsortedNote.xaml.cs">
-      <DependentUpon>UnsortedNote.xaml</DependentUpon>
+    <Compile Include="views\Trashbin.xaml.cs">
+      <DependentUpon>Trashbin.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\BooksDetails.xaml.cs">
+      <DependentUpon>BooksDetails.xaml</DependentUpon>
     </Compile>
   </ItemGroup>
   <ItemGroup>
@@ -193,10 +206,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="views\AddType.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="views\AddTypeObject.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -204,6 +213,22 @@
     <Page Include="views\Books.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\ChangeType.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\BooksOverview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\ChangeBook.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\UnsortedNote.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="views\ImageView.xaml">
       <SubType>Designer</SubType>
@@ -229,12 +254,17 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="views\UnsortedNote.xaml">
+    <Page Include="views\Trashbin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\BooksDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
   </ItemGroup>
   <ItemGroup>
+    <None Include="ClassDiagram1.cd" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
@@ -255,6 +285,7 @@
     <Content Include="Assets\hintergrund_neueIdee_unsortiert_rot.png" />
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten.png" />
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten_2.png" />
+    <Content Include="Assets\hintergrund_trashbin_white.png" />
     <Content Include="Assets\start_background.png" />
     <Content Include="Assets\testbild.png" />
     <Content Include="Assets\Tiles\FlipCycleTileLarge.png">
@@ -272,6 +303,7 @@
     <Content Include="Assets\Tiles\IconicTileSmall.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="Assets\WritersToolboxstartseiteWT.png" />
     <Content Include="icons\add.png" />
     <Content Include="icons\aufnahme_aktiv.png" />
     <Content Include="icons\aufnahme.png" />
@@ -306,6 +338,7 @@
     <Content Include="Toolkit.Content\ApplicationBar.Check.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
+    <Content Include="WritersToolbox.csproj.user" />
     <None Include="icons\micro.png" />
   </ItemGroup>
   <ItemGroup>

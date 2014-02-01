@@ -11,7 +11,7 @@
     xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
     mc:Ignorable="d"
     d:DataContext="{d:DesignData ../sampleData/sampleDataTyp.xaml}"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
@@ -23,14 +23,14 @@
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <!--Template für PivotHeader-->
         <DataTemplate x:Key="PivotHeader">
-            <TextBlock Text="{Binding title}" Margin="9,10,0,0" Foreground="Black" FontFamily="Portable User Interface" FontSize="65"/>
+            <TextBlock Text="{Binding title}" Margin="9,10,0,0" FontSize="65"/>
         </DataTemplate>
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
             <Grid Width="480">
                 <phone:LongListSelector 
                     Height="Auto" 
-                    Margin="20,10,10,50" 
+                    Margin="20,10,10,0" 
                     Width="Auto" 
                     ItemsSource="{Binding typeObjects}"
                     LayoutMode="Grid"
@@ -41,7 +41,7 @@
                     <!--Template für LongListSelector-item-->
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15" Hold="deleteTypeObject">
+                            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15" Hold="TryDeleteTypeObject">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="135"/>
                                     <ColumnDefinition Width="Auto"/>
@@ -53,15 +53,14 @@
                                     <TextBlock Grid.Column="1" 
                                                Text="{Binding name}" 
                                                FontSize="40" 
-                                               Foreground="Black"
                                                Margin="20,0,0,10"
                                                VerticalAlignment="Top"
                                                TextWrapping="Wrap"
-                                               Width="280" FontFamily="Portable User Interface" HorizontalAlignment="Left"/>
+                                               Width="280"  
+                                               HorizontalAlignment="Left"/>
                                     <TextBlock Grid.Column="1" 
                                                Text="{Binding used, Converter={StaticResource boolToUsedCon}}" 
                                                FontSize="20" 
-                                               Foreground="Black"
                                                Margin="20,0,0,10"
                                                VerticalAlignment="Top"/>
                                 </StackPanel>
@@ -69,59 +68,87 @@
                         </DataTemplate>
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
-                <TextBlock Text="klick" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
+                <TextBlock Text="klick" Foreground="White" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
             </Grid>
         </DataTemplate>
         <!--Template für neuen Typ-->
         <DataTemplate x:Key="newType">
-            <Grid x:Name="ContentPanel" Margin="0">
-                <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,17,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Black" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus"/>
-                <TextBlock HorizontalAlignment="Left" Margin="14,0,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Width="149" Foreground="Black"/>
-                <TextBlock HorizontalAlignment="Left" Margin="14,90,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" Foreground="Black"/>
-                <Grid HorizontalAlignment="Left" Height="173" Margin="27,122,0,0" VerticalAlignment="Top" Width="414">
+            <StackPanel VerticalAlignment="Top" Margin="0,-50,0,0">
+                <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Width="149" FontSize="25"/>
+                <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus"/>
+                <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" FontSize="25"/>
+                <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
                     <c4f:ColorPicker x:Name="slider" ColorChanged="ColorChanged"></c4f:ColorPicker>
                 </Grid>
-                <TextBlock HorizontalAlignment="Left" Margin="14,321,0,0" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" Foreground="Black"/>
-                <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,348,0,0" VerticalAlignment="Top" BorderBrush="Black" Height="65" Width="446" BorderThickness="2" Foreground="Black" FontSize="20"/>
+                <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" FontSize="25"/>
+                <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" BorderBrush="White" Height="65" Width="446" BorderThickness="2" Foreground="White" FontSize="20"/>
 
-            </Grid>
+            </StackPanel>
         </DataTemplate>
         <DataTemplate x:Key="SelectingTemplate">
-                <templateselector:PivotTypeTemplateSelector
+            <templateselector:PivotTypeTemplateSelector
                 Content="{Binding}"
                 viewTypes="{StaticResource PivotItem}"
                 addType="{StaticResource newType}" 
                 />
-            
+
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
 
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
-        <Grid x:Name="layoutContent">
-            <Grid.Background>
-                <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
-            </Grid.Background>
-            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
-            <Rectangle x:Name="BottomRec" Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
-
+        <Grid x:Name="layoutContent" Background="Black">
+            <Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
+            <!--Popup für Löschen des Typs-->
+            <Popup x:Name="deleteTypePopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+                <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock x:Name="TypeDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
+                        <CheckBox IsChecked="True" Content="Alle Typobjekte erhalten" Margin="10,10,0,0"/>
+                    </StackPanel>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteType"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteType"/>
+                </Grid>
+            </Popup>
+            <!--Popup für Löschen des TypObjekts-->
+            <Popup x:Name="deleteTypeObjectPopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+                <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock x:Name="TypeObjectDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
+                        <CheckBox IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0"/>
+                    </StackPanel>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteTypeObject"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
+                </Grid>
+            </Popup>
             <!--Pivotsteuerelement-->
             <phone:Pivot ManipulationDelta="pinch_out" 
                          HeaderTemplate="{StaticResource PivotHeader}" 
                          ItemTemplate="{StaticResource SelectingTemplate}"
                          ItemsSource="{Binding Path=Types, Mode=OneWay}"
-                         x:Name="PivotMain" SelectionChanged="PivotSelectionChanged">
+                         x:Name="PivotMain" 
+                         SelectionChanged="PivotSelectionChanged" 
+                         VerticalAlignment="Top"
+                         VerticalContentAlignment="Top">
                 <phone:Pivot.Title>
-                    <TextBlock Foreground="Black" Margin="9,0,0,0" Text="TYPEN" FontSize="22" FontFamily="Segoe WP Semibold" />
+                    <TextBlock Margin="9,0,0,0" Text="TYPEN" FontSize="22"/>
                 </phone:Pivot.Title>
             </phone:Pivot>
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="False" IsMenuEnabled="True" BackgroundColor="#FF72A91C">
-            <shell:ApplicationBarIconButton IconUri="/icons/save.png" Text="Save" Click="SaveType"/>
-            <shell:ApplicationBarIconButton IconUri="/icons/cancel.png" Text="Cancel" Click="CancelType" />
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF911124">
+            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern" Click="ChangeType"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="TryDeleteType"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

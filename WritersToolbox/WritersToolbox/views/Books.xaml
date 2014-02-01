@@ -9,23 +9,23 @@
     xmlns:converter="clr-namespace:WritersToolbox.converter"
     xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
     mc:Ignorable="d"
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait"  Orientation="Portrait"
-    shell:SystemTray.IsVisible="True" Loaded="pageLoaded">
+    shell:SystemTray.IsVisible="True">
 
     <!-- Templates und converter -->
     <phone:PhoneApplicationPage.Resources>
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <converter:DateConverter x:Key="dateCon"/>
         <converter:CollectionCountConverter x:Key="collectionCountCon"/>
-        
+
         <!--Template für PivotHeader-->
         <DataTemplate x:Key="PivotHeader">
-            <TextBlock Text="{Binding name}" Margin="9,10,0,0" Foreground="Black" FontFamily="Portable User Interface" FontSize="65"/>
+            <TextBlock Text="{Binding name}" Margin="9,10,0,0" FontSize="65"/>
         </DataTemplate>
-        
+
         <DataTemplate x:Key="PivotAddItem">
             <Grid Width="450" Height="Auto" HorizontalAlignment="Stretch">
                 <Grid.RowDefinitions>
@@ -35,10 +35,10 @@
                     <RowDefinition Height="70"/>
                     <RowDefinition Height="*" />
                 </Grid.RowDefinitions>
-                <TextBlock Grid.Row="0" Margin="30,0,0,0" Text="Name des Werkes" Foreground="Black" />
-                <TextBox Width="Auto" Margin="40,0,20,0" Grid.Row="1" HorizontalAlignment="Stretch" BorderBrush="Black" BorderThickness="2" Foreground="Black" ToolTipService.ToolTip=""/>
-                <TextBlock Grid.Row="2" Margin="30,0,0,0" Text="Buchtyp" Foreground="Black" />
-                
+                <TextBlock Grid.Row="0" Margin="30,0,0,0" Text="Name des Werkes" FontSize="25"/>
+                <TextBox Width="Auto" Margin="23,0,0,0" Grid.Row="1" HorizontalAlignment="Stretch" BorderBrush="Gray" BorderThickness="2" Foreground="Black" ToolTipService.ToolTip=""/>
+                <TextBlock Grid.Row="2" Margin="30,0,0,0" Text="Buchtyp" FontSize="25"/>
+
                 <Grid Grid.Row="3">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="200" />
@@ -47,8 +47,6 @@
                     <TextBlock Margin="30,0,0,0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Text="Roman" FontSize="28" Foreground="DarkGreen" TextDecorations="Underline"/>
                     <Button Width="Auto" Content="Ändern..." Grid.Column="1" Margin="40,0,20,0" Foreground="Black" Background="White" BorderBrush="Black" BorderThickness="3" Height="70" Tap="changeBookType"/>
                 </Grid>
-                
-                <Button Height="90" Margin="30,0,30,0" VerticalAlignment="Bottom" Grid.Row="4" Width="Auto" HorizontalAlignment="Stretch" Content="Hinzufügen" BorderBrush="Black" BorderThickness="3" Background="White" Foreground="Black" />
             </Grid>
         </DataTemplate>
         <!--Template für Pivotitem-->
@@ -61,81 +59,65 @@
                     HorizontalAlignment="Stretch"
                     ItemsSource="{Binding tomes}"
                     LayoutMode="Grid"
-                    GridCellSize="450, 150"
+                    GridCellSize="450, 160"
                     x:Name="LongList">
                     <!--Template für LongListSelector-item-->
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
                             <Grid Width="Auto" Height="Auto" Margin="0,0,0,15">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="135"/>
+                                    <ColumnDefinition Width="145"/>
                                     <ColumnDefinition Width="*"/>
                                 </Grid.ColumnDefinitions>
                                 <Grid Grid.Column="0">
                                     <Border Background="Green">
-                                    <Image Source="../icons/book.png" Margin="10,10,10,10"></Image>
+                                        <Image Source="../icons/book.png" Margin="10,10,10,10"></Image>
                                     </Border>
                                 </Grid>
-                                
+
                                 <Grid Grid.Column="1">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="45"/>
-                                        <RowDefinition Height="30"/>
-                                        <RowDefinition Height="30"/>
-                                    </Grid.RowDefinitions>
-                                    <TextBlock
-                                               Grid.Row="0"
-                                               Text="{Binding title}" 
-                                               FontSize="38" 
-                                               Foreground="Black"
-                                               Margin="20,0,0,10"
-                                               VerticalAlignment="Top"
-                                               TextWrapping="NoWrap"
-                                               Width="280" FontFamily="Portable User Interface" HorizontalAlignment="Left"
-                                    />
-                                    <TextBlock
-                                        Grid.Row="1"
-                                        Text="{Binding addedDate, Converter={StaticResource dateCon}, ConverterParameter=Erstellt-am}"
-                                        Foreground="Black"
-                                        Margin="25,0,0,0"
-                                        TextWrapping="NoWrap"
-                                        FontFamily="Portable User Interface"
-                                    />
-                                    <TextBlock
-                                        Grid.Row="2"
-                                        Text="{Binding chapters, Converter={StaticResource collectionCountCon}, ConverterParameter=Kapitelanzahl:}"
-                                        Foreground="Black"
-                                        Margin="25,0,0,0"
-                                        TextWrapping="NoWrap"
-                                        FontFamily="Portable User Interface"
-                                    />
+                                    <StackPanel>
+                                        <TextBlock Text="{Binding title}" 
+                                                   FontSize="30"
+                                                   Margin="25,0,0,7"
+                                                   TextWrapping="Wrap" 
+                                                   HorizontalAlignment="Left"/>
+                                        <TextBlock Text="{Binding addedDate, Converter={StaticResource dateCon}, ConverterParameter=Erstellt-am}"
+                                                   Margin="25,0,0,5"
+                                                   TextWrapping="Wrap"/>
+                                        <TextBlock Text="{Binding chapters, Converter={StaticResource collectionCountCon}, ConverterParameter=Kapitelanzahl:}"
+                                                   Margin="25,0,0,5"
+                                                   TextWrapping="Wrap"/>
+                                    </StackPanel>
+                                    
                                 </Grid>
                             </Grid>
                         </DataTemplate>
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
+                <TextBlock Text="klick" Foreground="White" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
             </Grid>
         </DataTemplate>
 
-        <DataTemplate x:Key="PivotContent">    
+        <DataTemplate x:Key="PivotContent">
             <StackPanel Width="Auto" Height="Auto">
                 <templateselector:PivotContentTemplateSelector 
-                Content="{Binding}"
-                viewBook="{StaticResource PivotItem}"
-                addBook="{StaticResource PivotAddItem}" 
+                    Content="{Binding}"
+                    viewBook="{StaticResource PivotItem}"
+                    addBook="{StaticResource PivotAddItem}" 
                     Width="Auto"/>
-            </StackPanel>                             
+            </StackPanel>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot">
         <!-- Popup fuer Buchtyp -->
-        <Popup x:Name="booktype_popup" Grid.Row="2" Margin="10,80,10,0" VerticalAlignment="Stretch">
-            <Border Margin="10">
-                <StackPanel Background="#F172A91C">
+        <Popup x:Name="booktype_popup" Grid.Row="2" Margin="0,50,0,0">
+            <Grid Width="480">
+                <StackPanel Background="Black">
                     <TextBlock Text="Buchtyp wählen" TextAlignment="Center" FontSize="40" Margin="10,0" />
-                    <TextBlock Text="Bitte wählen Sie einen Buchtyp" FontSize="21" Margin="10,0" />
+                    <TextBlock Text="Bitte wählen Sie einen Buchtyp" FontSize="21" Margin="30,0" />
                     <Grid Width="400" Height="400" Margin="0,10,0,0">
                         <phone:LongListSelector ItemsSource="{Binding BookTypes}">
                             <phone:LongListSelector.ItemTemplate>
@@ -145,7 +127,7 @@
                                             <ColumnDefinition Width="50" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        
+                                        <!--    <Button Tap="navigateToBooksDetails"> </Button>  Doesnt Create a Button :( -->
                                         <Grid Grid.Column="0" Background="White">
                                             <Image Source="../icons/book.png" />
                                         </Grid>
@@ -158,30 +140,46 @@
                         </phone:LongListSelector>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Margin="0,10">
-                        <Button x:Name="btn_continue"  Content="Speichern" Width="215" />
-                        <Button x:Name="btn_cancel"    Content="Abbrechen"   Width="215" Tap="bookTypeCancel" />
+                        <Button x:Name="btn_continue"  Content="Speichern" Width="230" Margin="5,0,0,10" />
+                        <Button x:Name="btn_cancel"    Content="Abbrechen"   Width="230" Tap="bookTypeCancel" Margin="0,0,5,10"/>
                     </StackPanel>
                 </StackPanel>
-            </Border>
+            </Grid>
+        </Popup>
+        <!--Popup für Löschen des Werkes-->
+        <Popup x:Name="deleteBookPopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+            <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="250"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBlock x:Name="BookDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
+                    <CheckBox IsChecked="True" Content="Alle Bände erhalten" Margin="10,10,0,0"/>
+                </StackPanel>
+                <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteBook"/>
+                <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteBook"/>
+            </Grid>
         </Popup>
         <!--Pivot Control-->
-        <Grid>
-            <Grid.Background>
-                <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
-            </Grid.Background>
-            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
-            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>
+        <Grid Background="Black">
+            <Rectangle Fill="#FF72A91C" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
             <phone:Pivot ManipulationDelta="pinch_out" 
                          HeaderTemplate="{StaticResource PivotHeader}" 
                          ItemTemplate="{StaticResource PivotContent}"
                          ItemsSource="{Binding Path=Books, Mode=OneWay}"
-                         x:Name="PivotMain">
-                    <phone:Pivot.Title>
-                <TextBlock Foreground="Black" Margin="9,0,0,0" Text="BÜCHER" FontSize="22" FontFamily="Segoe WP Semibold" />
-            </phone:Pivot.Title>
-        </phone:Pivot>
+                         x:Name="PivotMain"
+                         SelectionChanged="PivotSelectionChanged">
+                <phone:Pivot.Title>
+                    <TextBlock Margin="9,0,0,0" Text="BÜCHER" FontSize="22"/>
+                </phone:Pivot.Title>
+            </phone:Pivot>
         </Grid>
-        
     </Grid>
-    
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF72A91C">
+            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
