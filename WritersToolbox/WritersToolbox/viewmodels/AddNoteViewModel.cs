@@ -11,6 +11,8 @@ using System.Windows.Media.Imaging;
 using Microsoft.Phone.BackgroundAudio;
 using System.IO;
 using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Media.PhoneExtensions;
+using System.Diagnostics;
 namespace WritersToolbox.viewmodels
 {
     /* *
@@ -67,7 +69,7 @@ namespace WritersToolbox.viewmodels
                     string contentImagesPath = "";
                     foreach (MyImage img in contentImages)
                     {
-                        contentImagesPath += img.Name + "|";
+                        contentImagesPath += img.path + "|";
                     }
                     obj_memoryNote.ContentImageString = contentImagesPath;
 
@@ -96,7 +98,7 @@ namespace WritersToolbox.viewmodels
                     string contentImagesPath = "";
                     foreach (MyImage img in contentImages)
                     {
-                        contentImagesPath += img.Name + "|";
+                        contentImagesPath += img.path + "|";
                     }
                     obj_memoryNote.ContentImageString = contentImagesPath;
 
@@ -145,17 +147,23 @@ namespace WritersToolbox.viewmodels
 
                 for (int i = 0; i < str_result.Length; i++)
                 {
-                    MediaLibrary medianbibliothek = new MediaLibrary();
 
-
-                    foreach (Picture picture in medianbibliothek.Pictures)
+                    try
                     {
-                        if (picture.Name.Equals(Path.GetFileName(str_result[i])) && !str_result[i].Trim().Equals(""))
-                        {
-                            MyImage foto = new MyImage(picture);
-                            imageList.Add(foto);
-                        }
+                        MediaLibrary medianbibliothek = new MediaLibrary();
+
+                        Picture picture = medianbibliothek.Pictures.Where(p =>
+                            p.GetPath().Equals(str_result[i])).Single();
+
+                        MyImage foto = new MyImage(picture);
+                        imageList.Add(foto);
                     }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
+                    }
+
+
                 }
             }
 
@@ -194,15 +202,17 @@ namespace WritersToolbox.viewmodels
 
                 for (int i = 0; i < str_result.Count; i++)
                 {
-                    MediaLibrary medianbibliothek = new MediaLibrary();
-
-                    foreach (Picture picture in medianbibliothek.Pictures)
+                    try
                     {
-                        if (picture.Name.Equals(Path.GetFileName(str_result[i])) && !str_result[i].Trim().Equals(""))
-                        {
-                            MyImage foto = new MyImage(picture);
-                            imageList.Add(foto);
-                        }
+                        MediaLibrary medianbibliothek = new MediaLibrary();
+                        Picture picture = medianbibliothek.Pictures.Where(p =>
+                            p.GetPath().Equals(str_result[i])).Single();
+                        MyImage foto = new MyImage(picture);
+                        imageList.Add(foto);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
                     }
                 }
             }
@@ -220,15 +230,17 @@ namespace WritersToolbox.viewmodels
                 }
                 for (int i = 0; i < str_result_addImages.Count; i++)
                 {
-                    MediaLibrary medianbibliothek = new MediaLibrary();
-
-                    foreach (Picture picture in medianbibliothek.Pictures)
+                    try
                     {
-                        if (picture.Name.Equals(Path.GetFileName(str_result_addImages[i])) && !str_result_addImages[i].Trim().Equals(""))
-                        {
-                            MyImage foto = new MyImage(picture);
-                            imageList.Add(foto);
-                        }
+                        MediaLibrary medianbibliothek = new MediaLibrary();
+                        Picture picture = medianbibliothek.Pictures.Where(p =>
+                            p.GetPath().Equals(str_result_addImages[i])).Single();
+                        MyImage foto = new MyImage(picture);
+                        imageList.Add(foto);
+                    }
+                    catch (Exception ex)
+                    {
+                        Debug.WriteLine(ex.Message);
                     }
                 }
             }

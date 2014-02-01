@@ -36,7 +36,7 @@
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <CheckBox x:Name="selectAllCheckBox" Content="Select All" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="191" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"/>
+            <CheckBox x:Name="selectAllCheckBox" Content="Alles auswählen" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="224" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"/>
             <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="unsortedNote_selectionChanged" 
@@ -53,7 +53,7 @@
                                 <ColumnDefinition Width="*"/>
                             </Grid.ColumnDefinitions>
                             <Border  Grid.Column="0">
-                                <Image Source="/icons/note.png" Margin="0,0,5,10" Grid.Column="0" />
+                                <Image Source="/icons/notiz.png" Margin="0,0,5,10" Grid.Column="0" />
                             </Border>
                             <StackPanel Grid.Column="1">
                                 <TextBlock x:Name="titleNoteTextBlock" Text="{Binding title}" FontSize="40" />

@@ -1,4 +1,5 @@
 ﻿using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Media.PhoneExtensions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -18,11 +19,12 @@ namespace WritersToolbox.models
 
         public string Name { get { return name; } }
         public BitmapImage Vorschaubild { get { return vorschaubild; } }
-        
+        public string path { get; set; }
         public MyImage(Picture picture)
         {
             this.picture = picture;
             this.name = picture.Name;
+            this.path = picture.GetPath();
             this.vorschaubild = new BitmapImage();
             vorschaubild.SetSource(picture.GetThumbnail());
             this.id = DateTime.Now.ToString("yyyyMMddHHmmssfff");
