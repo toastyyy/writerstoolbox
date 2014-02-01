@@ -160,9 +160,29 @@ namespace WritersToolbox.Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        public static byte[] notiz {
+            get {
+                object obj = ResourceManager.GetObject("notiz", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         public static byte[] play {
             get {
                 object obj = ResourceManager.GetObject("play", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        public static byte[] play_reordButton {
+            get {
+                object obj = ResourceManager.GetObject("play_reordButton", resourceCulture);
                 return ((byte[])(obj));
             }
         }
@@ -182,6 +202,16 @@ namespace WritersToolbox.Resources {
         public static string ResourceLanguage {
             get {
                 return ResourceManager.GetString("ResourceLanguage", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        public static byte[] speaker_reordButton {
+            get {
+                object obj = ResourceManager.GetObject("speaker_reordButton", resourceCulture);
+                return ((byte[])(obj));
             }
         }
         

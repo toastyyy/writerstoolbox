@@ -43,9 +43,9 @@ namespace WritersToolbox.viewmodels
             {
                 unsortedNote_List.Add(new UnsortedNoteViewModel()
                 {
-                    title = ((MemoryNote)item).title
+                    title = ((MemoryNote)item).title.Substring(0, ((MemoryNote)item).title.Length > 15 ? 15 : ((MemoryNote)item).title.Length)
                     ,
-                    contents = ((MemoryNote)item).contentText.Substring(0, ((MemoryNote)item).contentText.Length > 15 ? 15 : ((MemoryNote)item).contentText.Length) + " ..."
+                    contents = ((MemoryNote)item).contentText.Substring(0, ((MemoryNote)item).contentText.Length > 27 ? 27 : ((MemoryNote)item).contentText.Length) 
                     ,
                     updatedNote = new DateTime(((MemoryNote)item).updatedDate.Year,((MemoryNote)item).updatedDate.Month,((MemoryNote)item).updatedDate.Day).ToShortDateString()
                     ,

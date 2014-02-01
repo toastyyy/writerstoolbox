@@ -32,7 +32,7 @@
                     <ScrollViewer x:Name='scroller_Notiz' VerticalScrollBarVisibility='Visible' Margin="0,0,0,-95" Height="524" VerticalAlignment="Top" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" >
                         <StackPanel x:Name='listItems_Notiz'>
                             <Canvas Height="72" Width="432">
-                                <TextBox x:Name="titleTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Foreground="White" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="26.667" SelectionForeground="White" SelectionBackground="Transparent">
+                                <TextBox x:Name="titleTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Foreground="White" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="26.667" SelectionForeground="White" SelectionBackground="Transparent" >
                                     <TextBox.Background>
                                         <SolidColorBrush Color="#333C3C3C"/>
                                     </TextBox.Background>
@@ -66,20 +66,20 @@
                             <ImageBrush Stretch="Fill" ImageSource="/icons/aufnahme.png"/>
                         </Coding4Fun:RoundToggleButton.Background>
                     </Coding4Fun:RoundToggleButton>
-                    <Coding4Fun:RoundButton Content="" x:Name="deleteRecordButton" HorizontalAlignment="Left" Margin="234,10,0,0" VerticalAlignment="Top" Height="55" Width="72" BorderThickness="1" Click="deleteRecordButton_Click" PressedBrush="{x:Null}" >
+                    <Coding4Fun:RoundButton Content="" x:Name="deleteRecordButton" HorizontalAlignment="Left" Margin="302,10,0,0" VerticalAlignment="Top" Height="55" Width="72" BorderThickness="1" Click="deleteRecordButton_Click" PressedBrush="{x:Null}" >
                         <Coding4Fun:RoundButton.Background>
                             <ImageBrush Stretch="Fill" ImageSource="/icons/delete.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
 
-                    <Coding4Fun:RoundButton Content="" x:Name="zurueckRecordButton"  HorizontalAlignment="Right" Margin="0,10,80,0" Height="54" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckRecordButton_Click">
+                    <Coding4Fun:RoundButton Content="" x:Name="zurueckRecordButton"  HorizontalAlignment="Right" Margin="0,9,154,0" Height="54" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckRecordButton_Click">
                         <Coding4Fun:RoundButton.Background>
                             <ImageBrush Stretch="Fill" ImageSource="/icons/zurueck.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
                     <CheckBox x:Name="selectAllRecordCheckBox" Content="Alles auswählen" HorizontalAlignment="Left" Margin="0,-5,0,0" VerticalAlignment="Top" Width="235" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" RenderTransformOrigin="0.5,0.5" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" />
                     <Canvas Margin="0,65,0,442">
-                        <TextBlock x:Name="lastPlay" Width="325" Canvas.Left="121"/>
+                        <TextBlock  x:Name="lastPlay" Width="233" Canvas.Left="105" Canvas.Top="420" Height="36" Visibility="Collapsed"/>
                     </Canvas>
                     <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
@@ -87,23 +87,16 @@
                     LayoutMode="Grid" GridCellSize="200,200" 
                     x:Name="llms_records" 
                     DataContext="{Binding}" 
-                    IsGroupingEnabled="False" Background="#FFE44545" Margin="0,84,0,17" >
+                    IsGroupingEnabled="False" Background="#FFE44545" Margin="27,84,0,17" >
                         <toolkit:LongListMultiSelector.ItemTemplate>
                             <DataTemplate>
-                                <Grid Background="{StaticResource PhoneAccentBrush}"
-                                        Margin="0, 0, 12, 12"
+                                <Grid Margin="0, 0, 12, 12"
                                         Tap="Sound_Tap" Hold="Grid_Hold">
-                                    <Grid VerticalAlignment="Top"
-                                      HorizontalAlignment="Right"
-                                      Width="40"
-                                      Height="40"
-                                      Margin="0, 6, 6, 0">
-                                        <Ellipse Stroke="{StaticResource PhoneForegroundBrush}" 
-                                             StrokeThickness="3" />
-                                        <Image Source="/icons/play.png" />
+                                    <Grid Background="#FF2E2E2E" Opacity="0.5" >                                       
                                     </Grid>
+                                    <Image Margin="0, 20, 0, 0" x:Name="pp_image" Source="/icons/play_reordButton.png" />
                                     <StackPanel VerticalAlignment="Bottom">
-                                        <TextBlock Text="{Binding FilePath}" Margin="6, 0, 0, 6" FontSize="11" />
+                                        <TextBlock Text="{Binding FilePath}" Margin="5,-10,0,0"  FontSize="13" />
                                     </StackPanel>
                                 </Grid>
                             </DataTemplate>
@@ -120,7 +113,7 @@
                     	<Run Text=" "/>
                     	<LineBreak/>
                     	<Run/>
-                    </TextBlock>
+                    </TextBlock>              
                     <MediaElement x:Name="AudioPlayer" Volume="1" />
                     <Slider x:Name="progressbar" HorizontalAlignment="Left" Margin="0,447,0,-7" VerticalAlignment="Top" Width="446" ValueChanged="progressbar_ValueChanged" Background="White" Foreground="#FF72A91C"/>
 

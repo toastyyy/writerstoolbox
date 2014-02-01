@@ -34,12 +34,12 @@ namespace WritersToolbox.views
             if (PhoneApplicationService.Current.State.ContainsKey("deletedImages"))
             {
                 string cachImages = (PhoneApplicationService.Current.State["deletedImages"] as string);
-                cachImages += ((MyImage)im.DataContext).Name + "|";
+                cachImages += ((MyImage)im.DataContext).path + "|";
                 PhoneApplicationService.Current.State["deletedImages"] = cachImages;
             }
             else
             {
-                string cachImages = ((MyImage)im.DataContext).Name + "|";
+                string cachImages = ((MyImage)im.DataContext).path + "|";
                 PhoneApplicationService.Current.State["deletedImages"] = cachImages;
             }
 
