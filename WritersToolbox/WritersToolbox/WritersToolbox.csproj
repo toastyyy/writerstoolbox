@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="converter\BoolToUsedConverter.cs" />
     <Compile Include="converter\CollectionCountConverter.cs" />
+    <Compile Include="converter\ColorToBrushConverter.cs" />
     <Compile Include="converter\DateConverter.cs" />
     <Compile Include="converter\NoteShortContentConverter.cs" />
     <Compile Include="converter\NoteCountConverter.cs" />
