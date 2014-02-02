@@ -168,4 +168,13 @@
   <data name="zurueck" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\zurueck.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
   </data>
+  <data name="notiz" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\notiz.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="play_reordButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\play_reordButton.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="speaker_reordButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\speaker_reordButton.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
 </root>

@@ -18,7 +18,7 @@ namespace WritersToolbox.gui
         {
             InitializeComponent();
 
-            //IsolatedStorageFile.GetUserStoreForApplication().Remove(); //Um Isolated Storge zu leeren.
+            IsolatedStorageFile.GetUserStoreForApplication().Remove(); //Um Isolated Storge zu leeren.
 
             models.WritersToolboxDatebase db = models.WritersToolboxDatebase.getInstance();
             try
@@ -35,7 +35,13 @@ namespace WritersToolbox.gui
             }
            
         }
-        
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            Application.Current.Terminate();
+            e.Cancel = true;
+        }
+
         //Fertig
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

@@ -14,15 +14,15 @@ using WritersToolbox.models;
 using System.Diagnostics;
 namespace WritersToolbox.views
 {
-    public partial class TypesOverview : PhoneApplicationPage
+    public partial class BooksOverview : PhoneApplicationPage
     {
-        private datawrapper.Type selectedType;
+        private datawrapper.Book selectedBook;
 
-        public TypesOverview()
+        public BooksOverview()
         {
             InitializeComponent();
             //der Seite wird der DataContext von Types zugewiesen
-            DataContext = Types.Types_VM;
+            DataContext = Books.Books_VM;
         }
 
 
@@ -38,7 +38,7 @@ namespace WritersToolbox.views
                 if (e.PinchManipulation.CumulativeScale < 1d)
                 {
                     System.Diagnostics.Debug.WriteLine("Zoomin");
-                    NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
+                    NavigationService.Navigate(new Uri("/views/Books.xaml", UriKind.Relative));
                 }
                 else
                     System.Diagnostics.Debug.WriteLine("Zoomout");
@@ -56,18 +56,18 @@ namespace WritersToolbox.views
             LongListSelector selector = sender as LongListSelector;
             if (selector == null)
                 return;
-            datawrapper.Type t = selector.SelectedItem as datawrapper.Type;
-            if (t == null)
+            datawrapper.Book b = selector.SelectedItem as datawrapper.Book;
+            if (b == null)
                 return;
-            // dem Navigationspfad wird angehängt, welches item geklickt wurde und zu welchem Pivotitem naviert werden soll
-            NavigationService.Navigate(new Uri("/views/Types.xaml?item=" + t.typeID, UriKind.Relative));
+             // dem Navigationspfad wird angehängt, welches item geklickt wurde und zu welchem Pivotitem naviert werden soll
+            NavigationService.Navigate(new Uri("/views/Books.xaml?item=" + b.bookID, UriKind.Relative));
             selector.SelectedItem = null;
         }
 
         private void pageLoaded(object sender, RoutedEventArgs e)
         {
-            this.InitializeComponent();
         }
+
 
         /// <summary>
         /// Die Methode wird bei einem Hold-Event auf einen Typ aufgerufen, ermittelt die 
@@ -76,26 +76,25 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TryDeleteType(object sender, System.Windows.Input.GestureEventArgs e)
+        private void TryDeleteBook(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            selectedType = (sender as Grid).DataContext as datawrapper.Type;
-            if (selectedType == null)
+            selectedBook = (sender as Grid).DataContext as datawrapper.Book;
+            if (selectedBook == null)
                 return;
-            if (selectedType.typeID == -1)
+            if (selectedBook.bookID == -1)
                 return;
-            TypeDeleteQuestion.Text = "Wollen Sie den Typ \"" + selectedType.title.ToString() + "\" löschen?";
-            deleteTypePopup.IsOpen = true;
+            BookDeleteQuestion.Text = "Wollen Sie das Werk \"" + selectedBook.name.ToString() + "\" löschen?";
+            deleteBookPopup.IsOpen = true;
         }
 
-        private void DeleteType(object sender, EventArgs e)
+        private void DeleteBook(object sender, EventArgs e)
         {
-            Types.Types_VM.deleteType(selectedType.typeID);
-            deleteTypePopup.IsOpen = false;
+            deleteBookPopup.IsOpen = false;
         }
 
-        private void DoNotDeleteType(object sender, EventArgs e)
+        private void DoNotDeleteBook(object sender, EventArgs e)
         {
-            deleteTypePopup.IsOpen = false;
+            deleteBookPopup.IsOpen = false;
         }
 
 

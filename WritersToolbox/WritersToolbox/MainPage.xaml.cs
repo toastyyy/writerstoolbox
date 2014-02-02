@@ -23,6 +23,7 @@ namespace WritersToolbox
         {
             InitializeComponent();
             db = WritersToolboxDatebase.getInstance();
+            //IsolatedStorageFile.GetUserStoreForApplication().Remove();
             try
             {
                 //db.DeleteDatabase();

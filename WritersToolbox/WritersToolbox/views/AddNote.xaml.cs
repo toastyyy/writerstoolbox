@@ -46,8 +46,8 @@ namespace WritersToolbox.views
         private string tempTitle, tempDetails, tempTags;
         private ObservableCollection<MyImage> tempImage_Items; //
         private ObservableCollection<SoundData> tempSound_Items;
-        private bool isselected1, isselected2, isselected3;
-
+        private bool isselected1, isselected2;
+        private const double JUMP_INTERVAL = 0.1;
         public PivotPage1()
         {
             InitializeComponent();
@@ -127,7 +127,57 @@ namespace WritersToolbox.views
         //Fertig
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            e.Cancel = true;
+            bool isfully = false;
+            MessageBoxResult result = MessageBoxResult.Cancel;
+            if (PhoneApplicationService.Current.State.ContainsKey("edit"))
+            {
+                if (!titleTextBox.Text.Trim().Equals(tempTitle) ||
+                        !detailsTextBox.Text.Trim().Equals(tempDetails) ||
+                        !schlagwoerterTextBox.Text.Trim().Equals(tempTags)
+                    || !isImageCollectionEquals(tempImage_Items, Image_Items)
+                    || !isSoundCollectionEquals(tempSound_Items, sound_Items))
+                {
+                    isfully = true;
+                }
+            }
+            else if ((!titleTextBox.Text.Trim().Equals("") && !titleTextBox.Text.Trim().ToUpper().Equals("TITLE")) ||
+                (!detailsTextBox.Text.Trim().Equals("") && !detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS")) ||
+                !schlagwoerterTextBox.Text.Trim().Equals("") ||
+                Image_Items.Count >= 1 ||
+                sound_Items.Count >= 1)
+            {
+                isfully = true;
+            }
+
+            if (isfully)
+            {
+                result = MessageBox.Show("möchten Sie Ihre Einträge wegwerfen !",
+                        "schließen", MessageBoxButton.OKCancel);
+            }
+
+            if (result == MessageBoxResult.OK || !isfully)
+            {
+                PhoneApplicationService.Current.State.Remove("memoryNoteID");
+                PhoneApplicationService.Current.State.Remove("deletedImages");
+                PhoneApplicationService.Current.State.Remove("addedImages");
+                PhoneApplicationService.Current.State.Remove("OppendImageView");
+                PhoneApplicationService.Current.State.Remove("edit");
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    foreach (SoundData item in sound_Items)
+                    {
+                        if (isoStore.FileExists(item.FilePath))
+                        {
+                            isoStore.DeleteFile(item.FilePath);
+                        }
+                    }
+                }
+                NavigationService.GoBack();
+            }
+            else
+            {
+                e.Cancel = true;
+            }
         }
 
         //Fertig
@@ -176,7 +226,7 @@ namespace WritersToolbox.views
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             double height = heightCalculator(detailsTextBox.Text, detailsTextBox.FontFamily, detailsTextBox.FontSize,
-                detailsTextBox.FontStyle, detailsTextBox.FontWeight);
+                detailsTextBox.FontStyle, detailsTextBox.FontWeight, detailsTextBox);
             if (height > 410)
             {
                 detailsTextBox.Height = height;
@@ -186,14 +236,20 @@ namespace WritersToolbox.views
 
         //Fertig
         private double heightCalculator(String str, FontFamily font, double size,
-            FontStyle fontstyle, FontWeight fontweight)
+            FontStyle fontstyle, FontWeight fontweight, TextBox t)
         {
             TextBlock l = new TextBlock();
             l.FontFamily = font;
             l.FontSize = size;
             l.FontStyle = fontstyle;
             l.FontWeight = fontweight;
+            l.Width = t.Width;
+            if (l.Width > t.Width)
+            {
+                str += "\n";
+            }
             l.Text = str;
+            
             return l.ActualHeight + 70;
         }
 
@@ -215,31 +271,34 @@ namespace WritersToolbox.views
         public void choose(string filename)
         {
             isPhotochooser = true;
-
-            MediaLibrary medianbibliothek = new MediaLibrary();
-
-            foreach (Picture picture in medianbibliothek.Pictures)
+            try
             {
-                if (picture.Name.Equals(Path.GetFileName(filename)))
+                
+                MediaLibrary medianbibliothek = new MediaLibrary();
+                Picture picture = medianbibliothek.Pictures.Where(p =>
+                    p.GetPath().Equals(filename)).Single();
+
+                MyImage foto = new MyImage(picture);
+                Image_Items.Insert(0, foto);
+
+                if (PhoneApplicationService.Current.State.ContainsKey("addedImages"))
                 {
-                    MyImage foto = new MyImage(picture);
-                    Image_Items.Insert(0, foto);
-
-                    if (PhoneApplicationService.Current.State.ContainsKey("addedImages"))
-                    {
-                        string cachImages = (PhoneApplicationService.Current.State["addedImages"] as string);
-                        cachImages += foto.Name + "|";
-                        PhoneApplicationService.Current.State["addedImages"] = cachImages;
-                    }
-                    else
-                    {
-                        string cachImages = foto.Name + "|";
-                        PhoneApplicationService.Current.State["addedImages"] = cachImages;
-                    }
-
+                    string cachImages = (PhoneApplicationService.Current.State["addedImages"] as string);
+                    cachImages += filename + "|";
+                    PhoneApplicationService.Current.State["addedImages"] = cachImages;
                 }
-
+                else
+                {
+                    string cachImages = filename + "|";
+                    PhoneApplicationService.Current.State["addedImages"] = cachImages;
+                }
             }
+            catch (Exception ex)
+            {
+                Debug.WriteLine(ex.Message);
+            }
+
+
         }
 
         //Fertig
@@ -398,6 +457,7 @@ namespace WritersToolbox.views
             if (llms_images.SelectedItems.Count == 0)
             {
                 llms_images.EnforceIsSelectionEnabled = false;
+                
                 zurueckButton.Visibility = Visibility.Collapsed;
                 deleteButton.Visibility = Visibility.Collapsed;
             }
@@ -538,12 +598,12 @@ namespace WritersToolbox.views
                     if (PhoneApplicationService.Current.State.ContainsKey("deletedImages"))
                     {
                         string cachImages = (PhoneApplicationService.Current.State["deletedImages"] as string);
-                        cachImages += item.Name + "|";
+                        cachImages += item.path + "|";
                         PhoneApplicationService.Current.State["deletedImages"] = cachImages;
                     }
                     else
                     {
-                        string cachImages = item.Name + "|";
+                        string cachImages = item.path + "|";
                         PhoneApplicationService.Current.State["deletedImages"] = cachImages;
                     }
 
@@ -597,10 +657,7 @@ namespace WritersToolbox.views
 
         //Fertig
         private void cancelButton_Click(object sender, EventArgs e)
-        {
-
-            //!Image_Items.Equals(tempImage_Items) ||
-            //            !sound_Items.Equals(tempSound_Items)
+        {         
             bool isfully = false;
             MessageBoxResult result = MessageBoxResult.Cancel ;
             if (PhoneApplicationService.Current.State.ContainsKey("edit"))
@@ -654,7 +711,14 @@ namespace WritersToolbox.views
         //Fertig
         private void RecordAudioChecked(object sender, RoutedEventArgs e)
         {
+            llms_records.Margin = new Thickness(27, 84, 0, 17);
             AudioPlayer.Stop();
+            if (aktuelgrid != null)
+            {
+                ((Grid)aktuelgrid.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x2E, 0x2E));
+                ((Image)aktuelgrid.Children[1]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
+                aktuelgrid = null;
+            }
             llms_records.IsEnabled = false;
             ImageBrush brush = new ImageBrush();
             brush.ImageSource = new BitmapImage(new Uri("/icons/aufnahme_aktiv.png", UriKind.Relative));
@@ -716,11 +780,12 @@ namespace WritersToolbox.views
 
                 _audioStream = isoStore.CreateFile(_tempFileName);
                 _audioStream.Write(bytes, 0, bytes.Length);
-                
+                _audioStream.Close();
                 SoundData mysound = new SoundData() {FilePath = _tempFileName };
                 sound_Items.Add(mysound);
                 llms_records.ItemsSource = sound_Items;
-                _audioStream.Close();
+                
+                
             }
         }
 
@@ -748,12 +813,7 @@ namespace WritersToolbox.views
             if (llms_records.SelectedItems.Count < llms_records.ItemsSource.Count)
             {
                 isselected1 = false;
-                if (isselected3)
-                {
-                    selectAllRecordCheckBox.IsChecked = false;
-                }
-                
-
+                selectAllRecordCheckBox.IsChecked = false;
             }
             else if (llms_records.SelectedItems.Count == llms_records.ItemsSource.Count)
             {
@@ -764,6 +824,7 @@ namespace WritersToolbox.views
             if (llms_records.SelectedItems.Count == 0)
             {
                 llms_records.EnforceIsSelectionEnabled = false;
+                addRecordButton.IsEnabled = true;
                 zurueckRecordButton.Visibility = Visibility.Collapsed;
                 deleteRecordButton.Visibility = Visibility.Collapsed;
             }
@@ -773,14 +834,25 @@ namespace WritersToolbox.views
                 deleteRecordButton.Visibility = Visibility.Visible;
             } 
         }
+
         private DispatcherTimer playTimer;
+        Grid aktuelgrid = null;
         //Fertig
         private void Sound_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (!(bool)addRecordButton.IsChecked)
             {
+                llms_records.Margin = new Thickness(27,84,0,80);
+                if (aktuelgrid != null)
+                {
+                    ((Grid)aktuelgrid.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x2E, 0x2E));
+                    ((Image)aktuelgrid.Children[1]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
+                    aktuelgrid = null;
+                }
+              
                 Grid selector = sender as Grid;
-
+                ((Grid)selector.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x72, 0xA9, 0x1C));
+                ((Image)selector.Children[1]).Source = new BitmapImage(new Uri("/icons/speaker_reordButton.png", UriKind.Relative));
                 if (selector == null)
                     return;
 
@@ -791,15 +863,14 @@ namespace WritersToolbox.views
                     {
                         AudioPlayer.SetSource(fileStream);
                         fileStream.Close();
-
                     }
                 }
+                aktuelgrid = selector;
                 lastPlay.Text = text;
                 if (bar_status == 1)
                 {
                     removeManagementApplicationBarButton();
                     addMediaApplicationBarButton();
-                    zurueckRecordButton.Visibility = Visibility.Visible;
                     deleteRecordButton.Visibility = Visibility.Visible;
                     progressbar.Visibility = Visibility.Visible;
                     EndTimer.Visibility = Visibility.Visible;
@@ -808,9 +879,6 @@ namespace WritersToolbox.views
                 }
 
                 pp_status = 1;
-
-                //progressbar          
-
                 timer();
                 pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
 
@@ -844,8 +912,7 @@ namespace WritersToolbox.views
             progressbar.ValueChanged += progressbar_ValueChanged;
 
             TimeSpan _tsEndTime = AudioPlayer.NaturalDuration.TimeSpan.Subtract(new TimeSpan(0, 0, 1));
-            //pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
-            Debug.WriteLine(progressbar.Value + " / " + progressbar.Maximum);
+            
             CurrentTime.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.Position);
             EndTimer.Text = String.Format(@"{0:hh\:mm\:ss}", _tsEndTime.ToString()).Substring(0, 8);
             if (progressbar.Value > 0)
@@ -854,7 +921,6 @@ namespace WritersToolbox.views
             {
                 pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
                 pp_status = 0;                
-                CurrentTime.Text = "bin da";
                 
                 if (playTimer != null)
                 {
@@ -862,8 +928,6 @@ namespace WritersToolbox.views
                     playTimer = null;
                     _test = false;
                 }
-                //playTimer = null;
-                //playTimer.Tick -= playTimer_Tick;
                 
             }
             
@@ -878,9 +942,7 @@ namespace WritersToolbox.views
             //hier nimmt er nicht nur die händischen veränderungen, sondern jede -> folge: erspielt jede sekunde doppelt ab.
                 TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)progressbar.Value);
             //new TimeSpan(
-                AudioPlayer.Position = _t;
-
-                
+                AudioPlayer.Position = _t;           
 
         }
 
@@ -989,9 +1051,10 @@ namespace WritersToolbox.views
         {
             TimeSpan ts;         
             ts = AudioPlayer.Position;
-            if (ts.Seconds > 3)
+            double totalMilliseconds = AudioPlayer.NaturalDuration.TimeSpan.TotalMilliseconds;
+            if (ts.TotalMilliseconds > (totalMilliseconds * JUMP_INTERVAL))
             {
-                TimeSpan _t = new TimeSpan(0, 0, 3);
+                TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)(totalMilliseconds * JUMP_INTERVAL));
                 AudioPlayer.Position -= _t;
                 AudioPlayer.Play();
                 if (playTimer!= null && !playTimer.IsEnabled) {
@@ -1009,9 +1072,10 @@ namespace WritersToolbox.views
         {
             TimeSpan ts;
             ts = AudioPlayer.Position;
-            if (ts.Seconds + 3 < AudioPlayer.NaturalDuration.TimeSpan.TotalSeconds)
+            double totalMilliseconds = AudioPlayer.NaturalDuration.TimeSpan.TotalMilliseconds;
+            if (ts.TotalMilliseconds + (totalMilliseconds * JUMP_INTERVAL) < totalMilliseconds)
             {
-                TimeSpan _t = new TimeSpan(0, 0, 3);
+                TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)(totalMilliseconds * JUMP_INTERVAL));
                 AudioPlayer.Position += _t;
                 AudioPlayer.Play();
                 if (playTimer != null && !playTimer.IsEnabled)
@@ -1028,19 +1092,27 @@ namespace WritersToolbox.views
         //F.Fertig
         private void soundbar_stop_button_Click(object sender, EventArgs e)
         {
-            
+            llms_records.Margin = new Thickness(27, 84, 0, 17);
             llms_records.EnforceIsSelectionEnabled = false;
             removeMediaApplicationBarButton();
             addManagementApplicationBarButton();
-            playTimer.Stop();
+            if (aktuelgrid != null)
+            {
+                ((Grid)aktuelgrid.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x2E, 0x2E));
+                ((Image)aktuelgrid.Children[1]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
+                aktuelgrid = null;
+            }
             _test = false;
-            if (playTimer != null) {
+            if (playTimer != null)
+            {
+                playTimer.Stop();
                 playTimer = null;
             }
+
             bar_status = 1;
             lastPlay.Text = "";
             AudioPlayer.Stop();
-            
+            deleteButton.Visibility = Visibility.Collapsed;
             progressbar.Visibility = Visibility.Collapsed;
             EndTimer.Visibility = Visibility.Collapsed;
             CurrentTime.Visibility = Visibility.Collapsed;
@@ -1051,59 +1123,66 @@ namespace WritersToolbox.views
         //Fertig
         private void deleteRecordButton_Click(object sender, RoutedEventArgs e)
         {
-
-            if (llms_records.EnforceIsSelectionEnabled)
-            {
-                ObservableCollection<SoundData> tempitems = new ObservableCollection<SoundData>(
-                (ObservableCollection<SoundData>)llms_records.ItemsSource);
-
-                foreach (SoundData item in tempitems)
-                {
-                    if (llms_records.SelectedItems.Contains(item))
-                    {
-                        llms_records.ItemsSource.Remove(item);
-                        llms_records.SelectedItems.Remove(item);
-                        sound_Items.Remove(item);
-                    }
-                }
-                lastPlay.Text = "";
-            }
-            else
-            {
-                string temp_sound = lastPlay.Text;
-                SoundData s = ((ObservableCollection<SoundData>)llms_records.ItemsSource).Single(x => x.FilePath == temp_sound);
-                if (llms_records.ItemsSource.Contains(s))
-                {
-                    llms_records.ItemsSource.Remove(s);
-                    sound_Items.Remove(s);
-                }
-                lastPlay.Text = "";
-            }
-
-            if (llms_records.ItemsSource.Count == 0 )
-            {
-                selectAllRecordCheckBox.IsChecked = false;
-            }
-
-            deleteRecordButton.Visibility = Visibility.Collapsed;
-            zurueckRecordButton.Visibility = Visibility.Collapsed;
-            if (bar_status == 2) {
-                removeMediaApplicationBarButton();
-                addManagementApplicationBarButton();
-                bar_status = 1;
-            }
-            pp_status = 1;
-            progressbar.Visibility = Visibility.Collapsed;
-            EndTimer.Visibility = Visibility.Collapsed;
-            CurrentTime.Visibility = Visibility.Collapsed;
-            progressbar_background.Visibility = Visibility.Collapsed;
-            //soundbar_hintergrund.Visibility = Visibility.Collapsed;
+            llms_records.Margin = new Thickness(27, 84, 0, 17);
             AudioPlayer.Stop();
             if (playTimer != null)
             {
                 playTimer.Stop();
+                playTimer = null;
             }
+            MessageBoxResult result = MessageBox.Show("möchten Sie die Aufnahme löschen !",
+                        "Warnung", MessageBoxButton.OKCancel);
 
+            if (result == MessageBoxResult.OK)
+            {
+                if (llms_records.EnforceIsSelectionEnabled)
+                {
+                    ObservableCollection<SoundData> tempitems = new ObservableCollection<SoundData>(
+                    (ObservableCollection<SoundData>)llms_records.ItemsSource);
+
+                    foreach (SoundData item in tempitems)
+                    {
+                        if (llms_records.SelectedItems.Contains(item))
+                        {
+                            llms_records.ItemsSource.Remove(item);
+                            llms_records.SelectedItems.Remove(item);
+                            sound_Items.Remove(item);
+                        }
+                    }
+                    lastPlay.Text = "";
+                }
+                else
+                {
+                    string temp_sound = lastPlay.Text;
+                    SoundData s = ((ObservableCollection<SoundData>)llms_records.ItemsSource).Single(x => x.FilePath == temp_sound);
+                    if (llms_records.ItemsSource.Contains(s))
+                    {
+                        llms_records.ItemsSource.Remove(s);
+                        sound_Items.Remove(s);
+                    }
+                    lastPlay.Text = "";
+                }
+
+                if (llms_records.ItemsSource.Count == 0)
+                {
+                    selectAllRecordCheckBox.IsChecked = false;
+                }
+
+                deleteRecordButton.Visibility = Visibility.Collapsed;
+                zurueckRecordButton.Visibility = Visibility.Collapsed;
+                if (bar_status == 2)
+                {
+                    removeMediaApplicationBarButton();
+                    addManagementApplicationBarButton();
+                    bar_status = 1;
+                }
+                //pp_status = 1;
+                progressbar.Visibility = Visibility.Collapsed;
+                EndTimer.Visibility = Visibility.Collapsed;
+                CurrentTime.Visibility = Visibility.Collapsed;
+                progressbar_background.Visibility = Visibility.Collapsed;
+            }
+            
         }
 
         //Fertig
@@ -1111,26 +1190,9 @@ namespace WritersToolbox.views
         {
             llms_records.EnforceIsSelectionEnabled = false;
             lastPlay.Text = "";
+            addRecordButton.IsEnabled = true;
             deleteRecordButton.Visibility = Visibility.Collapsed;
             zurueckRecordButton.Visibility = Visibility.Collapsed;
-            if (bar_status == 2)
-            {
-                removeMediaApplicationBarButton();
-                addManagementApplicationBarButton();
-                bar_status = 1;
-            }
-            
-            progressbar.Visibility = Visibility.Collapsed;
-            EndTimer.Visibility = Visibility.Collapsed;
-            CurrentTime.Visibility = Visibility.Collapsed;
-            progressbar_background.Visibility = Visibility.Collapsed;
-            //soundbar_hintergrund.Visibility = Visibility.Collapsed;
-            AudioPlayer.Stop();
-            if(playTimer != null)
-            {
-                playTimer.Stop();
-            }
-            
 
         }
 
@@ -1155,18 +1217,15 @@ namespace WritersToolbox.views
         {
             if (!isselected1)
             {
-                isselected3 = false;
                 llms_records.EnforceIsSelectionEnabled = true;
                 deleteRecordButton.Visibility = Visibility.Visible;
                 zurueckRecordButton.Visibility = Visibility.Visible;
                 llms_records.SelectedItems.Clear();
                 ObservableCollection<SoundData> items = (ObservableCollection<SoundData>)llms_records.ItemsSource;
-
                 foreach (SoundData item in items)
                 {
                     llms_records.SelectedItems.Add(item);
                 }
-                isselected3 = true;
             }
         }
 
@@ -1174,11 +1233,9 @@ namespace WritersToolbox.views
         private void Grid_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Grid g = (Grid)sender;
-            
+            addRecordButton.IsEnabled = false;
             llms_records.EnforceIsSelectionEnabled = true;
-
             llms_records.SelectedItems.Add(((SoundData)g.DataContext));
-
             deleteRecordButton.Visibility = Visibility.Visible;
             zurueckRecordButton.Visibility = Visibility.Visible;
         }
@@ -1196,7 +1253,7 @@ namespace WritersToolbox.views
         private void schlagwoerterTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             double height = heightCalculator(schlagwoerterTextBox.Text, schlagwoerterTextBox.FontFamily, schlagwoerterTextBox.FontSize,
-                     schlagwoerterTextBox.FontStyle, schlagwoerterTextBox.FontWeight);
+                     schlagwoerterTextBox.FontStyle, schlagwoerterTextBox.FontWeight, schlagwoerterTextBox);
             if (height > 300)
             {
                 detailsTextBox.Height = height;
@@ -1240,15 +1297,5 @@ namespace WritersToolbox.views
         {
             schlagwoerterTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
         }
-
-
-
-       
-
-        
-
-        
-
-
     }
 }

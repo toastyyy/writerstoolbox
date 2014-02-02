@@ -105,6 +105,7 @@
     </Compile>
     <Compile Include="converter\BoolToUsedConverter.cs" />
     <Compile Include="converter\CollectionCountConverter.cs" />
+    <Compile Include="converter\ColorToBrushConverter.cs" />
     <Compile Include="converter\DateConverter.cs" />
     <Compile Include="converter\NoteShortContentConverter.cs" />
     <Compile Include="converter\NoteCountConverter.cs" />
@@ -152,6 +153,12 @@
     <Compile Include="views\ChangeType.xaml.cs">
       <DependentUpon>ChangeType.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\BooksOverview.xaml.cs">
+      <DependentUpon>BooksOverview.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\ChangeBook.xaml.cs">
+      <DependentUpon>ChangeBook.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\UnsortedNote.xaml.cs">
       <DependentUpon>UnsortedNote.xaml</DependentUpon>
     </Compile>
@@ -184,6 +191,9 @@
     <Compile Include="views\Trashbin.xaml.cs">
       <DependentUpon>Trashbin.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\BooksDetails.xaml.cs">
+      <DependentUpon>BooksDetails.xaml</DependentUpon>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
@@ -208,6 +218,14 @@
     <Page Include="views\ChangeType.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\BooksOverview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\ChangeBook.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="views\UnsortedNote.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -238,6 +256,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\Trashbin.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\BooksDetails.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -292,11 +314,14 @@
     <Content Include="icons\forward.png" />
     <Content Include="icons\micro.png" />
     <Content Include="icons\note.png" />
+    <Content Include="icons\notiz.png" />
     <Content Include="icons\pause.png" />
     <Content Include="icons\play.png" />
+    <Content Include="icons\play_reordButton.png" />
     <Content Include="icons\reward.png" />
     <Content Include="icons\save.png" />
     <Content Include="icons\saveAs.png" />
+    <Content Include="icons\speaker_reordButton.png" />
     <Content Include="icons\speichernUnter.png" />
     <Content Include="icons\speichern.png" />
     <Content Include="icons\stop.png" />
@@ -330,16 +355,16 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Coding4Fun.Toolkit.Audio">
-      <HintPath>..\packages\Coding4Fun.Toolkit.Audio.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Audio.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\App_WP8\Coding4Fun.Toolkit.Audio.dll</HintPath>
     </Reference>
     <Reference Include="Coding4Fun.Toolkit.Controls">
-      <HintPath>..\packages\Coding4Fun.Toolkit.Controls.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Controls.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\App_WP8\Coding4Fun.Toolkit.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Coding4Fun.Toolkit.Net">
-      <HintPath>..\packages\Coding4Fun.Toolkit.Net.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Net.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\App_WP8\Coding4Fun.Toolkit.Net.dll</HintPath>
     </Reference>
     <Reference Include="Coding4Fun.Toolkit.Storage">
-      <HintPath>..\packages\Coding4Fun.Toolkit.Storage.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Storage.dll</HintPath>
+      <HintPath>..\..\..\..\..\Desktop\App_WP8\Coding4Fun.Toolkit.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Controls, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">

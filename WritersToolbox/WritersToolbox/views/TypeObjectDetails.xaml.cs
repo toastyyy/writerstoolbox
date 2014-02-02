@@ -75,6 +75,7 @@ namespace WritersToolbox.views
 
         private void TryDeleteTypeObject(object sender, EventArgs e)
         {
+            TypeObjectDeleteQuestion.Text = "Wollen Sie das Typobjekt \"" + tdvm.TypeObject.name.ToString() + "\" löschen?";
             deleteTypeObjectPopup.IsOpen = true;
         }
     }

@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls" 
-    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
@@ -16,42 +16,35 @@
     Style="{StaticResource TransitionPageStyle}">
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot" Background="White">
-        <Grid>
-            <Grid.Background>
-                <ImageBrush Stretch="Fill" ImageSource="/Assets/start_background.png" Opacity="0.6"/>
-            </Grid.Background>
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Rectangle Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Top" Height="50"></Rectangle>
-            <!--<Rectangle Grid.Row="1" Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="50"></Rectangle>-->
+    <Grid x:Name="LayoutRoot">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
 
 
-            <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
-            <StackPanel Grid.Row="0" Margin="12,17,0,28">
-                <TextBlock Text="TYPEN" Margin="9,0,0,0" FontSize="22" Foreground="Black" FontFamily="Segoe WP Semibold"/>
-                <TextBlock Text="Neuer Typ" Margin="9,10,0,0" Foreground="Black" FontSize="65" FontFamily="Portable User Interface"/>
-            </StackPanel>
+        <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="TYPEN" Margin="9,0,0,0" FontSize="22"/>
+            <TextBlock Text="Typ ändern" Margin="9,15,0,0" FontSize="65"/>
+        </StackPanel>
 
-            <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
-            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,50">
-                <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,17,0,0" Grid.Row="1" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Black" BorderThickness="1,1,1,1"/>
-                <TextBlock HorizontalAlignment="Left" Margin="14,0,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Width="149" Foreground="Black"/>
-                <TextBlock HorizontalAlignment="Left" Margin="14,90,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" Foreground="Black"/>
-                <Grid HorizontalAlignment="Left" Height="173" Margin="27,122,0,0" Grid.Row="1" VerticalAlignment="Top" Width="414">
-                    <c4f:ColorPicker x:Name="slider"></c4f:ColorPicker>
-                </Grid>
-                <TextBlock HorizontalAlignment="Left" Margin="14,321,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" Foreground="Black"/>
-                <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,348,0,0" Grid.Row="1" VerticalAlignment="Top" BorderBrush="Black" Height="65" Width="446" BorderThickness="2" Foreground="Black" FontSize="20"/>
-
+        <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
+        <StackPanel VerticalAlignment="Top" Margin="0,200,0,0">
+            <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="149" FontSize="25"/>
+            <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1"/>
+            <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" FontSize="25"/>
+            <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
+                <c4f:ColorPicker x:Name="slider"></c4f:ColorPicker>
             </Grid>
-        </Grid>
+            <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" FontSize="25"/>
+            <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="65" Width="446" BorderThickness="2" FontSize="20"/>
+
+        </StackPanel>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF72A91C">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF911124">
             <shell:ApplicationBarIconButton IconUri="/icons/save.png" Text="Save" Click="SaveType"/>
             <shell:ApplicationBarIconButton IconUri="/icons/cancel.png" Text="Cancel" Click="CancelType" />
         </shell:ApplicationBar>

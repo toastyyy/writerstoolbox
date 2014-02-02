@@ -18,9 +18,13 @@ namespace WritersToolbox.views
 {
     public partial class Types : PhoneApplicationPage
     {
+
+
         private TextBox newTypeTitle = new TextBox();
         private ColorPicker picker = new ColorPicker();
+        private datawrapper.TypeObject holdTypeobject;
         public static TypesViewModel types_VM = null;
+
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
         /// </summary>
@@ -122,7 +126,13 @@ namespace WritersToolbox.views
             {
                 var item = NavigationContext.QueryString["item"];
                 var indexParsed = int.Parse(item);
-                PivotMain.SelectedIndex = indexParsed - 1;
+                if (indexParsed == -1)
+                {
+                    //wurde ein neuer Typ erzeugt, wird dorthin navigiert
+                    PivotMain.SelectedIndex = Types_VM.getTypeCount() - 1;
+                } else 
+                    //es wird zum ausgewählten Typ navigiert
+                    PivotMain.SelectedIndex = indexParsed - 1;
             }
                 
            
@@ -135,15 +145,35 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void deleteTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
+        private void TryDeleteTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            datawrapper.TypeObject to = (sender as Grid).DataContext as datawrapper.TypeObject;
-            if (to == null)
+            holdTypeobject = (sender as Grid).DataContext as datawrapper.TypeObject;
+            if (holdTypeobject == null)
                 return;
-            MessageBoxResult result = MessageBox.Show("Wollen Sie das Typobjekt wirklich löschen?",
-            "Typobjekt löschen", MessageBoxButton.OKCancel);
-            if(result == MessageBoxResult.OK)
-                Types_VM.deleteTypeObject(to.typeObjectID);
+            TypeObjectDeleteQuestion.Text = "Wollen Sie das Typobjekt \"" + holdTypeobject.name.ToString() + "\" löschen?";
+            deleteTypeObjectPopup.IsOpen = true;
+        }
+
+        /// <summary>
+        /// Typobjekt wird endgültig gelöscht und die Sicherheitsabfrage geschlossen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DeleteTypeObject(object sender, EventArgs e)
+        {
+            Types.Types_VM.deleteTypeObject(holdTypeobject.typeObjectID);
+            deleteTypeObjectPopup.IsOpen = false;
+        }
+
+
+        /// <summary>
+        /// Der Löschvorgang wird abgebrochen und die Sicherheitsfrage geschlossen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void DoNotDeleteTypeObject(object sender, EventArgs e)
+        {
+            deleteTypeObjectPopup.IsOpen = false;
         }
 
         /// <summary>
@@ -164,6 +194,7 @@ namespace WritersToolbox.views
             try 
             { 
                 Types.types_VM.createType(title, color, "");
+                //zum gerade erzeugten Typ navigieren
                 PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
             }
             catch (ArgumentException ae) 
@@ -183,6 +214,12 @@ namespace WritersToolbox.views
             NavigationService.GoBack();
         }
 
+
+        /// <summary>
+        /// Es wurde auf Typändern geklickt und zur entsprechenden View weitergeleitet
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChangeType(object sender, EventArgs e)
         {
             datawrapper.Type t =  PivotMain.SelectedItem as datawrapper.Type;
@@ -192,12 +229,26 @@ namespace WritersToolbox.views
             
         }
 
-
+        /// <summary>
+        /// In der Appbar wurde das Event Typlöschen ausgelöst und die Sicherheitsabfrage angezeigt
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TryDeleteType(object sender, EventArgs e)
         {
+            datawrapper.Type t = PivotMain.SelectedItem as datawrapper.Type;
+            if (t == null)
+                return;
+            TypeDeleteQuestion.Text = "Wollen Sie den Typ \"" + t.title.ToString() +  "\" löschen?";
             deleteTypePopup.IsOpen = true;
         }
 
+
+        /// <summary>
+        /// Ein Typ wird endgültig gelöscht und die Sicherheitsabfrage geschlossen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteType(object sender, EventArgs e)
         {
             datawrapper.Type t = PivotMain.SelectedItem as datawrapper.Type;
@@ -207,22 +258,51 @@ namespace WritersToolbox.views
             deleteTypePopup.IsOpen = false;
         }
 
+
+        /// <summary>
+        /// Der Löschvorgang für einen Typ wird abgebrochen und die Sicherheitsfrage geschlossen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DoNotDeleteType(object sender, EventArgs e)
         {
             deleteTypePopup.IsOpen = false;
         }
 
+
+        /// <summary>
+        /// Bei der Erstellung eines neuen Typs wurde ein Titel eingegeben und somit
+        /// die TextBox für die spätere Speicherung ermittelt.
+        /// Grund dieses Vorgehens: TextBox ist in Template und kann nicht direkt angesprochen werden
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TitleGotFocus(object sender, RoutedEventArgs e)
         {
             newTypeTitle = sender as TextBox;
             
         }
 
+
+        /// <summary>
+        /// Bei der Erstellung eines neuen Typs wurde eine Farbe ausgewählt und somit
+        /// der ColorPicker für die spätere Speicherung ermittelt.
+        /// Grund dieses Vorgehens: ColorPicker ist in Template und kann nicht direkt angesprochen werden
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="color"></param>
         private void ColorChanged(object sender, Color color)
         {
             picker = sender as ColorPicker;
         }
 
+
+        /// <summary>
+        /// Beim Ändern des aktuellen Pivotitems wird die Appbar angepasst, 
+        /// Icons sowie Eventhandler
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PivotSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Pivot p = sender as Pivot;
