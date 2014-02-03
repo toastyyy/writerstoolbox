@@ -359,7 +359,7 @@ namespace WritersToolbox.viewmodels
                     name = "Neues Objekt", 
                     imageString = "../icons/add.png", 
                     type = new datawrapper.Type()  {typeID = -2},
-                    color = "#919191" 
+                    color = "#FFADD8E6" 
                 }
                 );
 
@@ -374,9 +374,9 @@ namespace WritersToolbox.viewmodels
                 name = "Neuer Typ anlegen",
                 imageString = "../icons/add.png",
                 type = new datawrapper.Type() { typeID = -1 },
-                color = "#919191"
+                color = "#FFADD8E6"
             });
-            tmpTypes.Add(new datawrapper.Type() { title = "Neuer Typ", imageString = "../icons/add.png", color = "#919191", typeObjects = t_o, typeID = -1 });
+            tmpTypes.Add(new datawrapper.Type() { title = "Neuer Typ", imageString = "../icons/add.png", color = "#FFADD8E6", typeObjects = t_o, typeID = -1 });
 
             this.NotifyPropertyChanged("Types");
 

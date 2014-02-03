@@ -6,7 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
-    xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls" 
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -36,7 +36,13 @@
             <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1"/>
             <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" FontSize="25"/>
             <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
-                <c4f:ColorPicker x:Name="slider"></c4f:ColorPicker>
+                <ListBox Name="colorPicker" SelectionChanged="ColorPicker_SelectionChanged" ItemContainerStyle="{StaticResource ColorPickerStyle}" Loaded="ColorPickerPage_Loaded" toolkit:TiltEffect.IsTiltEnabled="True">
+                    <ListBox.ItemsPanel>
+                        <ItemsPanelTemplate>
+                            <toolkit:WrapPanel/>
+                        </ItemsPanelTemplate>
+                    </ListBox.ItemsPanel>
+                </ListBox>
             </Grid>
             <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" FontSize="25"/>
             <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="65" Width="446" BorderThickness="2" FontSize="20"/>

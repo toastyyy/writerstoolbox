@@ -110,25 +110,25 @@ namespace WritersToolbox.demo
 
             WritersToolbox.models.Type type1 = new WritersToolbox.models.Type() {
                 title = "Charakter",
-                color = "#2d66c3"
+                color = "#FF32CD32"
             };
 
             WritersToolbox.models.Type type2 = new WritersToolbox.models.Type()
             {
                 title = "Handlungsort",
-                color = "#d1441d"
+                color = "#FF32CD32"
             };
 
             WritersToolbox.models.Type type3 = new WritersToolbox.models.Type()
             {
                 title = "Formeln",
-                color = "#3ca032"
+                color = "#FF32CD32"
             };
 
             WritersToolbox.models.Type type4 = new WritersToolbox.models.Type()
             {
                 title = "Gruppierungen",
-                color = "#ffffff"
+                color = "#FF32CD32"
             };
 
             TypeObject typeObject1 = new TypeObject() 
@@ -136,49 +136,56 @@ namespace WritersToolbox.demo
                 name = "Harry Potter",
                 obj_Type = type1,
                 used = true,
-                color = "#2d66c3"
+                color = "#FF20B2AA"
             };
 
             TypeObject typeObject2= new TypeObject()
             {
                 name = "Ron Weasley",
                 obj_Type = type1,
-                used = true
+                used = true,
+                color = "#FF20B2AA"
             };
 
             TypeObject typeObject3 = new TypeObject()
             {
                 name = "Hogwarts",
-                obj_Type = type2
+                obj_Type = type2,
+                color = "#FF20B2AA"
             };
 
             TypeObject typeObject4 = new TypeObject()
             {
                 name = "Zauberwald",
-                obj_Type = type2
+                obj_Type = type2,
+                color = "#FF20B2AA"
             };
 
             TypeObject typeObject5 = new TypeObject()
             {
                 name = "Frodo Beutlin",
-                obj_Type = type1
+                obj_Type = type1,
+                color = "#FF20B2AA"
             };
 
             TypeObject typeObject6 = new TypeObject()
             {
                 name = "Bilbo Beutlin",
-                obj_Type = type1
+                obj_Type = type1,
+                color = "#FF20B2AA"
             };
 
             TypeObject typeObject7 = new TypeObject()
             {
                 name = "Gandalf",
-                obj_Type = type1
+                obj_Type = type1,
+                color = "#FF20B2AA"
             };
             TypeObject typeObject8 = new TypeObject()
             {
                 name = "Gollum",
-                obj_Type = type1
+                obj_Type = type1,
+                color = "#FF20B2AA"
             };
 
             MemoryNote mn2 = new MemoryNote()

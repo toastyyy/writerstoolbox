@@ -5,12 +5,8 @@
     xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
-    xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls" 
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
-    toolkit:TiltEffect.IsTiltEnabled="True"
-    xmlns:converters="clr-namespace:WritersToolbox.converter"
-    Loaded="ColorPickerPage_Loaded"
     FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -19,9 +15,6 @@
     shell:SystemTray.IsVisible="True"
     Style="{StaticResource TransitionPageStyle}">
 
-    <phone:PhoneApplicationPage.Resources>
-        <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
-    </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot">
@@ -44,21 +37,12 @@
             <TextBox x:Name="toName" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1"/>
             <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" FontSize="25"/>
             <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
-                <!--<c4f:ColorPicker x:Name="slider"></c4f:ColorPicker>-->
-                <ListBox Name="listBox" SelectionChanged="lstColor_SelectionChanged">
+                <ListBox Name="colorPicker" SelectionChanged="ColorPicker_SelectionChanged" ItemContainerStyle="{StaticResource ColorPickerStyle}" Loaded="ColorPickerPage_Loaded" toolkit:TiltEffect.IsTiltEnabled="True">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <toolkit:WrapPanel/>
                         </ItemsPanelTemplate>
                     </ListBox.ItemsPanel>
-                    <ListBox.ItemTemplate>
-                        <DataTemplate>
-                            <StackPanel x:Name="item" Orientation="Horizontal" Margin="10, 5, 0, 5">
-                                <Rectangle Fill="{Binding Color, Converter={StaticResource ColorToBrushConverter}}" 
-                                Width="40" Height="40" />
-                            </StackPanel>
-                        </DataTemplate>
-                    </ListBox.ItemTemplate>
                 </ListBox>
             </Grid>
             <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" FontSize="25"/>

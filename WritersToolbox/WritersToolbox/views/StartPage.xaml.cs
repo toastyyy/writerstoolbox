@@ -18,7 +18,7 @@ namespace WritersToolbox.gui
         {
             InitializeComponent();
 
-            IsolatedStorageFile.GetUserStoreForApplication().Remove(); //Um Isolated Storge zu leeren.
+            //IsolatedStorageFile.GetUserStoreForApplication().Remove(); //Um Isolated Storge zu leeren.
 
             models.WritersToolboxDatebase db = models.WritersToolboxDatebase.getInstance();
             try
