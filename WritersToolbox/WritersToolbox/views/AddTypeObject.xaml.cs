@@ -14,52 +14,25 @@ namespace WritersToolbox.views
 {
     public partial class AddTypeObject : PhoneApplicationPage
     {
+        //TypID zudem das Objekt gehört
         private int typeID;
 
+        //bei selectionChanged wird Farbe hier zwischengespeichert
+        private Color selectedColor;
+
+        //Index einer bereits benutzten Farbe, wird zum Ändern gebraucht
+        private int selectedColorIndex = -1;
+
+        //Farben für Colorpicker
+        static string[] colors =
+        { 
+	        "#FFFFE135","#FFFFFF66","#FF008A00","#FF32CD32","#FF00FF7F","#FF808000",
+            "#FFFF0000","#FFFF4500","#FFFF8C00", "#FFFF7F50","#FFDC143C","#FFFF1493",
+            "#FFB22222","#FFC71585","#FFDA70D6","#FF000080","#FF4B0082","#FF800080",
+            "#FFADD8E6","#FF20B2AA","#FF008080"
+        };
+
         
-
-        static uint[] uintColors =
-{ 
-	0xFFFFE135,0xFFFFFF66,0xFF008A00,0xFF32CD32,0xFF00FF7F,0xFF808000,0xFFFF0000,0xFFFF4500,
-	0xFFFF8C00,
-	0xFFFF7F50,0xFFDC143C,0xFFFF1493,0xFFB22222,0xFFC71585,
-	0xFFDA70D6,0xFF000080,0xFF4B0082,
-	0xFF800080,0xFF483D8B,0xFFADD8E6,0xFF20B2AA,0xFF008080
-};
-
-        private void ColorPickerPage_Loaded(object sender, RoutedEventArgs e)
-        {
-            List<ColorItem> item = new List<ColorItem>();
-            for (int i = 0; i < uintColors.Length; i++)
-            {
-                item.Add(new ColorItem() {Color = ConvertColor(uintColors[i]) });
-            };
-
-            listBox.ItemsSource = item; //Fill ItemSource with all colors
-        }
-
-        private Color ConvertColor(uint uintCol)
-        {
-            byte A = (byte)((uintCol & 0xFF000000) >> 24);
-            byte R = (byte)((uintCol & 0x00FF0000) >> 16);
-            byte G = (byte)((uintCol & 0x0000FF00) >> 8);
-            byte B = (byte)((uintCol & 0x000000FF) >> 0);
-
-            return Color.FromArgb(A, R, G, B); ;
-        }
-
-        public class ColorItem
-        {
-            public Color Color { get; set; }
-        }
-
-        private void lstColor_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            if (e.AddedItems.Count > 0)
-            {
-                //(Application.Current as App).CurrentColorItem = ((ColorItem)e.AddedItems[0]);
-            }
-        }
 
         public AddTypeObject()
         {
@@ -73,26 +46,84 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void SaveTypeObject(object sender, EventArgs e)
         {
-            //Color c = slider.Color;
+            String r = selectedColor.R.ToString("X2");
+            String g = selectedColor.G.ToString("X2");
+            String b = selectedColor.B.ToString("X2");
 
-            //String r = c.R.ToString("X2");
-            //String g = c.G.ToString("X2");
-            //String b = c.B.ToString("X2");
+            String color = "#" + r + g + b;
+            String name = toName.Text;
 
-            //String color = "#" + r + g + b;
-            //String name = toName.Text;
-
-            //try 
-            //{
-            //    Types.types_VM.createTypeObject(name, color, "", typeID);
-            //}
-            //catch(Exception ex)
-            //{
-            //    Console.WriteLine("Objekt konnte nicht erstellt werden");
-            //}
+            try
+            {
+                Types.types_VM.createTypeObject(name, color, "", typeID);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine("Objekt konnte nicht erstellt werden");
+            }
 
             NavigationService.GoBack();
 
+        }
+
+
+        /// <summary>
+        /// Nach dem die Seite geladen ist, werden alle angegebenen Farben in die Listbox geladen.
+        /// Wird die View zum Ändern benutzt, wird die benutzte Farbe selektiert
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ColorPickerPage_Loaded(object sender, RoutedEventArgs e)
+        {
+            List<ColorItem> item = new List<ColorItem>();
+            for (int i = 0; i < colors.Length; i++)
+            {
+                item.Add(new ColorItem() { Color = fromHexToColor(colors[i])});
+            };
+
+            colorPicker.ItemsSource = item; //Fill ItemSource with all colors
+            if (selectedColorIndex != -1)
+                colorPicker.SelectedIndex = selectedColorIndex;
+        }
+
+        /// <summary>
+        /// Umwandlung von hex schreibweise in Color.
+        /// </summary>
+        /// <param name="hex"></param>
+        /// <returns></returns>
+        private Color fromHexToColor(String hex)
+        {
+            if (hex.StartsWith("#"))
+                hex = hex.Substring(1);
+            Byte a = Convert.ToByte(hex.Substring(0, 2), 16);
+            Byte colorR = Convert.ToByte(hex.Substring(2, 2), 16);
+            Byte colorG = Convert.ToByte(hex.Substring(4, 2), 16);
+            Byte colorB = Convert.ToByte(hex.Substring(6, 2), 16);
+
+            return Color.FromArgb(a, colorR, colorG, colorB);
+        }
+
+        
+        /// <summary>
+        /// Anonyme Klasse in der die Farbe gespeichert wird.
+        /// </summary>
+        public class ColorItem
+        {
+            public Color Color { get; set; }
+        }
+
+
+        /// <summary>
+        /// Wird eine Farbe in der Listbox ausgewählt, wird diese unter 
+        /// selectedColor gespeichert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ColorPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ListBox l = sender as ListBox;
+            ColorItem c = l.SelectedItem as ColorItem;
+            selectedColor = c.Color;
         }
 
         /// <summary>
@@ -125,7 +156,9 @@ namespace WritersToolbox.views
                 var item = NavigationContext.QueryString["item"];
                 var indexParsed = int.Parse(item);
                 toName.Text = Types.Types_VM.getNameForTypeObject(indexParsed);
-                //slider.Color = Types.Types_VM.getColorForTypeObject(indexParsed);
+                ColorItem i = new ColorItem() { Color = Types.Types_VM.getColorForTypeObject(indexParsed) };
+                string s = i.Color.ToString();
+                selectedColorIndex = Array.IndexOf(colors, s); 
                 Title.Text = "Objekt ändern";
             }
         }

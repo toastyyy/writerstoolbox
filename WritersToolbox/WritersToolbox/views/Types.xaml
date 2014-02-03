@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:converter="clr-namespace:WritersToolbox.converter"
-    xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
     mc:Ignorable="d"
     d:DataContext="{d:DesignData ../sampleData/sampleDataTyp.xaml}"
@@ -78,7 +78,13 @@
                 <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus"/>
                 <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" FontSize="25"/>
                 <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
-                    <c4f:ColorPicker x:Name="slider" ColorChanged="ColorChanged"></c4f:ColorPicker>
+                    <ListBox Name="colorPicker" Loaded="ColorPickerPage_Loaded" SelectionChanged="ColorPicker_SelectionChanged" ItemContainerStyle="{StaticResource ColorPickerStyle}" toolkit:TiltEffect.IsTiltEnabled="True">
+                        <ListBox.ItemsPanel>
+                            <ItemsPanelTemplate>
+                                <toolkit:WrapPanel/>
+                            </ItemsPanelTemplate>
+                        </ListBox.ItemsPanel>
+                    </ListBox>
                 </Grid>
                 <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" FontSize="25"/>
                 <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" BorderBrush="White" Height="65" Width="446" BorderThickness="2" Foreground="White" FontSize="20"/>
@@ -147,8 +153,8 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF911124">
-            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern" Click="ChangeType"/>
-            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="TryDeleteType"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
