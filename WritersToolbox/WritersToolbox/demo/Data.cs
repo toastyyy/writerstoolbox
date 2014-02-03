@@ -110,19 +110,19 @@ namespace WritersToolbox.demo
 
             WritersToolbox.models.Type type1 = new WritersToolbox.models.Type() {
                 title = "Charakter",
-                color = "#ff0000"
+                color = "#2d66c3"
             };
 
             WritersToolbox.models.Type type2 = new WritersToolbox.models.Type()
             {
                 title = "Handlungsort",
-                color = "#00ff00"
+                color = "#d1441d"
             };
 
             WritersToolbox.models.Type type3 = new WritersToolbox.models.Type()
             {
                 title = "Formeln",
-                color = "#ff0000"
+                color = "#3ca032"
             };
 
             WritersToolbox.models.Type type4 = new WritersToolbox.models.Type()
@@ -136,7 +136,7 @@ namespace WritersToolbox.demo
                 name = "Harry Potter",
                 obj_Type = type1,
                 used = true,
-                color = "#ff0000"
+                color = "#2d66c3"
             };
 
             TypeObject typeObject2= new TypeObject()

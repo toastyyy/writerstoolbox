@@ -45,6 +45,9 @@ namespace WritersToolbox.viewmodels
             return this.Books.Count;
         }
 
+        public void addBook() { 
+        }
+
         public void loadData() 
         {
             // buchtypen laden
