@@ -55,7 +55,7 @@ namespace WritersToolbox.views
 
             try
             {
-                Types.types_VM.createTypeObject(name, color, "", typeID);
+                Types.types_VM.createTypeObject(name, color, "../icons/TypeObjects/character.png", typeID);
             }
             catch (Exception ex)
             {

@@ -247,7 +247,7 @@ namespace WritersToolbox.viewmodels
                 to.color = color;
             }
             to.obj_Type = type;
-
+            to.imageString = image;
             this.tableTypeObject.InsertOnSubmit(to);
             this.db.SubmitChanges();
             this.LoadData();

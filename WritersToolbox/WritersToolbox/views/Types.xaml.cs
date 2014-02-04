@@ -227,7 +227,7 @@ namespace WritersToolbox.views
             String title = newTypeTitle.Text;
             try 
             { 
-                Types.types_VM.createType(title, color, "");
+                Types.types_VM.createType(title, color, "/icons/character.png");
                 //zum gerade erzeugten Typ navigieren
                 PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
             }
