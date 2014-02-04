@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using Microsoft.Phone.Controls;
+using Microsoft.Phone.Shell;
 namespace WritersToolbox.viewmodels
 {
     public class TypesViewModel : INotifyPropertyChanged
@@ -369,34 +370,40 @@ namespace WritersToolbox.viewmodels
                     TypeObjects.Add(wrappedTO);
                 }
 
-                // Neues Typobjekt
-                TypeObjects.Add(new datawrapper.TypeObject() { 
-                    name = "Neues Objekt", 
-                    imageString = "../icons/add.png", 
-                    type = new datawrapper.Type()  {typeID = -2},
-                    color = "#FFADD8E6" 
+                if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+                {
+                    // Neues Typobjekt
+                    TypeObjects.Add(new datawrapper.TypeObject()
+                    {
+                        name = "Neues Objekt",
+                        imageString = "../icons/add.png",
+                        type = new datawrapper.Type() { typeID = -2 },
+                        color = "#FFADD8E6"
+                    }
+                    );
                 }
-                );
-
                 wrappedType.typeObjects = TypeObjects;
                 tmpTypes.Add(wrappedType);
             }
 
             // hinzufuegen fuer neuer Typ
-            List<datawrapper.TypeObject> t_o = new List<datawrapper.TypeObject>();
-            t_o.Add(new datawrapper.TypeObject()
+            if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
-                name = "Neuer Typ anlegen",
-                imageString = "../icons/add.png",
-                type = new datawrapper.Type() { typeID = -1 },
-                color = "#FFADD8E6"
-            });
-            tmpTypes.Add(new datawrapper.Type() { title = "Neuer Typ", imageString = "../icons/add.png", color = "#FFADD8E6", typeObjects = t_o, typeID = -1 });
 
-            this.NotifyPropertyChanged("Types");
-
-            Types = tmpTypes;
-            IsDataLoaded = true;
+                List<datawrapper.TypeObject> t_o = new List<datawrapper.TypeObject>();
+                t_o.Add(new datawrapper.TypeObject()
+                {
+                    name = "Neuer Typ anlegen",
+                    imageString = "../icons/add.png",
+                    type = new datawrapper.Type() { typeID = -1 },
+                    color = "#FFADD8E6"
+                });
+                tmpTypes.Add(new datawrapper.Type() { title = "Neuer Typ", imageString = "../icons/add.png", color = "#FFADD8E6", typeObjects = t_o, typeID = -1 });
+            }
+                this.NotifyPropertyChanged("Types");
+                Types = tmpTypes;
+                IsDataLoaded = true;
+            
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

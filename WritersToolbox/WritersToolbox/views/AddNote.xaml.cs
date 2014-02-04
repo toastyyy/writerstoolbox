@@ -1247,6 +1247,8 @@ namespace WritersToolbox.views
             //PhoneApplicationService.Current.State.Remove("addedImages");
             //PhoneApplicationService.Current.State.Remove("OppendImageView");
             //PhoneApplicationService.Current.State.Remove("memoryNoteID");
+            PhoneApplicationService.Current.State["assignNote"] = true;
+            NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
         }
 
         //Fertig

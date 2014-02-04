@@ -68,7 +68,7 @@
                         </DataTemplate>
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
-                <TextBlock Text="klick" Foreground="White" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
+                <TextBlock x:Name="btnOverview" Text="klick" Foreground="White" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
             </Grid>
         </DataTemplate>
         <!--Template für neuen Typ-->
