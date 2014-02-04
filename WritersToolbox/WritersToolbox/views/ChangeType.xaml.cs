@@ -21,6 +21,7 @@ namespace WritersToolbox.views
         //Index einer bereits benutzten Farbe, wird zum Ändern gebraucht
         private int selectedColorIndex;
 
+        private int typeIndex = -1;
         //Farben für Colorpicker
         static string[] colors =
         { 
@@ -51,7 +52,7 @@ namespace WritersToolbox.views
 
             try
             {
-                Types.types_VM.createType(title, color, "");
+                Types.types_VM.updateType(this.typeIndex, title, color, "");
                 NavigationService.GoBack();
             }
             catch (ArgumentException ae)
@@ -74,8 +75,8 @@ namespace WritersToolbox.views
                 item.Add(new ColorItem() { Color = fromHexToColor(colors[i]) });
             };
 
-            colorPicker.ItemsSource = item; //Fill ItemSource with all colors
-            colorPicker.SelectedIndex = selectedColorIndex;
+            //colorPicker.ItemsSource = item; //Fill ItemSource with all colors
+            //colorPicker.SelectedIndex = selectedColorIndex;
         }
 
         /// <summary>
@@ -135,6 +136,7 @@ namespace WritersToolbox.views
             {
                 var item = NavigationContext.QueryString["item"];
                 var indexParsed = int.Parse(item);
+                this.typeIndex = indexParsed;
                 tTitle.Text = Types.Types_VM.getTitleForType(indexParsed);
                 ColorItem i = new ColorItem() { Color = Types.Types_VM.getColorForTypeObject(indexParsed) };
                 string s = i.Color.ToString();

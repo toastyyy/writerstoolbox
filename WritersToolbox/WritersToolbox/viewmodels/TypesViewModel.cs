@@ -198,6 +198,21 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+        public void updateType(int typeID, String title, String color, String imageString) {            
+            try
+            {
+                models.Type type = (from t in tableType
+                                    where t.typeID == typeID
+                                    select t).First();
+                type.title = title;
+                type.imageString = imageString;
+                type.color = color;
+                this.db.SubmitChanges();
+                this.LoadData();
+            }
+            catch (Exception e) { 
+            }
+        }
         /// <summary>
         /// Erstellt ein neues Typ-Objekt aus den angegebenen Werten.
         /// Wenn ein Wert ungültig ist, wird eine ArgumentException geworfen.
