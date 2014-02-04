@@ -102,17 +102,33 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/BooksOverview.xaml", UriKind.Relative));
         }
 
+
+        /// <summary>
+        /// Popup zum Buchtypändern wird geöffnet
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void changeBookType(object sender, System.Windows.Input.GestureEventArgs e)
         {
             booktype_popup.IsOpen = true;
         }
 
+        /// <summary>
+        /// Popup zum Buchtypändern wird geschlossen und abgebrochen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bookTypeCancel(object sender, System.Windows.Input.GestureEventArgs e)
         {
             booktype_popup.IsOpen = false;
         }
 
-        
+        /// <summary>
+        /// Hold-Event wird ausgelöst zum Löschen.
+        /// Popup zum Buchlöschen wird geöffnet und eine Sicherheitsabfrage gestellt
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TryDeleteBook(object sender, EventArgs e)
         {
             datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
@@ -122,17 +138,34 @@ namespace WritersToolbox.views
             deleteBookPopup.IsOpen = true;
         }
 
+
+        /// <summary>
+        /// Buch wird endgülitg gelöscht und Popup geschlossen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteBook(object sender, EventArgs e)
         {
+            //delete Methode fehlt
             deleteBookPopup.IsOpen = false;
         }
 
+
+        /// <summary>
+        /// Buchlöschen wird abgebrochen und Popup geschlossen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DoNotDeleteBook(object sender, EventArgs e)
         {
             deleteBookPopup.IsOpen = false;
         }
 
-
+        /// <summary>
+        /// Navigiert zu ChangeBook mit aktuellem Buch als Parameter
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ChangeBook(object sender, EventArgs e)
         {
             datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
@@ -141,7 +174,11 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/ChangeBook.xaml?item=" + b.bookID, UriKind.Relative));
         }
 
-
+        /// <summary>
+        /// Die Methode passt beim ändern des Pivotitems die Icons und Handler der Appbar an
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PivotSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             Pivot p = sender as Pivot;
@@ -176,11 +213,23 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Ein neues Buch wird gespeichert und zu diesem navigiert
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SaveBook(object sender, EventArgs e)
         {
+            //save Methode fehlt
             PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
         }
 
+
+        /// <summary>
+        /// Neues Bucherstellen wird abgebrochen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void CancelBook(object sender, EventArgs e)
         {
             NavigationService.GoBack();
