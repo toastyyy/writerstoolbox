@@ -112,14 +112,19 @@ namespace WritersToolbox.views
             datawrapper.TypeObject to = selector.SelectedItem as datawrapper.TypeObject;
             if (to == null)
                 return;
-
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                PhoneApplicationService.Current.State["typeObjectID"] = to.typeObjectID;
+                NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
+                return;
+            }
             // ein Objekt TypeObject hat TypID = -2
             else if (to.type.typeID == -2)
             {
                 NavigationService.Navigate(new Uri("/views/AddTypeObject.xaml?typeID=" + (PivotMain.SelectedIndex + 1), UriKind.Relative));
             }
             // detailansicht fuer typobject
-            else 
+            else
             {
                 NavigationService.Navigate(new Uri("/views/TypeObjectDetails.xaml?item=" + to.typeObjectID, UriKind.Relative));
             }
@@ -134,6 +139,23 @@ namespace WritersToolbox.views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            types_VM.LoadData();
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                ApplicationBar.Buttons.Clear();
+                ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+                cancel.Text = "Abbrechen";
+                ApplicationBar.Buttons.Add(cancel);
+                this.PivotMain.Title = new TextBlock() { 
+                    FontSize = 22,
+                    Margin = new Thickness(9,0,0,0),
+                    Text = "Zu Typobjekt zuordnen"
+
+                };
+                
+            }
+            else {
+                
             if (NavigationContext.QueryString.ContainsKey("item"))
             {
                 var item = NavigationContext.QueryString["item"];
@@ -146,6 +168,8 @@ namespace WritersToolbox.views
                     //es wird zum ausgewählten Typ navigiert
                     PivotMain.SelectedIndex = indexParsed - 1;
             }
+            }
+
                 
            
         }
@@ -359,6 +383,8 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void PivotSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            { 
             Pivot p = sender as Pivot;
             if (p == null)
                 return;
@@ -389,6 +415,8 @@ namespace WritersToolbox.views
                 btn2.Click -= new EventHandler(CancelType);
                 btn2.Click += new EventHandler(TryDeleteType);
             }
+            }
+            
         }
 
         private void layoutContent_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
