@@ -32,6 +32,14 @@ namespace WritersToolbox.views
             "#FFADD8E6","#FF20B2AA","#FF008080"
         };
 
+        //Imagepaths für Imagepicker
+        static string[] images =
+        { 
+	        "../icons/TypeObjects/character.png","../icons/TypeObjects/character.png"
+        };
+
+        private string selectedImagePath;
+
         
 
         public AddTypeObject()
@@ -55,7 +63,7 @@ namespace WritersToolbox.views
 
             try
             {
-                Types.types_VM.createTypeObject(name, color, "../icons/TypeObjects/character.png", typeID);
+                Types.types_VM.createTypeObject(name, color, selectedImagePath, typeID);
             }
             catch (Exception ex)
             {
@@ -161,6 +169,40 @@ namespace WritersToolbox.views
                 selectedColorIndex = Array.IndexOf(colors, s); 
                 Title.Text = "Objekt ändern";
             }
+        }
+
+        private void ImagePickerPageLoaded(object sender, RoutedEventArgs e)
+        {
+            List<TypobjectImage> item = new List<TypobjectImage>();
+            for (int i = 0; i < images.Length; i++)
+            {
+                item.Add(new TypobjectImage() { ImagePath = images[i] });
+            };
+
+            ImagePicker.ItemsSource = item; //Fill ItemSource with all colors
+            //if (selectedColorIndex != -1)
+            //    colorPicker.SelectedIndex = selectedColorIndex;
+        }
+
+        public class TypobjectImage
+        {
+            public string ImagePath { get; set; }
+        }
+
+        private void pickImage(object sender, RoutedEventArgs e)
+        {
+            Imagepicker_popup.IsOpen = true;
+        }
+
+        private void cancelImagePicker(object sender, RoutedEventArgs e)
+        {
+            Imagepicker_popup.IsOpen = false;
+        }
+
+        private void selectImage(object sender, RoutedEventArgs e)
+        {
+            selectedImagePath = (ImagePicker.SelectedItem as TypobjectImage).ImagePath;
+            Imagepicker_popup.IsOpen = false;
         }
 
     }

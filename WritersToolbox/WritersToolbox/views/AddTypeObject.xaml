@@ -15,6 +15,10 @@
     shell:SystemTray.IsVisible="True"
     Style="{StaticResource TransitionPageStyle}">
 
+    <phone:PhoneApplicationPage.Resources>
+        
+
+    </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot">
@@ -24,6 +28,28 @@
         </Grid.RowDefinitions>
         <Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
 
+        <!-- Popup fuer Typenbild -->
+        <Popup x:Name="Imagepicker_popup" Grid.RowSpan="2" Margin="0,50,0,0">
+            <Grid Width="480">
+                <StackPanel Background="Black">
+                    <TextBlock Text="Bild wählen" FontSize="40" Margin="30,20,0,10" />
+                    <TextBlock Text="Bitte wählen Sie eine Bild" FontSize="21" Margin="30,20" />
+                    <Grid Width="400" Height="Auto" Margin="0,10,0,20">
+                        <ListBox Name="ImagePicker" ItemContainerStyle="{StaticResource ImagePickerStyle}" Loaded="ImagePickerPageLoaded" toolkit:TiltEffect.IsTiltEnabled="True">
+                            <ListBox.ItemsPanel>
+                                <ItemsPanelTemplate>
+                                    <toolkit:WrapPanel/>
+                                </ItemsPanelTemplate>
+                            </ListBox.ItemsPanel>
+                        </ListBox>
+                    </Grid>
+                    <StackPanel Orientation="Horizontal" Margin="0,20">
+                        <Button x:Name="btn_continue"  Content="Auswählen" Width="230" Margin="5,0,0,10" Click="selectImage" />
+                        <Button x:Name="btn_cancel"    Content="Abbrechen"   Width="230" Margin="0,0,5,10" Click="cancelImagePicker"/>
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </Popup>
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
@@ -46,7 +72,7 @@
                 </ListBox>
             </Grid>
             <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" FontSize="25"/>
-            <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="65" Width="446" BorderThickness="2" FontSize="20"/>
+            <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" Height="65" Width="446" BorderThickness="2" FontSize="20" Click="pickImage"/>
 
         </StackPanel>
     </Grid>
