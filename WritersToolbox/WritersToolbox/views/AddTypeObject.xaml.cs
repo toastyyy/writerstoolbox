@@ -17,11 +17,17 @@ namespace WritersToolbox.views
         //TypID zudem das Objekt gehört
         private int typeID;
 
+        //TypeObjectID des Objekts
+        private int typeObjectID;
+
+        //gibt an, ob neues Objekt oder ein Update
+        private bool update = false;
+
         //bei selectionChanged wird Farbe hier zwischengespeichert
         private Color selectedColor;
 
         //Index einer bereits benutzten Farbe, wird zum Ändern gebraucht
-        private int selectedColorIndex = -1;
+        private int selectedColorIndex;
 
         //Farben für Colorpicker
         static string[] colors =
@@ -39,6 +45,9 @@ namespace WritersToolbox.views
         };
 
         private string selectedImagePath;
+
+        //Index eines bereits benutzten Bildes, wird zum Ändern gebraucht
+        private int selectedImageIndex;
 
         
 
@@ -63,7 +72,15 @@ namespace WritersToolbox.views
 
             try
             {
-                Types.types_VM.createTypeObject(name, color, selectedImagePath, typeID);
+                if (update)
+                {
+                    Types.Types_VM.updateTypeObject(typeObjectID, name, color, selectedImagePath);
+                }
+                else
+                {
+                    Types.types_VM.createTypeObject(name, color, selectedImagePath, typeID);
+                }
+                
             }
             catch (Exception ex)
             {
@@ -90,7 +107,7 @@ namespace WritersToolbox.views
             };
 
             colorPicker.ItemsSource = item; //Fill ItemSource with all colors
-            if (selectedColorIndex != -1)
+            if (update)
                 colorPicker.SelectedIndex = selectedColorIndex;
         }
 
@@ -161,16 +178,23 @@ namespace WritersToolbox.views
             }
             else if (NavigationContext.QueryString.ContainsKey("item"))
             {
+                update = true;
                 var item = NavigationContext.QueryString["item"];
-                var indexParsed = int.Parse(item);
-                toName.Text = Types.Types_VM.getNameForTypeObject(indexParsed);
-                ColorItem i = new ColorItem() { Color = Types.Types_VM.getColorForTypeObject(indexParsed) };
-                string s = i.Color.ToString();
-                selectedColorIndex = Array.IndexOf(colors, s); 
+                typeObjectID = int.Parse(item);
+                toName.Text = Types.Types_VM.getNameForTypeObject(typeObjectID);
+                selectedColorIndex = Array.IndexOf(colors, Types.Types_VM.getColorForTypeObject(typeObjectID).ToString());
+                selectedImageIndex = Array.IndexOf(images, Types.Types_VM.getImagePathForTypeObject(typeObjectID));
                 Title.Text = "Objekt ändern";
             }
         }
 
+        /// <summary>
+        /// Nach dem Laden werden alle vorhandenen Bilder als itemSource 
+        /// dem Picker zur Verfügung gestellt. Bei einem Update wird das
+        /// bereits benutzte Bild verwendet
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void ImagePickerPageLoaded(object sender, RoutedEventArgs e)
         {
             List<TypobjectImage> item = new List<TypobjectImage>();
@@ -180,25 +204,46 @@ namespace WritersToolbox.views
             };
 
             ImagePicker.ItemsSource = item; //Fill ItemSource with all colors
-            //if (selectedColorIndex != -1)
-            //    colorPicker.SelectedIndex = selectedColorIndex;
+            if (update)
+                ImagePicker.SelectedIndex = selectedImageIndex;
         }
 
+
+        /// <summary>
+        /// Klasse zum Zwischenspeichern und Binding des Imagepaths
+        /// </summary>
         public class TypobjectImage
         {
             public string ImagePath { get; set; }
         }
 
+        /// <summary>
+        /// Bildauswähl Button wurde gedrückt und Popup erscheint
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void pickImage(object sender, RoutedEventArgs e)
         {
             Imagepicker_popup.IsOpen = true;
         }
 
+
+        /// <summary>
+        /// Bildauswählen wird abgebrochen und Popup geschlossen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelImagePicker(object sender, RoutedEventArgs e)
         {
             Imagepicker_popup.IsOpen = false;
         }
 
+        /// <summary>
+        /// Beim endgültigen Auswählen im Popup wird der Imagepath zwischen gespeichert
+        /// und das Popup geschlossen
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void selectImage(object sender, RoutedEventArgs e)
         {
             selectedImagePath = (ImagePicker.SelectedItem as TypobjectImage).ImagePath;
