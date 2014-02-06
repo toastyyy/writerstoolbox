@@ -106,9 +106,12 @@
     <Compile Include="converter\BoolToUsedConverter.cs" />
     <Compile Include="converter\CollectionCountConverter.cs" />
     <Compile Include="converter\ColorToBrushConverter.cs" />
+    <Compile Include="converter\DefaultIfEmptyConverter.cs" />
     <Compile Include="converter\DateConverter.cs" />
     <Compile Include="converter\NoteShortContentConverter.cs" />
     <Compile Include="converter\NoteCountConverter.cs" />
+    <Compile Include="converter\TypeObjectImageConverter.cs" />
+    <Compile Include="converter\TypeObjectSubtitleConverter.cs" />
     <Compile Include="datawrapper\Book.cs" />
     <Compile Include="datawrapper\BookType.cs" />
     <Compile Include="datawrapper\Chapter.cs" />
@@ -160,6 +163,9 @@
     <Compile Include="views\ChangeBook.xaml.cs">
       <DependentUpon>ChangeBook.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\TypeObjectDetails2.xaml.cs">
+      <DependentUpon>TypeObjectDetails2.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\UnsortedNote.xaml.cs">
       <DependentUpon>UnsortedNote.xaml</DependentUpon>
     </Compile>
@@ -204,6 +210,10 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
+    <Page Include="templates\TypeObjectDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
     <Page Include="views\AddNote.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
@@ -227,6 +237,10 @@
     <Page Include="views\ChangeBook.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\TypeObjectDetails2.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\UnsortedNote.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -306,16 +320,20 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\WritersToolboxstartseiteWT.png" />
+    <Content Include="charakter.png" />
+    <Content Include="images\headImage_gruen_top.png" />
     <Content Include="icons\add.png" />
     <Content Include="icons\aufnahme_aktiv.png" />
     <Content Include="icons\aufnahme.png" />
     <Content Include="icons\book.png" />
     <Content Include="icons\cancel.png" />
+    <Content Include="icons\charakter_icon.png" />
     <Content Include="icons\delete.png" />
     <Content Include="icons\forward.png" />
     <Content Include="icons\micro.png" />
     <Content Include="icons\note.png" />
     <Content Include="icons\notiz.png" />
+    <Content Include="icons\notiz_round_icon.png" />
     <Content Include="icons\pause.png" />
     <Content Include="icons\play.png" />
     <Content Include="icons\play_reordButton.png" />

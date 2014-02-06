@@ -210,6 +210,39 @@ namespace WritersToolbox.demo
                 obj_TypeObject = typeObject1
             };
 
+            MemoryNote mn4 = new MemoryNote()
+            {
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                contentText = "blablub trololololol",
+                title = "testnotiz an harry",
+                associated = true,
+                tags = "harry|potter|test",
+                obj_TypeObject = typeObject1
+            };
+
+            MemoryNote mn5 = new MemoryNote()
+            {
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                contentText = "blablub trololololol",
+                title = "testnotiz an harry",
+                associated = true,
+                tags = "harry|potter|test",
+                obj_TypeObject = typeObject1
+            };
+
+            MemoryNote mn6 = new MemoryNote()
+            {
+                addedDate = DateTime.Now,
+                updatedDate = DateTime.Now,
+                contentText = "blablub trololololol",
+                title = "testnotiz an harry",
+                associated = true,
+                tags = "harry|potter|test",
+                obj_TypeObject = typeObject1
+            };
+
             db.GetTable<BookType>().InsertOnSubmit(bt);
             db.GetTable<Book>().InsertOnSubmit(b);
             db.GetTable<Book>().InsertOnSubmit(b2);
@@ -237,7 +270,9 @@ namespace WritersToolbox.demo
             db.GetTable<TypeObject>().InsertOnSubmit(typeObject8);
             db.GetTable<MemoryNote>().InsertOnSubmit(mn2);
             db.GetTable<MemoryNote>().InsertOnSubmit(mn3);
-
+            db.GetTable<MemoryNote>().InsertOnSubmit(mn4);
+            db.GetTable<MemoryNote>().InsertOnSubmit(mn5);
+            db.GetTable<MemoryNote>().InsertOnSubmit(mn6);
             db.SubmitChanges();
         }
     }

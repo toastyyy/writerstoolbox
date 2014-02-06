@@ -12,6 +12,9 @@
         
         <!--<local:LocalizedStrings xmlns:local="clr-namespace:WritersToolbox" x:Key="LocalizedStrings"/>-->
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="templates/TypeObjectDetail.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
             <!--Converter und Lisboxitem fuer Colorpicker-->
             <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
             <Style x:Key="ColorPickerStyle" TargetType="ListBoxItem">

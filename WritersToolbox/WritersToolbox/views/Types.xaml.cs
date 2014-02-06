@@ -126,7 +126,7 @@ namespace WritersToolbox.views
             // detailansicht fuer typobject
             else
             {
-                NavigationService.Navigate(new Uri("/views/TypeObjectDetails.xaml?item=" + to.typeObjectID, UriKind.Relative));
+                NavigationService.Navigate(new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + to.typeObjectID, UriKind.Relative));
             }
             selector.SelectedItem = null;
         }
@@ -149,13 +149,27 @@ namespace WritersToolbox.views
                 this.PivotMain.Title = new TextBlock() { 
                     FontSize = 22,
                     Margin = new Thickness(9,0,0,0),
-                    Text = "Zu Typobjekt zuordnen"
+                    Text = "ZU TYPOBJEKT ZUORDNEN"
 
                 };
                 
             }
             else {
-                
+                ApplicationBar.Buttons.Clear();
+
+                ApplicationBarIconButton edit = new ApplicationBarIconButton(new Uri("/icons/saveAs.png", UriKind.Relative));
+                ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+                delete.Text = "Löschen";
+                edit.Text = "Bearbeiten";
+                ApplicationBar.Buttons.Add(edit);
+                ApplicationBar.Buttons.Add(delete);
+                this.PivotMain.Title = new TextBlock()
+                {
+                    FontSize = 22,
+                    Margin = new Thickness(9, 0, 0, 0),
+                    Text = "TYPEN"
+
+                };
             if (NavigationContext.QueryString.ContainsKey("item"))
             {
                 var item = NavigationContext.QueryString["item"];
