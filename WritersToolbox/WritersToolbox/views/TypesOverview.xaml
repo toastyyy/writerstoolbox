@@ -27,14 +27,17 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <Image Source="{Binding imageString}"/>
-                <TextBlock Grid.Row="1" 
-                           Text="{Binding title}" 
-                           TextWrapping="Wrap"  
-                           FontSize="16" 
-                           VerticalAlignment="Bottom" 
-                           HorizontalAlignment="Center" 
-                           Margin="0,0,0,5"/>
+                <Image Source="{Binding imageString}" Stretch="UniformToFill"/>
+                <Border Grid.Row="1" Background="White">
+                    <TextBlock Text="{Binding title}"
+                               Foreground="Black"
+                               TextWrapping="Wrap"  
+                               FontSize="24" 
+                               VerticalAlignment="Bottom" 
+                               HorizontalAlignment="Center" 
+                               Margin="0,0,0,5" />
+                </Border>
+                
             </Grid>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>

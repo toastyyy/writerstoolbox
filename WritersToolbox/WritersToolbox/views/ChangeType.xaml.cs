@@ -75,8 +75,8 @@ namespace WritersToolbox.views
                 item.Add(new ColorItem() { Color = fromHexToColor(colors[i]) });
             };
 
-            //colorPicker.ItemsSource = item; //Fill ItemSource with all colors
-            //colorPicker.SelectedIndex = selectedColorIndex;
+            colorPicker.ItemsSource = item; //Fill ItemSource with all colors
+            colorPicker.SelectedIndex = selectedColorIndex;
         }
 
         /// <summary>
@@ -129,6 +129,11 @@ namespace WritersToolbox.views
             NavigationService.GoBack();
         }
 
+
+        /// <summary>
+        /// Es wird die TypID ausgelesen, Name geladen und die Passende Farbe dem Colorindex zugewiesen
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);

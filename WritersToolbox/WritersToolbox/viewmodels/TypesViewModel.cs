@@ -154,7 +154,7 @@ namespace WritersToolbox.viewmodels
         /// </summary>
         /// <param name="typeObjectID">ID des vorgegebenen Typ-Objektes</param>
         /// <returns>ld (System.Windows.Controls.Image) oder null wenn kein Bild vorhanden</returns>
-        public Image getImageForTypeObject(int typeObjectID)
+        public String getImagePathForTypeObject(int typeObjectID)
         {
             String imagePath = (from to in tableTypeObject
                                 where to.typeObjectID == typeObjectID
@@ -166,10 +166,8 @@ namespace WritersToolbox.viewmodels
             }
             else
             {
-                BitmapImage bi = new BitmapImage(new Uri(imagePath));
-                Image img = new Image();
-                img.Source = bi;
-                return img;
+                
+                return imagePath;
             }
         }
 
@@ -236,6 +234,10 @@ namespace WritersToolbox.viewmodels
             {
                 throw new ArgumentException("TypeObject muss einem Typ angehören", "type");
             }
+            if (image == null)
+            {
+                image = "../icons/TypeObjects/character.png";
+            }
             TypeObject to = new TypeObject();
             to.name = name;
             if (color.Equals(""))
@@ -247,7 +249,7 @@ namespace WritersToolbox.viewmodels
                 to.color = color;
             }
             to.obj_Type = type;
-
+            to.imageString = image;
             this.tableTypeObject.InsertOnSubmit(to);
             this.db.SubmitChanges();
             this.LoadData();
@@ -327,6 +329,11 @@ namespace WritersToolbox.viewmodels
                     select to).Single();
             t.name = name;
             t.color = color;
+            if (imageString == null)
+            {
+                //default Image
+                imageString = "../icons/TypeObjects/character.png";
+            }
             t.imageString = imageString;
            
             this.db.SubmitChanges();
