@@ -60,7 +60,8 @@
                     ItemsSource="{Binding tomes}"
                     LayoutMode="Grid"
                     GridCellSize="450, 160"
-                    x:Name="LongList">
+                    x:Name="LongList"
+                    SelectionChanged="tomeSelected">
                     <!--Template für LongListSelector-item-->
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
