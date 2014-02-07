@@ -9,9 +9,11 @@
 
     <!--Application Resources-->
     <Application.Resources>
-        
         <!--<local:LocalizedStrings xmlns:local="clr-namespace:WritersToolbox" x:Key="LocalizedStrings"/>-->
         <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="templates/TypeObjectDetail.xaml"/>
+            </ResourceDictionary.MergedDictionaries>
             <!--Listboxitem fuer Imagepicker-->
             <Style x:Key="ImagePickerStyle" TargetType="ListBoxItem">
                 <Setter Property="Background" Value="Transparent"/>
@@ -65,9 +67,7 @@
                 </Setter>
             </Style>
 
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="templates/TypeObjectDetail.xaml"/>
-            </ResourceDictionary.MergedDictionaries>
+
             <!--Converter und Lisboxitem fuer Colorpicker-->
             <converters:ColorToBrushConverter x:Key="ColorToBrushConverter"/>
             <Style x:Key="ColorPickerStyle" TargetType="ListBoxItem">

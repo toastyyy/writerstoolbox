@@ -27,28 +27,28 @@
                 <RowDefinition Height="313*"/>
                 <RowDefinition Height="455*"/>
             </Grid.RowDefinitions>
-            <Image Margin="0,0,10,20.224" Source="/images/headImage_gruen_top.png" Stretch="Fill"/>
+            <Image Margin="0,0,0,20" Source="/images/headImage_gruen_top.png" Stretch="Fill"/>
 
             <TextBlock FontSize="48" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,152,0,0" TextWrapping="Wrap" Text="{Binding TypeObject.name}" VerticalAlignment="Top" Height="60" Width="460" FontFamily="Segoe WP Light"/>
-            <Border Background="White" Width="140" Height="140" CornerRadius="75" Margin="165,10,165,134" BorderThickness="10" BorderBrush="#FF00583B">
-                <Image Margin="-10" Stretch="Fill" Width="140" Height="140"  Source="{Binding TypeObject, Converter={StaticResource TypeObjectImageConverter}}">
+            <Border Background="White" Width="130" Height="130" CornerRadius="75" Margin="165,20,165,134" BorderThickness="5" BorderBrush="#FF00583B">
+                <Image Margin="-10" Stretch="Fill" Width="130" Height="130"  Source="{Binding TypeObject, Converter={StaticResource TypeObjectImageConverter}}">
                     <Image.Clip>
                         <EllipseGeometry
-                            RadiusX="55"
-                            RadiusY="55"
-                            Center="70,70"
+                            RadiusX="50"
+                            RadiusY="50"
+                            Center="65,65"
                             >
 
                         </EllipseGeometry>
                     </Image.Clip>
                 </Image>
             </Border>
-            <TextBlock TextAlignment="Center" HorizontalAlignment="Left" Margin="10,210,0,0" TextWrapping="Wrap" Text="{Binding TypeObject, Converter={StaticResource TypeObjectSubtitleConverter}}" VerticalAlignment="Top" Width="460" FontFamily="Segoe WP Light"/>
+            <TextBlock FontSize="20" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,210,0,0" TextWrapping="Wrap" Text="{Binding TypeObject, Converter={StaticResource TypeObjectSubtitleConverter}}" VerticalAlignment="Top" Width="460" FontFamily="Segoe WP Light"/>
 
             <!-- Longlistselector zur Anzeige der Notizen -->
             <Grid Margin="20,16.776,5,0" VerticalAlignment="Top" Grid.Row="1">
                 <phone:LongListSelector 
-                    Margin="0,-35,20,10"
+                    Margin="0,-30,20,10"
                     Height="Auto" 
                     Width="Auto"
                     ItemsSource="{Binding TypeObject.notes}"
@@ -59,7 +59,7 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF00583B">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF1D1D1D">
             <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="Ändern" />
             <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="Löschen" />
         </shell:ApplicationBar>
