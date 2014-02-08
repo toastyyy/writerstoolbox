@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.viewmodels;
+using System.Windows.Media;
 namespace WritersToolbox.views
 {
     public partial class TypeObjectDetails2 : PhoneApplicationPage
@@ -51,6 +52,22 @@ namespace WritersToolbox.views
             PhoneApplicationService.Current.State["memoryNoteID"] = n.memoryNoteID.ToString();
             PhoneApplicationService.Current.State["edit"] = "true";
             NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
+        }
+
+
+        private void editTypeObjectClick(object sender, EventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/TypeObjectEdit.xaml?typeObjectID=" + this.tdvm.TypeObject.typeObjectID, UriKind.Relative));
+        }
+
+        private void deleteTypeObject_Click(object sender, EventArgs e)
+        {
+            MessageBoxResult mbr = MessageBox.Show("Möchtest du dieses Objekt wirklich löschen? Alle angehängten Notizen werden mitgelöscht. Du kannst das Objekt über den Papierkorb wiederherstellen.", "Löschen bestätigen", MessageBoxButton.OKCancel);
+            if(mbr.Equals(MessageBoxResult.OK)) {
+                TypesViewModel tvm = new TypesViewModel();
+                tvm.deleteTypeObject(this.tdvm.TypeObject.typeObjectID);
+                NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
+            }
         }
     }
 }

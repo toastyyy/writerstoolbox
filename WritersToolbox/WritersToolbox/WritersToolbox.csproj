@@ -163,6 +163,9 @@
     <Compile Include="views\ChangeBook.xaml.cs">
       <DependentUpon>ChangeBook.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\TypeObjectEdit.xaml.cs">
+      <DependentUpon>TypeObjectEdit.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\TypeObjectDetails2.xaml.cs">
       <DependentUpon>TypeObjectDetails2.xaml</DependentUpon>
     </Compile>
@@ -235,6 +238,10 @@
       <SubType>Designer</SubType>
     </Page>
     <Page Include="views\ChangeBook.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\TypeObjectEdit.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -320,6 +327,7 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\WritersToolboxstartseiteWT.png" />
+    <Content Include="icons\edit.png" />
     <Content Include="icons\TypeObjects\character.png" />
     <Content Include="charakter.png" />
     <Content Include="images\headImage_gruen_top.png" />
@@ -346,6 +354,7 @@
     <Content Include="icons\speichern.png" />
     <Content Include="icons\stop.png" />
     <Content Include="icons\zurueck.png" />
+    <Content Include="images\headImage_rot_top.png" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
     <Content Include="README_FIRST.txt" />
     <Content Include="tests\images\img10.jpg" />
