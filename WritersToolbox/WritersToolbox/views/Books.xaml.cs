@@ -235,5 +235,24 @@ namespace WritersToolbox.views
             NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// Die Methode navigiert zur Detailansicht eines Bandes. Es wird die TomeID übergeben
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tomeSelected(object sender, SelectionChangedEventArgs e)
+        {
+            LongListSelector selector = sender as LongListSelector;
+            if (selector == null)
+                return;
+            datawrapper.Tome tome = selector.SelectedItem as datawrapper.Tome;
+            if (tome == null)
+            {
+                return;
+            }
+            NavigationService.Navigate(new Uri("/views/BooksDetails.xaml?tomeID=" + tome.tomeID, UriKind.Relative));
+            selector.SelectedItem = null;
+        }
+
     }
 }

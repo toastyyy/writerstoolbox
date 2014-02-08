@@ -111,7 +111,7 @@ namespace WritersToolbox.demo
             WritersToolbox.models.Type type1 = new WritersToolbox.models.Type() {
                 title = "Charakter",
                 color = "#FF32CD32",
-                imageString = "../icons/TypeObjects/character.png"
+                imageString = "../icons/character_round_icon.png"
             };
 
             WritersToolbox.models.Type type2 = new WritersToolbox.models.Type()
@@ -137,8 +137,8 @@ namespace WritersToolbox.demo
                 name = "Harry Potter",
                 obj_Type = type1,
                 used = true,
-                color = "#FF20B2AA",
-                imageString = "../icons/TypeObjects/character.png"
+                color = "#0020B2AA",
+                imageString = "../icons/character_round_icon.png"
             };
 
             TypeObject typeObject2= new TypeObject()
@@ -146,8 +146,8 @@ namespace WritersToolbox.demo
                 name = "Ron Weasley",
                 obj_Type = type1,
                 used = true,
-                color = "#FF20B2AA",
-                imageString = "../icons/TypeObjects/character.png"
+                color = "#0020B2AA",
+                imageString = "../icons/character_round_icon.png"
             };
 
             TypeObject typeObject3 = new TypeObject()
@@ -168,31 +168,31 @@ namespace WritersToolbox.demo
             {
                 name = "Frodo Beutlin",
                 obj_Type = type1,
-                color = "#FF20B2AA",
-                imageString = "../icons/TypeObjects/character.png"
+                color = "#0020B2AA",
+                imageString = "../icons/character_round_icon.png"
             };
 
             TypeObject typeObject6 = new TypeObject()
             {
                 name = "Bilbo Beutlin",
                 obj_Type = type1,
-                color = "#FF20B2AA",
-                imageString = "../icons/TypeObjects/character.png"
+                color = "#0020B2AA",
+                imageString = "../icons/character_round_icon.png"
             };
 
             TypeObject typeObject7 = new TypeObject()
             {
                 name = "Gandalf",
                 obj_Type = type1,
-                color = "#FF20B2AA",
-                imageString = "../icons/TypeObjects/character.png"
+                color = "#0020B2AA",
+                imageString = "../icons/character_round_icon.png"
             };
             TypeObject typeObject8 = new TypeObject()
             {
                 name = "Gollum",
                 obj_Type = type1,
-                color = "#FF20B2AA",
-                imageString = "../icons/TypeObjects/character.png"
+                color = "#0020B2AA",
+                imageString = "../icons/character_round_icon.png"
             };
 
             MemoryNote mn2 = new MemoryNote()

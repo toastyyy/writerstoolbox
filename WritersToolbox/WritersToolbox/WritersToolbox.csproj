@@ -327,6 +327,8 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="Assets\WritersToolboxstartseiteWT.png" />
+    <Content Include="headImage_rot_smal.png" />
+    <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\edit.png" />
     <Content Include="icons\TypeObjects\character.png" />
     <Content Include="charakter.png" />
