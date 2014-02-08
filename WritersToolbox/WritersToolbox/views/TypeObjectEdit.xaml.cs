@@ -83,24 +83,6 @@ namespace WritersToolbox.views
         }
 
         /// <summary>
-        /// Eine zum TypObjekt zugehörige Notiz wurde ausgewählt und wird zum bearbeiten geöffnet.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void noteSelected(object sender, SelectionChangedEventArgs e)
-        {
-            LongListSelector selector = sender as LongListSelector;
-            if (selector == null)
-                return;
-            datawrapper.MemoryNote n = selector.SelectedItem as datawrapper.MemoryNote;
-            if (n == null)
-                return;
-            PhoneApplicationService.Current.State["memoryNoteID"] = n.memoryNoteID.ToString();
-            PhoneApplicationService.Current.State["edit"] = "true";
-            NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
-        }
-
-        /// <summary>
         /// Anonyme Klasse in der die Farbe gespeichert wird.
         /// </summary>
         public class ColorItem
@@ -125,6 +107,11 @@ namespace WritersToolbox.views
             return Color.FromArgb(a, colorR, colorG, colorB);
         }
 
+        /// <summary>
+        /// Workaround: Setzen der Hintergrundfarbe der Textbox beim focus auf transparent
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);

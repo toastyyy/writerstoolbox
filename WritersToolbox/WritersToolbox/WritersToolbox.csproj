@@ -148,8 +148,8 @@
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
-    <Compile Include="views\AddTypeObject.xaml.cs">
-      <DependentUpon>AddTypeObject.xaml</DependentUpon>
+    <Compile Include="views\TypeObjectAdd.xaml.cs">
+      <DependentUpon>TypeObjectAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\Books.xaml.cs">
       <DependentUpon>Books.xaml</DependentUpon>
@@ -221,7 +221,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="views\AddTypeObject.xaml">
+    <Page Include="views\TypeObjectAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -330,6 +330,7 @@
     <Content Include="headImage_rot_smal.png" />
     <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\edit.png" />
+    <Content Include="icons\edit_picture.png" />
     <Content Include="icons\TypeObjects\character.png" />
     <Content Include="charakter.png" />
     <Content Include="images\headImage_gruen_top.png" />
