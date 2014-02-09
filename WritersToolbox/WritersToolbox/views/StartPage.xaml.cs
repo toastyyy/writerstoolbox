@@ -46,6 +46,11 @@ namespace WritersToolbox.gui
         //Fertig
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+            {
+                NavigationService.GoBack();
+                return;
+            }
             UnsortedNoteViewModel usnvm = new UnsortedNoteViewModel();
             NumberUN.Text = usnvm.getNumberOfUnsortedNote() + "";
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
@@ -84,6 +89,16 @@ namespace WritersToolbox.gui
         private void navigateToTypes(object sender, RoutedEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
+            //Um GoBack zu beschrenken, dass App nicht wieder zu StartPage navigiert,
+            //wenn die Notiz zugeordnet ist.
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                var lastPage = NavigationService.BackStack.FirstOrDefault();
+                if (lastPage != null && lastPage.Source.ToString() == "/views/StartPage.xaml")
+                {
+                    NavigationService.RemoveBackEntry();
+                }
+            }
         }
 
         private void navigateToUnsortedNote(object sender, RoutedEventArgs e)

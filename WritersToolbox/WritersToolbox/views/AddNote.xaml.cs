@@ -104,7 +104,6 @@ namespace WritersToolbox.views
                 catch (Exception ex)
                 {
                     System.Diagnostics.Debug.WriteLine("Fehler beim Parsen von String to Int aufgetretten");
-                    NoteID = 0;
                 }
             }
             //Wenn NoteID 0 ist, dann wird eine leere Collection von Bilder zurückgegeben,
@@ -171,22 +170,29 @@ namespace WritersToolbox.views
         {
             //Mediabuttons von ApplicationBarButton löschen.
             removeMediaApplicationBarButton();
-
+            //Wenn die Notize schon zugewiesen ist, dann wird auf die Zuordnungsoption verzichtet.
+            if (!PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
+            {
+                saveAs = new ApplicationBarIconButton(new Uri("/icons/speichernUnter.png", UriKind.Relative));
+                saveAs.Text = "zuordnen";
+                saveAs.Click += saveAsButton_Click;
+                ApplicationBar.Buttons.Add(saveAs);
+            }
             //ApplicationBarButton mit ManagmentButtons erfüllen.
-            saveAs = new ApplicationBarIconButton(new Uri("/icons/speichernUnter.png", UriKind.Relative));
+            
             save = new ApplicationBarIconButton(new Uri("/icons/speichern.png", UriKind.Relative));
             cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
 
-            saveAs.Text = "zuordnen";
+            
             save.Text = "speichern";
             cancel.Text = "schließen";
 
             //Events zu Buttons hinzufügen.
-            saveAs.Click += saveAsButton_Click;
+            
             save.Click += saveButton_Click;
             cancel.Click += cancelButton_Click;
             
-            ApplicationBar.Buttons.Add(saveAs);
+            
             ApplicationBar.Buttons.Add(save);
             ApplicationBar.Buttons.Add(cancel);
             //ApplicationBarStatus aktualisieren.
@@ -231,7 +237,10 @@ namespace WritersToolbox.views
         /// </summary>
         private void removeManagementApplicationBarButton()
         {
-            ApplicationBar.Buttons.Remove(saveAs);
+            if (!PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
+            {
+                ApplicationBar.Buttons.Remove(saveAs);
+            }
             ApplicationBar.Buttons.Remove(save);
             ApplicationBar.Buttons.Remove(cancel);
         }
@@ -262,6 +271,35 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                {
+                    //Wenn in Title nicht geändert wurde, dann wird automatisch der aktuelle Datum für Title gegeben.
+                    string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+                        ? DateTime.Now.ToString("F")
+                        : titleTextBox.Text.Trim();
+
+                    string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS"))
+                        ? ""
+                        : detailsTextBox.Text.Trim();
+
+                    //Notiz zuordnen.
+                    anvm.saveAsTypeObject(NoteID, DateTime.Now, title, details,
+                        Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now, 
+                        (int)PhoneApplicationService.Current.State["typeObjectID"]);
+
+                    //Hilfsvariable in ApplicationService löschen.
+                    PhoneApplicationService.Current.State.Remove("deletedImages");
+                    PhoneApplicationService.Current.State.Remove("addedImages");
+                    PhoneApplicationService.Current.State.Remove("OppendImageView");
+                    PhoneApplicationService.Current.State.Remove("memoryNoteID");
+                    PhoneApplicationService.Current.State.Remove("assignNote");
+                    PhoneApplicationService.Current.State.Remove("typeObjectID");
+                    NavigationService.GoBack();
+                    return;
+                }
+            }
             //Überprüfen ob es von Imageview navigiert wurde.
             if (PhoneApplicationService.Current.State.ContainsKey("OppendImageView"))
             {
@@ -775,17 +813,31 @@ namespace WritersToolbox.views
                 string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS"))
                     ? ""
                     : detailsTextBox.Text.Trim();
-                
-                //Notiz spiechern.
-                anvm.save(NoteID, DateTime.Now, title, details,
-                    Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now);
+                if(PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
+                {
+                    if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                    {
+                        //Änderung der zugeordneten Notiz speichern.
+                        anvm.saveAsTypeObject(NoteID, DateTime.Now, title, details,
+                            Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
+                            (int)PhoneApplicationService.Current.State["typeObjectID"]);
+                    }
+                }
+                else
+                {
+                    //Notiz spiechern.
+                    anvm.save(NoteID, DateTime.Now, title, details,
+                        Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now);
+                }
 
                 //Hilfsvariable in ApplicationService löschen.
                 PhoneApplicationService.Current.State.Remove("deletedImages");
                 PhoneApplicationService.Current.State.Remove("addedImages");
                 PhoneApplicationService.Current.State.Remove("OppendImageView");
                 PhoneApplicationService.Current.State.Remove("memoryNoteID");
-
+                PhoneApplicationService.Current.State.Remove("assignedNote");
+                PhoneApplicationService.Current.State.Remove("typeObjectID");
+                PhoneApplicationService.Current.State.Remove("edit");
                 NavigationService.GoBack();
             }
         }
@@ -999,10 +1051,12 @@ namespace WritersToolbox.views
                         }
                     }
                 }
-                PhoneApplicationService.Current.State.Remove("memoryNoteID");
                 PhoneApplicationService.Current.State.Remove("deletedImages");
                 PhoneApplicationService.Current.State.Remove("addedImages");
                 PhoneApplicationService.Current.State.Remove("OppendImageView");
+                PhoneApplicationService.Current.State.Remove("memoryNoteID");
+                PhoneApplicationService.Current.State.Remove("assignedNote");
+                PhoneApplicationService.Current.State.Remove("typeObjectID");
                 PhoneApplicationService.Current.State.Remove("edit");
                 NavigationService.GoBack();
             }
@@ -1542,12 +1596,45 @@ namespace WritersToolbox.views
         //TODO
         private void saveAsButton_Click(object sender, EventArgs e)
         {
-            //PhoneApplicationService.Current.State.Remove("deletedImages");
-            //PhoneApplicationService.Current.State.Remove("addedImages");
-            //PhoneApplicationService.Current.State.Remove("OppendImageView");
-            //PhoneApplicationService.Current.State.Remove("memoryNoteID");
             PhoneApplicationService.Current.State["assignNote"] = true;
             NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
+
+            //Hilfsvariable für die Kontrolle der Änderungen.
+            bool isChanged = false;
+            //Änderungen kontrollieren.
+            if (!titleTextBox.Text.Trim().Equals("") || !titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+            {
+                isChanged = true;
+            }
+            if (!detailsTextBox.Text.Trim().Equals("") || !detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS"))
+            {
+                isChanged = true;
+            }
+            if (!schlagwoerterTextBox.Text.Trim().Equals(""))
+            {
+                isChanged = true;
+            }
+            if (Image_Items.Count >= 1)
+            {
+                isChanged = true;
+            }
+            if (sound_Items.Count >= 1)
+            {
+                isChanged = true;
+            }
+
+            //Wenn nichts geändert wurde, dann wird eine Message für Benutzer gezeigt,
+            //sonst die Notiz zuordnen, die Hilfsvariable in ApplicationService löschen
+            //und zurück zu dem vorherigen Screen.
+            if (!isChanged)
+            {
+                MessageBox.Show("Sie müssen mindestens Details der Notiz eingeben!!");
+            }
+            else
+            {
+                PhoneApplicationService.Current.State["assignNote"] = true;
+                NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
+            }
         }
 
     }
