@@ -76,7 +76,8 @@ namespace WritersToolbox.views
         private int playPauseButton_Modus;    
         //Um slider zu kontrollieren.
         private bool progressbarKontrol;
-
+        //
+        private bool isPhotoChooserOpened;
         /// <summary>
         /// Default Konstruktor.
         /// </summary>
@@ -84,16 +85,9 @@ namespace WritersToolbox.views
         {
             //Componenten initialisieren.
             InitializeComponent();
-            //Variablen initialisieren.
-            isAllMemosSelected = false;
-            isAllPicturesSelected = false;
-            //NoteID = 0, ist für neue Notiz anlegen übergeben.
-            NoteID = 0;
             photoChooserTask = new PhotoChooserTask();
             recorder = new MicrophoneRecorder();
             anvm = new AddNoteViewModel();
-            sound_Items = new ObservableCollection<SoundData>();
-            progressbarKontrol = false;
             //Wenn NoteID schon zu Verfügung ist, wird geholt und geparst.
             if (PhoneApplicationService.Current.State.ContainsKey("memoryNoteID"))
             {
@@ -152,14 +146,7 @@ namespace WritersToolbox.views
                 selectAllRecordCheckBox.Visibility = Visibility.Collapsed;
             }
             addManagementApplicationBarButton();
-            deleteButton.Visibility = Visibility.Collapsed;
-            zurueckButton.Visibility = Visibility.Collapsed;
-            deleteRecordButton.Visibility = Visibility.Collapsed;
-            zurueckRecordButton.Visibility = Visibility.Collapsed;
-            EndTimer.Visibility = Visibility.Collapsed;
-            progressbar_background.Visibility = Visibility.Collapsed;
-            progressbar.Visibility = Visibility.Collapsed;
-            CurrentTime.Visibility = Visibility.Collapsed;
+
             
         }
 
@@ -330,15 +317,15 @@ namespace WritersToolbox.views
             //Hier wird geprüft ob es von einem anderen Screen die Notiz geöffnet ist.
             //Um die Daten der Notiz in einem Zwischenspeicher zu speichern, um die 
             //Überprüfung durchzuführen.
-            if (PhoneApplicationService.Current.State.ContainsKey("edit"))
+            if (!isPhotoChooserOpened && PhoneApplicationService.Current.State.ContainsKey("edit"))
             {
                 tempTitle = titleTextBox.Text;
                 tempDetails = detailsTextBox.Text;
                 tempTags = schlagwoerterTextBox.Text;
                 tempSound_Items = new ObservableCollection<SoundData>(sound_Items);
-                tempImage_Items = new ObservableCollection<MyImage>(Image_Items);
-                
+                tempImage_Items = new ObservableCollection<MyImage>(Image_Items);                
             }
+            isPhotoChooserOpened = false;
         }
 
         /// <summary>
@@ -432,6 +419,7 @@ namespace WritersToolbox.views
             //ob ein Bild ausgewählt ist.
             if (e.TaskResult == TaskResult.OK)
             {
+                isPhotoChooserOpened = true;
                 //Hilfsmethode.
                 picturSelect(e.OriginalFileName);
                 //Um checkbox alle auswählen aktiviere, wenn ein Bild hinzugefügt ist.

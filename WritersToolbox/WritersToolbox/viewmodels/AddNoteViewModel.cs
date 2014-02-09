@@ -333,15 +333,15 @@ namespace WritersToolbox.viewmodels
         /// <summary>
         /// Die saveAsTypeObject()-Methode speichert und ändert eine Notiz, die zu einem TypObjekt zugeordnet ist.
         /// </summary>
-        /// <param name="memoryNoteID"></param>
-        /// <param name="addedDate"></param>
-        /// <param name="title"></param>
-        /// <param name="contentText"></param>
-        /// <param name="contentImages"></param>
-        /// <param name="contentAudios"></param>
-        /// <param name="tags"></param>
-        /// <param name="updatedDate"></param>
-        /// <param name="typeObjectID"></param>
+        /// <param name="memoryNoteID">Primäreschlußel der Notiz wenn es zu verfügung ist, sonst 0</param>
+        /// <param name="addedDate">Erstelldatum</param>
+        /// <param name="title">Title</param>
+        /// <param name="contentText">Details</param>
+        /// <param name="contentImages">Collection von Images</param>
+        /// <param name="contentAudios">Collection von Memos</param>
+        /// <param name="tags">Schlagwörter</param>
+        /// <param name="updatedDate">Änderungsdatum</param>
+        /// <param name="typeObjectID">Schlüßel des TypObjects</param>
         public void saveAsTypeObject(int memoryNoteID, DateTime addedDate, string title, string contentText, ObservableCollection<MyImage> contentImages,
             ObservableCollection<SoundData> contentAudios, string tags, DateTime updatedDate, int typeObjectID)
         {
