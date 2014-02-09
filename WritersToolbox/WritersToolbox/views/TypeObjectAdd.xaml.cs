@@ -14,7 +14,6 @@ using System.Windows.Media.Imaging;
 using System.Security.Cryptography;
 using System.IO.IsolatedStorage;
 using WritersToolbox.viewmodels;
-using Nokia.Graphics.Imaging;
 using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage.Streams;
@@ -276,13 +275,13 @@ namespace WritersToolbox.views
             if (c != null)
             {
                 selectedColor = c.Color;
-                var test = Task.Factory.StartNew(() => multiplicateImageWithColor("/images/headImage_grayscale_top.png", c.Color));
-                this.headerBackground.Source = test.Result.Result;
+                //var test = Task.Factory.StartNew(() => multiplicateImageWithColor("/images/headImage_grayscale_top.png", c.Color));
+                //this.headerBackground.Source = test.Result.Result;
                 changed = true;
             }
         }
 
-        private async Task<BitmapImage> multiplicateImageWithColor(String fileName, Color c) {
+        /*private async Task<BitmapImage> multiplicateImageWithColor(String fileName, Color c) {
             // laden des bildes, auf das der filter angewendet wird
             var file = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(fileName);
             BlendFilter bf = new BlendFilter(new StorageFileImageSource(file));
@@ -302,6 +301,6 @@ namespace WritersToolbox.views
             BitmapImage bi = new BitmapImage();
             bi.SetSource(sis.Stream);
             return bi;
-        }
+        }*/
     }
 }
