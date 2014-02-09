@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using WritersToolbox.models;
+using WritersToolbox.datawrapper;
 using System.Collections.ObjectModel;
 using System.Windows.Controls;
 using System.Data.Linq;
@@ -15,32 +15,32 @@ using Microsoft.Xna.Framework.Media.PhoneExtensions;
 using System.Diagnostics;
 namespace WritersToolbox.viewmodels
 {
-    /* *
-     * 
-     * Die AddNoteViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
-     * die verschiedene Daten von MemoryNote und ihre entsprechende Eigenschaften bereitstellt.
-     * 
-     * */
+    /// <summary>
+    /// Die AddNoteViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten von MemoryNote und ihre entsprechende Eigenschaften bereitstellt.
+    /// </summary>
     class AddNoteViewModel 
     {
-        private WritersToolboxDatebase db;
-        private Table<MemoryNote> memoryNote;
-        private MemoryNote obj_memoryNote;
+        //Separator zwischen den Paths der Bilder oder Memos einer Notiz.
         private const char SEPARATOR = '|';
+        //Datenbank variable.
+        private models.WritersToolboxDatebase db;
+        //Notizen Tabelle.
+        private Table<models.MemoryNote> memoryNote;
+        //Notiz, als Entity object.
+        private models.MemoryNote obj_memoryNote;
         
-        //Fertig
-        /* *
-         * 
-         * Im Defaultkonstruktor wird die Verbindung zur Datenbank erstellt und
-         * Model MemoryNote instanziiert.
-         * 
-         * */
+
+        /// <summary>
+        /// Im Defaultkonstruktor wird die Verbindung zur Datenbank erstellt und
+        /// Model MemoryNote instanziiert.
+        /// </summary>
         public AddNoteViewModel () 
         {
             try
             {
-                db = WritersToolboxDatebase.getInstance();
-                memoryNote = db.GetTable<MemoryNote>();
+                db = models.WritersToolboxDatebase.getInstance();
+                memoryNote = db.GetTable<models.MemoryNote>();
             }
             catch(Exception ex)
             {
@@ -49,92 +49,56 @@ namespace WritersToolbox.viewmodels
             
         }
 
-        /* *
-         * 
-         * Die save-Methode() speichert und ändert Notize, die nicht zugeordnet sind.
-         * 
-         * */
-        public void save(int memoryNoteID,DateTime addedDate, string title, string contentText, ObservableCollection<MyImage> contentImages,
-            ObservableCollection<SoundData> contentAudios, string tags, DateTime updatedDate)
+        /// <summary>
+        /// Title eine Notiz zurückgeben.
+        /// </summary>
+        /// <param name="memoryNoteID">Übergegebene NotizID</param>
+        /// <returns>Liefert Title als String</returns>
+        public string getTitle(int memoryNoteID)
         {
-            try
-            {
-                if (memoryNoteID == 0) //neue MemoryNote speichern.
-                {
-                    obj_memoryNote = new MemoryNote();
-                    obj_memoryNote.addedDate = new DateTime(addedDate.Year, addedDate.Month, addedDate.Day);
-                    obj_memoryNote.title = title;
-                    obj_memoryNote.contentText = contentText;
+            string title = (from note in memoryNote
+                            where note.memoryNoteID == memoryNoteID
+                            select note.title).FirstOrDefault();
 
-                    string contentImagesPath = "";
-                    foreach (MyImage img in contentImages)
-                    {
-                        contentImagesPath += img.path + "|";
-                    }
-                    obj_memoryNote.ContentImageString = contentImagesPath;
+            return title == null ? "" : title;
+        }
+        
+        /// <summary>
+        /// Details einer Notiz zurücklieferen.
+        /// </summary>
+        /// <param name="memoryNoteID">Übergegebene Notiz</param>
+        /// <returns>liefert Details einer Notiz als String zurück</returns>
+        public string getDetails(int memoryNoteID)
+        {
+            string details = (from note in memoryNote
+                              where note.memoryNoteID == memoryNoteID
+                              select note.contentText).FirstOrDefault();
 
-                    string contentAudiosPath = "";
-                    foreach (SoundData track in contentAudios)
-                    {
-                        contentAudiosPath += track.FilePath + "|";
-                    }
-                    obj_memoryNote.contentAudioString = contentAudiosPath;
-
-                    obj_memoryNote.tags = tags;
-
-                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
-                    obj_memoryNote.associated = false;
-
-                    //obj_memoryNote in DataContext hinzufügen.
-                    db.GetTable<MemoryNote>().InsertOnSubmit(obj_memoryNote);
-                }
-                else //Änderungen an einer MemoryNote speichern.
-                {
-                    obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
-
-                    obj_memoryNote.title = title;
-                    obj_memoryNote.contentText = contentText;
-
-                    string contentImagesPath = "";
-                    foreach (MyImage img in contentImages)
-                    {
-                        contentImagesPath += img.path + "|";
-                    }
-                    obj_memoryNote.ContentImageString = contentImagesPath;
-
-                    string contentAudiosPath = "";
-                    foreach (SoundData track in contentAudios)
-                    {
-                        contentAudiosPath += track.FilePath + "|";
-                    }
-                    obj_memoryNote.contentAudioString = contentAudiosPath;
-
-                    obj_memoryNote.tags = tags;
-
-                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
-                    obj_memoryNote.associated = false;
-                }
-
-
-                //Änderung in der Datenbank übertragen.
-                db.SubmitChanges();
-            }
-            catch (Exception ex)
-            {
-                Console.WriteLine(ex.Message);
-            }
-
+            return details == null ? "" : details;
         }
 
-        //Fertig
-        /* *
-         * 
-         * Die getImages()-Methode, liefert eine Liste von Image-Objekten, die zu einer Notiz gehören.
-         * 
-         * */
+        /// <summary>
+        /// liefert die Schlagwörter einer Notiz zurück.
+        /// </summary>
+        /// <param name="memoryNoteID">Übergegebene Notiz</param>
+        /// <returns>liefert die Schlagwörter einer Notiz als String zurück.</returns>
+        public string getTags(int memoryNoteID)
+        {
+            string tags = (from note in memoryNote
+                           where note.memoryNoteID == memoryNoteID
+                           select note.tags).FirstOrDefault();
+
+            return tags == null ? "" : tags;
+        }
+
+        /// <summary>
+        /// Die getImages()-Methode, liefert eine Liste von Image-Objekten, die zu einer Notiz gehören.
+        /// </summary>
+        /// <param name="memoryNoteID">Primäteschlußel der Notiz</param>
+        /// <returns>Lifert eine Collection von Images, die zu der Notiz gehören</returns>
         public ObservableCollection<MyImage> getImages(int memoryNoteID)
         {
-
+            //ImagesPath der Notiz von Table memoryNote abfragen.
             string imagePath = (from note in memoryNote
                                 where note.memoryNoteID == memoryNoteID
                                 select note.ContentImageString).FirstOrDefault();
@@ -143,6 +107,7 @@ namespace WritersToolbox.viewmodels
 
             if (imagePath != null)
             {
+                //Text splitern.
                 string[] str_result = imagePath.Split(SEPARATOR);
 
                 for (int i = 0; i < str_result.Length; i++)
@@ -150,6 +115,7 @@ namespace WritersToolbox.viewmodels
 
                     try
                     {
+                        //Images von Medialibrary holen und in der Collection speichern.
                         MediaLibrary medianbibliothek = new MediaLibrary();
 
                         Picture picture = medianbibliothek.Pictures.Where(p =>
@@ -167,18 +133,21 @@ namespace WritersToolbox.viewmodels
                 }
             }
 
-            return imageList;          
+            return imageList;
         }
 
-        //Fertig
-        /* *
- * 
- * Die getImages()-Methode, liefert eine Liste von Image-Objekten, die zu einer Notiz gehören.
- * 
- * */
+        /// <summary>
+        /// Erweiterung der getImages()-Methode, liefert eine Liste von Image-Objekten, die zu einer Notiz gehören.
+        /// Wegen Navigation zwischen Screnns bei einer Notiz werden, die Bilder die hinzugefügt oder gelöscht sind, verloren,
+        /// deswegen wurde diese überladene Methode geschrieben, um diese temporale Änderung zu speichern.
+        /// </summary>
+        /// <param name="memoryNoteID">Primäreschlußel der Notiz</param>
+        /// <param name="deletedImages">Die Images die von Notiz gelöscht wurden</param>
+        /// <param name="addImages">Die Images die zur Notiz hinzugefügt wurden</param>
+        /// <returns></returns>
         public ObservableCollection<MyImage> getImages(int memoryNoteID, string deletedImages, string addImages)
         {
-
+            //ImagesPath der Notiz von Table memoryNote abfragen.
             string imagePath = (from note in memoryNote
                                 where note.memoryNoteID == memoryNoteID
                                 select note.ContentImageString).FirstOrDefault();
@@ -187,6 +156,7 @@ namespace WritersToolbox.viewmodels
 
             if (imagePath != null)
             {
+
                 List<String> str_result = imagePath.Split(SEPARATOR).ToList<String>();
                 List<String> str_result_deletedImages = deletedImages.Split(SEPARATOR).ToList<String>();
                 List<String> str_result_addImages = addImages.Split(SEPARATOR).ToList<String>();
@@ -249,12 +219,11 @@ namespace WritersToolbox.viewmodels
             return imageList;
         }
 
-        //Fertig
-        /* *
-         * 
-         * Die getAudios()-Methode, liefert eine Liste von Audio-Objekten, die zu einer Notiz gehören.
-         * 
-         * */
+        /// <summary>
+        /// Die getAudios()-Methode, liefert eine Liste von Audio-Objekten, die zu einer Notiz gehören.
+        /// </summary>
+        /// <param name="memoryNoteID"></param>
+        /// <returns></returns>
         public ObservableCollection<SoundData> getAudios(int memoryNoteID)
         {
 
@@ -270,47 +239,109 @@ namespace WritersToolbox.viewmodels
                 {
                     if (!str_result[i].Trim().Equals(""))
                     {
-                        audioList.Add(new SoundData() { FilePath = str_result[i] });
+                        audioList.Add(new SoundData() { filePath = str_result[i] });
                     }
-                    
+
                 }
             }
             return audioList;
         }
 
-        public string getTitle(int memoryNoteID)
+        /// <summary>
+        /// Die save-Methode() speichert und ändert Notize, die nicht zugeordnet sind.
+        /// </summary>
+        /// <param name="memoryNoteID">Primäreschlußel der Notiz wenn es zu verfügung ist, sonst 0</param>
+        /// <param name="addedDate">Erstelldatum</param>
+        /// <param name="title">Title</param>
+        /// <param name="contentText">Details</param>
+        /// <param name="contentImages">Collection von Images</param>
+        /// <param name="contentAudios">Collection von Memos</param>
+        /// <param name="tags">Schlagwörter</param>
+        /// <param name="updatedDate">Änderungsdatum</param>
+        public void save(int memoryNoteID,DateTime addedDate, string title, string contentText, ObservableCollection<MyImage> contentImages,
+            ObservableCollection<SoundData> contentAudios, string tags, DateTime updatedDate)
         {
-            string title = (from note in memoryNote
-                                where note.memoryNoteID == memoryNoteID
-                                select note.title).FirstOrDefault();
+            try
+            {
+                if (memoryNoteID == 0) //neue MemoryNote speichern.
+                {
+                    obj_memoryNote = new models.MemoryNote();
+                    obj_memoryNote.addedDate = new DateTime(addedDate.Year, addedDate.Month, addedDate.Day);
+                    obj_memoryNote.title = title;
+                    obj_memoryNote.contentText = contentText;
 
-            return title == null ? "" : title;
+                    string contentImagesPath = "";
+                    foreach (MyImage img in contentImages)
+                    {
+                        contentImagesPath += img.path + "|";
+                    }
+                    obj_memoryNote.ContentImageString = contentImagesPath;
+
+                    string contentAudiosPath = "";
+                    foreach (SoundData track in contentAudios)
+                    {
+                        contentAudiosPath += track.filePath + "|";
+                    }
+                    obj_memoryNote.contentAudioString = contentAudiosPath;
+
+                    obj_memoryNote.tags = tags;
+
+                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
+                    obj_memoryNote.associated = false;
+
+                    //obj_memoryNote in DataContext hinzufügen.
+                    db.GetTable<models.MemoryNote>().InsertOnSubmit(obj_memoryNote);
+                }
+                else //Änderungen an einer MemoryNote speichern.
+                {
+                    obj_memoryNote = db.GetTable<models.MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
+
+                    obj_memoryNote.title = title;
+                    obj_memoryNote.contentText = contentText;
+
+                    string contentImagesPath = "";
+                    foreach (MyImage img in contentImages)
+                    {
+                        contentImagesPath += img.path + "|";
+                    }
+                    obj_memoryNote.ContentImageString = contentImagesPath;
+
+                    string contentAudiosPath = "";
+                    foreach (SoundData track in contentAudios)
+                    {
+                        contentAudiosPath += track.filePath + "|";
+                    }
+                    obj_memoryNote.contentAudioString = contentAudiosPath;
+
+                    obj_memoryNote.tags = tags;
+
+                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
+                    obj_memoryNote.associated = false;
+                }
+
+
+                //Änderung in der Datenbank übertragen.
+                db.SubmitChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
 
-        public string getDetails(int memoryNoteID)
-        {
-            string details = (from note in memoryNote
-                            where note.memoryNoteID == memoryNoteID
-                            select note.contentText).FirstOrDefault();
-
-            return details == null ? "" : details;
-        }
-
-        public string getTags(int memoryNoteID)
-        {
-            string tags = (from note in memoryNote
-                              where note.memoryNoteID == memoryNoteID
-                              select note.tags).FirstOrDefault();
-
-            return tags == null ? "" : tags;
-        }
-
-        //TODO
-        /* *
-         * 
-         * Die saveAsTypeObject()-Methode speichert und ändert eine Notiz, die zu einem TypObjekt zugeordnet ist.
-         * 
-         * */
+        /// <summary>
+        /// Die saveAsTypeObject()-Methode speichert und ändert eine Notiz, die zu einem TypObjekt zugeordnet ist.
+        /// </summary>
+        /// <param name="memoryNoteID"></param>
+        /// <param name="addedDate"></param>
+        /// <param name="title"></param>
+        /// <param name="contentText"></param>
+        /// <param name="contentImages"></param>
+        /// <param name="contentAudios"></param>
+        /// <param name="tags"></param>
+        /// <param name="updatedDate"></param>
+        /// <param name="typeObjectID"></param>
         public void saveAsTypeObject(int memoryNoteID, DateTime addedDate, string title, string contentText, List<Image> contentImages,
             ObservableCollection<SoundData> contentAudios, string tags, DateTime updatedDate, int typeObjectID)
         {
@@ -318,7 +349,7 @@ namespace WritersToolbox.viewmodels
             {
                 if (memoryNoteID == -1) //neue MemoryNote speichern.
                 {
-                    obj_memoryNote = new MemoryNote();
+                    obj_memoryNote = new models.MemoryNote();
                     obj_memoryNote.addedDate = addedDate;
                     obj_memoryNote.title = title;
                     obj_memoryNote.contentText = contentText;
@@ -333,7 +364,7 @@ namespace WritersToolbox.viewmodels
                     string contentAudiosPath = "";
                     foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.FilePath + "|";
+                        contentAudiosPath += track.filePath + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
@@ -343,15 +374,15 @@ namespace WritersToolbox.viewmodels
                     obj_memoryNote.associated = true;
 
                     //Foreign key speichern
-                    TypeObject temp_typeobject = db.GetTable<TypeObject>().Single(typeObject => typeObject.typeObjectID == typeObjectID);
+                    models.TypeObject temp_typeobject = db.GetTable<models.TypeObject>().Single(typeObject => typeObject.typeObjectID == typeObjectID);
                     obj_memoryNote.obj_TypeObject = temp_typeobject;
 
                     //obj_memoryNote in DataContext hinzufügen.
-                    db.GetTable<MemoryNote>().InsertOnSubmit(obj_memoryNote);
+                    db.GetTable<models.MemoryNote>().InsertOnSubmit(obj_memoryNote);
                 }
                 else //Änderungen an einer MemoryNote speichern.
                 {
-                    obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
+                    obj_memoryNote = db.GetTable<models.MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
 
                     obj_memoryNote.addedDate = addedDate;
                     obj_memoryNote.title = title;
@@ -367,7 +398,7 @@ namespace WritersToolbox.viewmodels
                     string contentAudiosPath = "";
                     foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.FilePath + "|";
+                        contentAudiosPath += track.filePath + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
@@ -377,7 +408,7 @@ namespace WritersToolbox.viewmodels
                     obj_memoryNote.associated = true;
 
                     //Foreign key speichern
-                    TypeObject temp_typeobject = db.GetTable<TypeObject>().Single(typeObject => typeObject.typeObjectID == typeObjectID);
+                    models.TypeObject temp_typeobject = db.GetTable<models.TypeObject>().Single(typeObject => typeObject.typeObjectID == typeObjectID);
                     obj_memoryNote.obj_TypeObject = temp_typeobject;
                 }
 
@@ -391,12 +422,18 @@ namespace WritersToolbox.viewmodels
             }
         }
 
-        //TODO
-        /* *
-         * 
-         * Die saveAsEvent()-Methode speichert und ändert eine Notiz, die zu einem Event zugeordnet ist.
-         * 
-         * */
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="memoryNoteID"></param>
+        /// <param name="addedDate"></param>
+        /// <param name="title"></param>
+        /// <param name="contentText"></param>
+        /// <param name="contentImages"></param>
+        /// <param name="contentAudios"></param>
+        /// <param name="tags"></param>
+        /// <param name="updatedDate"></param>
+        /// <param name="eventID"></param>
         public void saveAsEvent(int memoryNoteID, DateTime addedDate, string title, string contentText, List<Image> contentImages,
              List<AudioTrack> contentAudios, string tags, DateTime updatedDate, int eventID)
         {
@@ -404,7 +441,7 @@ namespace WritersToolbox.viewmodels
             {
                 if (memoryNoteID == -1) //neue MemoryNote speichern.
                 {
-                    obj_memoryNote = new MemoryNote();
+                    obj_memoryNote = new models.MemoryNote();
                     obj_memoryNote.addedDate = addedDate;
                     obj_memoryNote.title = title;
                     obj_memoryNote.contentText = contentText;
@@ -429,15 +466,15 @@ namespace WritersToolbox.viewmodels
                     obj_memoryNote.associated = true;
 
                     //Foreign key speichern
-                    Event temp_event = db.GetTable<Event>().Single(_event => _event.eventID == eventID);
+                    models.Event temp_event = db.GetTable<models.Event>().Single(_event => _event.eventID == eventID);
                     obj_memoryNote.obj_Event = temp_event;
 
                     //obj_memoryNote in DataContext hinzufügen.
-                    db.GetTable<MemoryNote>().InsertOnSubmit(obj_memoryNote);
+                    db.GetTable<models.MemoryNote>().InsertOnSubmit(obj_memoryNote);
                 }
                 else //Änderungen an einer MemoryNote speichern.
                 {
-                    obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
+                    obj_memoryNote = db.GetTable<models.MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
 
                     obj_memoryNote.addedDate = addedDate;
                     obj_memoryNote.title = title;
@@ -463,7 +500,7 @@ namespace WritersToolbox.viewmodels
                     obj_memoryNote.associated = true;
 
                     //Foreign key speichern
-                    Event temp_event = db.GetTable<Event>().Single(_event => _event.eventID == eventID);
+                    models.Event temp_event = db.GetTable<models.Event>().Single(_event => _event.eventID == eventID);
                     obj_memoryNote.obj_Event = temp_event;
                 }
 

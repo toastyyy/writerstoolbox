@@ -11,15 +11,15 @@ namespace WritersToolbox.viewmodels
 {
     public class UnsortedNoteViewModel
     {
-        public int memoryNoteID { get; set; }
-        public string title { get; set; }
-        public string contents { get; set; }
-        public string updatedNote { get; set; }
-        private int count;
+
+        //Instanzvariablen.
         private WritersToolboxDatebase db;
         private Table<MemoryNote> memoryNote;
         private MemoryNote obj_memoryNote;
 
+        /// <summary>
+        /// Defaultkonstruktor.
+        /// </summary>
         public UnsortedNoteViewModel()
         {
             try
@@ -34,14 +34,18 @@ namespace WritersToolbox.viewmodels
             }
         }
 
-        public ObservableCollection<UnsortedNoteViewModel> getObservableColletion()
+        /// <summary>
+        /// Liefert die unsortierten Notizen zurück.
+        /// </summary>
+        /// <returns>Unsortierte Notizen als ObservableCollection</returns>
+        public ObservableCollection<datawrapper.UnsortedMemoryNote> getUnsortedNotes()
         {
-            count = 0;
-            var t = memoryNote.Where(x => !x.associated && !x.deleted);
-            ObservableCollection<UnsortedNoteViewModel> unsortedNote_List = new ObservableCollection<UnsortedNoteViewModel>();
-            foreach (var item in t)
+            //Liste der Unsortierte Notizen und die Noch nicht gelöscht sind.
+            var notizen = memoryNote.Where(x => !x.associated && !x.deleted);
+            ObservableCollection<datawrapper.UnsortedMemoryNote> unsortedNote_List = new ObservableCollection<datawrapper.UnsortedMemoryNote>();
+            foreach (var item in notizen)
             {
-                unsortedNote_List.Add(new UnsortedNoteViewModel()
+                unsortedNote_List.Add(new datawrapper.UnsortedMemoryNote()
                 {
                     title = ((MemoryNote)item).title.Substring(0, ((MemoryNote)item).title.Length > 15 ? 15 : ((MemoryNote)item).title.Length)
                     ,
@@ -51,25 +55,31 @@ namespace WritersToolbox.viewmodels
                     ,
                     memoryNoteID = ((MemoryNote)item).memoryNoteID
                 });
-                count++;
+
             }
             return unsortedNote_List;
         }
 
+        /// <summary>
+        /// Anzahl der unsortierten Notizen.
+        /// </summary>
+        /// <returns></returns>
         public int getNumberOfUnsortedNote()
         {
-            this.getObservableColletion();
-            return count;
+            return memoryNote.Where(x => !x.associated && !x.deleted).Count(); 
         }
 
-        public void deleteUnsortedNote(ObservableCollection<UnsortedNoteViewModel> list)
+        /// <summary>
+        /// unsortierte Notizen löschen.
+        /// </summary>
+        /// <param name="list">List der unsortierten Notizen, die gelöscht werden müssen</param>
+        public void deleteUnsortedNote(ObservableCollection<datawrapper.UnsortedMemoryNote> list)
         {
-            foreach (UnsortedNoteViewModel item in list)
+            foreach (datawrapper.UnsortedMemoryNote item in list)
             {
                 obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == item.memoryNoteID);
                 obj_memoryNote.deleted = true;
             }
-
             db.SubmitChanges();
         }
     }
