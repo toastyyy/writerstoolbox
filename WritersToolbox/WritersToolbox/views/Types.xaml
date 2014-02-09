@@ -23,7 +23,7 @@
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <!--Template für PivotHeader-->
         <DataTemplate x:Key="PivotHeader">
-            <TextBlock Text="{Binding title}" Margin="9,10,0,0" FontSize="65"/>
+            <TextBlock Text="{Binding title}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
         </DataTemplate>
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
@@ -41,29 +41,48 @@
                     <!--Template für LongListSelector-item-->
                     <phone:LongListSelector.ItemTemplate>
                         <DataTemplate>
-                            <Grid Width="Auto" Height="Auto" Margin="0,0,0,15" Hold="TryDeleteTypeObject">
+                            <Grid Width="Auto" Height="Auto" Margin="0,20,0,20" Hold="TryDeleteTypeObject">
                                 <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="135"/>
-                                    <ColumnDefinition Width="Auto"/>
+                                    <ColumnDefinition Width="115" />
+                                    <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Border Background="{Binding color}">
+                                <!--<Border Background="{Binding color}">
                                     <Image Source="{Binding imageString}"/>
-                                </Border>
-                                <StackPanel Grid.Column="1">
+                                </Border>-->
+                                <!--<StackPanel Grid.Column="1">
                                     <TextBlock Grid.Column="1" 
+                                               Foreground="#FF414141"
                                                Text="{Binding name}" 
-                                               FontSize="40" 
-                                               Margin="20,0,0,10"
+                                               FontSize="30" 
+                                               FontFamily="Segoe WP SemiLight"
+                                               Margin="0,-10,0,0"
                                                VerticalAlignment="Top"
                                                TextWrapping="Wrap"
                                                Width="280"  
-                                               HorizontalAlignment="Left"/>
-                                    <TextBlock Grid.Column="1" 
+                                               HorizontalAlignment="Left"/>-->
+                                    <!--<TextBlock Grid.Column="1" 
                                                Text="{Binding used, Converter={StaticResource boolToUsedCon}}" 
                                                FontSize="20" 
                                                Margin="20,0,0,10"
-                                               VerticalAlignment="Top"/>
-                                </StackPanel>
+                                               VerticalAlignment="Top"/>-->
+                                <!--</StackPanel>-->
+
+                                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/character_round_icon.png" Margin="20,0,0,0"/>
+                                <Grid Grid.Column="1" Margin="10,0,-10,0">
+                                    <Grid.RowDefinitions>
+                                        <RowDefinition Height="27" />
+                                        <RowDefinition Height="23" />
+                                        <RowDefinition Height="27" />
+                                    </Grid.RowDefinitions>
+                                    <TextBlock Grid.Row="0" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
+                                    <TextBlock Grid.Row="1" Text="Erstellungsdatum" FontSize="20" Foreground="#FFA6A6A6" FontFamily="Segoe WP SemiLight"/>
+                                    <!--<TextBlock Grid.Row="1" Text="{Binding addedDate, Converter={StaticResource DateConverter}, ConverterParameter=Erstellt-am}" FontSize="20" Foreground="#FFA6A6A6" />-->
+                                    <!--<TextBlock Grid.Row="2" Text="Anzahl Notizen" FontSize="20" Foreground="#FF414141" />-->
+                                    <TextBlock Grid.Row="2" Text="{Binding TypeObject, Converter={StaticResource TypeObjectSubtitleConverter}}" FontSize="20" Foreground="#FF414141" FontFamily="Segoe WP SemiLight"/>
+                                </Grid>
+                                <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                                <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+
                             </Grid>
                         </DataTemplate>
                     </phone:LongListSelector.ItemTemplate>
@@ -104,8 +123,9 @@
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
-        <Grid x:Name="layoutContent" Background="Black">
-            <Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
+        <Grid x:Name="layoutContent" Background="White">
+            <Image Margin="0,-6,0,549" Source="/headImage_rot_smal.png" Stretch="Fill"/>
+            <!--<Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>-->
             <!--Popup für Löschen des Typs-->
             <Popup x:Name="deleteTypePopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
                 <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
@@ -144,15 +164,16 @@
                          x:Name="PivotMain" 
                          SelectionChanged="PivotSelectionChanged" 
                          VerticalAlignment="Top"
-                         VerticalContentAlignment="Top">
+                         VerticalContentAlignment="Top" FontFamily="Segoe WP Light">
                 <phone:Pivot.Title>
-                    <TextBlock Margin="9,0,0,0" Text="TYPEN" FontSize="22"/>
+                    <TextBlock Margin="9,0,0,0" Text="TYPEN" FontSize="22" FontFamily="Segoe WP Light"/>
                 </phone:Pivot.Title>
             </phone:Pivot>
+            
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF911124">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
             <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern"/>
             <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
         </shell:ApplicationBar>
