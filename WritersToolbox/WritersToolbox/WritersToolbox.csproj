@@ -113,13 +113,14 @@
     <Compile Include="datawrapper\BookType.cs" />
     <Compile Include="datawrapper\Chapter.cs" />
     <Compile Include="datawrapper\MemoryNote.cs" />
+    <Compile Include="datawrapper\MyImage.cs" />
+    <Compile Include="datawrapper\SoundData.cs" />
     <Compile Include="datawrapper\Tome.cs" />
     <Compile Include="datawrapper\Type.cs" />
     <Compile Include="datawrapper\TypeObject.cs" />
+    <Compile Include="datawrapper\UnsortedMemoryNote.cs" />
     <Compile Include="demo\Data.cs" />
     <Compile Include="LocalizedStrings.cs" />
-    <Compile Include="models\MyImage.cs" />
-    <Compile Include="models\SoundData.cs" />
     <Compile Include="models\WritersToolboxDatebase.cs" />
     <Compile Include="models\Book.cs" />
     <Compile Include="models\BookType.cs" />

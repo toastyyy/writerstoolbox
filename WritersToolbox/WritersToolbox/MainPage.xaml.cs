@@ -26,7 +26,7 @@ namespace WritersToolbox
             //IsolatedStorageFile.GetUserStoreForApplication().Remove();
             try
             {
-                db.DeleteDatabase();
+                //db.DeleteDatabase();
                 if (!db.DatabaseExists())
                 {
                     db.CreateDatabase();

@@ -15,31 +15,43 @@ using System.Windows.Input;
 using Microsoft.Devices.Sensors;
 using Microsoft.Xna.Framework;
 using WritersToolbox.models;
-
+using WritersToolbox.datawrapper;
 namespace WritersToolbox.views
 {
     public partial class ImageView : PhoneApplicationPage
     {
-        Image im;
+        //Um das Bild zu speichern.
+        private Image tempImage;
+
+        /// <summary>
+        /// Default Konstruktor, wo Control Image das geöffnete Bild bekommt.
+        /// </summary>
         public ImageView()
         {
             InitializeComponent();
+            //Fullscrenn Modus im Cach speichern.
             PhoneApplicationService.Current.State["OppendImageView"] = "true";
-            im = PhoneApplicationService.Current.State["imageView"] as Image;
-            imageView.Source = im.Source;
+            tempImage = PhoneApplicationService.Current.State["imageView"] as Image;
+            imageView.Source = tempImage.Source;
         }
 
+        /// <summary>
+        /// um gezeigtes Bild zu löschen, und zurück zu der Notiz.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteButton_Click(object sender, EventArgs e)
         {
+            //Speichern im Cach, dass das Bild gelöscht ist.
             if (PhoneApplicationService.Current.State.ContainsKey("deletedImages"))
             {
                 string cachImages = (PhoneApplicationService.Current.State["deletedImages"] as string);
-                cachImages += ((MyImage)im.DataContext).path + "|";
+                cachImages += ((MyImage)tempImage.DataContext).path + "|";
                 PhoneApplicationService.Current.State["deletedImages"] = cachImages;
             }
             else
             {
-                string cachImages = ((MyImage)im.DataContext).path + "|";
+                string cachImages = ((MyImage)tempImage.DataContext).path + "|";
                 PhoneApplicationService.Current.State["deletedImages"] = cachImages;
             }
 
@@ -47,6 +59,10 @@ namespace WritersToolbox.views
             NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// ZurückButton des Handys überschreiben.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             PhoneApplicationService.Current.State.Remove("imageView");
