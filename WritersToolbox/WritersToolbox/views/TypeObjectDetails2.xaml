@@ -27,6 +27,22 @@
                 <RowDefinition Height="313*"/>
                 <RowDefinition Height="455*"/>
             </Grid.RowDefinitions>
+
+            <!--Popup für Löschen des TypObjekts-->
+            <Popup Grid.RowSpan="2" x:Name="deleteTypeObjectPopup" Height="350" VerticalAlignment="Top" Margin="0,0,0,0">
+                <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock x:Name="TypeObjectDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
+                        <CheckBox IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0"/>
+                    </StackPanel>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteTypeObject"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
+                </Grid>
+            </Popup>
             <Image Margin="0,0,0,20" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
 
             <TextBlock FontSize="48" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,152,0,0" TextWrapping="Wrap" Text="{Binding TypeObject.name}" VerticalAlignment="Top" Height="60" Width="460" FontFamily="Segoe WP Light"/>
@@ -61,7 +77,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF1D1D1D">
             <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="Ändern" Click="editTypeObjectClick" />
-            <shell:ApplicationBarIconButton x:Name="deleteTypeObject" IconUri="/icons/delete.png" Text="Löschen" Click="deleteTypeObject_Click" />
+            <shell:ApplicationBarIconButton x:Name="deleteTypeObject" IconUri="/icons/delete.png" Text="Löschen" Click="TryDeleteTypeObject" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

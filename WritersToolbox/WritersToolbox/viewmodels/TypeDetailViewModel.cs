@@ -92,6 +92,16 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("TypeObject");
         }
 
+        public void deleteTypeObject(int typeObjectID)
+        {
+            var typeObject = (from to in tableTypeObject
+                              where to.typeObjectID == typeObjectID
+                              select to).Single();
+            typeObject.deleted = true;
+            this.wtb.SubmitChanges();
+            //this.LoadData();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Used to notify the app that a property has changed.

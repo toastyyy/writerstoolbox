@@ -280,6 +280,21 @@ namespace WritersToolbox.demo
             db.GetTable<MemoryNote>().InsertOnSubmit(mn4);
             db.GetTable<MemoryNote>().InsertOnSubmit(mn5);
             db.GetTable<MemoryNote>().InsertOnSubmit(mn6);
+            for (int i = 0; i < 20; i++)
+            {
+                MemoryNote mn = new MemoryNote()
+                {
+                    addedDate = DateTime.Now,
+                    updatedDate = DateTime.Now,
+                    contentText = "blablub trololololol",
+                    title = "testnotiz an harry",
+                    associated = true,
+                    tags = "harry|potter|test",
+                    obj_TypeObject = typeObject1
+                };
+                db.GetTable<MemoryNote>().InsertOnSubmit(mn);
+            }
+
             db.SubmitChanges();
         }
     }

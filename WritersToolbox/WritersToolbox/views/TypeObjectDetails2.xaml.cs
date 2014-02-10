@@ -71,5 +71,23 @@ namespace WritersToolbox.views
                 NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
             }
         }
+
+        private void TryDeleteTypeObject(object sender, EventArgs e)
+        {
+            TypeObjectDeleteQuestion.Text = "Wollen Sie das Typobjekt \"" + tdvm.TypeObject.name.ToString() + "\" löschen?";
+            deleteTypeObjectPopup.IsOpen = true;
+        }
+
+        private void DeleteTypeObject(object sender, EventArgs e)
+        {
+            tdvm.deleteTypeObject(tdvm.TypeObject.typeObjectID);
+            deleteTypeObjectPopup.IsOpen = false;
+            NavigationService.GoBack();
+        }
+
+        private void DoNotDeleteTypeObject(object sender, EventArgs e)
+        {
+            deleteTypeObjectPopup.IsOpen = false;
+        }
     }
 }
