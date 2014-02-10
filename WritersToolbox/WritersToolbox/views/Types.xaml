@@ -75,10 +75,6 @@
                                         <RowDefinition Height="27" />
                                     </Grid.RowDefinitions>
                                     <TextBlock Grid.Row="0" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
-                                    <TextBlock Grid.Row="1" Text="Erstellungsdatum" FontSize="20" Foreground="#FFA6A6A6" FontFamily="Segoe WP SemiLight"/>
-                                    <!--<TextBlock Grid.Row="1" Text="{Binding addedDate, Converter={StaticResource DateConverter}, ConverterParameter=Erstellt-am}" FontSize="20" Foreground="#FFA6A6A6" />-->
-                                    <!--<TextBlock Grid.Row="2" Text="Anzahl Notizen" FontSize="20" Foreground="#FF414141" />-->
-                                    <TextBlock Grid.Row="2" Text="{Binding TypeObject, Converter={StaticResource TypeObjectSubtitleConverter}}" FontSize="20" Foreground="#FF414141" FontFamily="Segoe WP SemiLight"/>
                                 </Grid>
                                 <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
                                 <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
@@ -169,7 +165,6 @@
                     <TextBlock Margin="9,0,0,0" Text="TYPEN" FontSize="22" FontFamily="Segoe WP Light"/>
                 </phone:Pivot.Title>
             </phone:Pivot>
-            
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>

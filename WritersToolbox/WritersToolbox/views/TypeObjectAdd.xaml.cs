@@ -280,8 +280,8 @@ namespace WritersToolbox.views
                 changed = true;
             }
         }
-
-        /*private async Task<BitmapImage> multiplicateImageWithColor(String fileName, Color c) {
+        /*
+        private async Task<BitmapImage> multiplicateImageWithColor(String fileName, Color c) {
             // laden des bildes, auf das der filter angewendet wird
             var file = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(fileName);
             BlendFilter bf = new BlendFilter(new StorageFileImageSource(file));
