@@ -42,9 +42,16 @@ namespace WritersToolbox.converter
 
         private BitmapImage loadImageFromStorage(String path) {
             MediaLibrary ml = new MediaLibrary();
-            Picture pic = ml.Pictures.Where(p => p.GetPath().Equals(path)).Single();
             BitmapImage bi = new BitmapImage();
-            bi.SetSource(pic.GetThumbnail());
+            try
+            {            
+                Picture pic = ml.Pictures.Where(p => p.GetPath().Equals(path)).Single();
+                bi.SetSource(pic.GetThumbnail());
+            }
+            catch (InvalidOperationException e) {
+                bi = new BitmapImage(new Uri(path, UriKind.Relative));
+            }
+
             return bi;
         }
     }
