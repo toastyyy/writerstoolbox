@@ -80,7 +80,7 @@ namespace WritersToolbox.views
 
         private void DeleteTypeObject(object sender, EventArgs e)
         {
-            tdvm.deleteTypeObject(tdvm.TypeObject.typeObjectID);
+            tdvm.deleteTypeObject(tdvm.TypeObject.typeObjectID, keepNotes.IsChecked.Value);
             deleteTypeObjectPopup.IsOpen = false;
             NavigationService.GoBack();
         }
