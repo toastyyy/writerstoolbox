@@ -113,9 +113,9 @@ namespace WritersToolbox.views
             if (to == null)
                 return;
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
-            {
+            {              
                 PhoneApplicationService.Current.State["typeObjectID"] = to.typeObjectID;
-                NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
+                NavigationService.GoBack();
                 return;
             }
             // ein Objekt TypeObject hat TypID = -2
