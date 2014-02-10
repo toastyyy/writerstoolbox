@@ -89,5 +89,25 @@ namespace WritersToolbox.views
         {
             deleteTypeObjectPopup.IsOpen = false;
         }
+
+        /// <summary>
+        /// Wenn alle unsortierten Notizen ausgewählt werden.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            multiselector.EnforceIsSelectionEnabled = true;
+        }
+
+        /// <summary>
+        /// Wenn die option Alle auswählen aufgehoben wird.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            multiselector.EnforceIsSelectionEnabled = false;
+        }
     }
 }

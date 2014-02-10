@@ -6,12 +6,14 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
+    
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -61,15 +63,21 @@
             </Border>
             <TextBlock FontSize="20" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,210,0,0" TextWrapping="Wrap" Text="{Binding TypeObject, Converter={StaticResource TypeObjectSubtitleConverter}}" VerticalAlignment="Top" Width="460" FontFamily="Segoe WP Light"/>
 
+            <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Grid.Row="1" Content="Alles auswählen" HorizontalAlignment="Left" Margin="10,-20,0,0" VerticalAlignment="Top" Width="224" Foreground="Black" BorderBrush="Black" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
             <!-- Longlistselector zur Anzeige der Notizen -->
-            <Grid Margin="20,16.776,5,0" VerticalAlignment="Top" Grid.Row="1">
-                <phone:LongListSelector 
+            <Grid Margin="20,65,5,0" VerticalAlignment="Top" Grid.Row="1" Height="347">
+
+                <toolkit:LongListMultiSelector
                     Margin="0,-30,20,10"
                     Height="Auto" 
                     Width="Auto"
                     ItemsSource="{Binding TypeObject.notes}"
-                    ItemTemplate="{StaticResource TypeObjectNotesTemplate}" SelectionChanged="noteSelected">
-                </phone:LongListSelector>
+                    ItemTemplate="{StaticResource TypeObjectNotesTemplate}" 
+                    SelectionChanged="noteSelected"
+                    EnforceIsSelectionEnabled="false"
+                    IsGroupingEnabled="False"
+                    x:Name="multiselector" Foreground="Black">
+                </toolkit:LongListMultiSelector>
             </Grid>
         </Grid>
     </Grid>
