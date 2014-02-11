@@ -39,7 +39,7 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock x:Name="TypeObjectDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
-                        <CheckBox x:Name="keepNotes" IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0"/>
+                        <CheckBox x:Name="keepNotes" IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0" Style="{StaticResource CheckBoxStyleWhite}"/>
                     </StackPanel>
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteTypeObject"/>
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
@@ -73,10 +73,10 @@
                     Width="Auto"
                     ItemsSource="{Binding TypeObject.notes}"
                     ItemTemplate="{StaticResource TypeObjectNotesTemplate}" 
-                    SelectionChanged="noteSelected"
                     EnforceIsSelectionEnabled="false"
                     IsGroupingEnabled="False"
-                    x:Name="multiselector" Foreground="Black">
+                    x:Name="multiselector" Foreground="Black"
+                    ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" BorderBrush="Black">
                 </toolkit:LongListMultiSelector>
             </Grid>
         </Grid>

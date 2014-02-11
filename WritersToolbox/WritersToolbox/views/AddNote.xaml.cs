@@ -63,7 +63,7 @@ namespace WritersToolbox.views
         //Um alle Selektieren zu kontrollieren.
         private bool isAllMemosSelected, isAllPicturesSelected;     
         //Tackt.       
-        private DispatcherTimer playTimer;   
+        private DispatcherTimer playTimer,dauerTimer;   
         //letztes abgespielte Memo.               
         private Grid lastMemo;
         //ManagementBarButtons.
@@ -78,6 +78,8 @@ namespace WritersToolbox.views
         private bool progressbarKontrol;
         //
         private bool isPhotoChooserOpened;
+        //
+        TimeSpan dauer;
         /// <summary>
         /// Default Konstruktor.
         /// </summary>
@@ -209,9 +211,9 @@ namespace WritersToolbox.views
             reward.Click += soundbar_reward_button_Click;
             forward.Click += soundbar_forward_button_Click;
             stop.Click += soundbar_stop_button_Click;
-            
-            ApplicationBar.Buttons.Add(pp);
+
             ApplicationBar.Buttons.Add(reward);
+            ApplicationBar.Buttons.Add(pp);
             ApplicationBar.Buttons.Add(forward);
             ApplicationBar.Buttons.Add(stop);
             //ApplicationBarStatus aktualisieren.
@@ -258,6 +260,12 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            //Source der AudioPlayer auf null einsetzen wenn es schon vorher was abgespielt ist,
+            //Damit wenn es zu diesem Screen navigiert wird, nicht automatisch abgespielt wird.
+            if (AudioPlayer.Source != null)
+            {
+                AudioPlayer.Source = null;
+            }
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
                 if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
@@ -319,6 +327,7 @@ namespace WritersToolbox.views
             //Überprüfung durchzuführen.
             if (!isPhotoChooserOpened && PhoneApplicationService.Current.State.ContainsKey("edit"))
             {
+                this.ScreenTitle.Text = "";
                 tempTitle = titleTextBox.Text;
                 tempDetails = detailsTextBox.Text;
                 tempTags = schlagwoerterTextBox.Text;
@@ -438,9 +447,9 @@ namespace WritersToolbox.views
         {
             try
             {           
-                MediaLibrary medianbibliothek = new MediaLibrary();
+                MediaLibrary mediabibliothek = new MediaLibrary();
                 //Bild in MediaLibrary aussuchen.
-                Picture picture = medianbibliothek.Pictures.Where(p =>
+                Picture picture = mediabibliothek.Pictures.Where(p =>
                     p.GetPath().Equals(filename)).Single();
                 //gefundenes Bild in MediaLibrary als MyImage WrapperKlasse für Images erzeugen,
                 //um es in ObservableCollection hinzuzufügen.
@@ -824,6 +833,7 @@ namespace WritersToolbox.views
                 PhoneApplicationService.Current.State.Remove("OppendImageView");
                 PhoneApplicationService.Current.State.Remove("memoryNoteID");
                 PhoneApplicationService.Current.State.Remove("assignedNote");
+                PhoneApplicationService.Current.State.Remove("assignNote");
                 PhoneApplicationService.Current.State.Remove("typeObjectID");
                 PhoneApplicationService.Current.State.Remove("edit");
                 NavigationService.GoBack();
@@ -1044,6 +1054,7 @@ namespace WritersToolbox.views
                 PhoneApplicationService.Current.State.Remove("OppendImageView");
                 PhoneApplicationService.Current.State.Remove("memoryNoteID");
                 PhoneApplicationService.Current.State.Remove("assignedNote");
+                PhoneApplicationService.Current.State.Remove("assignNote");
                 PhoneApplicationService.Current.State.Remove("typeObjectID");
                 PhoneApplicationService.Current.State.Remove("edit");
                 NavigationService.GoBack();
@@ -1065,8 +1076,8 @@ namespace WritersToolbox.views
             if (lastMemo != null)
             {
                 //MemoGrid wird initialisiert.
-                ((Grid)lastMemo.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x2E, 0x2E));
-                ((Image)lastMemo.Children[1]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
+                //((Grid)lastMemo.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x2E, 0x2E));
+                ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
                 lastMemo = null;
             }
             //Liste der Memos sperren.
@@ -1077,6 +1088,8 @@ namespace WritersToolbox.views
             addRecordButton.Background = brush;
             //Record starten
             recorder.Start();
+            //DauerTimer erzeugen.
+            dauerTimerGenerator();
             //Überprüfen ob ApplicationBarButton aus den MediaButtons besteht.
             if(applicationBarButton_Modus == MEDIA)
             {
@@ -1098,6 +1111,12 @@ namespace WritersToolbox.views
         {
             //Aufnahme stopen.
             recorder.Stop();
+            //DauerTimer zerstören.
+            if (dauerTimer != null)
+            {
+                dauerTimer.Stop();
+                dauerTimer = null;
+            }
             //Durch Hilfsmethode SaveTempAudio die Aufnahme in IsolatedStorage speichern.
             SaveTempAudio(recorder.Buffer);
             //List der Memos freischalten.
@@ -1127,14 +1146,18 @@ namespace WritersToolbox.views
             //IsolatedStorage öffnen.
             using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
+                //Filename generieren.
+                string[] fileNames = isoStore.GetFileNames("Record*");
+                int lastindex = findlastFile(fileNames);
+                string filename = "Record " + (lastindex + 1);
                 //Name des Records durch aktuelles Datum erstellen.
-                string _tempFileName = string.Format("{0}.wav", DateTime.Now.ToString("yyyy_MM_dd_HH_mm_ss"));
+                string _tempFileName = string.Format("{0}.wav", filename);
+                
                 //Überprüfen ob der Name schon in IsolatedStorage schon zu Verfügung steht.
                 if (isoStore.FileExists(_tempFileName))
                 {                
                     isoStore.DeleteFile(_tempFileName); //Wenn ja, der alte Record löschen.
-                }                
-          
+                }                      
                 //Speichern die Aufnahme als Bytearray.
                 var bytes = buffer.GetWavAsByteArray(recorder.SampleRate);
                 //Datei mit dem name "_tempFileName" von IsolatedStorage erstellen
@@ -1146,11 +1169,39 @@ namespace WritersToolbox.views
                 _audioStream.Close();
                 //Erstellen ein SoundData-Object, das den Path des Recordes in IsolatedStorage beinhaltet
                 //damit es zu ObservableCollection übergegeben wird.
-                SoundData mysound = new SoundData() {filePath = _tempFileName};
+                SoundData mysound = new SoundData()
+                {
+                    filePath = _tempFileName,
+                    erstellDatum = DateTime.Now,
+                    dauer = this.dauer
+                };              
                 sound_Items.Add(mysound);
                 //LongListMultiSelector aktualisieren.
                 llms_records.ItemsSource = sound_Items;        
             }
+        }
+
+        /// <summary>
+        /// Um den Name des letzten erzeugte Memo zurückzugeben.
+        /// </summary>
+        /// <param name="ary">alle Memosnamen.</param>
+        /// <returns>letztes Memo</returns>
+        private int findlastFile(string[] ary)
+        {
+            int lastFile = 0;
+            if (ary.Length > 0)
+            {
+                lastFile = int.Parse(ary[0].Substring(7, ary[0].Length - 11));
+                for (int i = 1; i < ary.Length; i++)
+                {
+                    if (lastFile
+                        < int.Parse(ary[i].Substring(7, ary[i].Length - 11)))
+                    {
+                        lastFile = int.Parse(ary[i].Substring(7, ary[i].Length - 11));
+                    }
+                }
+            }
+            return lastFile;
         }
 
         /// <summary>
@@ -1164,13 +1215,13 @@ namespace WritersToolbox.views
             if (!(bool)addRecordButton.IsChecked)
             {
                 //Größe der List der Records anpassen.
-                llms_records.Margin = new Thickness(27,84,0,80);
+                llms_records.Margin = new Thickness(27,84,0,92);
                 //ob ein Record vorher gespielt ist.
                 if (lastMemo != null)
                 {
                     //Wird hier das letzte gespielte Record initialisiert.
-                    ((Grid)lastMemo.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x2E, 0x2E));
-                    ((Image)lastMemo.Children[1]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
+                    //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
                     lastMemo = null;
                 }
               
@@ -1180,8 +1231,8 @@ namespace WritersToolbox.views
                 if (selector == null)
                     return;
                 //Grid Auf Abspielenmodus aktualisieren.
-                ((Grid)selector.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x72, 0xA9, 0x1C));
-                ((Image)selector.Children[1]).Source = new BitmapImage(new Uri("/icons/speaker_reordButton.png", UriKind.Relative));             
+                //selector.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xEB, 0xEB, 0xEB));
+                ((Image)selector.Children[0]).Source = new BitmapImage(new Uri("/icons/speaker_reordButton.png", UriKind.Relative));             
                 //Name des ausgewählte Memo zuruückgeben.
                 string filePath = ((SoundData)selector.DataContext).filePath;
                 try
@@ -1242,6 +1293,25 @@ namespace WritersToolbox.views
             progressbarKontrol = false; //Überprüfen ob so funktioniert.
 
         }
+
+        private void dauerTimerGenerator()
+        {
+            //Wenn playTimer nicht existiert.
+            if (dauerTimer == null)
+            {
+                dauerTimer = new DispatcherTimer();
+                dauerTimer.Interval = TimeSpan.FromMilliseconds(1000); //eine Sekunde
+                dauerTimer.Tick += new EventHandler(dauerTimer_Tick);
+                dauer = new TimeSpan();
+                dauerTimer.Start();
+            }
+        }
+
+        private void dauerTimer_Tick(object sender, EventArgs e)
+        {
+            dauer += new TimeSpan(0, 0, 1);
+        }
+
 
         /// <summary>
         /// Stellt die Current Time und die Endtime des abgespieleten soundfiles dar
@@ -1412,8 +1482,8 @@ namespace WritersToolbox.views
             //Überprüfen ob was gespielt wurde, damit es aktualisiert wird.
             if (lastMemo != null)
             {
-                ((Grid)lastMemo.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x2E, 0x2E));
-                ((Image)lastMemo.Children[1]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
+                //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
                 lastMemo = null;
             }
             //Überprüfen, ob ein playTimer existiert, damit es gelöscht wird.
@@ -1423,6 +1493,7 @@ namespace WritersToolbox.views
                 playTimer = null;
             }
             AudioPlayer.Stop();
+
             deleteRecordButton.Visibility = Visibility.Collapsed;
             progressbar.Visibility = Visibility.Collapsed;
             EndTimer.Visibility = Visibility.Collapsed;
@@ -1475,8 +1546,8 @@ namespace WritersToolbox.views
                     if (lastMemo != null)
                     {
                         //Letztes gespielte Memo holen und löschen.
-                        StackPanel tempStackPanel = (StackPanel)lastMemo.Children[2];
-                        string temp_sound = ((TextBlock)tempStackPanel.Children[0]).Text;
+                        Grid tempGrid = (Grid)lastMemo.Children[1];
+                        string temp_sound = ((TextBlock)tempGrid.Children[0]).Text;
                         SoundData s = ((ObservableCollection<SoundData>)llms_records.ItemsSource).Single(x => x.filePath == temp_sound);
                         if (llms_records.ItemsSource.Contains(s))
                         {

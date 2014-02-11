@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:Coding4Fun="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
+    xmlns:converter="clr-namespace:WritersToolbox.converter"
     mc:Ignorable="d" d:DesignWidth="480" d:DesignHeight="696"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -15,41 +16,43 @@
     SupportedOrientations="Portrait"  Orientation="Portrait"
     shell:SystemTray.IsVisible="True"
     Style="{StaticResource TransitionPageStyle}">
+    <phone:PhoneApplicationPage.Resources>
+        <converter:DateConverter x:Key="DateConverter"/>
+        <converter:DauerConverter x:Key="DauerConverter"/>
+    </phone:PhoneApplicationPage.Resources>
+
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot">
-        <Grid.Background>
-            <ImageBrush Stretch="None" ImageSource="/Assets/hintergrund_neueIdee_zettelUnten_2.png" />
-        </Grid.Background>
-        <Rectangle Fill="#FF72A91C" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Image Margin="0,-6,0,567" Source="/headImage_rot_smal.png" Stretch="Fill"/>
         <!--Pivotsteuerelement-->
         <!--Neue Notiz anlegen-->
-        <phone:Pivot Title="" Margin="0,28,0,0" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic">
+        <phone:Pivot Margin="0,10,0,0" VerticalAlignment="Top" VerticalContentAlignment="Top" FontFamily="Segoe WP Light">
+            <phone:Pivot.HeaderTemplate>
+                <DataTemplate>
+                    <ContentPresenter>
+                        <TextBlock Text="{Binding}" FontSize="60"></TextBlock>
+                    </ContentPresenter>
+                </DataTemplate>
+            </phone:Pivot.HeaderTemplate>
+            <phone:Pivot.Title>
+                <TextBlock x:Name="ScreenTitle" Text="NEUE NOTIZ" FontSize="22" FontFamily="Segoe WP Light"/>
+            </phone:Pivot.Title>
 
-            <!--Pivotelement eins-->
-            <phone:PivotItem Header="Notiz" Margin="12,28,12,10" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic">
+            <!--Notiz-->
+            <phone:PivotItem Header="Notiz" Margin="0,3,0,0" FontSize="58" FontFamily="Segoe UI Light">
                 <Grid x:Name="ContentPanel_Notiz" Grid.Row="1" Margin="12,0,12,0">
-                    <ScrollViewer x:Name='scroller_Notiz' VerticalScrollBarVisibility='Visible' Margin="0,0,0,-95" Height="524" VerticalAlignment="Top" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" >
+                    <ScrollViewer x:Name='scroller_Notiz' VerticalScrollBarVisibility='Visible' Margin="0,28,0,0" Height="496" VerticalAlignment="Top" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" >
                         <StackPanel x:Name='listItems_Notiz'>
                             <Canvas Height="72" Width="432">
-                                <TextBox x:Name="titleTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Foreground="White" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="26.667" SelectionForeground="White" SelectionBackground="Transparent" TextChanged="titleTextBox_TextChanged" >
-                                    <TextBox.Background>
-                                        <SolidColorBrush Color="#333C3C3C"/>
-                                    </TextBox.Background>
+                                <TextBox x:Name="titleTextBox" Height="72" TextWrapping="Wrap" Text="Titel" Width="377" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Foreground="#FF020202" FontFamily="Segoe UI Light" FontSize="30" SelectionForeground="White" SelectionBackground="Transparent" TextChanged="titleTextBox_TextChanged" BorderThickness="0,0,0,3" >
                                     <TextBox.BorderBrush>
                                         <SolidColorBrush Color="#33636161"/>
                                     </TextBox.BorderBrush>
                                 </TextBox>
                                 <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro1_Tap"/>
                             </Canvas>
-                            <TextBox x:Name="detailsTextBox" Height="408" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Foreground="#FFFFF8F8" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="26.667" SelectionForeground="White" SelectionBackground="#643C3C3C">
-                                <TextBox.BorderBrush>
-                                    <SolidColorBrush Color="#33636161"/>
-                                </TextBox.BorderBrush>
-                                <TextBox.Background>
-                                    <SolidColorBrush Color="#333C3C3C"/>
-                                </TextBox.Background>
-                            </TextBox>
+                            <TextBox x:Name="detailsTextBox" Height="350" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Foreground="Black" FontFamily="Segoe UI Light" FontSize="30"  SelectionForeground="White" SelectionBackground="#643C3C3C" BorderThickness="0" />
                             <Image x:Name="micro2" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro2_Tap"/>
                         </StackPanel>
                     </ScrollViewer>
@@ -57,93 +60,122 @@
                 </Grid>
             </phone:PivotItem>
 
-            <!--Pivote zwei-->
-            <phone:PivotItem Header="Record" Margin="12,28,12,10">
-
+            <!--Record-->
+            <phone:PivotItem Header="Record" Margin="0,3,0,0" FontSize="58" FontFamily="Segoe UI Light">
                 <Grid>
-                    <Coding4Fun:RoundToggleButton Content="" x:Name="addRecordButton"  HorizontalAlignment="Right" Margin="0,10,10,0" Height="53" Width="72" BorderThickness="1" VerticalAlignment="Top" Checked="RecordAudioChecked" Unchecked="RecordAudioUnchecked" >
+                    <!--Steuerelemente-->
+                    <Coding4Fun:RoundToggleButton Content="" x:Name="addRecordButton"  HorizontalAlignment="Right" Margin="0,16,18,0" Height="53" Width="72" BorderThickness="1" VerticalAlignment="Top" Checked="RecordAudioChecked" Unchecked="RecordAudioUnchecked" BorderBrush="#FF353535" >
                         <Coding4Fun:RoundToggleButton.Background>
                             <ImageBrush Stretch="Fill" ImageSource="/icons/aufnahme.png"/>
                         </Coding4Fun:RoundToggleButton.Background>
                     </Coding4Fun:RoundToggleButton>
-                    <Coding4Fun:RoundButton Content="" x:Name="deleteRecordButton" HorizontalAlignment="Left" Margin="302,10,0,0" VerticalAlignment="Top" Height="55" Width="72" BorderThickness="1" Click="deleteRecordButton_Click" PressedBrush="{x:Null}" Visibility="Collapsed" >
+                    <Coding4Fun:RoundButton Content="" x:Name="deleteRecordButton" HorizontalAlignment="Left" Margin="320,16,0,0" VerticalAlignment="Top" Height="55" Width="72" BorderThickness="1" Click="deleteRecordButton_Click" PressedBrush="{x:Null}" BorderBrush="#FF353535" Visibility="Collapsed" >
                         <Coding4Fun:RoundButton.Background>
                             <ImageBrush Stretch="Fill" ImageSource="/icons/delete.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
-
-                    <Coding4Fun:RoundButton Content="" x:Name="zurueckRecordButton"  HorizontalAlignment="Right" Margin="0,9,154,0" Height="54" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckRecordButton_Click" Visibility="Collapsed">
+                    <Coding4Fun:RoundButton Content="" x:Name="zurueckRecordButton"  HorizontalAlignment="Right" Margin="0,16,156,0" Height="54" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckRecordButton_Click" BorderBrush="#FF353535" Visibility="Collapsed">
                         <Coding4Fun:RoundButton.Background>
                             <ImageBrush Stretch="Fill" ImageSource="/icons/zurueck.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
-                    <CheckBox x:Name="selectAllRecordCheckBox" Content="Alles auswählen" HorizontalAlignment="Left" Margin="0,-5,0,0" VerticalAlignment="Top" Width="235" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" RenderTransformOrigin="0.5,0.5" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" />
+                    <CheckBox x:Name="selectAllRecordCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="Alles auswählen" HorizontalAlignment="Left" Margin="24,5,0,0" VerticalAlignment="Top" Width="221" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" RenderTransformOrigin="0.5,0.5" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Visibility="Collapsed" />
+                    <!--dynamische generierte List-->
                     <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="record_selectionChanged" 
-                    LayoutMode="Grid" GridCellSize="200,200" 
+                    LayoutMode="List" 
+                    GridCellSize="200,200"
                     x:Name="llms_records" 
                     DataContext="{Binding}" 
-                    IsGroupingEnabled="False" Background="#FFE44545" Margin="27,84,0,17" >
+                    IsGroupingEnabled="False" 
+                    Background="#FFFFFFFF" 
+                    Margin="0,84,10,17"
+                    ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
+                    BorderBrush="Black">
                         <toolkit:LongListMultiSelector.ItemTemplate>
                             <DataTemplate>
-                                <Grid Margin="0, 0, 12, 12"
-                                        Tap="Sound_Tap" Hold="Grid_Hold">
-                                    <Grid Background="#FF2E2E2E" Opacity="0.5" >                                       
+                                    <Grid Width="Auto" Height="Auto" Margin="0,20,0,20" Tap="Sound_Tap" Hold="Grid_Hold">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition Width="115" />
+                                            <ColumnDefinition Width="*" />
+                                        </Grid.ColumnDefinitions>
+                                        <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/notiz_round_icon.png" Margin="20,0,0,0"/>
+                                        <Grid Grid.Column="1" Margin="10,0,-10,0">
+                                            <Grid.RowDefinitions>
+                                                <RowDefinition Height="27" />
+                                                <RowDefinition Height="23" />
+                                                <RowDefinition Height="27" />
+                                            </Grid.RowDefinitions>
+                                        <TextBlock Grid.Row="0" Text="{Binding filePath}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
+                                        <TextBlock Grid.Row="1" Text="{Binding erstellDatum, Converter={StaticResource DateConverter}, ConverterParameter=Erstelldatum}" FontSize="20" Foreground="#FFA6A6A6" FontFamily="Segoe WP SemiLight"/>
+                                        <TextBlock Grid.Row="2" Text="{Binding dauer, Converter={StaticResource DauerConverter}, ConverterParameter=Dauer}" FontSize="20" Foreground="#FF414141" FontFamily="Segoe WP SemiLight"/>
                                     </Grid>
-                                    <Image Margin="0, 20, 0, 0" x:Name="pp_image" Source="/icons/play_reordButton.png" />
-                                    <StackPanel VerticalAlignment="Bottom">
-                                        <TextBlock Text="{Binding filePath}" Margin="5,-10,0,0"  FontSize="13" />
-                                    </StackPanel>
-                                </Grid>
+                                        <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                                        <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                                    </Grid>
                             </DataTemplate>
                         </toolkit:LongListMultiSelector.ItemTemplate>
                     </toolkit:LongListMultiSelector>
-                    <Rectangle x:Name="progressbar_background" Fill="#CC212121" Margin="-14,450,-24,-12" VerticalAlignment="Top" Height="86" Visibility="Collapsed"/>
-                    <TextBlock x:Name="CurrentTime" Margin="10,481,347,13" Visibility="Collapsed">
+                    <!--Mediaplayer-->
+                    <Rectangle x:Name="progressbar_background" Fill="#66353535" Margin="0,471,-38,-6" VerticalAlignment="Top" Height="98" Visibility="Collapsed"/>
+                    <TextBlock x:Name="CurrentTime" FontSize="20" Margin="10,481,347,13" Visibility="Collapsed" Foreground="#FF353535">
                     	<Run Text=" "/>
                     	<LineBreak/>
                     	<Run/>
                     </TextBlock>
-                    <TextBlock x:Name="EndTimer" Margin="355,481,2,13" TextAlignment="Right" Visibility="Collapsed">
+                    <TextBlock x:Name="EndTimer"  FontSize="20" Margin="343,480,14,14" TextAlignment="Right" Visibility="Collapsed" Foreground="#FF353535">
                     	<Run Text=" "/>
                     	<LineBreak/>
                     	<Run/>
-                    </TextBlock>              
-                    <MediaElement x:Name="AudioPlayer" Volume="1" />
-                    <Slider x:Name="progressbar" HorizontalAlignment="Left" Margin="0,447,0,-7" VerticalAlignment="Top" Width="446" ValueChanged="progressbar_ValueChanged" Background="White" Foreground="#FF72A91C" Visibility="Collapsed"/>
-
+                    </TextBlock>
+                    <Slider x:Name="progressbar" HorizontalAlignment="Left" Margin="16,495,0,-16" VerticalAlignment="Top" Width="446" ValueChanged="progressbar_ValueChanged" Background="White" Foreground="#FF353535" BorderBrush="Transparent" Visibility="Collapsed"/>
+                    <MediaElement x:Name="AudioPlayer" Volume="1" Margin="0,514,0,-2" />
                 </Grid>
             </phone:PivotItem>
 
-            <!--Pivotelement drei-->
-            <phone:PivotItem Header="Bilder" Margin="12,28,12,10">
+            <!--Schlagwörter-->
+            <phone:PivotItem Header="Schlagwörter" Margin="0,3,0,0" FontSize="58" FontFamily="Segoe UI Light">
+                <ScrollViewer x:Name="scroller_Schlagwoerter" VerticalScrollBarVisibility='Visible' Margin="0,70,0,0" Height="454" VerticalAlignment="Top" >
+                    <StackPanel x:Name="listItems_Schlagwoerter">
+                        <TextBox x:Name="schlagwoerterTextBox" Height="300" TextWrapping="Wrap" Width="432" AcceptsReturn="True" TextChanged="schlagwoerterTextBox_TextChanged" BorderBrush="#33636161" SelectionBackground="#663C3C3C" Foreground="#FF040404" GotFocus="schlagwoerterTextBox_GotFocus" LostFocus="schlagwoerterTextBox_LostFocus" BorderThickness="0,3" FontFamily="Segoe UI Light" FontSize="30"/>
+                        <Image x:Name="micro3" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro3_Tap"/>
+                        <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text=" Bitte trennen Sie die Schlagwörter mit Zeilenumbruch" VerticalAlignment="Top" Height="64" Foreground="Black" FontSize="22" Width="312" />
+                    </StackPanel>
+                </ScrollViewer>
+            </phone:PivotItem>
+
+
+            <!--Bilder-->
+            <phone:PivotItem Header="Bilder" Margin="0,3,0,0" FontSize="58" FontFamily="Segoe UI Light">
                 <Grid>
-                    <Coding4Fun:RoundButton  x:Name="deleteButton" Content="" HorizontalAlignment="Left" Margin="312,10,0,0" VerticalAlignment="Top" Height="53" Width="72" BorderThickness="1" Click="deleteButton_Click" Visibility="Collapsed">
+                    <!--Steuerelemente-->
+                    <Coding4Fun:RoundButton  x:Name="deleteButton" Content="" HorizontalAlignment="Left" Margin="320,16,0,0" VerticalAlignment="Top" Height="53" Width="72" BorderThickness="1" Click="deleteButton_Click" BorderBrush="#FF353535" Visibility="Collapsed">
                         <Coding4Fun:RoundButton.Background>
                             <ImageBrush Stretch="Fill" ImageSource="/icons/delete.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
-                    <Coding4Fun:RoundButton x:Name="addButton" Content="" HorizontalAlignment="Right" Margin="0,9,0,0" Height="54" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="addButton_Click">
+                    <Coding4Fun:RoundButton x:Name="addButton" Content="" HorizontalAlignment="Right" Margin="0,16,18,0" Height="54" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="addButton_Click" BorderBrush="#FF353535">
                         <Coding4Fun:RoundButton.Background>
-                            <ImageBrush Stretch="Fill" ImageSource="/icons/add.png"/>
+                            <ImageBrush Stretch="UniformToFill" ImageSource="/icons/add.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
-                    <Coding4Fun:RoundButton x:Name="zurueckButton" Content="" HorizontalAlignment="Right" Margin="0,10,144,0" Height="53" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckButton_Click" Visibility="Collapsed">
+                    <Coding4Fun:RoundButton x:Name="zurueckButton" Content="" HorizontalAlignment="Right" Margin="0,16,156,0" Height="53" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckButton_Click" BorderBrush="#FF353535" Visibility="Collapsed">
                         <Coding4Fun:RoundButton.Background>
                             <ImageBrush Stretch="Fill" ImageSource="/icons/zurueck.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
-
-                    <CheckBox x:Name="selectAllCheckBox" Content="alles auswählen" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="240" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" Height="77"/>
+                    <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="alles auswählen" HorizontalAlignment="Left" Margin="24,5,0,0" VerticalAlignment="Top" Width="240" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" Height="77" Foreground="#FF353535" BorderBrush="#FF353535" Visibility="Collapsed"/>
+                    <!--dynamische generierte List-->
                     <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="image_selectionChanged" 
                     LayoutMode="Grid" GridCellSize="200,200" 
                     x:Name="llms_images" 
                     DataContext="{Binding}" 
-                    IsGroupingEnabled="False" Background="#FFE44545" Margin="0,70,0,0" >
-
+                    IsGroupingEnabled="False" 
+                    Background="#FFE44545" 
+                    Margin="35,70,0,0">
                         <toolkit:LongListMultiSelector.ItemTemplate>
                             <DataTemplate>
                                 <StackPanel x:Name="ds">
@@ -155,22 +187,12 @@
                 </Grid>
             </phone:PivotItem>
 
-            <phone:PivotItem Header="Schlagwörter" Margin="12,28,12,10">
-                <ScrollViewer x:Name="scroller_Schlagwoerter" VerticalScrollBarVisibility='Visible' Margin="0,0,0,-95" Height="524" VerticalAlignment="Top" >
-                    <StackPanel x:Name="listItems_Schlagwoerter">
-                        <TextBox x:Name="schlagwoerterTextBox" Height="300" TextWrapping="Wrap" Width="432" AcceptsReturn="True" TextChanged="schlagwoerterTextBox_TextChanged" Background="#333C3C3C" BorderBrush="#33636161" SelectionBackground="#663C3C3C" Foreground="White" GotFocus="schlagwoerterTextBox_GotFocus" LostFocus="schlagwoerterTextBox_LostFocus"/>
-                        <Image x:Name="micro3" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro3_Tap"/>
-                        <TextBlock Text="     Bitte trennen Sie die Wörter mit Semikolon ( ; )" VerticalAlignment="Top" Height="44" />
-                    </StackPanel>
-                </ScrollViewer>
-            </phone:PivotItem>
         </phone:Pivot>
-        <TextBlock HorizontalAlignment="Left" Height="52" TextWrapping="Wrap" Text="neue Notiz anlegen" VerticalAlignment="Top" Width="440" LineHeight="13.333" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="26.667" Margin="28,6,0,0"/>
     </Grid>
-    <!--Sample code showing usage of ApplicationBar-->
 
+    <!--leere ApplikationBar, die dynamisch ausgefühlt wird-->
     <phone:PhoneApplicationPage.ApplicationBar >
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="false" BackgroundColor="#FF72A91C">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="false" BackgroundColor="#353535">
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

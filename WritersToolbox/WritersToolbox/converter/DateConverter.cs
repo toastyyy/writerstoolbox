@@ -13,7 +13,6 @@ namespace WritersToolbox.converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             DateTime val = (DateTime)value;
-
             String pre = "";
             if (parameter != null) {
                 pre = ((String)parameter).Replace("-", " ");

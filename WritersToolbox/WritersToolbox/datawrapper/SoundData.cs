@@ -11,7 +11,8 @@ namespace WritersToolbox.datawrapper
     {
         //Path des Memos.
         public string filePath { get; set; }
-
+        public TimeSpan dauer { get; set; }
+        public DateTime erstellDatum { get; set; }
         /// <summary>
         /// Um die Objekte des Memos zu vergleiche.
         /// </summary>
@@ -43,6 +44,15 @@ namespace WritersToolbox.datawrapper
                 }
             }
             return isequals;
+        }
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <returns></returns>
+        public override string ToString()
+        {
+            return filePath+";"+erstellDatum.ToString("dd.MM.yyyy")+";"+dauer.ToString(@"mm\:ss");
         }
     }
 }

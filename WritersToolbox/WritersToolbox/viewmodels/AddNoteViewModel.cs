@@ -239,7 +239,10 @@ namespace WritersToolbox.viewmodels
                 {
                     if (!str_result[i].Trim().Equals(""))
                     {
-                        audioList.Add(new SoundData() { filePath = str_result[i] });
+                        string[] str_memo = str_result[i].Split(';');
+                        audioList.Add(new SoundData() { filePath = str_memo[0], 
+                            erstellDatum = DateTime.ParseExact(str_memo[1], "dd.MM.yyyy", null), 
+                            dauer = TimeSpan.ParseExact(str_memo[2], @"mm\:ss", null) });
                     }
 
                 }
@@ -280,7 +283,7 @@ namespace WritersToolbox.viewmodels
                     string contentAudiosPath = "";
                     foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.filePath + "|";
+                        contentAudiosPath += track.ToString() + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
@@ -309,7 +312,7 @@ namespace WritersToolbox.viewmodels
                     string contentAudiosPath = "";
                     foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.filePath + "|";
+                        contentAudiosPath += track.ToString() + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
@@ -364,7 +367,7 @@ namespace WritersToolbox.viewmodels
                     string contentAudiosPath = "";
                     foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.filePath + "|";
+                        contentAudiosPath += track.ToString() + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
@@ -397,7 +400,7 @@ namespace WritersToolbox.viewmodels
                     string contentAudiosPath = "";
                     foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.filePath + "|";
+                        contentAudiosPath += track.ToString() + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 

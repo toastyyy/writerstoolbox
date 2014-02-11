@@ -106,6 +106,7 @@
     <Compile Include="converter\BoolToUsedConverter.cs" />
     <Compile Include="converter\CollectionCountConverter.cs" />
     <Compile Include="converter\ColorToBrushConverter.cs" />
+    <Compile Include="converter\DauerConverter.cs" />
     <Compile Include="converter\DefaultIfEmptyConverter.cs" />
     <Compile Include="converter\DateConverter.cs" />
     <Compile Include="converter\NoteShortContentConverter.cs" />
@@ -133,6 +134,11 @@
     <Compile Include="models\Tome.cs" />
     <Compile Include="models\Type.cs" />
     <Compile Include="models\TypeObject.cs" />
+    <Compile Include="Resources\AppResources.Designer.cs">
+      <AutoGen>True</AutoGen>
+      <DesignTime>True</DesignTime>
+      <DependentUpon>AppResources.resx</DependentUpon>
+    </Compile>
     <Compile Include="sampleData\SampleDataTyp.cs" />
     <Compile Include="sampleData\Typ.cs" />
     <Compile Include="sampleData\TypObject.cs" />
@@ -187,12 +193,6 @@
       <DependentUpon>MainPage.xaml</DependentUpon>
     </Compile>
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Resources\AppResources.Designer.cs">
-      <AutoGen>True</AutoGen>
-      <DesignTime>True</DesignTime>
-      <DependentUpon>AppResources.resx</DependentUpon>
-      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
-    </Compile>
     <Compile Include="views\TypeObjectDetails.xaml.cs">
       <DependentUpon>TypeObjectDetails.xaml</DependentUpon>
     </Compile>
@@ -329,9 +329,13 @@
     </Content>
     <Content Include="Assets\WritersToolboxstartseiteWT.png" />
     <Content Include="headImage_rot_smal.png" />
+    <Content Include="icons\add.png" />
     <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\edit.png" />
     <Content Include="icons\edit_picture.png" />
+    <Content Include="icons\micro.png" />
+    <Content Include="icons\play_reordButton.png" />
+    <Content Include="icons\speaker_reordButton.png" />
     <Content Include="icons\TypeObjects\character.png" />
     <Content Include="charakter.png" />
     <Content Include="images\headImage_grayscale_top.jpg">
@@ -339,7 +343,6 @@
     </Content>
     <Content Include="images\headImage_blue_top.png" />
     <Content Include="images\headImage_gruen_top.png" />
-    <Content Include="icons\add.png" />
     <Content Include="icons\aufnahme_aktiv.png" />
     <Content Include="icons\aufnahme.png" />
     <Content Include="icons\book.png" />
@@ -347,17 +350,14 @@
     <Content Include="icons\charakter_icon.png" />
     <Content Include="icons\delete.png" />
     <Content Include="icons\forward.png" />
-    <Content Include="icons\micro.png" />
     <Content Include="icons\note.png" />
     <Content Include="icons\notiz.png" />
     <Content Include="icons\notiz_round_icon.png" />
     <Content Include="icons\pause.png" />
     <Content Include="icons\play.png" />
-    <Content Include="icons\play_reordButton.png" />
     <Content Include="icons\reward.png" />
     <Content Include="icons\save.png" />
     <Content Include="icons\saveAs.png" />
-    <Content Include="icons\speaker_reordButton.png" />
     <Content Include="icons\speichernUnter.png" />
     <Content Include="icons\speichern.png" />
     <Content Include="icons\stop.png" />
@@ -377,14 +377,13 @@
     <Content Include="Toolkit.Content\ApplicationBar.Delete.png" />
     <Content Include="Toolkit.Content\ApplicationBar.Select.png" />
     <Content Include="WritersToolbox.csproj.user" />
-    <None Include="icons\micro.png" />
   </ItemGroup>
   <ItemGroup>
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
-      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
+      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

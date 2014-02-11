@@ -39,8 +39,12 @@ namespace WritersToolbox.gui
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            Application.Current.Terminate();
-            e.Cancel = true;
+            if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                Application.Current.Terminate();
+
+                e.Cancel = true;
+            }
         }
 
         //Fertig

@@ -41,7 +41,7 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void noteSelected(object sender, SelectionChangedEventArgs e)
+        private void noteSelected(object sender, System.Windows.Input.GestureEventArgs e)
         {
             LongListSelector selector = sender as LongListSelector;
             if (selector == null)
@@ -98,6 +98,12 @@ namespace WritersToolbox.views
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             multiselector.EnforceIsSelectionEnabled = true;
+            foreach (var item in multiselector.ItemsSource)
+            {
+                var container = multiselector.ContainerFromItem(item)
+                                      as LongListMultiSelectorItem;
+                if (container != null) container.IsSelected = true;
+            }
         }
 
         /// <summary>
