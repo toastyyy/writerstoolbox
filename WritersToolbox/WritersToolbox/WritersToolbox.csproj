@@ -149,6 +149,9 @@
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\BookDetails.xaml.cs">
+      <DependentUpon>BookDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\TypeObjectAdd.xaml.cs">
       <DependentUpon>TypeObjectAdd.xaml</DependentUpon>
     </Compile>
@@ -202,9 +205,6 @@
     <Compile Include="views\Trashbin.xaml.cs">
       <DependentUpon>Trashbin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="views\BooksDetails.xaml.cs">
-      <DependentUpon>BooksDetails.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
@@ -221,6 +221,10 @@
     <Page Include="views\AddNote.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\BookDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="views\TypeObjectAdd.xaml">
       <SubType>Designer</SubType>
@@ -282,10 +286,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="views\BooksDetails.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
@@ -334,6 +334,7 @@
     <Content Include="icons\edit_picture.png" />
     <Content Include="icons\TypeObjects\character.png" />
     <Content Include="charakter.png" />
+    <Content Include="images\headImage_blue_top.png" />
     <Content Include="images\headImage_gruen_top.png" />
     <Content Include="icons\add.png" />
     <Content Include="icons\aufnahme_aktiv.png" />
