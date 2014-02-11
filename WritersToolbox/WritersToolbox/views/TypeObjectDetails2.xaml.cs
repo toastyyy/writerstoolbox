@@ -41,19 +41,19 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void noteSelected(object sender, SelectionChangedEventArgs e)
+        private void noteSelected(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            LongListSelector selector = sender as LongListSelector;
-            if (selector == null)
-                return;
-            datawrapper.MemoryNote n = selector.SelectedItem as datawrapper.MemoryNote;
-            if (n == null)
-                return;
-            PhoneApplicationService.Current.State["memoryNoteID"] = n.memoryNoteID.ToString();
-            PhoneApplicationService.Current.State["typeObjectID"] = n.fk_typeObjectID;
-            PhoneApplicationService.Current.State["edit"] = "true";
-            PhoneApplicationService.Current.State["assignedNote"] = "true";
-            NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
+            //Grid selector = sender as Grid;
+            //if (selector == null)
+            //    return;
+            //datawrapper.MemoryNote n = (datawrapper.MemoryNote) selector.DataContext;
+            //if (n == null)
+            //    return;
+            //PhoneApplicationService.Current.State["memoryNoteID"] = n.memoryNoteID.ToString();
+            //PhoneApplicationService.Current.State["typeObjectID"] = n.fk_typeObjectID;
+            //PhoneApplicationService.Current.State["edit"] = "true";
+            //PhoneApplicationService.Current.State["assignedNote"] = "true";
+            //NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
         }
 
 
@@ -98,6 +98,12 @@ namespace WritersToolbox.views
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             multiselector.EnforceIsSelectionEnabled = true;
+            foreach (var item in multiselector.ItemsSource)
+            {
+                var container = multiselector.ContainerFromItem(item)
+                                      as LongListMultiSelectorItem;
+                if (container != null) container.IsSelected = true;
+            }
         }
 
         /// <summary>
