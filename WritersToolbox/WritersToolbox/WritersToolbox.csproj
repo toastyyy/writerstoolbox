@@ -334,6 +334,9 @@
     <Content Include="icons\edit_picture.png" />
     <Content Include="icons\TypeObjects\character.png" />
     <Content Include="charakter.png" />
+    <Content Include="images\headImage_grayscale_top.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="images\headImage_gruen_top.png" />
     <Content Include="icons\add.png" />
     <Content Include="icons\aufnahme_aktiv.png" />
@@ -402,6 +405,12 @@
     <Reference Include="Microsoft.Expression.Controls, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="WriteableBitmapExWinPhone">
+      <HintPath>..\packages\WriteableBitmapEx.1.0.9.0\lib\WindowsPhone8\WriteableBitmapExWinPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="WriteableBitmapExWinPhoneXnaDependant">
+      <HintPath>..\packages\WriteableBitmapEx.1.0.9.0\lib\WindowsPhone8\WriteableBitmapExWinPhoneXnaDependant.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>
