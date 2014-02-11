@@ -43,10 +43,10 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void noteSelected(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            LongListSelector selector = sender as LongListSelector;
-            if (selector == null)
+            Grid g = sender as Grid;
+            if (g == null)
                 return;
-            datawrapper.MemoryNote n = selector.SelectedItem as datawrapper.MemoryNote;
+            datawrapper.MemoryNote n = g.DataContext as datawrapper.MemoryNote;
             if (n == null)
                 return;
             PhoneApplicationService.Current.State["memoryNoteID"] = n.memoryNoteID.ToString();
