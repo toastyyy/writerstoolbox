@@ -17,28 +17,32 @@
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" >
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="*"/>
+            <RowDefinition Height="117"/>
+
+            <RowDefinition/>
+
         </Grid.RowDefinitions>
+
         <Grid.Background>
             <ImageBrush ImageSource="/Assets/hintergrund_trashbin_white.png"/>
         </Grid.Background>
 
-
-        <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
+        
+        <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel
         <Rectangle Fill="#FF911124" Margin="0,5,0,0" VerticalAlignment="Top" Height="83"/>
-
-
+-->
+        <Image Margin="0,0,0,0" Source="/images/headImage_blue_top.png" Stretch="Fill"/>
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            
             <TextBlock Text="Papierkorb" Margin="9,-7,0,0" FontSize="50" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" />
         </StackPanel>
-
+        
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <CheckBox x:Name="selectAllCheckBox" Content="Select All" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="191" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"/>
             <toolkit:LongListMultiSelector 
-                    EnforceIsSelectionEnabled="false" 
+                    EnforceIsSelectionEnabled="True" 
                     SelectionChanged="trash_selectionChanged" 
                     LayoutMode="List" GridCellSize="200,200" 
                     x:Name="llms_trash" 
@@ -69,9 +73,10 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false">
+        <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false" BackgroundColor="#15135C">
             <shell:ApplicationBarIconButton x:Name="deleteButton" IconUri="/icons/delete.png" Text="löschen" Click="deleteButton_Click" />
             <shell:ApplicationBarIconButton x:Name="zurueckButton" IconUri="/icons/cancel.png" Text="zurück" Click="zurueckButton_Click" />
+            <shell:ApplicationBarIconButton x:Name="restoreButton" IconUri="/icons/zurueck.png" Text="wiederherstellen" Click="restoreButton_Click" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

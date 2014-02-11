@@ -84,12 +84,36 @@ namespace WritersToolbox.views
                 }
 
             }
-            trash.deletetrash(collection);
+            trash.deleteTrash(collection);
             if (llms_trash.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsChecked = false;
             }
         }
+
+        private void restoreButton_Click(object sender, EventArgs e)
+        {
+            ObservableCollection<TrashbinViewModel> collection = new ObservableCollection<TrashbinViewModel>();
+            ObservableCollection<TrashbinViewModel> collection2 = new ObservableCollection<TrashbinViewModel>(
+                (ObservableCollection<TrashbinViewModel>)llms_trash.ItemsSource);
+            foreach (TrashbinViewModel item in collection2)
+            {
+                if (llms_trash.SelectedItems.Contains(item))
+                {
+                    llms_trash.ItemsSource.Remove(item);
+                    llms_trash.SelectedItems.Remove(item);
+                    collection.Add(item);
+                }
+
+            }
+            trash.restoreTrash(collection);
+
+            if (llms_trash.ItemsSource.Count == 0)
+            {
+                selectAllCheckBox.IsChecked = false;
+            }
+        }
+
                 //Fertig
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {

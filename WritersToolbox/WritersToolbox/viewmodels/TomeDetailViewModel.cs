@@ -16,7 +16,7 @@ namespace WritersToolbox.viewmodels
         private Table<Chapter> tableChapters;
         private Table<Event> tableEvents;
         private WritersToolboxDatebase wtb;
-
+        private String title;
 
         public TomeDetailViewModel(int tomeID) {
             wtb = WritersToolboxDatebase.getInstance();
@@ -39,6 +39,11 @@ namespace WritersToolbox.viewmodels
             };
 
             this.Tome = t;
+        }
+
+        public String getTitle()
+        {
+            return title;
         }
     }
 }

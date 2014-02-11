@@ -92,7 +92,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            //Gesamte List in der Collection2 Copieren, danach werden alle unsortierte Notizen durchgelaufen, 
+            //Gesamte List in der Collection2 kopieren, danach werden alle unsortierte Notizen durchgelaufen, 
             //die selektierte wird in der Collection gespeichert, damit sie danach gelöscht wird.
             ObservableCollection<datawrapper.UnsortedMemoryNote> collection = new ObservableCollection<datawrapper.UnsortedMemoryNote>();
             ObservableCollection<datawrapper.UnsortedMemoryNote> collection2 = new ObservableCollection<datawrapper.UnsortedMemoryNote>(

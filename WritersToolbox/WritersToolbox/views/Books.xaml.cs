@@ -7,13 +7,14 @@ using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using System.Collections.ObjectModel;
 using WritersToolbox.viewmodels;
 
 namespace WritersToolbox.views
 {
     public partial class Books : PhoneApplicationPage
     {
-        public static BooksViewModel books_VM = null;
+        public static BooksViewModel books_VM; // = null;
         private datawrapper.Book selectedBook;
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
@@ -146,7 +147,10 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void DeleteBook(object sender, EventArgs e)
         {
-            //delete Methode fehlt
+           
+           datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
+           books_VM.deleteBook(b);
+
             deleteBookPopup.IsOpen = false;
         }
 
@@ -250,7 +254,7 @@ namespace WritersToolbox.views
             {
                 return;
             }
-            NavigationService.Navigate(new Uri("/views/BooksDetails.xaml?tomeID=" + tome.tomeID, UriKind.Relative));
+            NavigationService.Navigate(new Uri("/views/BookDetails.xaml?tomeID=" + tome.tomeID, UriKind.Relative));
             selector.SelectedItem = null;
         }
 

@@ -26,6 +26,8 @@ namespace WritersToolbox.viewmodels
         private Table<Tome> tableTome;
         private Table<Chapter> tableChapter;
         private Table<BookType> tableBookType;
+        private Book obj_book;
+
         public BooksViewModel() {
             dataLoaded = false;
             wtb = WritersToolboxDatebase.getInstance();
@@ -33,6 +35,8 @@ namespace WritersToolbox.viewmodels
             tableTome = wtb.GetTable<Tome>();
             tableChapter = wtb.GetTable<Chapter>();
             tableBookType = wtb.GetTable<BookType>();
+
+            
         }
 
         public Boolean isDataLoaded() 
@@ -124,6 +128,15 @@ namespace WritersToolbox.viewmodels
                 addedDate = new DateTime(2012,6,3,22,10,22)
             });
             this.Books = tmpBooks;
+        }
+
+        public void deleteBook( datawrapper.Book item)
+        {
+            
+                obj_book = wtb.GetTable<Book>().Single(book => book.bookID == item.bookID);
+                obj_book.deleted = true;
+            
+            wtb.SubmitChanges();
         }
     }
 }
