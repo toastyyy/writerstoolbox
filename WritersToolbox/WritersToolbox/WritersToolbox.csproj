@@ -341,7 +341,6 @@
     <Content Include="images\headImage_grayscale_top.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
-
     <Content Include="images\headImage_blue_top.png" />
     <Content Include="images\headImage_gruen_top.png" />
     <Content Include="icons\aufnahme_aktiv.png" />
