@@ -46,7 +46,7 @@ namespace WritersToolbox.views
                 int tomeID = int.Parse(NavigationContext.QueryString["tomeID"]);
                 tome_VM = new TomeDetailViewModel(tomeID);
                 DataContext = tome_VM;
-                bookTitle.Text = tome_VM.getTitle();
+                bookTitle.Text = "Harry Potter";
            //     Console.WriteLine(tome_VM.ToString());
             //    Console.WriteLine(tome_VM.getTitle());
             }
