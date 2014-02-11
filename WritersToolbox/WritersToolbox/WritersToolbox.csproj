@@ -155,6 +155,9 @@
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\BookDetails.xaml.cs">
+      <DependentUpon>BookDetails.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\TypeObjectAdd.xaml.cs">
       <DependentUpon>TypeObjectAdd.xaml</DependentUpon>
     </Compile>
@@ -202,9 +205,6 @@
     <Compile Include="views\Trashbin.xaml.cs">
       <DependentUpon>Trashbin.xaml</DependentUpon>
     </Compile>
-    <Compile Include="views\BooksDetails.xaml.cs">
-      <DependentUpon>BooksDetails.xaml</DependentUpon>
-    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Include="App.xaml">
@@ -221,6 +221,10 @@
     <Page Include="views\AddNote.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\BookDetails.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="views\TypeObjectAdd.xaml">
       <SubType>Designer</SubType>
@@ -282,10 +286,6 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="views\BooksDetails.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
   </ItemGroup>
   <ItemGroup>
     <None Include="ClassDiagram1.cd" />
@@ -338,6 +338,11 @@
     <Content Include="icons\speaker_reordButton.png" />
     <Content Include="icons\TypeObjects\character.png" />
     <Content Include="charakter.png" />
+    <Content Include="images\headImage_grayscale_top.jpg">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+
+    <Content Include="images\headImage_blue_top.png" />
     <Content Include="images\headImage_gruen_top.png" />
     <Content Include="icons\aufnahme_aktiv.png" />
     <Content Include="icons\aufnahme.png" />
@@ -401,6 +406,12 @@
     <Reference Include="Microsoft.Expression.Controls, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="WriteableBitmapExWinPhone">
+      <HintPath>..\packages\WriteableBitmapEx.1.0.9.0\lib\WindowsPhone8\WriteableBitmapExWinPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="WriteableBitmapExWinPhoneXnaDependant">
+      <HintPath>..\packages\WriteableBitmapEx.1.0.9.0\lib\WindowsPhone8\WriteableBitmapExWinPhoneXnaDependant.dll</HintPath>
     </Reference>
   </ItemGroup>
   <ItemGroup>

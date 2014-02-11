@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using System.Windows.Media;
 using System.Diagnostics;
 using Microsoft.Phone.Tasks;
+using System.Runtime.InteropServices.WindowsRuntime;
 using System.Windows.Media.Imaging;
 using System.Security.Cryptography;
 using System.IO.IsolatedStorage;
@@ -18,6 +19,8 @@ using System.Threading.Tasks;
 using Windows.Foundation;
 using Windows.Storage.Streams;
 using System.IO;
+using Windows.Storage;
+using Microsoft.Xna.Framework.Media;
 
 namespace WritersToolbox.views
 {
@@ -36,6 +39,8 @@ namespace WritersToolbox.views
         private PhotoChooserTask photoChooserTask;
 
         private BitmapImage changedImage = null;
+
+        private WriteableBitmap backgroundImage = null;
 
         private Boolean changed;
         static string[] colors =
@@ -275,32 +280,39 @@ namespace WritersToolbox.views
             if (c != null)
             {
                 selectedColor = c.Color;
-                //var test = Task.Factory.StartNew(() => multiplicateImageWithColor("/images/headImage_grayscale_top.png", c.Color));
-                //this.headerBackground.Source = test.Result.Result;
+                WriteableBitmap bmp = multiplicateImageWithColor("images/headImage_grayscale_top.jpg", c.Color);
+
+                this.headerBackground.Source = bmp;
                 changed = true;
             }
         }
+        
+        /// <summary>
+        /// Wendet einen Multiplikationsfilter auf das angewendete Bild an. 
+        /// ACHTUNG: Funktioniert nur hinreichend bei Bildern in Graustufen.
+        /// </summary>
+        /// <param name="fileName">Dateiname. Objekt muss als Datei im Projekt mit der Build Action 'Content' vorhanden sein.</param>
+        /// <param name="c">Anzuwendende Farbe für die Überlagerung</param>
+        /// <returns>Neues Bild mit angewendetem Filter</returns>
+        private WriteableBitmap multiplicateImageWithColor(String fileName, Color c) {
+            var file = System.Windows.Application.GetResourceStream(new Uri(fileName, UriKind.Relative));
+            BitmapImage bmp = new BitmapImage();
+            bmp.SetSource(file.Stream);
+            WriteableBitmap wb = new WriteableBitmap(bmp);
 
-        /*private async Task<BitmapImage> multiplicateImageWithColor(String fileName, Color c) {
-            // laden des bildes, auf das der filter angewendet wird
-            var file = await Windows.ApplicationModel.Package.Current.InstalledLocation.GetFileAsync(fileName);
-            BlendFilter bf = new BlendFilter(new StorageFileImageSource(file));
-            // erstellen eines filters. dazu wird ein bild mit der uebergebenen farbe erzeugt
-            FilterEffect fe = new FilterEffect();
-            var size = new Windows.Foundation.Size(400,400);
-            var color = Windows.UI.Color.FromArgb(c.A,c.R,c.G,c.B);
-            fe.Source = new ColorImageSource(size, color);
-            // einstellen der ueberblend methode und hinzufuegen des blendfilters zum filtereffekt
-            bf.BlendFunction = BlendFunction.Multiply;
-            fe.Filters = new[] { bf };
 
-            // rendern des bildes und rueckgabe
-            IBuffer imgRendered = await new JpegRenderer(fe).RenderAsync();
-            IInputStream inputStream = DataReader.FromBuffer(imgRendered).DetachStream();
-            StreamImageSource sis = new StreamImageSource(inputStream.AsStreamForRead(), ImageFormat.Jpeg);
-            BitmapImage bi = new BitmapImage();
-            bi.SetSource(sis.Stream);
-            return bi;
-        }*/
+            for (int x = 0; x < wb.PixelWidth; x++) {
+                for (int y = 0; y < wb.PixelHeight; y++) {
+                    Byte brightness = wb.GetBrightness(x, y);
+                    Color newColor = new Color();
+                    newColor.A = 255;
+                    newColor.R = (byte)(c.R * (brightness / 255.0));
+                    newColor.G = (byte)(c.G * (brightness / 255.0));
+                    newColor.B = (byte)(c.B * (brightness / 255.0));
+                    wb.SetPixel(x, y, newColor);
+                }
+            }
+            return wb;
+        }
     }
 }

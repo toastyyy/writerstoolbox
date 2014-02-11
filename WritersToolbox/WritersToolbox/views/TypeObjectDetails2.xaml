@@ -6,12 +6,14 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
+    
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -27,6 +29,22 @@
                 <RowDefinition Height="313*"/>
                 <RowDefinition Height="455*"/>
             </Grid.RowDefinitions>
+
+            <!--Popup für Löschen des TypObjekts-->
+            <Popup Grid.RowSpan="2" x:Name="deleteTypeObjectPopup" Height="350" VerticalAlignment="Top" Margin="0,0,0,0">
+                <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="250"/>
+                        <RowDefinition Height="*"/>
+                    </Grid.RowDefinitions>
+                    <StackPanel>
+                        <TextBlock x:Name="TypeObjectDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
+                        <CheckBox x:Name="keepNotes" IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0" Style="{StaticResource CheckBoxStyleWhite}"/>
+                    </StackPanel>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteTypeObject"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
+                </Grid>
+            </Popup>
             <Image Margin="0,0,0,20" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
 
             <TextBlock FontSize="48" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,152,0,0" TextWrapping="Wrap" Text="{Binding TypeObject.name}" VerticalAlignment="Top" Height="60" Width="460" FontFamily="Segoe WP Light"/>
@@ -45,15 +63,21 @@
             </Border>
             <TextBlock FontSize="20" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,210,0,0" TextWrapping="Wrap" Text="{Binding TypeObject, Converter={StaticResource TypeObjectSubtitleConverter}}" VerticalAlignment="Top" Width="460" FontFamily="Segoe WP Light"/>
 
+            <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Grid.Row="1" Content="Alles auswählen" HorizontalAlignment="Left" Margin="10,-20,0,0" VerticalAlignment="Top" Width="224" Foreground="Black" BorderBrush="Black" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
             <!-- Longlistselector zur Anzeige der Notizen -->
-            <Grid Margin="20,16.776,5,0" VerticalAlignment="Top" Grid.Row="1">
-                <phone:LongListSelector 
+            <Grid Margin="20,65,5,0" VerticalAlignment="Top" Grid.Row="1" Height="347">
+
+                <toolkit:LongListMultiSelector
                     Margin="0,-30,20,10"
                     Height="Auto" 
                     Width="Auto"
                     ItemsSource="{Binding TypeObject.notes}"
-                    ItemTemplate="{StaticResource TypeObjectNotesTemplate}" SelectionChanged="noteSelected">
-                </phone:LongListSelector>
+                    ItemTemplate="{StaticResource TypeObjectNotesTemplate}" 
+                    EnforceIsSelectionEnabled="false"
+                    IsGroupingEnabled="False"
+                    x:Name="multiselector" Foreground="Black"
+                    ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" BorderBrush="Black">
+                </toolkit:LongListMultiSelector>
             </Grid>
         </Grid>
     </Grid>
@@ -61,7 +85,7 @@
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF1D1D1D">
             <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="Ändern" Click="editTypeObjectClick" />
-            <shell:ApplicationBarIconButton x:Name="deleteTypeObject" IconUri="/icons/delete.png" Text="Löschen" Click="deleteTypeObject_Click" />
+            <shell:ApplicationBarIconButton x:Name="deleteTypeObject" IconUri="/icons/delete.png" Text="Löschen" Click="TryDeleteTypeObject" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

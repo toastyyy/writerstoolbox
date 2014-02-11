@@ -13,6 +13,7 @@ using Microsoft.Phone.Tasks;
 using System.Windows.Media.Imaging;
 using System.IO.IsolatedStorage;
 using System.Security.Cryptography;
+using Microsoft.Xna.Framework.Media;
 
 namespace WritersToolbox.views
 {
@@ -30,7 +31,7 @@ namespace WritersToolbox.views
         // PhotoChooser
         private PhotoChooserTask photoChooserTask;
 
-        private BitmapImage changedImage = null;
+        private String changedImage = "";
         
         //Farben für Colorpicker
         static string[] colors =
@@ -130,26 +131,10 @@ namespace WritersToolbox.views
             }
 
             String fileName = this.tdvm.TypeObject.imageString;
-            // Bild speichern
-            if (this.changedImage != null) {
-                fileName = "";
-                var bmp = new WriteableBitmap(this.changedImage);
-                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
-                {
-                    if (!storage.DirectoryExists("user_images")) {
-                        storage.CreateDirectory("user_images");
-                    }
-
-                    fileName = GetSHA256Hash(DateTime.Now.ToString()) + ".png";
-
-                    using (IsolatedStorageFileStream stream = storage.CreateFile(@"user_images\\" + fileName))
-                    {
-                        bmp.SaveJpeg(stream, 200, 100, 0, 95);
-                        stream.Close();
-                    }
-                }
+            if (!this.changedImage.Equals("")) {
+                fileName = this.changedImage;
             }
-            tvm.updateTypeObject(tdvm.TypeObject.typeObjectID, name, color, @"user_images\\" + fileName);
+            tvm.updateTypeObject(tdvm.TypeObject.typeObjectID, name, color, fileName);
             changed = false;
             NavigationService.Navigate(new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + this.tdvm.TypeObject.typeObjectID, UriKind.Relative));
         }
@@ -215,7 +200,7 @@ namespace WritersToolbox.views
                 BitmapImage bmp = new BitmapImage();
                 bmp.SetSource(e.ChosenPhoto);
                 this.imageButton.Source = bmp;
-                this.changedImage = bmp;
+                this.changedImage = e.OriginalFileName;
                 this.changed = true;
             }
         }

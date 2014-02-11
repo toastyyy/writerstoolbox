@@ -15,7 +15,7 @@
 
     <!-- Template fuer die Notizen in der Liste-->
     <DataTemplate x:Key="TypeObjectNotesTemplate">
-        <Grid Height="Auto" Margin="0,20,0,20">
+        <Grid Height="Auto" Margin="0,20,0,20" >
             <Grid.ColumnDefinitions>
                 <ColumnDefinition Width="115" />
                 <ColumnDefinition Width="*" />

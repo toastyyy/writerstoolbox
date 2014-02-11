@@ -41,7 +41,7 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void noteSelected(object sender, SelectionChangedEventArgs e)
+        private void noteSelected(object sender, System.Windows.Input.GestureEventArgs e)
         {
             LongListSelector selector = sender as LongListSelector;
             if (selector == null)
@@ -70,6 +70,50 @@ namespace WritersToolbox.views
                 tvm.deleteTypeObject(this.tdvm.TypeObject.typeObjectID);
                 NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
             }
+        }
+
+        private void TryDeleteTypeObject(object sender, EventArgs e)
+        {
+            TypeObjectDeleteQuestion.Text = "Wollen Sie das Typobjekt \"" + tdvm.TypeObject.name.ToString() + "\" löschen?";
+            deleteTypeObjectPopup.IsOpen = true;
+        }
+
+        private void DeleteTypeObject(object sender, EventArgs e)
+        {
+            tdvm.deleteTypeObject(tdvm.TypeObject.typeObjectID, keepNotes.IsChecked.Value);
+            deleteTypeObjectPopup.IsOpen = false;
+            NavigationService.GoBack();
+        }
+
+        private void DoNotDeleteTypeObject(object sender, EventArgs e)
+        {
+            deleteTypeObjectPopup.IsOpen = false;
+        }
+
+        /// <summary>
+        /// Wenn alle unsortierten Notizen ausgewählt werden.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            multiselector.EnforceIsSelectionEnabled = true;
+            foreach (var item in multiselector.ItemsSource)
+            {
+                var container = multiselector.ContainerFromItem(item)
+                                      as LongListMultiSelectorItem;
+                if (container != null) container.IsSelected = true;
+            }
+        }
+
+        /// <summary>
+        /// Wenn die option Alle auswählen aufgehoben wird.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            multiselector.EnforceIsSelectionEnabled = false;
         }
     }
 }

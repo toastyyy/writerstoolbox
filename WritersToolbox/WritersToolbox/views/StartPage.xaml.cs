@@ -56,7 +56,9 @@ namespace WritersToolbox.gui
                 return;
             }
             UnsortedNoteViewModel usnvm = new UnsortedNoteViewModel();
+            TrashbinViewModel tbvm = new TrashbinViewModel();
             NumberUN.Text = usnvm.getNumberOfUnsortedNote() + "";
+            TrashCounter.Text = "Papierkorb(" + tbvm.getNumberOfTrash() + ")";
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
                 // GUI überarbeiten
