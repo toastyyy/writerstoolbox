@@ -7,13 +7,16 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:converter="clr-namespace:WritersToolbox.converter"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True">
-    
+    <phone:PhoneApplicationPage.Resources>
+        <converter:ImageMultiplyWithConverter x:Key="ImageMultiplyWithConverter"/>
+    </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="Transparent">
@@ -45,7 +48,7 @@
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
                 </Grid>
             </Popup>
-            <Image Margin="0,0,0,20" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
+            <Image Margin="0,0,0,20" Source="{Binding TypeObject.color, Converter={StaticResource ImageMultiplyWithConverter}}" Stretch="Fill"/>
 
             <TextBlock FontSize="48" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,152,0,0" TextWrapping="Wrap" Text="{Binding TypeObject.name}" VerticalAlignment="Top" Height="60" Width="460" FontFamily="Segoe WP Light"/>
             <Border Background="White" Width="130" Height="130" CornerRadius="75" Margin="165,20,165,134" BorderThickness="5" BorderBrush="#33000000">

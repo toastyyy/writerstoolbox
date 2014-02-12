@@ -109,6 +109,7 @@
     <Compile Include="converter\DauerConverter.cs" />
     <Compile Include="converter\DefaultIfEmptyConverter.cs" />
     <Compile Include="converter\DateConverter.cs" />
+    <Compile Include="converter\ImageMultiplyWithConverter.cs" />
     <Compile Include="converter\NoteShortContentConverter.cs" />
     <Compile Include="converter\NoteCountConverter.cs" />
     <Compile Include="converter\TypeObjectImageConverter.cs" />
