@@ -51,7 +51,7 @@ namespace WritersToolbox.viewmodels
                     ,
                     contents = ((MemoryNote)item).contentText.Substring(0, ((MemoryNote)item).contentText.Length > 27 ? 27 : ((MemoryNote)item).contentText.Length) 
                     ,
-                    updatedNote = ((MemoryNote)item).updatedDate
+                    addedDate = ((MemoryNote)item).addedDate
                     ,
                     memoryNoteID = ((MemoryNote)item).memoryNoteID
                 });
