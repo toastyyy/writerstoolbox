@@ -12,6 +12,6 @@ namespace WritersToolbox.datawrapper
         public int memoryNoteID { get; set; }
         public string title { get; set; }
         public string contents { get; set; }
-        public DateTime updatedNote { get; set; }
+        public DateTime addedDate { get; set; }
     }
 }
