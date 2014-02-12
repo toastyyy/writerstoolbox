@@ -110,6 +110,26 @@ namespace WritersToolbox.viewmodels
             //this.LoadData();
         }
 
+        public void deleteNote(int noteID, bool unsortedNote)
+        {
+            var note = (from n in tableMemoryNote
+                        where n.memoryNoteID == noteID
+                        select n).Single();
+            if (unsortedNote)
+            {
+                note.associated = false;
+                note.obj_TypeObject = null;
+            }
+            else
+            {
+                note.deleted = true;
+                note.associated = false;
+                note.obj_TypeObject = null;
+            }
+            
+            this.wtb.SubmitChanges();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Used to notify the app that a property has changed.
