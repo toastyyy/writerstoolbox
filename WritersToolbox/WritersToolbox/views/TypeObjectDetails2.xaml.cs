@@ -34,6 +34,10 @@ namespace WritersToolbox.views
                 tdvm = new TypeDetailViewModel(toID);
                 this.DataContext = tdvm;
             }
+            if (this.tdvm.TypeObject.notes.Count > 0)
+            {
+                selectAllCheckBox.Visibility = Visibility.Visible;
+            }
         }
 
         /// <summary>
@@ -43,10 +47,10 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void noteSelected(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            LongListSelector selector = sender as LongListSelector;
-            if (selector == null)
+            Grid g = sender as Grid;
+            if (g == null)
                 return;
-            datawrapper.MemoryNote n = selector.SelectedItem as datawrapper.MemoryNote;
+            datawrapper.MemoryNote n = g.DataContext as datawrapper.MemoryNote;
             if (n == null)
                 return;
             PhoneApplicationService.Current.State["memoryNoteID"] = n.memoryNoteID.ToString();
@@ -114,6 +118,46 @@ namespace WritersToolbox.views
         private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             multiselector.EnforceIsSelectionEnabled = false;
+        }
+
+
+        private void NoteSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (multiselector.SelectedItems.Count != 0)
+            {
+                deleteButton.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                deleteButton.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void TryDeleteAssociation(object sender, RoutedEventArgs e)
+        {
+            NoteDeleteQuestion.Text = "Wollen Sie die Notiz löschen?";
+            if (multiselector.SelectedItems.Count > 1)
+            {
+                NoteDeleteQuestion.Text = "Wollen Sie alle " + multiselector.SelectedItems.Count + " Notizen löschen?";
+            }
+            
+            deleteNotesPopup.IsOpen = true;
+            
+        }
+
+
+        private void DeleteNotes(object sender, EventArgs e)
+        {
+            foreach (datawrapper.MemoryNote note in multiselector.SelectedItems)
+            {
+                this.tdvm.deleteNote(note.memoryNoteID, true);
+            }
+            deleteNotesPopup.IsOpen = false;
+        }
+
+        private void DoNotDeleteNotes(object sender, EventArgs e)
+        {
+            deleteNotesPopup.IsOpen = false;
         }
     }
 }
