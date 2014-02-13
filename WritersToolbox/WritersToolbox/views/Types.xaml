@@ -20,10 +20,66 @@
 
     <phone:PhoneApplicationPage.Resources>
         <!--Converter von boolean zu Used-->
+        <converter:NoteCountConverter x:Key="noteCountConverter" />
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
+        <DataTemplate x:Key="LongListTypeObjectTemplate">
+            <Grid Width="450" Height="Auto" Margin="0,20,0,0" Hold="TryDeleteTypeObject">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="115" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/character_round_icon.png" Margin="20,0,0,0"/>
+                <Grid Grid.Column="1" Margin="10,0,-10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27" />
+                        <RowDefinition Height="23" />
+                        <RowDefinition Height="27" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
+                    <TextBlock Grid.Row="1" Text="{Binding notes, Converter={StaticResource noteCountConverter}}" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
+                    <TextBlock Grid.Row="2" Text="{Binding used, Converter={StaticResource boolToUsedCon}, ConverterParameter=showUnused}" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
+
+                </Grid>
+                <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+
+            </Grid>
+        </DataTemplate>
+        <DataTemplate x:Key="LongListTypeObjectAddTemplate">
+            <Grid Width="450" Height="Auto" Margin="0,20,0,0" Hold="TryDeleteTypeObject">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="115" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/character_round_icon.png" Margin="20,0,0,0"/>
+                <Grid Grid.Column="1" Margin="10,0,-10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27" />
+                        <RowDefinition Height="23" />
+                        <RowDefinition Height="27" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
+                    <TextBlock Grid.Row="1" Text="" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
+                    <TextBlock Grid.Row="2" Text="" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
+
+                </Grid>
+                <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+
+            </Grid>
+        </DataTemplate>
         <!--Template für PivotHeader-->
         <DataTemplate x:Key="PivotHeader">
             <TextBlock Text="{Binding title}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
+        </DataTemplate>
+        <DataTemplate x:Key="SelectingTemplateTypeObject">
+            <templateselector:TypeObjectTemplateSelector
+            Content="{Binding}"
+            viewTypeObject="{StaticResource LongListTypeObjectTemplate}"
+            addTypeObject="{StaticResource LongListTypeObjectAddTemplate}"
+                />
         </DataTemplate>
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
@@ -33,55 +89,13 @@
                     Margin="20,10,10,0" 
                     Width="Auto" 
                     ItemsSource="{Binding typeObjects}"
+                    ItemTemplate="{StaticResource SelectingTemplateTypeObject}"
                     LayoutMode="Grid"
                     GridCellSize="450, 150"
                     x:Name="LongList"
                     SelectionChanged="LongList_SelectionChanged"
                     >
                     <!--Template für LongListSelector-item-->
-                    <phone:LongListSelector.ItemTemplate>
-                        <DataTemplate>
-                            <Grid Width="Auto" Height="Auto" Margin="0,20,0,20" Hold="TryDeleteTypeObject">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="115" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
-                                <!--<Border Background="{Binding color}">
-                                    <Image Source="{Binding imageString}"/>
-                                </Border>-->
-                                <!--<StackPanel Grid.Column="1">
-                                    <TextBlock Grid.Column="1" 
-                                               Foreground="#FF414141"
-                                               Text="{Binding name}" 
-                                               FontSize="30" 
-                                               FontFamily="Segoe WP SemiLight"
-                                               Margin="0,-10,0,0"
-                                               VerticalAlignment="Top"
-                                               TextWrapping="Wrap"
-                                               Width="280"  
-                                               HorizontalAlignment="Left"/>-->
-                                    <!--<TextBlock Grid.Column="1" 
-                                               Text="{Binding used, Converter={StaticResource boolToUsedCon}}" 
-                                               FontSize="20" 
-                                               Margin="20,0,0,10"
-                                               VerticalAlignment="Top"/>-->
-                                <!--</StackPanel>-->
-
-                                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/character_round_icon.png" Margin="20,0,0,0"/>
-                                <Grid Grid.Column="1" Margin="10,0,-10,0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="27" />
-                                        <RowDefinition Height="23" />
-                                        <RowDefinition Height="27" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
-                                </Grid>
-                                <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-                                <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-
-                            </Grid>
-                        </DataTemplate>
-                    </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
                 <TextBlock x:Name="btnOverview" Text="klick" Foreground="White" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
             </Grid>
@@ -106,7 +120,7 @@
 
             </StackPanel>
         </DataTemplate>
-        <DataTemplate x:Key="SelectingTemplate">
+        <DataTemplate x:Key="SelectingTemplateType">
             <templateselector:PivotTypeTemplateSelector
                 Content="{Binding}"
                 viewTypes="{StaticResource PivotItem}"
@@ -114,6 +128,7 @@
                 />
 
         </DataTemplate>
+
     </phone:PhoneApplicationPage.Resources>
 
 
@@ -155,7 +170,7 @@
             <!--Pivotsteuerelement-->
             <phone:Pivot ManipulationDelta="pinch_out" 
                          HeaderTemplate="{StaticResource PivotHeader}" 
-                         ItemTemplate="{StaticResource SelectingTemplate}"
+                         ItemTemplate="{StaticResource SelectingTemplateType}"
                          ItemsSource="{Binding Path=Types, Mode=OneWay}"
                          x:Name="PivotMain" 
                          SelectionChanged="PivotSelectionChanged" 
@@ -169,8 +184,8 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern"/>
-            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern" Click="ChangeType"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="TryDeleteType"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

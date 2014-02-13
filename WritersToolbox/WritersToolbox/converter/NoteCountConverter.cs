@@ -14,7 +14,8 @@ namespace WritersToolbox.converter
         object parameter, System.Globalization.CultureInfo culture)
         {
             string noteCount = "Anzahl Notizen: ";
-            int count = ((ObservableCollection<datawrapper.MemoryNote>)value).Count;
+
+            int count = (value != null) ? ((ObservableCollection<datawrapper.MemoryNote>)value).Count : 0;
 
             noteCount += count;
             return noteCount;

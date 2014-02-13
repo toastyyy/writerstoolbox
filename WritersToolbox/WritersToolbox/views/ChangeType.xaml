@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="clr-namespace:WritersToolbox.converter"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
     FontSize="{StaticResource PhoneFontSizeNormal}"
@@ -13,16 +14,18 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    Style="{StaticResource TransitionPageStyle}">
+    Style="{StaticResource TransitionPageStyle}" Background="White">
 
+    <phone:PhoneApplicationPage.Resources>
+        <converter:ImageMultiplyWithConverter x:Key="ImageMultiplyWithConverter" />
+    </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Background="White">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
-
+        <Image Margin="0,0,0,730" Source="{Binding Type.color, Converter={StaticResource ImageMultiplyWithConverter}, ConverterParameter={StaticResource TypeObjectHeaderBackgroundPath}}" Stretch="Fill"/>
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
@@ -31,10 +34,10 @@
         </StackPanel>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
-        <StackPanel VerticalAlignment="Top" Margin="0,200,0,0">
-            <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="149" FontSize="25"/>
-            <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1"/>
-            <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" FontSize="25"/>
+        <StackPanel VerticalAlignment="Top" Margin="0,296,0,0" Height="355">
+            <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Name" VerticalAlignment="Top" Width="149" FontSize="25" Foreground="Black"/>
+            <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1" Text="{Binding Type.title}"/>
+            <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" FontSize="25" Foreground="Black"/>
             <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
                 <ListBox Name="colorPicker" SelectionChanged="ColorPicker_SelectionChanged" ItemContainerStyle="{StaticResource ColorPickerStyle}" Loaded="ColorPickerPage_Loaded" toolkit:TiltEffect.IsTiltEnabled="True">
                     <ListBox.ItemsPanel>
@@ -50,7 +53,7 @@
         </StackPanel>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF911124">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF353535">
             <shell:ApplicationBarIconButton IconUri="/icons/save.png" Text="Save" Click="SaveType"/>
             <shell:ApplicationBarIconButton IconUri="/icons/cancel.png" Text="Cancel" Click="CancelType" />
         </shell:ApplicationBar>

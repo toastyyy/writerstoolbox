@@ -143,6 +143,7 @@
     <Compile Include="sampleData\SampleDataTyp.cs" />
     <Compile Include="sampleData\Typ.cs" />
     <Compile Include="sampleData\TypObject.cs" />
+    <Compile Include="templateselector\TypeObjectTemplateSelector.cs" />
     <Compile Include="templateselector\PivotContentTemplateSelector.cs" />
     <Compile Include="templateselector\PivotTypeTemplateSelector.cs" />
     <Compile Include="templateselector\TemplateSelector.cs" />
@@ -152,6 +153,7 @@
     <Compile Include="viewmodels\TrashbinViewModel.cs" />
     <Compile Include="viewmodels\TypeDetailViewModel.cs" />
     <Compile Include="viewmodels\TypesViewModel.cs" />
+    <Compile Include="viewmodels\TypeViewModel.cs" />
     <Compile Include="viewmodels\UnsortedNoteViewModel.cs" />
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
@@ -335,6 +337,9 @@
     <Content Include="icons\edit.png" />
     <Content Include="icons\edit_picture.png" />
     <Content Include="icons\micro.png" />
+    <Content Include="icons\notiz_round_icon_sw.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\play_reordButton.png" />
     <Content Include="icons\speaker_reordButton.png" />
     <Content Include="icons\TypeObjects\character.png" />

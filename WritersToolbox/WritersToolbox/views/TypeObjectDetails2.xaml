@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:converter="clr-namespace:WritersToolbox.converter"
     xmlns:Coding4Fun="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -33,7 +34,9 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/notiz_round_icon.png" Margin="20,0,0,0"/>
+                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" 
+                       Source="{Binding DataContext.TypeObject.color, ElementName=LayoutRoot, Converter={StaticResource ImageMultiplyWithConverter}, ConverterParameter={StaticResource NoteIconPath}}" 
+                       Margin="20,0,0,0"/>
                 <Grid Grid.Column="1" Margin="10,0,-10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="27" />
@@ -49,6 +52,7 @@
 
             </Grid>
         </DataTemplate>
+ 
     </phone:PhoneApplicationPage.Resources>
     
 
@@ -98,7 +102,7 @@
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteNotes"/>
                 </Grid>
             </Popup>
-            <Image Margin="0,0,0,20" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
+            <Image Margin="0,0,0,20" Source="{Binding TypeObject.color, Converter={StaticResource ImageMultiplyWithConverter}, ConverterParameter={StaticResource TypeObjectHeaderBackgroundPath}}" Stretch="Fill"/>
 
             <TextBlock FontSize="48" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,152,0,0" TextWrapping="Wrap" Text="{Binding TypeObject.name}" VerticalAlignment="Top" Height="60" Width="460" FontFamily="Segoe WP Light"/>
             <Border Background="White" Width="130" Height="130" CornerRadius="75" Margin="165,20,165,134" BorderThickness="5" BorderBrush="#33000000">
@@ -117,7 +121,7 @@
             <TextBlock FontSize="20" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,210,0,0" TextWrapping="Wrap" Text="{Binding TypeObject, Converter={StaticResource TypeObjectSubtitleConverter}}" VerticalAlignment="Top" Width="460" FontFamily="Segoe WP Light"/>
 
             <CheckBox x:Name="selectAllCheckBox" Visibility="Collapsed" Style="{StaticResource CheckBoxStyleBlack}" Grid.Row="1" Content="Alles auswählen" HorizontalAlignment="Left" Margin="10,-17,0,0" VerticalAlignment="Top" Width="224" Foreground="Black" BorderBrush="Black" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
-            <Coding4Fun:RoundButton  x:Name="deleteButton" Grid.Row="1"  Margin="320,-10,0,0" VerticalAlignment="Top" Height="50" Width="72" BorderThickness="1" Click="TryDeleteAssociation" BorderBrush="Black" Visibility="Collapsed">
+            <Coding4Fun:RoundButton  x:Name="deleteButton" Grid.Row="1"  Margin="320,-10,0,0" VerticalAlignment="Top" Height="50" Width="72" BorderThickness="1" Click="TryDeleteAssociation" BorderBrush="Black" Visibility="Collapsed" Content="">
                 <Coding4Fun:RoundButton.Background>
                     <ImageBrush Stretch="UniformToFill" ImageSource="/icons/delete.png"/>
                 </Coding4Fun:RoundButton.Background>

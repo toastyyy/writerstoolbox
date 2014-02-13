@@ -9,17 +9,24 @@ using System.Windows.Media.Imaging;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Multipliziert das Bild aus dem angegebenen Pfad mit einer Farbe. Gibt das dadurch bearbeitete Bild zurueck.
+    /// </summary>
     public class ImageMultiplyWithConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            String hex = ((String)value).Replace("#", "");
-            Byte a = System.Convert.ToByte(hex.Substring(0, 2), 16);
-            Byte r = System.Convert.ToByte(hex.Substring(2, 2), 16);
-            Byte g = System.Convert.ToByte(hex.Substring(4, 2), 16);
-            Byte b = System.Convert.ToByte(hex.Substring(6, 2), 16);
-            Color c = Color.FromArgb(a, r, g, b);
-            WriteableBitmap wb = this.multiplicateImageWithColor("images/headImage_grayscale_top.jpg", c);
+            Color c = Color.FromArgb(255, 255, 0, 0);
+            if (value != null) { 
+                String hex = ((String)value).Replace("#", "");
+                Byte a = System.Convert.ToByte(hex.Substring(0, 2), 16);
+                Byte r = System.Convert.ToByte(hex.Substring(2, 2), 16);
+                Byte g = System.Convert.ToByte(hex.Substring(4, 2), 16);
+                Byte b = System.Convert.ToByte(hex.Substring(6, 2), 16);
+                c = Color.FromArgb(a, r, g, b);
+            }
+
+            WriteableBitmap wb = this.multiplicateImageWithColor((String) parameter, c);
             return wb;
         }
 
@@ -49,7 +56,7 @@ namespace WritersToolbox.converter
                 {
                     Byte brightness = wb.GetBrightness(x, y);
                     Color newColor = new Color();
-                    newColor.A = 255;
+                    newColor.A = wb.GetPixel(x, y).A;
                     newColor.R = (byte)(c.R * (brightness / 255.0));
                     newColor.G = (byte)(c.G * (brightness / 255.0));
                     newColor.B = (byte)(c.B * (brightness / 255.0));

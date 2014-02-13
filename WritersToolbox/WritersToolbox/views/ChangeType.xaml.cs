@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Coding4Fun.Toolkit.Controls;
 using System.Windows.Media;
+using WritersToolbox.viewmodels;
 
 namespace WritersToolbox.views
 {
@@ -22,6 +23,8 @@ namespace WritersToolbox.views
         private int selectedColorIndex;
 
         private int typeIndex = -1;
+
+        private TypeViewModel tvm = null;
         //Farben für Colorpicker
         static string[] colors =
         { 
@@ -142,10 +145,9 @@ namespace WritersToolbox.views
                 var item = NavigationContext.QueryString["item"];
                 var indexParsed = int.Parse(item);
                 this.typeIndex = indexParsed;
-                tTitle.Text = Types.Types_VM.getTitleForType(indexParsed);
-                ColorItem i = new ColorItem() { Color = Types.Types_VM.getColorForTypeObject(indexParsed) };
-                string s = i.Color.ToString();
-                selectedColorIndex = Array.IndexOf(colors, s); 
+                this.tvm = new TypeViewModel(typeIndex);
+                this.tvm.loadData();
+                this.DataContext = this.tvm;
             }
 
 

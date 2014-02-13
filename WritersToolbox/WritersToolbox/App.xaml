@@ -5,6 +5,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:converters="clr-namespace:WritersToolbox.converter" 
+    xmlns:sys="clr-namespace:System;assembly=mscorlib"
     xmlns:primitives="clr-namespace:Microsoft.Phone.Controls.Primitives;assembly=Microsoft.Phone.Controls.Toolkit"
     x:Class="WritersToolbox.App"
     >
@@ -15,7 +16,8 @@
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="templates/TypeObjectDetail.xaml"/>
             </ResourceDictionary.MergedDictionaries>
-
+            <sys:String x:Key="TypeObjectHeaderBackgroundPath">images/headImage_grayscale_top.jpg</sys:String>
+            <sys:String x:Key="NoteIconPath">icons/notiz_round_icon_sw.png</sys:String>
             <!--Styles fuer LongListMultiSelector-->
             
             <!--Gridstyle-->

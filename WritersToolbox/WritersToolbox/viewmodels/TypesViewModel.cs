@@ -365,6 +365,11 @@ namespace WritersToolbox.viewmodels
                 List<datawrapper.TypeObject> TypeObjects = new List<datawrapper.TypeObject>();
                 foreach (TypeObject to in result)
                 {
+                    ObservableCollection<datawrapper.MemoryNote> noteDummy = new ObservableCollection<datawrapper.MemoryNote>();
+
+                    for (int i = 0; i < to.notes.Count(); i++) { 
+                        noteDummy.Add(new datawrapper.MemoryNote());
+                    }
                     datawrapper.TypeObject wrappedTO = new datawrapper.TypeObject()
                     {
                         color = to.color,
@@ -372,7 +377,8 @@ namespace WritersToolbox.viewmodels
                         imageString = to.imageString,
                         name = to.name,
                         typeObjectID = to.typeObjectID,
-                        used = to.used
+                        used = to.used,
+                        notes = noteDummy
                     };
                     TypeObjects.Add(wrappedTO);
                 }
