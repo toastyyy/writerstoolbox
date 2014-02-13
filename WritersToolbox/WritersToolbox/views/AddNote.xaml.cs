@@ -327,7 +327,7 @@ namespace WritersToolbox.views
             //Überprüfung durchzuführen.
             if (!isPhotoChooserOpened && PhoneApplicationService.Current.State.ContainsKey("edit"))
             {
-                this.ScreenTitle.Text = "";
+                this.ScreenTitle.Text = "NOTIZ BEARBEITEN";
                 tempTitle = titleTextBox.Text;
                 tempDetails = detailsTextBox.Text;
                 tempTags = schlagwoerterTextBox.Text;
@@ -1344,6 +1344,11 @@ namespace WritersToolbox.views
                 if (progressbarKontrol && progressbar.Value == 0 && progressbar.Maximum > 0)
                 {
                     pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                    if (lastMemo != null)
+                    {
+                        //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                        ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                    }
                     playPauseButton_Modus = STOP;
                     //Wenn playTimer noch aktiv ist, muss die Referenz gelöscht werden.             
                     if (playTimer != null)
@@ -1365,7 +1370,7 @@ namespace WritersToolbox.views
         private void progressbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)progressbar.Value);
-            AudioPlayer.Position = _t;           
+            AudioPlayer.Position = _t;
         }
 
         /// <summary>
@@ -1389,6 +1394,11 @@ namespace WritersToolbox.views
             else if(playPauseButton_Modus == PAUSE) //Pause
             {
                 pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                if (lastMemo != null)
+                {
+                    //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                }
                 AudioPlayer.Pause();
                 playPauseButton_Modus = STOP;
             }
@@ -1418,11 +1428,17 @@ namespace WritersToolbox.views
                 timerGenerator();
                 playPauseButton_Modus = PLAY;
                 pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
+
             }
             else
             {
                 progressbar.Value = 0.0;
                 AudioPlayer.Stop();
+                if (lastMemo != null)
+                {
+                    //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                }
                 pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
             }
         }
@@ -1456,6 +1472,11 @@ namespace WritersToolbox.views
                 progressbar.Value = 0.0;
                 AudioPlayer.Stop();
                 pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                if (lastMemo != null)
+                {
+                    //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                }
             }
         }
 

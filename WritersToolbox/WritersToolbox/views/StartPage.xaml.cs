@@ -58,33 +58,33 @@ namespace WritersToolbox.gui
             UnsortedNoteViewModel usnvm = new UnsortedNoteViewModel();
             TrashbinViewModel tbvm = new TrashbinViewModel();
             NumberUN.Text = usnvm.getNumberOfUnsortedNote() + "";
-            TrashCounter.Text = "Papierkorb(" + tbvm.getNumberOfTrash() + ")";
+            TrashCounter.Text = "Papierkorb (" + tbvm.getNumberOfTrash() + ")";
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
                 // GUI überarbeiten
-                this.btnNewNote.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
+             //   this.btnNewNote.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
                 this.btnNewNote.Click -= newNote;
-                this.btnSettings.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
+             //   this.btnSettings.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
                 this.btnSettings.Click -= navigateToSettings;
-                this.btnTrash.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
+                //   this.btnTrash.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
                 this.btnTrash.Click -= navigateToTrash;
-                this.btnUnsortedNotes.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
+                //   this.btnUnsortedNotes.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
                 this.btnUnsortedNotes.Click -= navigateToUnsortedNote;
-                this.tTitle.Text = "Zuordnen";
+           //     this.tTitle.Text = "Zuordnen";
                 ApplicationBar.IsVisible = true;
             }
             else 
             {
                 ApplicationBar.IsVisible = false;
-                this.tTitle.Text = "Writer's Toolbox";
+               // this.tTitle.Text = "Writer's Toolbox";
                 this.btnNewNote.Click += newNote;
-                this.btnNewNote.Background = new SolidColorBrush(Color.FromArgb(255, 114, 169, 28));
+                //    this.btnNewNote.Background = new SolidColorBrush(Color.FromArgb(255, 114, 169, 28));
                 this.btnSettings.Click += navigateToSettings;
-                this.btnSettings.Background = new SolidColorBrush(Color.FromArgb(255, 205, 155, 5));
+                //    this.btnSettings.Background = new SolidColorBrush(Color.FromArgb(255, 205, 155, 5));
                 this.btnTrash.Click += navigateToTrash;
-                this.btnTrash.Background = new SolidColorBrush(Color.FromArgb(255, 205, 155, 5));
+                //     this.btnTrash.Background = new SolidColorBrush(Color.FromArgb(255, 205, 155, 5));
                 this.btnUnsortedNotes.Click += navigateToUnsortedNote;
-                this.btnUnsortedNotes.Background = new SolidColorBrush(Color.FromArgb(255, 145, 17, 36));
+                //    this.btnUnsortedNotes.Background = new SolidColorBrush(Color.FromArgb(255, 145, 17, 36));
             }
         }
         private void newNote(object sender, RoutedEventArgs e)
