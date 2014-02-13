@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WritersToolbox.models;
+using System.Diagnostics;
 
 namespace WritersToolbox.viewmodels
 {
@@ -13,6 +14,7 @@ namespace WritersToolbox.viewmodels
     {
         public int memoryNoteID { get; set; }
         public int bookID { get; set; }
+        public int trashID { get; set; }
         public string title { get; set; }
         public string contents { get; set; }
         public string updatedNote { get; set; }
@@ -49,6 +51,7 @@ namespace WritersToolbox.viewmodels
             {
                 trash_List.Add(new TrashbinViewModel()
                 {
+                    
                     title = ((MemoryNote)item).title
                     ,
                     contents = ((MemoryNote)item).contentText.Substring(0, ((MemoryNote)item).contentText.Length > 15 ? 15 : ((MemoryNote)item).contentText.Length) + " ..."
@@ -56,6 +59,8 @@ namespace WritersToolbox.viewmodels
                     updatedNote = new DateTime(((MemoryNote)item).updatedDate.Year,((MemoryNote)item).updatedDate.Month,((MemoryNote)item).updatedDate.Day).ToShortDateString()
                     ,
                     memoryNoteID = ((MemoryNote)item).memoryNoteID
+                    ,
+                    trashID = 1
                 });
                 count++;
             }
@@ -70,6 +75,8 @@ namespace WritersToolbox.viewmodels
                     updatedNote = new DateTime(((Book)item).updatedDate.Year, ((Book)item).updatedDate.Month, ((Book)item).updatedDate.Day).ToShortDateString()
                     ,
                     bookID = ((Book)item).bookID
+                    ,
+                    trashID = 2
                 });
                 count++;
             }
@@ -86,9 +93,17 @@ namespace WritersToolbox.viewmodels
         {
             foreach (TrashbinViewModel item in list)
             {
-                obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == item.memoryNoteID);
-                db.GetTable<MemoryNote>().DeleteOnSubmit(obj_memoryNote);
-                
+                // TrashID sagt aus ob es eine MemoryID ist oder ein Book.
+                if (item.trashID == 1)
+                {
+                    obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == item.memoryNoteID);
+                    db.GetTable<MemoryNote>().DeleteOnSubmit(obj_memoryNote);
+                }
+                else if(item.trashID == 2)
+                {
+                   // obj_book = db.GetTable<Book>().Single(book => book.bookID == item.bookID);
+                   // db.GetTable<Book>().DeleteOnSubmit(obj_book);
+                }
             }
 
             db.SubmitChanges();
@@ -99,9 +114,16 @@ namespace WritersToolbox.viewmodels
         {
             foreach (TrashbinViewModel item in list)
             {
-                obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == item.memoryNoteID);
-                obj_memoryNote.deleted = false; 
-
+                if (item.trashID == 1)
+                {
+                    obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == item.memoryNoteID);
+                    obj_memoryNote.deleted = false;
+                }
+                else if (item.trashID == 2)
+                {
+                  //  obj_book = db.GetTable<Book>().Single(book => book.bookID == item.bookID);
+                  //  obj_book.deleted = false;
+                }
             }
 
             db.SubmitChanges();

@@ -159,11 +159,11 @@
     <Compile Include="views\BookDetails.xaml.cs">
       <DependentUpon>BookDetails.xaml</DependentUpon>
     </Compile>
-    <Compile Include="views\TypeObjectAdd.xaml.cs">
-      <DependentUpon>TypeObjectAdd.xaml</DependentUpon>
-    </Compile>
     <Compile Include="views\Books.xaml.cs">
       <DependentUpon>Books.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\TypeObjectAdd.xaml.cs">
+      <DependentUpon>TypeObjectAdd.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\ChangeType.xaml.cs">
       <DependentUpon>ChangeType.xaml</DependentUpon>
@@ -227,11 +227,11 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
-    <Page Include="views\TypeObjectAdd.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
-    </Page>
     <Page Include="views\Books.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\TypeObjectAdd.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
