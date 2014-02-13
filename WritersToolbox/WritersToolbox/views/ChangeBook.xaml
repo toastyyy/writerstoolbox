@@ -61,7 +61,7 @@
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Bücher" Margin="9,0,0,0" FontSize="22"/>
+            <TextBlock Text="Werke" Margin="9,0,0,0" FontSize="22"/>
             <TextBlock Text="Werk ändern" Margin="9,15,0,0" FontSize="65"/>
         </StackPanel>
 
