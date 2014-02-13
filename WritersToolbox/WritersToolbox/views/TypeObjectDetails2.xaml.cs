@@ -153,6 +153,11 @@ namespace WritersToolbox.views
                 this.tdvm.deleteNote(note.memoryNoteID, true);
             }
             deleteNotesPopup.IsOpen = false;
+            deleteButton.Visibility = Visibility.Collapsed;
+            if (this.tdvm.TypeObject.notes.Count == 0)
+            {
+                selectAllCheckBox.Visibility = Visibility.Collapsed;
+            }
         }
 
         private void DoNotDeleteNotes(object sender, EventArgs e)
