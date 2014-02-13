@@ -23,6 +23,7 @@
         <converter:DefaultIfEmptyConverter x:Key="DefaultIfEmptyConverter" />
         <converter:TypeObjectSubtitleConverter x:Key="TypeObjectSubtitleConverter" />
         <converter:TypeObjectImageConverter x:Key="TypeObjectImageConverter" />
+        <converter:ImageMultiplyWithConverter x:Key="ImageMultiplyWithConverter"/>
 
         <!-- Template fuer die Notizen in der Liste-->
         <DataTemplate x:Key="TypeObjectNotesTemplate">

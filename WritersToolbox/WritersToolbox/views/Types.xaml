@@ -21,6 +21,7 @@
     <phone:PhoneApplicationPage.Resources>
         <!--Converter von boolean zu Used-->
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
+        
         <!--Template für PivotHeader-->
         <DataTemplate x:Key="PivotHeader">
             <TextBlock Text="{Binding title}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>

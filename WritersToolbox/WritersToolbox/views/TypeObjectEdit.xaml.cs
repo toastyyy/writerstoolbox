@@ -78,7 +78,8 @@ namespace WritersToolbox.views
                 int toID = int.Parse(NavigationContext.QueryString["typeObjectID"]);
                 tdvm = new TypeDetailViewModel(toID);
                 this.DataContext = tdvm;
-
+                WriteableBitmap wb = this.multiplicateImageWithColor("images/headImage_grayscale_top.jpg", fromHexToColor(this.tdvm.TypeObject.color));
+                this.headerBackground.Source = wb;
                 changed = false;
             }
         }
@@ -188,6 +189,8 @@ namespace WritersToolbox.views
             ColorItem c = l.SelectedItem as ColorItem;
             if (c != null) { 
                 selectedColor = c.Color;
+                WriteableBitmap wb = this.multiplicateImageWithColor("images/headImage_grayscale_top.jpg", selectedColor);
+                this.headerBackground.Source = wb;
                 changed = true;
             }
         }
@@ -209,6 +212,37 @@ namespace WritersToolbox.views
         {
             PhoneApplicationService.Current.State["preventUpdate"] = true;
             photoChooserTask.Show();
+        }
+
+        /// <summary>
+        /// Wendet einen Multiplikationsfilter auf das angewendete Bild an. 
+        /// ACHTUNG: Funktioniert nur hinreichend bei Bildern in Graustufen.
+        /// </summary>
+        /// <param name="fileName">Dateiname. Objekt muss als Datei im Projekt mit der Build Action 'Content' vorhanden sein.</param>
+        /// <param name="c">Anzuwendende Farbe für die Überlagerung</param>
+        /// <returns>Neues Bild mit angewendetem Filter</returns>
+        private WriteableBitmap multiplicateImageWithColor(String fileName, Color c)
+        {
+            var file = System.Windows.Application.GetResourceStream(new Uri(fileName, UriKind.Relative));
+            BitmapImage bmp = new BitmapImage();
+            bmp.SetSource(file.Stream);
+            WriteableBitmap wb = new WriteableBitmap(bmp);
+
+
+            for (int x = 0; x < wb.PixelWidth; x++)
+            {
+                for (int y = 0; y < wb.PixelHeight; y++)
+                {
+                    Byte brightness = wb.GetBrightness(x, y);
+                    Color newColor = new Color();
+                    newColor.A = 255;
+                    newColor.R = (byte)(c.R * (brightness / 255.0));
+                    newColor.G = (byte)(c.G * (brightness / 255.0));
+                    newColor.B = (byte)(c.B * (brightness / 255.0));
+                    wb.SetPixel(x, y, newColor);
+                }
+            }
+            return wb;
         }
     }
 }

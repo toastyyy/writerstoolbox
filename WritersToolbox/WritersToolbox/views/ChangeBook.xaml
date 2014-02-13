@@ -18,15 +18,16 @@
     
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot">
+        
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Rectangle Fill="#FF72A91C" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
+        <Image Margin="0,-6,0,0" Source="/headImage_rot_smal.png" Stretch="Fill"/>
         <!-- Popup fuer Buchtyp -->
         <Popup x:Name="booktype_popup" Grid.RowSpan="2" Margin="0,50,0,0">
             <Grid Width="480">
-                <StackPanel Background="Black">
+                <StackPanel Background="Black" Margin="0,116,0,-116">
                     <TextBlock Text="Buchtyp wählen" TextAlignment="Center" FontSize="40" Margin="10,0" />
                     <TextBlock Text="Bitte wählen Sie einen Buchtyp" FontSize="21" Margin="30,0" />
                     <Grid Width="400" Height="300" Margin="0,10,0,0">
@@ -60,7 +61,7 @@
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Bücher" Margin="9,0,0,0" FontSize="22"/>
+            <TextBlock Text="Werke" Margin="9,0,0,0" FontSize="22"/>
             <TextBlock Text="Werk ändern" Margin="9,15,0,0" FontSize="65"/>
         </StackPanel>
 
@@ -73,7 +74,7 @@
                 <RowDefinition Height="70"/>
                 <RowDefinition Height="*" />
             </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Margin="30,0,0,0" Text="Name des Werkes" FontSize="25"/>
+            <TextBlock Grid.Row="0" Margin="30,5,0,0" Text="Name des Werkes" FontSize="25"/>
             <TextBox x:Name="bName" Width="Auto" Margin="23,0,0,0" Grid.Row="1" HorizontalAlignment="Stretch" BorderBrush="Gray" BorderThickness="2" Foreground="Black" ToolTipService.ToolTip=""/>
             <TextBlock Grid.Row="2" Margin="30,0,0,0" Text="Buchtyp" FontSize="25"/>
 
@@ -88,7 +89,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF72A91C">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
             <shell:ApplicationBarIconButton IconUri="/icons/save.png" Text="Save" Click="SaveBook"/>
             <shell:ApplicationBarIconButton IconUri="/icons/cancel.png" Text="Cancel" Click="CancelBook" />
         </shell:ApplicationBar>
