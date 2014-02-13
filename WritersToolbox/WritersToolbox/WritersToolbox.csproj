@@ -334,6 +334,7 @@
     <Content Include="icons\edit.png" />
     <Content Include="icons\edit_picture.png" />
     <Content Include="icons\micro.png" />
+    <Content Include="icons\pause_reordButton.png" />
     <Content Include="icons\play_reordButton.png" />
     <Content Include="icons\speaker_reordButton.png" />
     <Content Include="icons\TypeObjects\character.png" />

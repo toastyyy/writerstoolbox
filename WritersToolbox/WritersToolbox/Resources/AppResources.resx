@@ -177,4 +177,7 @@
   <data name="speaker_reordButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\speaker_reordButton.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
   </data>
+  <data name="pause_reordButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\pause_reordButton.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
 </root>
