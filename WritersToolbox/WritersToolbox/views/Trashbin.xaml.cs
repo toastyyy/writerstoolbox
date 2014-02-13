@@ -21,7 +21,8 @@ namespace WritersToolbox.views
             InitializeComponent();
             isselected = false;
             trash = new TrashbinViewModel();
-            llms_trash.ItemsSource = trash.getObservableColletion();
+            trash.loadData();
+            this.DataContext = trash;
         }
 
         private void trash_selectionChanged(object sender, SelectionChangedEventArgs e)
@@ -117,7 +118,8 @@ namespace WritersToolbox.views
                 //Fertig
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            llms_trash.ItemsSource = trash.getObservableColletion();
+            trash.loadData();
+            //llms_trash.ItemsSource = trash.getObservableColletion();
         }
 
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -146,10 +148,10 @@ namespace WritersToolbox.views
 
         private void Grid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Grid selector = sender as Grid;
-            PhoneApplicationService.Current.State["memoryNoteID"] = ((TrashbinViewModel)selector.DataContext).memoryNoteID + "";
-            PhoneApplicationService.Current.State["edit"] = "true";
-            NavigationService.Navigate(new Uri("/views/Trashbin.xaml", UriKind.Relative));
+            //Grid selector = sender as Grid;
+            //PhoneApplicationService.Current.State["memoryNoteID"] = ((TrashbinViewModel)selector.DataContext).memoryNoteID + "";
+            //PhoneApplicationService.Current.State["edit"] = "true";
+            //NavigationService.Navigate(new Uri("/views/Trashbin.xaml", UriKind.Relative));
             
         }
 

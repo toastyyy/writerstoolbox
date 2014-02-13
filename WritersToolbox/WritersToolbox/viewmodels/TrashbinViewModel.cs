@@ -13,17 +13,17 @@ namespace WritersToolbox.viewmodels
     public class TrashbinViewModel
     {
         private WritersToolboxDatebase db;
-        private Table<MemoryNote> memoryNote;
-        private Table<Book> book;
-        
+        private Table<MemoryNote> tableMemoryNote;
+        private Table<Book> tableBook;
+
+        public ObservableCollection<Object> DeletedObjects { get; set; }
         public TrashbinViewModel()
         {
             try
             {
                 db = WritersToolboxDatebase.getInstance();
-                memoryNote = db.GetTable<MemoryNote>();
-                book = db.GetTable<Book>();
-                
+                tableMemoryNote = db.GetTable<MemoryNote>();
+                tableBook = db.GetTable<Book>();
             }
             catch (Exception ex)
             {
@@ -33,52 +33,51 @@ namespace WritersToolbox.viewmodels
 
         public void loadData()
         {
-        }
-
-        public int getNumberOfTrash()
-        {
-            this.getObservableColletion();
-            return count;
+            this.DeletedObjects = new ObservableCollection<object>();
+            
+            // notizen, die geloescht sind, aber nicht zugeordnet sind
+            var sqlNotes = from n in tableMemoryNote
+                           where n.associated == false && n.deleted == true
+                           select n;
+            foreach(var note in sqlNotes) {
+                datawrapper.MemoryNote mn = new datawrapper.MemoryNote() {
+                    addedDate = note.addedDate,
+                    associated = false,
+                    contentAudioString = note.contentAudioString,
+                    contentImageString = note.ContentImageString,
+                    contentText = note.contentText,
+                    deleted = true,
+                    location = note.location,
+                    tags = note.tags,
+                    title = note.title,
+                    updatedDate = note.updatedDate
+                };
+                this.DeletedObjects.Add(mn);
+            }
+            // buecher, die geloescht sind
+            var sqlBooks = from b in tableBook
+                          where b.deleted == true
+                          select b;
+            foreach(var book in sqlBooks) {
+                datawrapper.Book b = new datawrapper.Book()
+                {
+                    updatedDate = book.updatedDate,
+                    addedDate = book.addedDate,
+                    name = book.name,
+                    bookID = book.bookID
+                };
+                this.DeletedObjects.Add(b);
+            }
         }
 
         public void deleteTrash(ObservableCollection<TrashbinViewModel> list)
         {
-            foreach (TrashbinViewModel item in list)
-            {
-                // TrashID sagt aus ob es eine MemoryID ist oder ein Book.
-                if (item.trashID == 1)
-                {
-                    obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == item.memoryNoteID);
-                    db.GetTable<MemoryNote>().DeleteOnSubmit(obj_memoryNote);
-                }
-                else if(item.trashID == 2)
-                {
-                   // obj_book = db.GetTable<Book>().Single(book => book.bookID == item.bookID);
-                   // db.GetTable<Book>().DeleteOnSubmit(obj_book);
-                }
-            }
-
-            db.SubmitChanges();
+           
         }
 
 
         public void restoreTrash(ObservableCollection<TrashbinViewModel> list)
         {
-            foreach (TrashbinViewModel item in list)
-            {
-                if (item.trashID == 1)
-                {
-                    obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == item.memoryNoteID);
-                    obj_memoryNote.deleted = false;
-                }
-                else if (item.trashID == 2)
-                {
-                  //  obj_book = db.GetTable<Book>().Single(book => book.bookID == item.bookID);
-                  //  obj_book.deleted = false;
-                }
-            }
-
-            db.SubmitChanges();
         }
 
     }
