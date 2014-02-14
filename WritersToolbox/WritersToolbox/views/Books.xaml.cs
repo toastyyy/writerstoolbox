@@ -206,7 +206,7 @@ namespace WritersToolbox.views
             }
             else
             {
-                btn1.IconUri = new Uri("/icons/speichernUnter.png", UriKind.Relative);
+                btn1.IconUri = new Uri("/icons/saveAs.png", UriKind.Relative);
                 btn1.Text = "ändern";
                 btn1.Click -= new EventHandler(SaveBook);
                 btn1.Click += new EventHandler(ChangeBook);

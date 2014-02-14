@@ -29,21 +29,42 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/character_round_icon.png" Margin="20,0,0,0"/>
+                <Image Grid.Column="0" 
+                       HorizontalAlignment="Left" 
+                       Height="77" 
+                       VerticalAlignment="Top" 
+                       Width="77" 
+                       Source="/icons/character_round_icon.png" 
+                       Margin="20,0,0,0"/>
                 <Grid Grid.Column="1" Margin="10,0,-10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="27" />
                         <RowDefinition Height="23" />
                         <RowDefinition Height="27" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
-                    <TextBlock Grid.Row="1" Text="{Binding notes, Converter={StaticResource noteCountConverter}}" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
-                    <TextBlock Grid.Row="2" Text="{Binding used, Converter={StaticResource boolToUsedCon}, ConverterParameter=showUnused}" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
+                    <TextBlock Grid.Row="0" 
+                               Text="{Binding name}"
+                               Foreground="#FF414141" 
+                               FontSize="30" 
+                               FontFamily="Segoe WP SemiLight" 
+                               Margin="0,-10,0,0" 
+                               TextWrapping="Wrap"/>
+                    <TextBlock Grid.Row="1" 
+                               Text="{Binding notes, Converter={StaticResource noteCountConverter}}" 
+                               Foreground="#FF515151" 
+                               FontSize="22"
+                               FontFamily="Segoe WP Light" 
+                               Margin="0,-4,0,0" />
+                    <TextBlock Grid.Row="2" 
+                               Text="{Binding used, Converter={StaticResource boolToUsedCon}, ConverterParameter=showUnused}" 
+                               Foreground="#FF515151" 
+                               FontSize="22" 
+                               FontFamily="Segoe WP Light" 
+                               Margin="0,-4,0,0" />
 
                 </Grid>
-                <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-                <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-
+                <Border Margin="0,0,0,-20" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="LongListTypeObjectAddTemplate">
@@ -74,12 +95,12 @@
         <DataTemplate x:Key="PivotHeader">
             <TextBlock Text="{Binding title}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
         </DataTemplate>
+        
         <DataTemplate x:Key="SelectingTemplateTypeObject">
             <templateselector:TypeObjectTemplateSelector
             Content="{Binding}"
             viewTypeObject="{StaticResource LongListTypeObjectTemplate}"
-            addTypeObject="{StaticResource LongListTypeObjectAddTemplate}"
-                />
+            addTypeObject="{StaticResource LongListTypeObjectAddTemplate}"/>
         </DataTemplate>
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
@@ -93,8 +114,7 @@
                     LayoutMode="Grid"
                     GridCellSize="450, 150"
                     x:Name="LongList"
-                    SelectionChanged="LongList_SelectionChanged"
-                    >
+                    SelectionChanged="LongList_SelectionChanged">
                     <!--Template für LongListSelector-item-->
                 </phone:LongListSelector>
                 <TextBlock x:Name="btnOverview" Text="klick" Foreground="White" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
@@ -133,58 +153,54 @@
 
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot" Background="White">
-        <Grid x:Name="layoutContent" Background="White">
-            <Image Margin="0,-6,0,549" Source="/headImage_rot_smal.png" Stretch="Fill"/>
-            <!--<Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>-->
-            <!--Popup für Löschen des Typs-->
-            <Popup x:Name="deleteTypePopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
-                <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="250"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel>
-                        <TextBlock x:Name="TypeDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
-                        <CheckBox IsChecked="True" Content="Alle Typobjekte erhalten" Margin="10,10,0,0"/>
-                    </StackPanel>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteType"/>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteType"/>
-                </Grid>
-            </Popup>
-            <!--Popup für Löschen des TypObjekts-->
-            <Popup x:Name="deleteTypeObjectPopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
-                <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="250"/>
-                        <RowDefinition Height="*"/>
-                    </Grid.RowDefinitions>
-                    <StackPanel>
-                        <TextBlock x:Name="TypeObjectDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
-                        <CheckBox IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0"/>
-                    </StackPanel>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteTypeObject"/>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
-                </Grid>
-            </Popup>
-            <!--Pivotsteuerelement-->
-            <phone:Pivot ManipulationDelta="pinch_out" 
-                         HeaderTemplate="{StaticResource PivotHeader}" 
-                         ItemTemplate="{StaticResource SelectingTemplateType}"
-                         ItemsSource="{Binding Path=Types, Mode=OneWay}"
-                         x:Name="PivotMain" 
-                         SelectionChanged="PivotSelectionChanged" 
-                         VerticalAlignment="Top"
-                         VerticalContentAlignment="Top" FontFamily="Segoe WP Light">
-                <phone:Pivot.Title>
-                    <TextBlock Margin="9,0,0,0" Text="TYPEN" FontSize="22" FontFamily="Segoe WP Light"/>
-                </phone:Pivot.Title>
-            </phone:Pivot>
-        </Grid>
+    <Grid x:Name="LayoutRoot" Background="White">        <Image Margin="0,-6,0,549" Source="/headImage_rot_smal.png" Stretch="Fill"/>
+        <!--Popup für Löschen des Typs-->
+        <Popup x:Name="deleteTypePopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+            <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="250"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBlock x:Name="TypeDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
+                    <CheckBox IsChecked="True" Content="Alle Typobjekte erhalten" Margin="10,10,0,0"/>
+                </StackPanel>
+                <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteType"/>
+                <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteType"/>
+            </Grid>
+        </Popup>
+        <!--Popup für Löschen des TypObjekts-->
+        <Popup x:Name="deleteTypeObjectPopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+            <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="250"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBlock x:Name="TypeObjectDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
+                    <CheckBox IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0"/>
+                </StackPanel>
+                <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteTypeObject"/>
+                <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
+            </Grid>
+        </Popup>
+        <!--Pivotsteuerelement-->
+        <phone:Pivot ManipulationDelta="pinch_out" 
+                        HeaderTemplate="{StaticResource PivotHeader}" 
+                        ItemTemplate="{StaticResource SelectingTemplateType}"
+                        ItemsSource="{Binding Path=Types, Mode=OneWay}"
+                        x:Name="PivotMain" 
+                        SelectionChanged="PivotSelectionChanged" 
+                        VerticalAlignment="Top"
+                        VerticalContentAlignment="Top" FontFamily="Segoe WP Light">
+            <phone:Pivot.Title>
+                <TextBlock Margin="9,0,0,0" Text="TYPEN" FontSize="22" FontFamily="Segoe WP Light"/>
+            </phone:Pivot.Title>
+        </phone:Pivot>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton IconUri="/icons/SpeichernUnter.png" Text="ändern" Click="ChangeType"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/saveAs.png" Text="ändern" Click="ChangeType"/>
             <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="TryDeleteType"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
