@@ -7,7 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:c4f="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls" 
-    FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
+    FontFamily="Segoe WP SemiLight"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
@@ -17,31 +17,33 @@
 
     
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot">
+    <Grid x:Name="LayoutRoot" Background="White">
         
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image Margin="0,-6,0,0" Source="/headImage_rot_smal.png" Stretch="Fill"/>
+        <Image Grid.RowSpan="2" Margin="0,-6,0,549" Source="/headImage_rot_smal.png" Stretch="Fill"/>
         <!-- Popup fuer Buchtyp -->
-        <Popup x:Name="booktype_popup" Grid.RowSpan="2" Margin="0,50,0,0">
-            <Grid Width="480">
-                <StackPanel Background="Black" Margin="0,116,0,-116">
-                    <TextBlock Text="Buchtyp wählen" TextAlignment="Center" FontSize="40" Margin="10,0" />
-                    <TextBlock Text="Bitte wählen Sie einen Buchtyp" FontSize="21" Margin="30,0" />
-                    <Grid Width="400" Height="300" Margin="0,10,0,0">
+        <Popup x:Name="booktype_popup" Grid.RowSpan="2" Margin="0,-5,0,0">
+            <Grid Width="480" Background="Black" >
+                <StackPanel Margin="50,20,10,0">
+                    <TextBlock Text="Buchtyp wählen"  
+                               FontSize="40"/>
+                    <TextBlock Text="Bitte wählen Sie einen Buchtyp" 
+                               FontSize="21" 
+                               Margin="0,20,0,0" />
+                    <Grid Width="400" Height="300" Margin="0,20,0,0">
                         <phone:LongListSelector ItemsSource="{Binding BookTypes}">
                             <phone:LongListSelector.ItemTemplate>
                                 <DataTemplate>
-                                    <Grid>
+                                    <Grid Margin="0,10">
                                         <Grid.ColumnDefinitions>
                                             <ColumnDefinition Width="50" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
-                                        <!--    <Button Tap="navigateToBooksDetails"> </Button>  Doesnt Create a Button :( -->
-                                        <Grid Grid.Column="0" Background="White">
-                                            <Image Source="../icons/book.png" />
+                                        <Grid Grid.Column="0">
+                                            <Image Source="../icons/book.png"/>
                                         </Grid>
                                         <Grid Grid.Column="1" Margin="15,0,0,0">
                                             <TextBlock Text="{Binding name}" FontSize="38" />
@@ -51,9 +53,9 @@
                             </phone:LongListSelector.ItemTemplate>
                         </phone:LongListSelector>
                     </Grid>
-                    <StackPanel Orientation="Horizontal" Margin="0,10">
-                        <Button x:Name="btn_continue"  Content="Speichern" Width="230" Margin="5,0,0,10" />
-                        <Button x:Name="btn_cancel"    Content="Abbrechen"   Width="230" Tap="bookTypeCancel" Margin="0,0,5,10"/>
+                    <StackPanel Orientation="Horizontal" Margin="0,10,40,0">
+                        <Button x:Name="btn_continue"  Content="Speichern" Width="180" Margin="0,0,0,10" />
+                        <Button x:Name="btn_cancel"    Content="Abbrechen"   Width="180" Tap="bookTypeCancel" Margin="0,0,0,10" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -61,32 +63,54 @@
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="Werke" Margin="9,0,0,0" FontSize="22"/>
-            <TextBlock Text="Werk ändern" Margin="9,15,0,0" FontSize="65"/>
+            <TextBlock Text="WERKE" Margin="9,0,0,0" FontSize="22" FontFamily="Segoe WP Light"/>
+            <TextBlock Text="Werk ändern" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
         </StackPanel>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
-        <Grid Grid.Row="1" Width="450" Height="Auto" HorizontalAlignment="Stretch">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="30"/>
-                <RowDefinition Height="70"/>
-                <RowDefinition Height="*" />
-            </Grid.RowDefinitions>
-            <TextBlock Grid.Row="0" Margin="30,5,0,0" Text="Name des Werkes" FontSize="25"/>
-            <TextBox x:Name="bName" Width="Auto" Margin="23,0,0,0" Grid.Row="1" HorizontalAlignment="Stretch" BorderBrush="Gray" BorderThickness="2" Foreground="Black" ToolTipService.ToolTip=""/>
-            <TextBlock Grid.Row="2" Margin="30,0,0,0" Text="Buchtyp" FontSize="25"/>
+        <StackPanel Grid.Row="1" Margin="0,40,0,0">
+            <TextBlock Margin="50,20,0,5" 
+                       Text="Name des Werkes" 
+                       FontSize="25"
+                       Foreground="Black"/>
+            <TextBox x:Name="bName" 
+                     Width="Auto" 
+                     Margin="35,0,10,0" 
+                     HorizontalAlignment="Stretch" 
+                     BorderBrush="Gray" 
+                     BorderThickness="2" 
+                     Foreground="Black" 
+                     ToolTipService.ToolTip="Titel"/>
+            <TextBlock Margin="50,30,0,10" 
+                       Text="Buchtyp" 
+                       FontSize="25"
+                       Foreground="Black"/>
 
-            <Grid Grid.Row="3">
+            <Grid Margin="50,0,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Margin="30,0,0,0" HorizontalAlignment="Stretch" TextAlignment="Center" VerticalAlignment="Center" Grid.Column="0" Text="Roman" FontSize="28" Foreground="DarkGreen" TextDecorations="Underline"/>
-                <Button Width="Auto" Content="Ändern..." Grid.Column="1" Margin="40,0,20,0" Foreground="Black" Background="White" BorderBrush="Black" BorderThickness="3" Height="70" Tap="changeBookType"/>
+                <TextBlock Margin="10,0,0,0" 
+                           HorizontalAlignment="Stretch" 
+                           VerticalAlignment="Center" 
+                           Grid.Column="0" 
+                           Text="Roman" 
+                           FontSize="28" 
+                           Foreground="DarkGreen" 
+                           TextDecorations="Underline"/>
+                <Button Width="Auto" 
+                        Content="Ändern..." 
+                        Grid.Column="1" 
+                        Margin="10,0,10,0" 
+                        Foreground="Black" 
+                        Background="White" 
+                        BorderBrush="Black" 
+                        BorderThickness="3" 
+                        Height="70" 
+                        Tap="changeBookType"/>
             </Grid>
-        </Grid>
+        </StackPanel>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
