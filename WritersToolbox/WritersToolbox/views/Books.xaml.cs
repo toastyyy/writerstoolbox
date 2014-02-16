@@ -247,10 +247,15 @@ namespace WritersToolbox.views
                 return;
             datawrapper.Tome tome = selector.SelectedItem as datawrapper.Tome;
             if (tome == null)
-            {
                 return;
+            if (tome.tomeID != -1)
+            {
+                NavigationService.Navigate(new Uri("/views/BookDetails.xaml?tomeID=" + tome.tomeID, UriKind.Relative));
             }
-            NavigationService.Navigate(new Uri("/views/BookDetails.xaml?tomeID=" + tome.tomeID, UriKind.Relative));
+            else
+            {
+                //neuer Band
+            }
             selector.SelectedItem = null;
         }
 

@@ -143,6 +143,7 @@
     <Compile Include="sampleData\SampleDataTyp.cs" />
     <Compile Include="sampleData\Typ.cs" />
     <Compile Include="sampleData\TypObject.cs" />
+    <Compile Include="templateselector\BooksLongListTemplateSelector.cs" />
     <Compile Include="templateselector\TrashbinTemplateSelector.cs" />
     <Compile Include="templateselector\TypeObjectTemplateSelector.cs" />
     <Compile Include="templateselector\PivotContentTemplateSelector.cs" />
@@ -350,7 +351,6 @@
     <Content Include="icons\Pro_Trash_round_Icon.png" />
     <Content Include="icons\Pro_Typen_round_Icon.png" />
     <Content Include="icons\speaker_reordButton.png" />
-    <Content Include="icons\TypeObjects\character.png" />
     <Content Include="charakter.png" />
     <Content Include="images\headImage_grayscale_top.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

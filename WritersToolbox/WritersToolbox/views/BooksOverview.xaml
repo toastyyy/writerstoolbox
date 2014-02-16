@@ -7,7 +7,8 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wt="clr-namespace:WritersToolbox.viewmodels"
-    FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
+    xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
+    FontFamily="Segoe WP SemiLight"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
@@ -16,41 +17,70 @@
     Style="{StaticResource TransitionPageStyle}" Loaded="pageLoaded">
 
     <phone:PhoneApplicationPage.Resources>
-        <!--Template für LongListSelector-item-->
-        <DataTemplate x:Key="BooksOverviewTemplate">
+        <!--Template für LongListSelector-item bereits exisiterendes Werk-->
+        <DataTemplate x:Key="existingBook">
             <Grid Width="Auto" 
                   Height="Auto" 
                   Margin="10,10,10,10" 
-                  Background="#FF72A91C"
+                  Background="{x:Null}"
                   Hold="TryDeleteBook">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <Image Source="../icons/book.png"/>
+                <Image Source="../icons/Pro_Books_round_Icon.png"/>
                 <TextBlock Grid.Row="1" 
                            Text="{Binding name}" 
                            TextWrapping="Wrap"  
-                           FontSize="16" 
+                           FontSize="20" 
                            VerticalAlignment="Bottom" 
                            HorizontalAlignment="Center" 
-                           Margin="0,0,0,5"/>
+                           Margin="5,5,5,5"
+                           Foreground="Black"/>
             </Grid>
+        </DataTemplate>
+
+        <!--Template für LongListSelector-item neues Werk-->
+        <DataTemplate x:Key="newBook">
+            <Grid Width="Auto" 
+                  Height="Auto" 
+                  Margin="10,10,10,10" 
+                  Background="{x:Null}"
+                  Hold="TryDeleteBook">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="*"/>
+                    <RowDefinition Height="40"/>
+                </Grid.RowDefinitions>
+                <Image Source="../icons/add.png"/>
+                <TextBlock Grid.Row="1" 
+                           Text="{Binding name}" 
+                           TextWrapping="Wrap"  
+                           FontSize="20" 
+                           VerticalAlignment="Bottom" 
+                           HorizontalAlignment="Center" 
+                           Margin="5,5,5,5"
+                           Foreground="Black"/>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Name="BooksOverviewTemplateSelector">
+            <!--TemplateSelector für LonglistInhalt-->
+            <templateselector:PivotContentTemplateSelector 
+                            Content="{Binding}"
+                            addBook="{StaticResource newBook}"
+                            viewBook="{StaticResource existingBook}"/>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
-        <Grid Background="Black">
-
-            <Grid.RowDefinitions>
-                <RowDefinition Height="Auto"/>
-                <RowDefinition Height="*"/>
-            </Grid.RowDefinitions>
-            <Rectangle Fill="#FF72A91C" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
-            <Rectangle Grid.Row="1" Fill="#FF72A91C" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="72"></Rectangle>
-            <!--Popup für Löschen des Werkes-->
-            <Popup x:Name="deleteBookPopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Image Grid.RowSpan="2" Margin="0,-6,0,549" Source="/headImage_rot_smal.png" Stretch="Fill"/>
+        <!--Popup für Löschen des Werkes-->
+            <Popup x:Name="deleteBookPopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,-5,0,0">
                 <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="250"/>
@@ -66,13 +96,13 @@
             </Popup>
 
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
-            <StackPanel Grid.Row="0" Margin="12,17,0,28">
-                <TextBlock Text="BÜCHER" Margin="9,0,0,0" FontSize="22"/>
-                <TextBlock Text="Überblick" Margin="9,15,0,0" FontSize="65"/>
-            </StackPanel>
+        <StackPanel Grid.Row="0" Margin="12,17,0,28">
+            <TextBlock Text="WERKE" Margin="9,0,0,0" FontSize="22" FontFamily="Segoe WP Light"/>
+            <TextBlock Text="Überblick" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
+        </StackPanel>
 
-            <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
-            <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,72" ManipulationDelta="pinch_out">
+        <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,40,0,0" ManipulationDelta="pinch_out">
                 <phone:LongListSelector 
                     Height="Auto" 
                     Margin="0,0,0,0" 
@@ -81,12 +111,16 @@
                     LayoutMode="Grid"
                     GridCellSize="200, 200" 
                     Padding="20,10"
-                    ItemTemplate="{StaticResource BooksOverviewTemplate}"
+                    ItemTemplate="{StaticResource BooksOverviewTemplateSelector}"
                     x:Name="list"
                     SelectionChanged="list_SelectionChanged">
                 </phone:LongListSelector>
             </Grid>
-        </Grid>
     </Grid>
+    <phone:PhoneApplicationPage.ApplicationBar>
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
+            <shell:ApplicationBarIconButton IconUri="/icons/zurueck.png" Text="Zurück"/>
+        </shell:ApplicationBar>
+    </phone:PhoneApplicationPage.ApplicationBar>
 
 </phone:PhoneApplicationPage>
