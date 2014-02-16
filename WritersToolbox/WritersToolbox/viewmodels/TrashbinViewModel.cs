@@ -15,6 +15,9 @@ namespace WritersToolbox.viewmodels
         private WritersToolboxDatebase db;
         private Table<MemoryNote> tableMemoryNote;
         private Table<Book> tableBook;
+        private Table<Tome> tableTome;
+        private Table<WritersToolbox.models.TypeObject> tableTypeObject;
+        private Table<Event> tableEvent;
 
         public ObservableCollection<Object> DeletedObjects { get; set; }
         public TrashbinViewModel()
@@ -24,6 +27,9 @@ namespace WritersToolbox.viewmodels
                 db = WritersToolboxDatebase.getInstance();
                 tableMemoryNote = db.GetTable<MemoryNote>();
                 tableBook = db.GetTable<Book>();
+                tableTome = db.GetTable<Tome>();
+                tableTypeObject = db.GetTable<WritersToolbox.models.TypeObject>();
+                tableEvent = db.GetTable<Event>();
             }
             catch (Exception ex)
             {
@@ -31,9 +37,9 @@ namespace WritersToolbox.viewmodels
             }
         }
 
-        public void loadData()
+        public Collection<Object> loadData()
         {
-            this.DeletedObjects = new ObservableCollection<object>();
+            this.DeletedObjects = new ObservableCollection<Object>(); // O || o
             
             // notizen, die geloescht sind, aber nicht zugeordnet sind
             var sqlNotes = from n in tableMemoryNote
@@ -60,7 +66,8 @@ namespace WritersToolbox.viewmodels
                           select b;
             foreach(var book in sqlBooks) {
                 datawrapper.Book b = new datawrapper.Book()
-                {
+                {     
+                    
                     updatedDate = book.updatedDate,
                     addedDate = book.addedDate,
                     name = book.name,
@@ -68,16 +75,64 @@ namespace WritersToolbox.viewmodels
                 };
                 this.DeletedObjects.Add(b);
             }
+
+
+            // Tomes, die geloescht sind.
+            var sqlTomes = from t in tableTome
+                           where t.deleted == true
+                           select t;
+            foreach (var tome in sqlTomes)
+            {
+                datawrapper.Tome t = new datawrapper.Tome()
+                {
+                    //     book = tome.book,
+                    //     chapters =  tome.chapters,
+                    tomeNumber = tome.tomeNumber,
+                    updatedDate = tome.updatedDate,
+                    tomeID = tome.tomeID,
+                    title = tome.title,
+                    addedDate = tome.addedDate
+                };
+                this.DeletedObjects.Add(t);
+            }
+
+            var sqlType = from ty in tableTypeObject
+                          where ty.deleted == true
+                          select ty;
+            foreach (var type in sqlType)
+            {
+                datawrapper.TypeObject ty = new datawrapper.TypeObject()
+                {
+                    typeObjectID = type.typeObjectID,
+                //    notes = type.notes,
+                    color = type.color,
+                    name = type.name,
+                  //  obj_Type = type.obj_Type;
+                    imageString = type.imageString
+                  //  ObservableCollection<MemoryNote> notes = type.note
+
+                };
+                this.DeletedObjects.Add(ty);
+            }
+
+            return DeletedObjects;
         }
 
-        public void deleteTrash(ObservableCollection<TrashbinViewModel> list)
+        public void deleteTrash(ObservableCollection<object> list)
         {
-           
+           // foreach(
+           //item.GetType().IsAssignableFrom((new datawrapper.TypeObject()).GetType()))
+           //     obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == item.memoryNoteID);
+           //     obj_memoryNote.deleted = true;
+            
+           // db.SubmitChanges();
+            
         }
 
 
-        public void restoreTrash(ObservableCollection<TrashbinViewModel> list)
+        public void restoreTrash(ObservableCollection<object> list)
         {
+
         }
 
     }
