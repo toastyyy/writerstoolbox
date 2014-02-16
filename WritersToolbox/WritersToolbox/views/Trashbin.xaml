@@ -64,7 +64,7 @@
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" HorizontalAlignment="Left" Height="150" VerticalAlignment="Top" Width="77" Source="/icons/Pro_Typen_round_Icon" Margin="0,0,0,0"/>
+                <Image Grid.Column="0" HorizontalAlignment="Left" Height="150" VerticalAlignment="Top" Width="77" Source="/icons/Pro_Typen_round_Icon.png" Margin="0,0,0,0"/>
                 <Grid Grid.Column="1" Margin="10,0,-10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="27" />
