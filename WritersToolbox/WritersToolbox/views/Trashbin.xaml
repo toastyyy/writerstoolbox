@@ -75,7 +75,7 @@
             Content="{Binding}"
             memoryNoteTemplate="{StaticResource trashbinNoteTemplate}"
             bookTemplate ="{StaticResource trashbinBookTemplate}"
-            typeObjectTemplate="{StaticResource trashbinTypeTemplate}"
+            typeObjectTemplate="{StaticResource trashbinTypeTemplate}" HorizontalContentAlignment="Left"
             />
         </DataTemplate>
 
@@ -107,7 +107,7 @@
                     Margin="0,70,0,0" 
                     ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                     BorderBrush="Black"
-                    ItemTemplate="{StaticResource trashbinTypeTemplate}" HorizontalContentAlignment="Left"/>
+                    ItemTemplate="{StaticResource trashbinTemplateSelector}" HorizontalContentAlignment="Left"/>
 
 
         </Grid>
