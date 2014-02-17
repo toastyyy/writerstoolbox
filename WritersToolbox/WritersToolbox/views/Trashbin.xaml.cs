@@ -23,24 +23,26 @@ namespace WritersToolbox.views
             trash = new TrashbinViewModel();
             trash.loadData();
             this.DataContext = trash;
+            llms_trash.ItemsSource = trash.loadData();
         }
 
         private void trash_selectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
             if (e.AddedItems.Count > 0)
             {
 
-                if (!llms_trash.SelectedItems.Contains((TrashbinViewModel)e.AddedItems[0]))
+                if (!llms_trash.SelectedItems.Contains((object)e.AddedItems[0]))
                 {
-                    llms_trash.SelectedItems.Add(((TrashbinViewModel)e.AddedItems[0]));
+                    llms_trash.SelectedItems.Add(((object)e.AddedItems[0]));
                 }
             }
             if (e.RemovedItems.Count > 0)
             {
 
-                if (llms_trash.SelectedItems.Contains((TrashbinViewModel)e.RemovedItems[0]))
+                if (llms_trash.SelectedItems.Contains((object)e.RemovedItems[0]))
                 {
-                    llms_trash.SelectedItems.Remove(((TrashbinViewModel)e.RemovedItems[0]));
+                    llms_trash.SelectedItems.Remove(((object)e.RemovedItems[0]));
                 }
 
             }
@@ -72,47 +74,47 @@ namespace WritersToolbox.views
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            ObservableCollection<TrashbinViewModel> collection = new ObservableCollection<TrashbinViewModel>();
-            ObservableCollection<TrashbinViewModel> collection2 = new ObservableCollection<TrashbinViewModel>(
-                (ObservableCollection<TrashbinViewModel>)llms_trash.ItemsSource);
-            foreach (TrashbinViewModel item in collection2)
-            {
-                if (llms_trash.SelectedItems.Contains(item))
-                {
-                    llms_trash.ItemsSource.Remove(item);
-                    llms_trash.SelectedItems.Remove(item);
-                    collection.Add(item);
-                }
+            //ObservableCollection<object> collection = new ObservableCollection<object>();
+            //ObservableCollection<TrashbinViewModel> collection2 = new ObservableCollection<TrashbinViewModel>(
+            //    (ObservableCollection<TrashbinViewModel>)llms_trash.ItemsSource);
+            //foreach (TrashbinViewModel item in collection2)
+            //{
+            //    if (llms_trash.SelectedItems.Contains(item))
+            //    {
+            //        llms_trash.ItemsSource.Remove(item);
+            //        llms_trash.SelectedItems.Remove(item);
+            //        collection.Add(item);
+            //    }
 
-            }
-            trash.deleteTrash(collection);
-            if (llms_trash.ItemsSource.Count == 0)
-            {
-                selectAllCheckBox.IsChecked = false;
-            }
+            //}
+            //trash.deleteTrash(collection);
+            //if (llms_trash.ItemsSource.Count == 0)
+            //{
+            //    selectAllCheckBox.IsChecked = false;
+            //}
         }
 
         private void restoreButton_Click(object sender, EventArgs e)
         {
-            ObservableCollection<TrashbinViewModel> collection = new ObservableCollection<TrashbinViewModel>();
-            ObservableCollection<TrashbinViewModel> collection2 = new ObservableCollection<TrashbinViewModel>(
-                (ObservableCollection<TrashbinViewModel>)llms_trash.ItemsSource);
-            foreach (TrashbinViewModel item in collection2)
-            {
-                if (llms_trash.SelectedItems.Contains(item))
-                {
-                    llms_trash.ItemsSource.Remove(item);
-                    llms_trash.SelectedItems.Remove(item);
-                    collection.Add(item);
-                }
+            //ObservableCollection<object> collection = new ObservableCollection<object>();
+            //ObservableCollection<object> collection2 = new ObservableCollection<object>(
+            //    (ObservableCollection<object>)llms_trash.ItemsSource);
+            //foreach (object item in collection2)
+            //{
+            //    if (llms_trash.SelectedItems.Contains(item))
+            //    {
+            //        llms_trash.ItemsSource.Remove(item);
+            //        llms_trash.SelectedItems.Remove(item);
+            //        collection.Add(item);
+            //    }
 
-            }
-            trash.restoreTrash(collection);
+            //}
+            //trash.restoreTrash(collection);
 
-            if (llms_trash.ItemsSource.Count == 0)
-            {
-                selectAllCheckBox.IsChecked = false;
-            }
+            //if (llms_trash.ItemsSource.Count == 0)
+            //{
+            //    selectAllCheckBox.IsChecked = false;
+            //}
         }
 
                 //Fertig
@@ -128,9 +130,9 @@ namespace WritersToolbox.views
             {
                 llms_trash.EnforceIsSelectionEnabled = true;
                 llms_trash.SelectedItems.Clear();
-                ObservableCollection<TrashbinViewModel> collection =
-                    (ObservableCollection<TrashbinViewModel>)llms_trash.ItemsSource;
-                foreach (TrashbinViewModel item in collection)
+                ObservableCollection<object> collection =
+                    (ObservableCollection<object>)llms_trash.ItemsSource;
+                foreach (object item in collection)
                 {
                     llms_trash.SelectedItems.Add(item);
                 }

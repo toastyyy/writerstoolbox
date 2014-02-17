@@ -121,7 +121,7 @@
             <TextBlock FontSize="20" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,210,0,0" TextWrapping="Wrap" Text="{Binding TypeObject, Converter={StaticResource TypeObjectSubtitleConverter}}" VerticalAlignment="Top" Width="460" FontFamily="Segoe WP Light"/>
 
             <CheckBox x:Name="selectAllCheckBox" Visibility="Collapsed" Style="{StaticResource CheckBoxStyleBlack}" Grid.Row="1" Content="Alles auswählen" HorizontalAlignment="Left" Margin="10,-17,0,0" VerticalAlignment="Top" Width="224" Foreground="Black" BorderBrush="Black" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
-            <Coding4Fun:RoundButton  x:Name="deleteButton" Grid.Row="1"  Margin="320,-10,0,0" VerticalAlignment="Top" Height="50" Width="72" BorderThickness="1" Click="TryDeleteAssociation" BorderBrush="Black" Visibility="Collapsed" Content="">
+            <Coding4Fun:RoundButton  x:Name="deleteButton" Grid.Row="1"  Margin="320,-10,0,0" VerticalAlignment="Top" Height="50" Width="72" BorderThickness="1" Click="TryDeleteAssociation" BorderBrush="Black" Visibility="Collapsed" Content="" PressedBrush="White">
                 <Coding4Fun:RoundButton.Background>
                     <ImageBrush Stretch="UniformToFill" ImageSource="/icons/delete.png"/>
                 </Coding4Fun:RoundButton.Background>

@@ -149,8 +149,8 @@ namespace WritersToolbox.views
                 this.PivotMain.Title = new TextBlock() { 
                     FontSize = 22,
                     Margin = new Thickness(9,0,0,0),
-                    Text = "ZU TYPOBJEKT ZUORDNEN"
-
+                    Text = "ZU TYPOBJEKT ZUORDNEN",
+                    FontFamily = new FontFamily("Segoe UI Light")
                 };
                 
             }
@@ -169,8 +169,8 @@ namespace WritersToolbox.views
                 {
                     FontSize = 22,
                     Margin = new Thickness(9, 0, 0, 0),
-                    Text = "TYPEN"
-
+                    Text = "TYPEN",
+                    FontFamily = new FontFamily("Segoe UI Light")
                 };
             if (NavigationContext.QueryString.ContainsKey("item"))
             {

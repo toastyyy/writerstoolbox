@@ -41,10 +41,6 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
-        //private void navigateToBooksDetails(object sender, RoutedEventArgs e)
-        //{
-        //    NavigationService.Navigate(new Uri("/views/BooksDetails.xaml", UriKind.Relative));
-        //}
 
 
         /// <summary>
@@ -206,7 +202,7 @@ namespace WritersToolbox.views
             }
             else
             {
-                btn1.IconUri = new Uri("/icons/speichernUnter.png", UriKind.Relative);
+                btn1.IconUri = new Uri("/icons/saveAs.png", UriKind.Relative);
                 btn1.Text = "ändern";
                 btn1.Click -= new EventHandler(SaveBook);
                 btn1.Click += new EventHandler(ChangeBook);
@@ -251,10 +247,15 @@ namespace WritersToolbox.views
                 return;
             datawrapper.Tome tome = selector.SelectedItem as datawrapper.Tome;
             if (tome == null)
-            {
                 return;
+            if (tome.tomeID != -1)
+            {
+                NavigationService.Navigate(new Uri("/views/BookDetails.xaml?tomeID=" + tome.tomeID, UriKind.Relative));
             }
-            NavigationService.Navigate(new Uri("/views/BookDetails.xaml?tomeID=" + tome.tomeID, UriKind.Relative));
+            else
+            {
+                //neuer Band
+            }
             selector.SelectedItem = null;
         }
 

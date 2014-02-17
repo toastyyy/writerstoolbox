@@ -109,7 +109,15 @@ namespace WritersToolbox.viewmodels
                     };
 
                     tmpTomes.Add(tome);
+
                 }
+
+                datawrapper.Tome newTome = new datawrapper.Tome()
+                {
+                    tomeID = -1
+                };
+                tmpTomes.Add(newTome);
+
                 datawrapper.Book book = new datawrapper.Book() {
                     addedDate = b.addedDate,
                     bookID = b.bookID,

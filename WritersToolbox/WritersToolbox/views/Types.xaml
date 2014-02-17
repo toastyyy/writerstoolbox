@@ -29,20 +29,41 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/character_round_icon.png" Margin="20,0,0,0"/>
+                <Image Grid.Column="0" 
+                       HorizontalAlignment="Left" 
+                       Height="77" 
+                       VerticalAlignment="Top" 
+                       Width="77" 
+                       Source="/icons/character_round_icon.png" 
+                       Margin="20,0,0,0"/>
                 <Grid Grid.Column="1" Margin="10,0,-10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="27" />
                         <RowDefinition Height="23" />
                         <RowDefinition Height="27" />
                     </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
-                    <TextBlock Grid.Row="1" Text="{Binding notes, Converter={StaticResource noteCountConverter}}" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
-                    <TextBlock Grid.Row="2" Text="{Binding used, Converter={StaticResource boolToUsedCon}, ConverterParameter=showUnused}" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
+                    <TextBlock Grid.Row="0" 
+                               Text="{Binding name}"
+                               Foreground="#FF414141" 
+                               FontSize="30" 
+                               FontFamily="Segoe WP SemiLight" 
+                               Margin="0,-10,0,0" 
+                               TextWrapping="Wrap"/>
+                    <TextBlock Grid.Row="1" 
+                               Text="{Binding notes, Converter={StaticResource noteCountConverter}}" 
+                               Foreground="#FF515151" 
+                               FontSize="22"
+                               FontFamily="Segoe WP Light" 
+                               Margin="0,-4,0,0" />
+                    <TextBlock Grid.Row="2" 
+                               Text="{Binding used, Converter={StaticResource boolToUsedCon}, ConverterParameter=showUnused}" 
+                               Foreground="#FF515151" 
+                               FontSize="22" 
+                               FontFamily="Segoe WP Light" 
+                               Margin="0,-4,0,0" />
 
                 </Grid>
-                <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-                <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                <Border Margin="0,0,0,-20" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
 
             </Grid>
         </DataTemplate>
@@ -74,12 +95,12 @@
         <DataTemplate x:Key="PivotHeader">
             <TextBlock Text="{Binding title}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
         </DataTemplate>
+        
         <DataTemplate x:Key="SelectingTemplateTypeObject">
             <templateselector:TypeObjectTemplateSelector
             Content="{Binding}"
             viewTypeObject="{StaticResource LongListTypeObjectTemplate}"
-            addTypeObject="{StaticResource LongListTypeObjectAddTemplate}"
-                />
+            addTypeObject="{StaticResource LongListTypeObjectAddTemplate}"/>
         </DataTemplate>
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
@@ -93,8 +114,7 @@
                     LayoutMode="Grid"
                     GridCellSize="450, 150"
                     x:Name="LongList"
-                    SelectionChanged="LongList_SelectionChanged"
-                    >
+                    SelectionChanged="LongList_SelectionChanged">
                     <!--Template für LongListSelector-item-->
                 </phone:LongListSelector>
                 <TextBlock x:Name="btnOverview" Text="klick" Foreground="White" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
