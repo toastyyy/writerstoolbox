@@ -138,12 +138,18 @@ namespace WritersToolbox.viewmodels
             this.Books = tmpBooks;
         }
 
-        public void deleteBook( datawrapper.Book item)
+        public void deleteBook( datawrapper.Book item, bool keepTomes)
         {
-            
+            if (keepTomes)
+            {
                 obj_book = wtb.GetTable<Book>().Single(book => book.bookID == item.bookID);
                 obj_book.deleted = true;
-            
+            }
+            else
+            {
+
+            }
+                
             wtb.SubmitChanges();
         }
     }
