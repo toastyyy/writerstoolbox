@@ -17,13 +17,19 @@ namespace WritersToolbox.converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             Color c = Color.FromArgb(255, 255, 0, 0);
-            if (value != null) { 
-                String hex = ((String)value).Replace("#", "");
-                Byte a = System.Convert.ToByte(hex.Substring(0, 2), 16);
-                Byte r = System.Convert.ToByte(hex.Substring(2, 2), 16);
-                Byte g = System.Convert.ToByte(hex.Substring(4, 2), 16);
-                Byte b = System.Convert.ToByte(hex.Substring(6, 2), 16);
-                c = Color.FromArgb(a, r, g, b);
+            if (value != null) {
+                try { 
+                    String hex = ((String)value).Replace("#", "");
+                    Byte a = System.Convert.ToByte(hex.Substring(0, 2), 16);
+                    Byte r = System.Convert.ToByte(hex.Substring(2, 2), 16);
+                    Byte g = System.Convert.ToByte(hex.Substring(4, 2), 16);
+                    Byte b = System.Convert.ToByte(hex.Substring(6, 2), 16);
+                    c = Color.FromArgb(a, r, g, b);                
+                }
+                catch (Exception e) {
+                    c = Color.FromArgb(255, 255, 0, 0);
+                }
+
             }
 
             WriteableBitmap wb = this.multiplicateImageWithColor((String) parameter, c);

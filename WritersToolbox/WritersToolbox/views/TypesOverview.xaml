@@ -44,14 +44,14 @@
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
-        <Grid Background="Black">
+        <Grid Background="White">
 
             <Grid.RowDefinitions>
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>
-            <Rectangle Grid.Row="1" Fill="#FF911124" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="72"></Rectangle>
+            <Image Source="/images/headImage_rot_top.png" />
+            <Rectangle Grid.Row="1" Fill="#FF252525" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="72"></Rectangle>
             <!--Popup für Löschen des Typs-->
             <Popup x:Name="deleteTypePopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
                 <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">

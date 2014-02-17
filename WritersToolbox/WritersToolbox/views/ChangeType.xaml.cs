@@ -10,6 +10,8 @@ using Microsoft.Phone.Shell;
 using Coding4Fun.Toolkit.Controls;
 using System.Windows.Media;
 using WritersToolbox.viewmodels;
+using System.Windows.Media.Imaging;
+using Microsoft.Phone.Tasks;
 
 namespace WritersToolbox.views
 {
@@ -20,11 +22,17 @@ namespace WritersToolbox.views
         private Color selectedColor;
 
         //Index einer bereits benutzten Farbe, wird zum Ändern gebraucht
-        private int selectedColorIndex;
+        private int selectedColorIndex = 0;
 
         private int typeIndex = -1;
 
         private TypeViewModel tvm = null;
+
+        private PhotoChooserTask photoChooserTask;
+
+        private String changedImage = "";
+
+        private Boolean changed = false;
         //Farben für Colorpicker
         static string[] colors =
         { 
@@ -38,6 +46,8 @@ namespace WritersToolbox.views
         public ChangeType()
         {
             InitializeComponent();
+            photoChooserTask = new PhotoChooserTask();
+            photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
         }
         /// <summary>
         /// Ein neuer Typ wird erzeugt.
@@ -46,16 +56,16 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void SaveType(object sender, EventArgs e)
         {
-            String r = selectedColor.R.ToString("X2");
-            String g = selectedColor.G.ToString("X2");
-            String b = selectedColor.B.ToString("X2");
-
-            String color = "#" + r + g + b;
+            String color = this.selectedColor.ToString();
             String title = tTitle.Text;
-
+            String fileName = this.tvm.Type.imageString;
+            if (!this.changedImage.Equals(""))
+            {
+                fileName = this.changedImage;
+            }
             try
             {
-                Types.types_VM.updateType(this.typeIndex, title, color, "");
+                this.tvm.updateType(typeIndex, title, color, fileName);
                 NavigationService.GoBack();
             }
             catch (ArgumentException ae)
@@ -77,6 +87,9 @@ namespace WritersToolbox.views
             {
                 item.Add(new ColorItem() { Color = fromHexToColor(colors[i]) });
             };
+
+            selectedColorIndex = Array.IndexOf(colors, this.tvm.Type.color.ToString()); 
+
 
             colorPicker.ItemsSource = item; //Fill ItemSource with all colors
             colorPicker.SelectedIndex = selectedColorIndex;
@@ -120,6 +133,9 @@ namespace WritersToolbox.views
             ListBox l = sender as ListBox;
             ColorItem c = l.SelectedItem as ColorItem;
             selectedColor = c.Color;
+            WriteableBitmap wb = this.multiplicateImageWithColor("images/headImage_grayscale_top.jpg", selectedColor);
+            this.headerBackground.Source = wb;
+            this.changed = true;
         }
 
         /// <summary>
@@ -129,7 +145,17 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void CancelType(object sender, EventArgs e)
         {
-            NavigationService.GoBack();
+            if (changed)
+            {
+                var result = MessageBox.Show("Möchtest du deine Änderungen verwerfen?", "Abbrechen", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK)
+                {
+                    NavigationService.GoBack();
+                }
+            }
+            else {
+                NavigationService.GoBack();
+            }
         }
 
 
@@ -151,6 +177,75 @@ namespace WritersToolbox.views
             }
 
 
+        }
+
+        /// <summary>
+        /// Wendet einen Multiplikationsfilter auf das angewendete Bild an. 
+        /// ACHTUNG: Funktioniert nur hinreichend bei Bildern in Graustufen.
+        /// </summary>
+        /// <param name="fileName">Dateiname. Objekt muss als Datei im Projekt mit der Build Action 'Content' vorhanden sein.</param>
+        /// <param name="c">Anzuwendende Farbe für die Überlagerung</param>
+        /// <returns>Neues Bild mit angewendetem Filter</returns>
+        private WriteableBitmap multiplicateImageWithColor(String fileName, Color c)
+        {
+            var file = System.Windows.Application.GetResourceStream(new Uri(fileName, UriKind.Relative));
+            BitmapImage bmp = new BitmapImage();
+            bmp.SetSource(file.Stream);
+            WriteableBitmap wb = new WriteableBitmap(bmp);
+
+
+            for (int x = 0; x < wb.PixelWidth; x++)
+            {
+                for (int y = 0; y < wb.PixelHeight; y++)
+                {
+                    Byte brightness = wb.GetBrightness(x, y);
+                    Color newColor = new Color();
+                    newColor.A = 255;
+                    newColor.R = (byte)(c.R * (brightness / 255.0));
+                    newColor.G = (byte)(c.G * (brightness / 255.0));
+                    newColor.B = (byte)(c.B * (brightness / 255.0));
+                    wb.SetPixel(x, y, newColor);
+                }
+            }
+            return wb;
+        }
+
+        private void imageButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            PhoneApplicationService.Current.State["preventUpdate"] = true;
+            photoChooserTask.Show();
+        }
+
+        private void photoChooserTask_Completed(object sender, PhotoResult e)
+        {
+            if (e.TaskResult == TaskResult.OK)
+            {
+                //Code to display the photo on the page in an image control named myImage.
+                BitmapImage bmp = new BitmapImage();
+                bmp.SetSource(e.ChosenPhoto);
+                this.imageButton.Source = bmp;
+                this.changedImage = e.OriginalFileName;
+                this.changed = true;
+            }
+        }
+
+        /// <summary>
+        /// Workaround: Setzen der Hintergrundfarbe der Textbox beim focus auf transparent
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void tTitle_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
+            this.tTitle.Background = _s;
+        }
+
+        private void tTitle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!tTitle.Text.Equals(this.tvm.Type.title))
+            {
+                changed = true;
+            }
         }
     }
 }
