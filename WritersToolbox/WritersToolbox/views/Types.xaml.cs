@@ -157,10 +157,12 @@ namespace WritersToolbox.views
             else {
                 ApplicationBar.Buttons.Clear();
 
-                ApplicationBarIconButton edit = new ApplicationBarIconButton(new Uri("/icons/saveAs.png", UriKind.Relative));
+                ApplicationBarIconButton edit = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
                 ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
                 delete.Text = "Löschen";
                 edit.Text = "Bearbeiten";
+                edit.Click += ChangeType;
+                delete.Click += TryDeleteType;
                 ApplicationBar.Buttons.Add(edit);
                 ApplicationBar.Buttons.Add(delete);
                 this.PivotMain.Title = new TextBlock()
@@ -420,7 +422,7 @@ namespace WritersToolbox.views
             }
             else
             {
-                btn1.IconUri = new Uri("/icons/speichernUnter.png", UriKind.Relative);
+                btn1.IconUri = new Uri("/icons/edit.png", UriKind.Relative);
                 btn1.Text = "ändern";
                 btn1.Click -= new EventHandler(SaveType);
                 btn1.Click += new EventHandler(ChangeType);

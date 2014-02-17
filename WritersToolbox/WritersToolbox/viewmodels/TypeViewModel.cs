@@ -48,5 +48,23 @@ namespace WritersToolbox.viewmodels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public void updateType(int typeID, String title, String color, String imageString)
+        {
+            try
+            {
+                models.Type type = (from t in tableType
+                                    where t.typeID == typeID
+                                    select t).First();
+                type.title = title;
+                type.imageString = imageString;
+                type.color = color;
+                this.db.SubmitChanges();
+                this.loadData();
+            }
+            catch (Exception e)
+            {
+            }
+        }
     }
 }
