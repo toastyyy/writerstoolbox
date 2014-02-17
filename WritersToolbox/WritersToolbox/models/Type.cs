@@ -11,10 +11,11 @@ using System.ComponentModel;
 
 namespace WritersToolbox.models
 {
-    [Table(Name="Types")]
+    [Table(Name = "Types")]
     public class Type : INotifyPropertyChanging, INotifyPropertyChanged
     {
-        public Type() {
+        public Type()
+        {
             _typeObjects = new EntitySet<TypeObject>();
         }
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
@@ -47,11 +48,11 @@ namespace WritersToolbox.models
         public String title
         {
             get { return stg_title; }
-            set 
+            set
             {
                 sendPropertyChanging("title");
                 stg_title = value;
-                sendPropertyChanged("title");   
+                sendPropertyChanged("title");
             }
 
         }
@@ -146,5 +147,45 @@ namespace WritersToolbox.models
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        ///// <summary>
+        ///// Explizit Konvertierung einer List von type models.MemoryNote to datawrapper.MemoryNote
+        ///// </summary>
+        ///// <param name="list"></param>
+        ///// <returns></returns>
+        //public static explicit operator List<datawrapper.Type>(List<models.Type> list)
+        //{
+        //    List<datawrapper.Type> tempList = new ﻿List<datawrapper.Type>();
+        //    foreach (models.Type item in list)
+        //    {
+        //        tempList.Add((datawrapper.Type)item);
+        //    }
+
+        //    return tempList;
+        //}
+
+        ///// <summary>
+        ///// Explizit Konvertierung einer List von type models.MemoryNote to datawrapper.MemoryNote
+        ///// </summary>
+        ///// <param name="note"></param>
+        ///// <returns></returns>
+        //public static explicit operator datawrapper.Type(models.Type type)
+        //{
+        //    List<datawrapper.TypeObject> temptypeObjects = new List<datawrapper.TypeObject>();
+        //    foreach (models.TypeObject item in type.typeObjects)
+        //    {
+        //        temptypeObjects.Add((datawrapper.TypeObject)item);
+        //    }
+        //    datawrapper.Type temptypeObjekt = new ﻿datawrapper.Type()
+        //    {
+        //        color = type.color,
+        //        imageString = type.imageString,
+        //        title = type.title,
+        //        typeID = type.typeID,
+        //        typeObjects = temptypeObjects
+        //    };
+
+        //    return temptypeObjekt;
+        //}
     }
 }

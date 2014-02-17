@@ -44,7 +44,8 @@ namespace WritersToolbox.demo
                 title = "Stein der Weisen",
                 addedDate = DateTime.Now,
                 updatedDate = DateTime.Now,
-                obj_book = b
+                obj_book = b,
+                information = 1
             };
 
             Tome t2 = new Tome()
@@ -52,7 +53,9 @@ namespace WritersToolbox.demo
                 title = "Kammer des Schreckens",
                 addedDate = DateTime.Now,
                 updatedDate = DateTime.Now,
-                obj_book = b
+                obj_book = b,
+                information = 2
+
             };
 
             Tome t3 = new Tome()
@@ -60,7 +63,8 @@ namespace WritersToolbox.demo
                 title = "Die Gefährten",
                 addedDate = DateTime.Now,
                 updatedDate = DateTime.Now,
-                obj_book = b2
+                obj_book = b2,
+                information = 3
             };
 
             Chapter c1 = new Chapter() 
@@ -102,6 +106,28 @@ namespace WritersToolbox.demo
                 obj_Chapter = c1
             };
 
+            Event e3 = new Event()
+            {
+                title = "Haus der Dursleys",
+                obj_Chapter = c2
+            };
+
+            Event e4 = new Event()
+            {
+                title = "Bahnhof",
+                obj_Chapter = c2
+            };
+            Event e5 = new Event()
+            {
+                title = "Haus der Dursleys",
+                obj_Chapter = c3
+            };
+
+            Event e6 = new Event()
+            {
+                title = "Bahnhof",
+                obj_Chapter = c3
+            };
             MemoryNote mn1 = new MemoryNote() 
             { 
                 addedDate = DateTime.Now,
@@ -144,7 +170,8 @@ namespace WritersToolbox.demo
                 obj_Type = type1,
                 used = true,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "../icons/character_round_icon.png",
+                obj_Event = e2
             };
 
             TypeObject typeObject2= new TypeObject()
@@ -153,21 +180,24 @@ namespace WritersToolbox.demo
                 obj_Type = type1,
                 used = true,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "../icons/character_round_icon.png",
+                obj_Event = e2
             };
 
             TypeObject typeObject3 = new TypeObject()
             {
                 name = "Hogwarts",
                 obj_Type = type2,
-                color = "#FF20B2AA"
+                color = "#FF20B2AA",
+                obj_Event = e2
             };
 
             TypeObject typeObject4 = new TypeObject()
             {
                 name = "Zauberwald",
                 obj_Type = type2,
-                color = "#FF20B2AA"
+                color = "#FF20B2AA",
+                obj_Event = e2
             };
 
             TypeObject typeObject5 = new TypeObject()
@@ -175,7 +205,8 @@ namespace WritersToolbox.demo
                 name = "Frodo Beutlin",
                 obj_Type = type1,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "../icons/character_round_icon.png",
+                obj_Event = e1
             };
 
             TypeObject typeObject6 = new TypeObject()
@@ -183,7 +214,8 @@ namespace WritersToolbox.demo
                 name = "Bilbo Beutlin",
                 obj_Type = type1,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "../icons/character_round_icon.png",
+                obj_Event = e1
             };
 
             TypeObject typeObject7 = new TypeObject()
@@ -191,14 +223,16 @@ namespace WritersToolbox.demo
                 name = "Gandalf",
                 obj_Type = type1,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "../icons/character_round_icon.png",
+                obj_Event = e1
             };
             TypeObject typeObject8 = new TypeObject()
             {
                 name = "Gollum",
                 obj_Type = type1,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "../icons/character_round_icon.png",
+                obj_Event = e1
             };
 
             MemoryNote mn2 = new MemoryNote()
@@ -265,8 +299,12 @@ namespace WritersToolbox.demo
             db.GetTable<Tome>().InsertOnSubmit(t3);
             db.GetTable<Chapter>().InsertOnSubmit(c1);
             db.GetTable<Chapter>().InsertOnSubmit(c2);
-            db.GetTable<Event>().InsertOnSubmit(e1);
-            db.GetTable<Event>().InsertOnSubmit(e2);
+            db.GetTable<WritersToolbox.models.Event>().InsertOnSubmit(e1);
+            db.GetTable<WritersToolbox.models.Event>().InsertOnSubmit(e2);
+            db.GetTable<WritersToolbox.models.Event>().InsertOnSubmit(e3);
+            db.GetTable<WritersToolbox.models.Event>().InsertOnSubmit(e4);
+            db.GetTable<WritersToolbox.models.Event>().InsertOnSubmit(e5);
+            db.GetTable<WritersToolbox.models.Event>().InsertOnSubmit(e6);
             db.GetTable<MemoryNote>().InsertOnSubmit(mn1);
 
             db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type1);

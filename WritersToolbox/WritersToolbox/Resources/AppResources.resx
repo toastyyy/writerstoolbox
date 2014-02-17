@@ -180,4 +180,22 @@
   <data name="pause_reordButton" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\pause_reordButton.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
   </data>
+  <data name="info_checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\info_checked.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="info_unchecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\info_unchecked.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="struktur_checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\struktur_checked.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="struktur_unchecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\struktur_unchecked.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="typen_checked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\typen_checked.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="typen_unchecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\typen_unchecked.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
 </root>

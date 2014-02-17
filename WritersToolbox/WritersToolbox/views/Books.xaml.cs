@@ -250,13 +250,13 @@ namespace WritersToolbox.views
                 return;
             if (tome.tomeID != -1)
             {
-                NavigationService.Navigate(new Uri("/views/BookDetails.xaml?tomeID=" + tome.tomeID, UriKind.Relative));
+                NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=" + tome.tomeID, UriKind.Relative));
             }
             else
             {
                 //neuer Band
             }
-            selector.SelectedItem = null;
+            //selector.SelectedItem = null;
         }
 
     }

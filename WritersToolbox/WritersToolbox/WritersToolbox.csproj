@@ -117,6 +117,8 @@
     <Compile Include="datawrapper\Book.cs" />
     <Compile Include="datawrapper\BookType.cs" />
     <Compile Include="datawrapper\Chapter.cs" />
+    <Compile Include="datawrapper\Event.cs" />
+    <Compile Include="datawrapper\KeyedList.cs" />
     <Compile Include="datawrapper\MemoryNote.cs" />
     <Compile Include="datawrapper\MyImage.cs" />
     <Compile Include="datawrapper\SoundData.cs" />
@@ -151,6 +153,7 @@
     <Compile Include="templateselector\TemplateSelector.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
     <Compile Include="viewmodels\BooksViewModel.cs" />
+    <Compile Include="viewmodels\TomeDetailsViewModel.cs" />
     <Compile Include="viewmodels\TomeDetailViewModel.cs" />
     <Compile Include="viewmodels\TrashbinViewModel.cs" />
     <Compile Include="viewmodels\TypeDetailViewModel.cs" />
@@ -160,8 +163,8 @@
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
-    <Compile Include="views\BookDetails.xaml.cs">
-      <DependentUpon>BookDetails.xaml</DependentUpon>
+    <Compile Include="views\TomeDetails.xaml.cs">
+      <DependentUpon>TomeDetails.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\Books.xaml.cs">
       <DependentUpon>Books.xaml</DependentUpon>
@@ -227,7 +230,7 @@
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
-    <Page Include="views\BookDetails.xaml">
+    <Page Include="views\TomeDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
@@ -340,6 +343,8 @@
     <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\edit.png" />
     <Content Include="icons\edit_picture.png" />
+    <Content Include="icons\info_checked.png" />
+    <Content Include="icons\info_unchecked.png" />
     <Content Include="icons\micro.png" />
     <Content Include="icons\pause_reordButton.png" />
     <Content Include="icons\notiz_round_icon_sw.png">
@@ -352,6 +357,10 @@
     <Content Include="icons\Pro_Typen_round_Icon.png" />
     <Content Include="icons\speaker_reordButton.png" />
     <Content Include="charakter.png" />
+    <Content Include="icons\typen_checked.png" />
+    <Content Include="icons\struktur_checked.png" />
+    <Content Include="icons\typen_unchecked.png" />
+    <Content Include="icons\struktur_unchecked.png" />
     <Content Include="images\headImage_grayscale_top.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

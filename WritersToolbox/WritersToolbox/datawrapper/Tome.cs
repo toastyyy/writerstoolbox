@@ -13,6 +13,7 @@ namespace WritersToolbox.datawrapper
         public int tomeNumber { get; set; }
         public DateTime addedDate { get; set; }
         public DateTime updatedDate { get; set; }
+        public int information { get; set; }
         public List<Chapter> chapters { get; set; }
         public Book book { get; set; }
         public Boolean deleted { get; set; }

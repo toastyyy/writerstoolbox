@@ -56,6 +56,23 @@ namespace WritersToolbox.models
             }
         }
 
+        private int stg_information;
+        [Column(CanBeNull = true,
+            Storage = "stg_information")]
+        public int information
+        {
+            get { return stg_information; }
+            set
+            {
+                if (stg_information != value)
+                {
+                    sendPropertyChanging("information");
+                    stg_information = value;
+                    sendPropertyChanged("information");
+                }
+            }
+        }
+
         private int stg_tomeNumber;
         [Column(CanBeNull = false,
             Storage = "stg_tomeNumber")]
@@ -74,7 +91,7 @@ namespace WritersToolbox.models
         }
 
         private DateTime stg_addedDate;
-        [Column(CanBeNull=false,
+        [Column(CanBeNull = false,
             Storage = "stg_addedDate")]
         public DateTime addedDate
         {
@@ -141,7 +158,7 @@ namespace WritersToolbox.models
         public Book obj_book
         {
             get { return _books.Entity; }
-            set 
+            set
             {
                 sendPropertyChanging("obj_book");
                 _books.Entity = value;

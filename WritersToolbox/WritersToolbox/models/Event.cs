@@ -162,5 +162,27 @@ namespace WritersToolbox.models
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        /// <summary>
+        /// Explicit Konvertierung von Models.Event to Datawrapper.Event
+        /// </summary>
+        /// <param name="_event">Models.Event</param>
+        /// <returns>Datawrapper.Event</returns>
+        public static explicit operator datawrapper.Event(models.Event _event)
+        {
+
+            datawrapper.Event tempEvent = new datawrapper.Event()
+                {
+                    chapter = null,
+                    deleted = _event.deleted,
+                    eventID = _event.eventID,
+                    notes = null,
+                    orderInChapter = _event.orderInChapter,
+                    title = _event.title,
+                    typeObjects = null
+                };
+
+            return tempEvent;
+        }
     }
 }
