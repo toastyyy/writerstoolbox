@@ -17,7 +17,9 @@ namespace WritersToolbox.viewmodels
         private Table<Book> tableBook;
         private Table<Tome> tableTome;
         private Table<WritersToolbox.models.TypeObject> tableTypeObject;
+        private Table<WritersToolbox.models.Type> tableType;
         private Table<Event> tableEvent;
+
 
         public ObservableCollection<Object> DeletedObjects { get; set; }
         public TrashbinViewModel()
@@ -29,6 +31,7 @@ namespace WritersToolbox.viewmodels
                 tableBook = db.GetTable<Book>();
                 tableTome = db.GetTable<Tome>();
                 tableTypeObject = db.GetTable<WritersToolbox.models.TypeObject>();
+                tableType = db.GetTable<WritersToolbox.models.Type>();
                 tableEvent = db.GetTable<Event>();
             }
             catch (Exception ex)
@@ -96,24 +99,45 @@ namespace WritersToolbox.viewmodels
                 this.DeletedObjects.Add(t);
             }
 
-            var sqlType = from ty in tableTypeObject
-                          where ty.deleted == true
-                          select ty;
+            var sqlTypeObject = from tO in tableTypeObject
+                          where tO.deleted == true
+                          select tO;
+            foreach (var typeObject in sqlTypeObject)
+            {
+                datawrapper.TypeObject tO = new datawrapper.TypeObject()
+                {
+
+                    typeObjectID = typeObject.typeObjectID,
+                    //type = typeObject.type,
+                    // notes = typeObject.notes,
+                    color = typeObject.color,
+                    used = typeObject.used,
+                    name = typeObject.name,
+                  
+                    imageString = typeObject.imageString
+
+                };
+                this.DeletedObjects.Add(tO);
+            }
+
+            var sqlType = from ty in tableType
+                                where ty.deleted == true
+                                select ty;
             foreach (var type in sqlType)
             {
-                datawrapper.TypeObject ty = new datawrapper.TypeObject()
+                datawrapper.Type ty = new datawrapper.Type()
                 {
-                    typeObjectID = type.typeObjectID,
-                //    notes = type.notes,
+                   
+                    typeID = type.typeID,
+                    title = type.title,
                     color = type.color,
-                    name = type.name,
-                  //  obj_Type = type.obj_Type;
-                    imageString = type.imageString
-                  //  ObservableCollection<MemoryNote> notes = type.note
+                    imageString = type.imageString,
+                 //   typeObjects = type.typeObjects
 
                 };
                 this.DeletedObjects.Add(ty);
             }
+
 
             return DeletedObjects;
         }

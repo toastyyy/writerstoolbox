@@ -14,6 +14,7 @@ namespace WritersToolbox.templateselector
         public DataTemplate memoryNoteTemplate { get; set; }
         public DataTemplate eventTemplate { get; set; }
         public DataTemplate typeObjectTemplate { get; set; }
+        public DataTemplate typeTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -33,7 +34,10 @@ namespace WritersToolbox.templateselector
             {
                 return tomeTemplate;
             }
-            
+            else if (item.GetType().IsAssignableFrom((new datawrapper.Type()).GetType()))
+            {
+                return typeTemplate;
+            }
             
             
 
