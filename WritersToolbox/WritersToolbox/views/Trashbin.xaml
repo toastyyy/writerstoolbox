@@ -24,7 +24,7 @@
                         <ColumnDefinition Width="115" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Image Grid.Column="0" HorizontalAlignment="Stretch" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/notiz_round_icon.png" Margin="20,0,0,0"/>
+                    <Image Grid.Column="0" HorizontalAlignment="Stretch" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/notiz_round_icon.png" Margin="0,0,0,0"/>
                     <Grid Grid.Column="1" Margin="10,0,-10,0" HorizontalAlignment="Left" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="27" />
@@ -59,20 +59,14 @@
         </DataTemplate>
 
         <DataTemplate x:Key="trashbinTypeTemplate">
-            <Grid Width="Auto" Height="Auto" Margin="0,20,0,20" Tap="Grid_Tap" Hold="Grid_Hold">
+            <Grid Width="Auto" Height="Auto" Margin="0,20,0,0" Tap="Grid_Tap" Hold="Grid_Hold">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" HorizontalAlignment="Left" Height="150" VerticalAlignment="Top" Width="77" Source="/icons/Pro_Typen_round_Icon.png" Margin="0,0,0,0"/>
-                <Grid Grid.Column="1" Margin="10,0,-10,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="27" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" x:Name="titleTypeTextBlock" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="-50,-10,0,0"/>
-                </Grid>
-                <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-                <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/Pro_Typen_round_Icon.png" Margin="0,0,0,0"/>
+                <TextBlock Grid.Column="1" x:Name="titleTypeTextBlock" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,0,0,0"/>
+                <Border Margin="0,0,0,0" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
             </Grid>
         </DataTemplate>
 
@@ -113,10 +107,7 @@
                     Margin="0,70,0,0" 
                     ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                     BorderBrush="Black"
-                    ItemTemplate="{StaticResource trashbinTemplateSelector}">
-                
-               
-            </toolkit:LongListMultiSelector>
+                    ItemTemplate="{StaticResource trashbinTypeTemplate}" HorizontalContentAlignment="Left"/>
 
 
         </Grid>
