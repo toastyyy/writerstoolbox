@@ -98,7 +98,7 @@ namespace WritersToolbox.viewmodels
                 };
                 this.DeletedObjects.Add(t);
             }
-
+            //typeObjecte die geloescht sind
             var sqlTypeObject = from tO in tableTypeObject
                           where tO.deleted == true
                           select tO;
@@ -119,7 +119,7 @@ namespace WritersToolbox.viewmodels
                 };
                 this.DeletedObjects.Add(tO);
             }
-
+            //Komplette Typen die gelöscht sind.
             var sqlType = from ty in tableType
                                 where ty.deleted == true
                                 select ty;
