@@ -29,7 +29,7 @@
             <Grid Width="450" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                 <StackPanel Margin="0,10,0,0">
                     <TextBlock Margin="50,20,0,5" 
-                       Text="Name des Werkes" 
+                       Text="{Binding Path=LocalizedResources.BookName, Source={StaticResource LocalizedStrings}}" 
                        FontSize="25"
                        Foreground="Black"/>
                     <TextBox x:Name="bName" 
@@ -41,7 +41,7 @@
                      Foreground="Black" 
                      ToolTipService.ToolTip="Titel"/>
                     <TextBlock Margin="50,30,0,10" 
-                       Text="Buchtyp" 
+                       Text="{Binding Path=LocalizedResources.BookType, Source={StaticResource LocalizedStrings}}" 
                        FontSize="25"
                        Foreground="Black"/>
 
@@ -139,22 +139,15 @@
                 <Grid Grid.Column="1" Margin="10,0,-10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="30" />
-                        <RowDefinition Height="30" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" 
                                                Foreground="#FF414141" 
-                                               Text="Neuen Band" 
+                                               Text="{Binding Path=LocalizedResources.NewTomeTemplate, Source={StaticResource LocalizedStrings}}" 
                                                FontSize="30"
                                                Margin="0,-10,0,0"
                                                FontFamily="Segoe WP SemiLight"
                                                TextWrapping="Wrap"/>
-                    <TextBlock Grid.Row="1" 
-                                               Foreground="#FF414141" 
-                                               Text="erstellen"
-                                               FontSize="30" 
-                                               FontFamily="Segoe WP SemiLight"
-                                               Margin="0,-4,0,0"
-                                               TextWrapping="Wrap"/>
+                    
                 </Grid>
                 <!--<Border Margin="0,0,0,-20" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />-->
 
@@ -204,9 +197,9 @@
         <Popup x:Name="booktype_popup" Grid.RowSpan="2" Margin="0,-5,0,0">
             <Grid Width="480" Background="Black" >
                 <StackPanel Margin="50,20,10,0">
-                    <TextBlock Text="Buchtyp wählen"  
+                    <TextBlock Text="{Binding Path=LocalizedResources.BooktypeHeadline, Source={StaticResource LocalizedStrings}}"  
                                FontSize="40"/>
-                    <TextBlock Text="Bitte wählen Sie einen Buchtyp" 
+                    <TextBlock Text="{Binding Path=LocalizedResources.BooktypeText, Source={StaticResource LocalizedStrings}}" 
                                FontSize="21" 
                                Margin="0,20,0,0" />
                     <Grid Width="400" Height="300" Margin="0,20,0,0">
@@ -230,8 +223,8 @@
                         </phone:LongListSelector>
                     </Grid>
                     <StackPanel Orientation="Horizontal" Margin="0,10,40,0">
-                        <Button x:Name="btn_continue"  Content="Speichern" Width="180" Margin="0,0,0,10" />
-                        <Button x:Name="btn_cancel"    Content="Abbrechen"   Width="180" Tap="bookTypeCancel" Margin="0,0,0,10" />
+                        <Button x:Name="btn_continue"  Content="{Binding Path=LocalizedResources.TextSave, Source={StaticResource LocalizedStrings}}" Width="180" Margin="0,0,0,10" />
+                        <Button x:Name="btn_cancel"    Content="{Binding Path=LocalizedResources.TextCancel, Source={StaticResource LocalizedStrings}}"   Width="180" Tap="bookTypeCancel" Margin="0,0,0,10" />
                     </StackPanel>
                 </StackPanel>
             </Grid>
@@ -249,18 +242,18 @@
                                Margin="20,40,0,0" 
                                FontSize="22" 
                                TextWrapping="Wrap"/>
-                    <CheckBox x:Name="keepTomes" IsChecked="True" Content="Alle Bände erhalten" Margin="10,10,0,0"/>
+                    <CheckBox x:Name="keepTomes" IsChecked="True" Content="{Binding Path=LocalizedResources.CheckboxKeepTomes, Source={StaticResource LocalizedStrings}}" Margin="10,10,0,0"/>
                 </StackPanel>
                 <Button Grid.Row="1"
                         Width="230" 
                         HorizontalAlignment="Left" 
-                        Content="löschen" 
+                        Content="{Binding Path=LocalizedResources.TextDelete, Source={StaticResource LocalizedStrings}}" 
                         Margin="5,0,0,10" 
                         Click="DeleteBook"/>
                 <Button Grid.Row="1" 
                         Width="230" 
                         HorizontalAlignment="Right" 
-                        Content="abbrechen" 
+                        Content="{Binding Path=LocalizedResources.TextCancel, Source={StaticResource LocalizedStrings}}" 
                         Margin="0,0,5,10" 
                         Click="DoNotDeleteBook"/>
             </Grid>
@@ -277,7 +270,7 @@
                          VerticalContentAlignment="Top"
                          FontFamily="Segoe WP Light">
                 <phone:Pivot.Title>
-                    <TextBlock Margin="9,0,0,0" Text="WERKE" FontSize="22" FontFamily="Segoe WP Light"/>
+                <TextBlock Margin="9,0,0,0" Text="{Binding Path=LocalizedResources.BooksPageTitle, Source={StaticResource LocalizedStrings}}" FontSize="22" FontFamily="Segoe WP Light"/>
                 </phone:Pivot.Title>
             </phone:Pivot>
     </Grid>

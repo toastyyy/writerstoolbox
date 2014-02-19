@@ -122,7 +122,7 @@
     <comment>Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</comment>
   </data>
   <data name="ResourceLanguage" xml:space="preserve">
-    <value>de-de</value>
+    <value>en</value>
     <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
   </data>
   <data name="ApplicationTitle" xml:space="preserve">
@@ -199,36 +199,36 @@
     <value>..\icons\typen_unchecked.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
   </data>
   <data name="BooksPageTitle" xml:space="preserve">
-    <value>WERKE</value>
+    <value>BOOKS</value>
   </data>
   <data name="BookName" xml:space="preserve">
-    <value>Name des Werkes</value>
+    <value>Name of the book</value>
   </data>
   <data name="BookType" xml:space="preserve">
-    <value>Buchtyp</value>
+    <value>Booktype</value>
   </data>
   <data name="BooktypeHeadline" xml:space="preserve">
-    <value>Buchtyp wählen</value>
+    <value>Choose booktype</value>
   </data>
   <data name="BooktypeText" xml:space="preserve">
-    <value>Bitte wählen Sie einen Buchtyp</value>
+    <value>Please choose a booktype</value>
   </data>
   <data name="CheckboxKeepTomes" xml:space="preserve">
-    <value>Alle Bände erhalten</value>
+    <value>keep all tomes</value>
   </data>
   <data name="NewTomeTemplate" xml:space="preserve">
-    <value>Neuen Band erstellen</value>
+    <value>New Tome</value>
   </data>
   <data name="SettingsTitle" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>Settings</value>
   </data>
   <data name="TextCancel" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>Cancel</value>
   </data>
   <data name="TextDelete" xml:space="preserve">
-    <value>Löschen</value>
+    <value>Delete</value>
   </data>
   <data name="TextSave" xml:space="preserve">
-    <value>Speichern</value>
+    <value>Save</value>
   </data>
 </root>

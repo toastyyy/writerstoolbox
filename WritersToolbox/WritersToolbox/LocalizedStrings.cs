@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox
 {
-    class LocalizedStrings
+    /// <summary>
+    /// Bietet Zugriff auf Zeichenfolgenressourcen.
+    /// </summary>
+    public class LocalizedStrings
     {
-        public LocalizedStrings()
-        {
-        }
+        private static AppResources _localizedResources = new AppResources();
 
-        private static WritersToolbox.App localizedresources = new WritersToolbox.App();
-
-        public WritersToolbox.App Localizedresources { get { return localizedresources; } }
-
+        public AppResources LocalizedResources { get { return _localizedResources; } }
     }
 }
