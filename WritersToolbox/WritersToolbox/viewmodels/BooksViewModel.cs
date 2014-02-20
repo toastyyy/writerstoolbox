@@ -56,6 +56,7 @@ namespace WritersToolbox.viewmodels
         {
             // buchtypen laden
             var sqlBookTypes = from bt in tableBookType
+                               where bt.deleted == false
                                select bt;
             ObservableCollection<datawrapper.BookType> tmpBookTypes = new ObservableCollection<datawrapper.BookType>();
             foreach(var bt in sqlBookTypes) {
@@ -138,12 +139,20 @@ namespace WritersToolbox.viewmodels
             this.Books = tmpBooks;
         }
 
-        public void deleteBook( datawrapper.Book item)
+        public void deleteBook( datawrapper.Book item, bool keepTomes)
         {
-            
+            if (keepTomes)
+            {
                 obj_book = wtb.GetTable<Book>().Single(book => book.bookID == item.bookID);
                 obj_book.deleted = true;
-            
+                this.wtb.SubmitChanges();
+                this.loadData();
+            }
+            else
+            {
+
+            }
+                
             wtb.SubmitChanges();
         }
     }
