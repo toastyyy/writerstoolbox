@@ -12,6 +12,7 @@ using System.Diagnostics;
 using WritersToolbox.models;
 using System.Windows.Media;
 using Coding4Fun.Toolkit.Controls;
+using System.Collections;
 
 
 namespace WritersToolbox.views
@@ -25,6 +26,8 @@ namespace WritersToolbox.views
         private datawrapper.TypeObject holdTypeobject;
         public static TypesViewModel types_VM = null;
 
+        private LongListMultiSelector currentSelectList = null;
+        private datawrapper.Type currentType = null;
         //bei selectionChanged wird Farbe hier zwischengespeichert
         private Color selectedColor;
 
@@ -72,7 +75,6 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void pinch_out(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
-
             if (e.PinchManipulation != null)
             {
                 if (e.PinchManipulation.CumulativeScale > 1d)
@@ -106,29 +108,36 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void LongList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            LongListSelector selector = sender as LongListSelector;
+            LongListMultiSelector selector = sender as LongListMultiSelector;
+            Grid parent = selector.Parent as Grid;
             if (selector == null)
                 return;
-            datawrapper.TypeObject to = selector.SelectedItem as datawrapper.TypeObject;
-            if (to == null)
-                return;
-            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
-            {              
-                PhoneApplicationService.Current.State["typeObjectID"] = to.typeObjectID;
-                NavigationService.GoBack();
-                return;
-            }
-            // ein Objekt TypeObject hat TypID = -2
-            else if (to.type.typeID == -2)
+            for (int i = 0; i < e.RemovedItems.Count; i++)
             {
-                NavigationService.Navigate(new Uri("/views/TypeObjectAdd.xaml?typeID=" + (PivotMain.SelectedIndex + 1), UriKind.Relative));
+                selector.SelectedItems.Remove(e.RemovedItems[i]);
             }
-            // detailansicht fuer typobject
+
+            if (selector.SelectedItems.Count == 0)
+            {
+                types_VM.addAddTypeObject(this.currentType);
+                this.restoreApplicationBar();
+                this.PivotMain.IsLocked = false;
+            }
             else
             {
-                NavigationService.Navigate(new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + to.typeObjectID, UriKind.Relative));
+                this.PivotMain.IsLocked = true;
             }
-            selector.SelectedItem = null;
+
+            if (selector.SelectedItems.Count < selector.ItemsSource.Count) {
+                ((CheckBox)parent.Children[0]).Unchecked -= selectAllCheckBox_Unchecked;
+                ((CheckBox)parent.Children[0]).IsChecked = false;
+                ((CheckBox)parent.Children[0]).Unchecked += selectAllCheckBox_Unchecked;
+            }
+            if (selector.SelectedItems.Count == selector.ItemsSource.Count) {
+                ((CheckBox)parent.Children[0]).Unchecked -= selectAllCheckBox_Unchecked;
+                ((CheckBox)parent.Children[0]).IsChecked = true;
+                ((CheckBox)parent.Children[0]).Unchecked += selectAllCheckBox_Unchecked;
+            }
         }
 
         /// <summary>
@@ -197,13 +206,28 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void TryDeleteTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
+        private void OpenTypeObjectDetail(object sender, System.Windows.Input.GestureEventArgs e)
         {
             holdTypeobject = (sender as Grid).DataContext as datawrapper.TypeObject;
             if (holdTypeobject == null)
                 return;
-            TypeObjectDeleteQuestion.Text = "Wollen Sie das Typobjekt \"" + holdTypeobject.name.ToString() + "\" löschen?";
-            deleteTypeObjectPopup.IsOpen = true;
+
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                PhoneApplicationService.Current.State["typeObjectID"] = holdTypeobject.typeObjectID;
+                NavigationService.GoBack();
+                return;
+            }
+            // ein Objekt TypeObject hat TypID = -2
+            else if (holdTypeobject.type.typeID == -2)
+            {
+                NavigationService.Navigate(new Uri("/views/TypeObjectAdd.xaml?typeID=" + (this.currentType.typeID), UriKind.Relative));
+            }
+            // detailansicht fuer typobject
+            else
+            {
+                NavigationService.Navigate(new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + holdTypeobject.typeObjectID, UriKind.Relative));
+            }
         }
 
         /// <summary>
@@ -407,6 +431,7 @@ namespace WritersToolbox.views
             datawrapper.Type t = p.SelectedItem as datawrapper.Type;
             if (t == null)
                 return;
+            this.currentType = t;
             ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
             ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
             if (t.typeID == -1)
@@ -419,6 +444,7 @@ namespace WritersToolbox.views
                 btn2.Text = "abbrechen";
                 btn2.Click -= new EventHandler(TryDeleteType);
                 btn2.Click += new EventHandler(CancelType);
+                this.currentSelectList = null;
             }
             else
             {
@@ -440,5 +466,110 @@ namespace WritersToolbox.views
 
         }
 
+        private void LongList_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            LongListMultiSelector llms = (LongListMultiSelector)sender;
+            currentSelectList = llms;
+            FrameworkElement c = (FrameworkElement) e.OriginalSource;
+            while (!llms.Parent.IsTypeOf(new Grid())) { };
+            Grid g = (Grid)c.Parent;
+            Types_VM.removeAddTypeObject(this.currentType);
+
+            llms.SelectedItems.Add(((datawrapper.TypeObject)g.DataContext));
+
+            ApplicationBar.Buttons.Clear();
+
+            ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+            ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+            delete.Text = "löschen";
+            delete.Click += deleteSelection;
+            cancel.Text = "abbrechen";
+            cancel.Click += cancelSelection;
+            ApplicationBar.Buttons.Add(delete);
+            ApplicationBar.Buttons.Add(cancel);
+        }
+
+        private void cancelSelection(object sender, EventArgs e) {
+            if (currentSelectList != null) { 
+                currentSelectList.SelectedItems.Clear();
+                types_VM.addAddTypeObject(this.currentType);
+                this.restoreApplicationBar();
+            } 
+        }
+
+        private void deleteSelection(object sender, EventArgs e) {
+            if (currentSelectList != null) {
+                IEnumerator enumerator = currentSelectList.SelectedItems.GetEnumerator();
+                while (enumerator.MoveNext()) {
+                    types_VM.deleteTypeObject(((datawrapper.TypeObject)enumerator.Current).typeObjectID);
+                }
+                types_VM.addAddTypeObject(this.currentType);
+                this.restoreApplicationBar();
+            }
+        }
+
+        private void restoreApplicationBar() {
+            ApplicationBarIconButton btn1 = new ApplicationBarIconButton();
+            ApplicationBarIconButton btn2 = new ApplicationBarIconButton();
+
+            btn1.IconUri = new Uri("/icons/edit.png", UriKind.Relative);
+            btn1.Text = "ändern";
+            btn1.Click -= new EventHandler(SaveType);
+            btn1.Click += new EventHandler(ChangeType);
+            btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
+            btn2.Text = "löschen";
+            btn2.Click -= new EventHandler(CancelType);
+            btn2.Click += new EventHandler(TryDeleteType);
+
+            ApplicationBar.Buttons.Clear();
+            ApplicationBar.Buttons.Add(btn1);
+            ApplicationBar.Buttons.Add(btn2);
+        }
+
+        private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            this.PivotMain.IsLocked = true;
+            types_VM.removeAddTypeObject(this.currentType);
+
+            Grid g = ((FrameworkElement) sender).Parent as Grid;
+
+            LongListMultiSelector tmp = g.Children[1] as LongListMultiSelector;
+            IEnumerator items = tmp.ItemsSource.GetEnumerator();
+            this.currentSelectList = tmp;
+            tmp.SelectionChanged -= LongList_SelectionChanged;
+            tmp.SelectedItems.Clear();
+            while (items.MoveNext()) {
+                tmp.SelectedItems.Add(items.Current);
+            }
+            tmp.SelectionChanged += LongList_SelectionChanged;
+            ApplicationBar.Buttons.Clear();
+
+            ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+            ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+            delete.Text = "löschen";
+            delete.Click += deleteSelection;
+            cancel.Text = "abbrechen";
+            cancel.Click += cancelSelection;
+            ApplicationBar.Buttons.Add(delete);
+            ApplicationBar.Buttons.Add(cancel);
+        }
+
+        private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.PivotMain.IsLocked = false;
+            FrameworkElement c = (FrameworkElement)((FrameworkElement)sender).Parent;
+
+            IEnumerator enumeration = c.GetVisualChildren().GetEnumerator();
+            while (enumeration.MoveNext())
+            {
+                if (enumeration.Current.IsTypeOf(new LongListMultiSelector()))
+                {
+                    LongListMultiSelector tmp = ((LongListMultiSelector)enumeration.Current);
+                    tmp.SelectedItems.Clear();
+                }
+            }
+            this.restoreApplicationBar();
+            types_VM.addAddTypeObject(this.currentType);
+        }
     }
 }

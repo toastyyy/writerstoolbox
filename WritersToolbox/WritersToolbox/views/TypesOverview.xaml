@@ -7,6 +7,7 @@
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:wt="clr-namespace:WritersToolbox.viewmodels"
+    xmlns:converter="clr-namespace:WritersToolbox.converter"
     FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -16,26 +17,33 @@
     Style="{StaticResource TransitionPageStyle}" Loaded="pageLoaded">
 
     <phone:PhoneApplicationPage.Resources>
+        <converter:DefaultIfEmptyConverter x:Key="DefaultIfEmptyConverter" />
         <!--Template für LongListSelector-item-->
         <DataTemplate x:Key="TypesOverviewTemplate">
             <Grid Width="Auto" 
                   Height="Auto" 
                   Margin="10,10,10,10" 
-                  Background="{Binding color}"
+                  Background="Transparent"
                   Hold="TryDeleteType">
-                <Grid.RowDefinitions>
-                    <RowDefinition Height="*"/>
-                    <RowDefinition Height="40"/>
-                </Grid.RowDefinitions>
-                <Image Source="{Binding imageString}" Stretch="UniformToFill"/>
-                <Border Grid.Row="1" Background="White">
-                    <TextBlock Text="{Binding title}"
+                <Border Grid.Row="1" BorderThickness="1,1,1,1">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="30" />
+                            <RowDefinition Height="80"/>
+                            <RowDefinition Height="40"/>
+                        </Grid.RowDefinitions>
+                        <Image Margin="0,0,0,0" Grid.Row="1" Source="{Binding imageString, Converter={StaticResource DefaultIfEmptyConverter}, ConverterParameter=/icons/no_image.png}" />
+
+                        <TextBlock Text="{Binding title}"
                                Foreground="Black"
                                TextWrapping="Wrap"  
                                FontSize="24" 
+                               Grid.Row="2"
                                VerticalAlignment="Bottom" 
                                HorizontalAlignment="Center" 
-                               Margin="0,0,0,5" />
+                               Margin="0,5,0,5" />
+                    </Grid>
+
                 </Border>
                 
             </Grid>
@@ -50,7 +58,7 @@
                 <RowDefinition Height="Auto"/>
                 <RowDefinition Height="*"/>
             </Grid.RowDefinitions>
-            <Image Source="/headImage_rot_smal.png" Margin="0,-6,0,6" />
+            <Image Source="/headImage_rot_smal.png" Margin="0,-16,0,6" />
             <Rectangle Grid.Row="1" Fill="#FF252525" Margin="0,0,0,0" VerticalAlignment="Bottom" Height="72"></Rectangle>
             <!--Popup für Löschen des Typs-->
             <Popup x:Name="deleteTypePopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
@@ -71,7 +79,7 @@
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
             <StackPanel Grid.Row="0" Margin="12,17,0,28">
                 <TextBlock Text="TYPEN" Margin="9,0,0,0" FontSize="22"/>
-                <TextBlock Text="Überblick" Margin="9,30,0,0" FontSize="65" Height="62"/>
+                <TextBlock Text="Überblick" Margin="9,40,0,0" FontSize="45" Height="62"/>
             </StackPanel>
 
             <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
@@ -82,7 +90,7 @@
                     Width="Auto" 
                     ItemsSource="{Binding Path=Types, Mode=TwoWay}"
                     LayoutMode="Grid"
-                    GridCellSize="200, 200" 
+                    GridCellSize="200, 170" 
                     Padding="20,10"
                     ItemTemplate="{StaticResource TypesOverviewTemplate}"
                     x:Name="list"

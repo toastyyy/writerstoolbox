@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -13,11 +14,11 @@ namespace WritersToolbox.datawrapper
         public String color { get; set; }
         public String imageString { get; set; }
         public int typeID { get; set; }
-        public List<TypeObject> typeObjects { get; set; }
+        public ObservableCollection<TypeObject> typeObjects { get; set; }
 
         public Type() 
         {
-            typeObjects = new List<TypeObject>();
+            typeObjects = new ObservableCollection<TypeObject>();
         }
     }
 }
