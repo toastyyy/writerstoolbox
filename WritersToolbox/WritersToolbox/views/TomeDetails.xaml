@@ -17,40 +17,76 @@
 
     <phone:PhoneApplicationPage.Resources>
         <!--Anzeige der Ereignisse-->
-        <DataTemplate x:Key="eventItemTemplate">
-            <StackPanel VerticalAlignment="Top" Margin="145,0,0,0">
-                <TextBlock x:Name="titleText" Text="{Binding title}" Foreground="#FF414141"  FontSize="30" FontFamily="Segoe WP Light" />
-                <!--<TextBlock x:Name="typeText" Grid.Row="1" Text="{Binding notes.Count()}" FontSize="20" Foreground="#FFA6A6A6" FontFamily="Segoe WP SemiLight"/>-->
+        <DataTemplate x:Key="eventItemTemplate" >
+            <StackPanel x:Name="Event" VerticalAlignment="Top" Margin="145,0,0,0">
+                <Border Background="Transparent" Padding="5">
+                    <Border Grid.Column="1"  Background="White" BorderThickness="0,0,0,1" BorderBrush="LightGray" Width="480"    
+                    Height="70" Margin="0,0,18,0" HorizontalAlignment="Left">
+                        <TextBlock x:Name="titleText" Text="{Binding title}" Foreground="#FF414141"  FontSize="25" FontFamily="Segoe WP Light" />
+                    </Border>
+                </Border>
             </StackPanel>
         </DataTemplate>
 
-        <!--Anzeige der Kapitel-->
+        <!--DataTemplate der Strukture -->
         <DataTemplate x:Key="chapterItemTemplate">
-            <Border Background="Transparent" Padding="5">
-                <!-- <Border  Background="{StaticResource PhoneAccentBrush}" BorderBrush="{StaticResource PhoneAccentBrush}" BorderThickness="2" Width="Auto" Height="70" Margin="0,0,18,0" HorizontalAlignment="Left"> -->
-                <Border  Background="White" BorderBrush="White" BorderThickness="2" Width="Auto"    
+            <Grid x:Name="chapterItem" Hold="chapterItem_Hold" >
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="70" />
+                    <RowDefinition Height="*"  />
+                </Grid.RowDefinitions>
+                <!--Kapitel-->
+                <Grid x:Name="Chapter" Grid.Row="0" Hold="Chapter_Hold" >
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="50" />
+                        <ColumnDefinition Width="*" />
+                    </Grid.ColumnDefinitions>
+                    <Image Grid.Column="0"  Height="70" Width="46" Source="/icons/off.png" Margin="0,-10,0,0" Tap="Image_Tap"  />
+                    <Border Grid.Column="1" Background="White" BorderThickness="0,15,0,1" BorderBrush="LightGray" Width="480"    
                     Height="70" Margin="0,0,18,0" HorizontalAlignment="Left">
-                    <!--<TextBlock Text="{Binding Key}" Foreground="{StaticResource PhoneForegroundBrush}" FontSize="48" Padding="6" 
-                        FontFamily="{StaticResource PhoneFontFamilySemiLight}" HorizontalAlignment="Left" VerticalAlignment="Center"/>-->
-                    <TextBlock Text="{Binding Key}" Foreground="#FF353535" FontSize="30" Padding="6" 
-                       FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center"/>
-                </Border>
-            </Border>
+                        <TextBlock Text="{Binding title}" Margin="0,-15,0,0" Foreground="Black" FontSize="30" Padding="6" 
+                       FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal"/>
+                    </Border>
+                </Grid>
+                <!--Ereignis-->
+                <toolkit:LongListMultiSelector
+                        x:Name="llmsEvent"
+                        Background="Transparent"
+                        ItemTemplate="{StaticResource eventItemTemplate}"
+                        ItemsSource="{Binding events}"
+                        LayoutMode="List"         
+                        ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
+                        BorderBrush="Black" Grid.Row="1" Hold="llmsEvent_Hold" Visibility="Collapsed" />
+            </Grid>
         </DataTemplate>
-
+        
+        <!--Grouping-->
+        <DataTemplate x:Key="groupItemTemplate">
+            <Grid x:Name="chapterItem" >
+                    <TextBlock Text="{Binding title}" Margin="0,0,0,0" Foreground="Black" FontSize="0" 
+                       FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal"/>
+            </Grid>
+        </DataTemplate>
         <!--JumpListe durch Kapitel-->
-        <phone:JumpListItemBackgroundConverter x:Key="BackgroundConverter"/>
-        <phone:JumpListItemForegroundConverter x:Key="ForegroundConverter"/>
         <Style x:Key="chapterJumpListStyle" TargetType="phone:LongListSelector">
             <Setter Property="LayoutMode" Value="List" />
-            <Setter Property="Margin" Value="12,12,0,0"/>
+            <Setter Property="Margin" Value="12,12,12,12"/>
             <Setter Property="ItemTemplate">
                 <Setter.Value>
                     <DataTemplate>
-                        <Border Background="{Binding Converter={StaticResource BackgroundConverter}}" Width="Auto" Height="70" Margin="6" >
-                            <TextBlock Text="{Binding Key}" FontFamily="{StaticResource PhoneFontFamilySemiBold}" FontSize="48" Padding="6" 
-                            Foreground="{Binding Converter={StaticResource ForegroundConverter}}" VerticalAlignment="Center"/>
-                        </Border>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="10" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <Rectangle Grid.Column="0" Fill="#FFFFFFFF" HorizontalAlignment="Left" Height="70" Margin="0,20,0,0" Stroke="Black" VerticalAlignment="Top" Width="10"/>
+                            <Rectangle Grid.Column="1" Fill="#FF353535" HorizontalAlignment="Left" Height="70" Margin="0,20,0,0" Stroke="Black" VerticalAlignment="Top" Width="10"/>
+                            <Border Grid.Column="2" Background="White" Width="Auto" Height="70" Margin="0,20,0,0" >
+                                <TextBlock Text="{Binding Key}" FontFamily="Segoe WP Light" FontSize="30" Padding="15" 
+                            Foreground="#FF353535" VerticalAlignment="Center"/>
+                            </Border>
+                        </Grid>
                     </DataTemplate>
                 </Setter.Value>
             </Setter>
@@ -68,11 +104,11 @@
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Background="White" RenderTransformOrigin="0.506,0.509" Grid.RowSpan="2">
             <!--HeadImage-->
-            <Image Margin="0,0,0,432" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
+            <Image Margin="0,0,0,511" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
             <!--BookTitle-->
-            <TextBlock x:Name="bookTitle" FontFamily="Segoe WP Light" TextWrapping="Wrap"  Foreground="White" FontSize="55" TextAlignment="Center" HorizontalAlignment="Left" Margin="22,58,0,0" Text="Harry Potter" VerticalAlignment="Top" Height="166" Width="431" />
+            <TextBlock x:Name="bookTitle" FontFamily="Segoe WP Light" TextWrapping="Wrap"  Foreground="White" FontSize="55" TextAlignment="Center" HorizontalAlignment="Left" Margin="22,10,0,0" Text="Harry Potter" VerticalAlignment="Top" Height="152" Width="431" />
             <!--Steuerelement-->
-            <Grid x:Name="steuerelement" Margin="0,264,0,361">
+            <Grid x:Name="steuerelement" Margin="0,184,0,441">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="160" />
                     <ColumnDefinition Width="160" />
@@ -90,9 +126,10 @@
                 <Image x:Name="typeObject" Width="160" Height="75" Grid.Column="2" Source="/icons/typen_unchecked.png" Tap="typeObjekt_Tap" />
             </Grid>
             <!--InformationGrid-->
-            <Grid x:Name="informationGrid" Margin="0,340,0,0" Visibility="Collapsed">
-                <!--Informationen Control-->
+            <Grid x:Name="informationGrid" Margin="0,260,0,0" Visibility="Collapsed">
+                <!--Informationen Control-->              
                 <ScrollViewer>
+                    
                     <Grid x:Name="infoControl" Height="Auto">
                         <Grid.RowDefinitions>
                             <RowDefinition Height="70" />
@@ -152,7 +189,7 @@
                 </Grid>
             </Grid>
             <!--Liste der typeobjekte-->
-            <Grid x:Name="TypeObjectGrid" Width="Auto" Margin="0,340,0,0" Visibility="Collapsed">
+            <Grid x:Name="TypeObjectGrid" Width="Auto" Margin="0,260,0,0" Visibility="Collapsed">
                 <phone:LongListSelector 
                     LayoutMode="List" 
                     GridCellSize="200,200"
@@ -160,7 +197,7 @@
                     ItemsSource="{Binding typeObjects}"
                     IsGroupingEnabled="False" 
                     Background="#FFFFFFFF" 
-                    BorderBrush="Black" 
+                    BorderBrush="Black"                     
                     RenderTransformOrigin="0.5,0.5">
                     <phone:LongListSelector.RenderTransform>
                         <CompositeTransform ScaleY="1"/>
@@ -189,24 +226,25 @@
                 </phone:LongListSelector>
             </Grid>
             <!--structureGrid-->
-            <Grid x:Name="structureGrid" Width="Auto" Margin="0,340,0,0" Visibility="Visible" >
-                <phone:LongListSelector
-                      x:Name="llstructure"
-                      JumpListStyle="{StaticResource chapterJumpListStyle}"
-                      Background="Transparent"
-                      GroupHeaderTemplate="{StaticResource chapterItemTemplate}"
-                      ItemTemplate="{StaticResource eventItemTemplate}"
-                      LayoutMode="List"
-                      IsGroupingEnabled="true"
-                      HideEmptyGroups ="true"/>
-            </Grid>
+            <Grid x:Name="structureGrid" Width="Auto" Margin="0,260,0,0" Visibility="Visible" >
+
+                <toolkit:LongListMultiSelector
+                        x:Name="llstructure"
+                        JumpListStyle="{StaticResource chapterJumpListStyle}"
+                        Background="Transparent"
+                        ItemsSource="{Binding structur}"                 
+                        ItemTemplate="{StaticResource chapterItemTemplate}"
+                        LayoutMode="List"                   
+                        ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
+                        BorderBrush="Black" />
+            </Grid>            
         </Grid>
 
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF353535">
-            <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="Ändern" />
+            <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="Ändern" Click="ApplicationBarIconButton_Click"  />
             <shell:ApplicationBarIconButton x:Name="deleteTypeObject" IconUri="/icons/delete.png" Text="Löschen" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

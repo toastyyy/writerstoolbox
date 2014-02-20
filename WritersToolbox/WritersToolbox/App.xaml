@@ -19,7 +19,9 @@
             <sys:String x:Key="TypeObjectHeaderBackgroundPath">images/headImage_grayscale_top.jpg</sys:String>
             <sys:String x:Key="NoteIconPath">icons/notiz_round_icon_sw.png</sys:String>
             <!--Styles fuer LongListMultiSelector-->
-
+    
+            <local:LocalizedStrings xmlns:local="clr-namespace:WritersToolbox" x:Key="LocalizedStrings"/>
+            
             <!--Gridstyle-->
             <Style x:Key="LongListMultiSelectorItemGridStyle" TargetType="toolkit:LongListMultiSelectorItem">
                 <Setter Property="Background" Value="Transparent"/>

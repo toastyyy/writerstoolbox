@@ -124,7 +124,7 @@ namespace WritersToolbox.gui
 
         private void navigateToSettings(object sender, RoutedEventArgs e)
         {
-            // TODO
+            NavigationService.Navigate(new Uri("/views/Settings.xaml", UriKind.Relative));
         }
 
         

@@ -145,7 +145,7 @@ namespace WritersToolbox.views
         {
            
            datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
-           books_VM.deleteBook(b);
+           books_VM.deleteBook(b, keepTomes.IsChecked.Value);
 
             deleteBookPopup.IsOpen = false;
         }

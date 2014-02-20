@@ -15,8 +15,7 @@
     <TargetFrameworkVersion>v8.0</TargetFrameworkVersion>
     <SilverlightVersion>$(TargetFrameworkVersion)</SilverlightVersion>
     <SilverlightApplication>true</SilverlightApplication>
-    <SupportedCultures>
-    </SupportedCultures>
+    <SupportedCultures>en</SupportedCultures>
     <XapOutputs>true</XapOutputs>
     <GenerateSilverlightManifest>true</GenerateSilverlightManifest>
     <XapFilename>WritersToolbox_$(Configuration)_$(Platform).xap</XapFilename>
@@ -165,6 +164,9 @@
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\Settings.xaml.cs">
+      <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\EventDetail.xaml.cs">
       <DependentUpon>EventDetail.xaml</DependentUpon>
     </Compile>
@@ -234,6 +236,10 @@
     <Page Include="views\AddNote.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Settings.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="views\EventDetail.xaml">
       <SubType>Designer</SubType>
@@ -355,6 +361,8 @@
     <Content Include="icons\info_checked.png" />
     <Content Include="icons\info_unchecked.png" />
     <Content Include="icons\micro.png" />
+    <Content Include="icons\on.png" />
+    <Content Include="icons\off.png" />
     <Content Include="icons\no_image.png" />
     <Content Include="icons\pause_reordButton.png" />
     <Content Include="icons\notiz_round_icon_sw.png">
@@ -413,6 +421,7 @@
     <Content Include="WritersToolbox.csproj.user" />
   </ItemGroup>
   <ItemGroup>
+    <EmbeddedResource Include="Resources\AppResources.en.resx" />
     <EmbeddedResource Include="Resources\AppResources.resx">
       <Generator>PublicResXFileCodeGenerator</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
