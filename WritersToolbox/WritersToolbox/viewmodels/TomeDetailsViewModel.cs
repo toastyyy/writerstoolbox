@@ -27,6 +27,13 @@ namespace WritersToolbox.viewmodels
         private ObservableCollection<datawrapper.TypeObject> _typeObjects;
         public ObservableCollection<datawrapper.TypeObject> typeObjects { get { return _typeObjects; } }
 
+        private bool on_off_Status;
+
+        //Structur
+        private ObservableCollection<datawrapper.Chapter> _structur;
+        public ObservableCollection<datawrapper.Chapter> structur { get { return _structur; } }
+
+
         /// <summary>
         /// Defaultkonstruktor
         /// </summary>
@@ -46,6 +53,7 @@ namespace WritersToolbox.viewmodels
                 _typeObjects = getAssociatedTypeObjects(tomeID);
                 //Aktualles Band.
                 tome = tableTome.Single(t => t.tomeID == tomeID);
+                _structur = getStructure();
             }
             catch (Exception ex)
             {
@@ -125,6 +133,7 @@ namespace WritersToolbox.viewmodels
                     //Angehängte Notizen zu einem TypeObjekt auslesen und in einer List speichern.
                     ObservableCollection<datawrapper.MemoryNote> tempMemoryNoteList =
                         new ObservableCollection<datawrapper.MemoryNote>();
+
                     foreach (var tempNote in item.notes)
                     {
                         //Notiz auslesen.
@@ -132,12 +141,12 @@ namespace WritersToolbox.viewmodels
                         {
                             addedDate = tempNote.addedDate,
                             associated = tempNote.associated,
-                            contentAudioString = tempNote.contentAudioString,
-                            contentImageString = tempNote.ContentImageString,
+                            contentAudioString = tempNote.contentAudioString == null ? "" : tempNote.contentAudioString,
+                            contentImageString = tempNote.ContentImageString == null ? "" : tempNote.ContentImageString,
                             contentText = tempNote.contentText,
                             deleted = tempNote.deleted,
-                            fk_eventID = tempNote.obj_Event.eventID,
-                            fk_typeObjectID = tempNote.obj_TypeObject.typeObjectID,
+                            fk_eventID = tempNote.obj_Event == null ? 0 : tempNote.obj_Event.eventID == null ? 0 : tempNote.obj_Event.eventID ,
+                            fk_typeObjectID = tempNote.obj_TypeObject == null ? 0 : tempNote.obj_TypeObject.typeObjectID == null ? 0 : tempNote.obj_TypeObject.typeObjectID,
                             memoryNoteID = tempNote.memoryNoteID,
                             tags = tempNote.tags,
                             title = tempNote.title,
@@ -179,43 +188,54 @@ namespace WritersToolbox.viewmodels
 
         //TODO
         /// <summary>
-        /// 
+        /// liefert die Struktur des Bandes zurück
+        ///     Chapter -> Events.
         /// </summary>
-        /// <returns></returns>
-        public List<datawrapper.KeyedList<string, datawrapper.Event>> getStructure()
+        /// <returns>Struktur in ObservableCollection</returns>
+        private ObservableCollection<datawrapper.Chapter> getStructure()
         {
-            //List<﻿datawrapper.KeyedList<string, models.Event>> groupEvents = (from _event in tableEvent
-            //                  where _event.obj_Chapter.obj_tome.tomeID == tome.tomeID
-            //                  orderby _event.obj_Chapter.title
-            //                  group _event by _event.obj_Chapter.title into grouping
-            //                  select new datawrapper.KeyedList<string, models.Event>(grouping)).ToList();
+            ObservableCollection<datawrapper.Chapter> _tempChapterList =
+                new ObservableCollection<datawrapper.Chapter>();
 
-
-            List<datawrapper.KeyedList<string, datawrapper.Event>> _tempKeyedList =
-                new List<datawrapper.KeyedList<string, datawrapper.Event>>();
-
-
+            //Alle Kapitel des Bandes von Datenbank holen.
             List<models.Chapter> chapters = (from chapter in tableChapter
                                              where chapter.obj_tome.tomeID == tome.tomeID
-                                             orderby chapter.title
+                                             orderby chapter.chapterNumber
                                              select chapter).ToList();
-
+            //Alle geholten Kapitel durchlaufen.
             foreach (models.Chapter item in chapters)
             {
+                //Konvertierung eines Kapitels von models zu datawrapper 
+                datawrapper.Chapter _chapter = (datawrapper.Chapter)item;
+
+                //Alle events des Kapitels von Datenbank holen.
                 List<models.Event> events = (from _event in tableEvent
                                              where _event.obj_Chapter.chapterID == item.chapterID
+                                             orderby _event.orderInChapter
                                              select _event).ToList();
 
-                List<datawrapper.Event> _events = new List<datawrapper.Event>();
+                ObservableCollection<datawrapper.Event> _events = new ObservableCollection<datawrapper.Event>();
+                //alle geholten Events durchlaufen.
                 foreach (models.Event item2 in events)
                 {
+                    //Casten des Eregnis von models zu Datawrapper, und in ObservableCollection Speichern.
                     _events.Add((datawrapper.Event)item2);
                 }
 
-                _tempKeyedList.Add(new datawrapper.KeyedList<string, datawrapper.Event>(item.title, _events));
+                //datawrapper.Event _e = new datawrapper.Event()
+                //{
+                //    title = "Ereignis hinzufügen",
+                //};
+                //_events.Add(_e);
+
+                //Die Events zu dem Kapitel hinzufügen
+                _chapter.events = _events;
+
+                //Kapitel zur List hinzufügen
+                _tempChapterList.Add(_chapter);
             }
 
-            return _tempKeyedList;
+            return _tempChapterList;
         }
     }
 }

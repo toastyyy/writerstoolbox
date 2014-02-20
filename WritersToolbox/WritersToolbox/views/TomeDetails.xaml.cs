@@ -21,7 +21,8 @@ namespace WritersToolbox.views
         private int tomeID;
         //Ablage des InformationsCode.
         private int informationCode;
-
+        //JumpListStyle.
+        Style jumListStyle;
         public TomeDetails()
         {
             InitializeComponent();
@@ -159,7 +160,7 @@ namespace WritersToolbox.views
                 }
             }
 
-            llstructure.ItemsSource = tome_VM.getStructure();
+            //llstructure.ItemsSource = tome_VM.getStructure();
         }
 
         /// <summary>
@@ -354,6 +355,59 @@ namespace WritersToolbox.views
         {
             informationCode = 5;
         }
+
+        /// <summary>
+        /// Ereignislist aufklappen bzw. zusammenklappen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Image img = sender as Image;
+            Grid parent = (img.Parent as Grid).Parent as Grid;
+            LongListMultiSelector llms = ((parent.Children[1]) as LongListMultiSelector);
+            if (llms.Visibility == Visibility.Collapsed)    //Ist die Ereignislist zusammengeklappt, 
+            {                                               //dann wird sie aufgeklappt.
+                img.Source = new BitmapImage(new Uri("/icons/on.png", UriKind.RelativeOrAbsolute));
+                llms.Visibility = Visibility.Visible;
+            }
+            else      //Ist die Ereignislist aufgeklappt,
+            {         //dann wird sie zusammenfeklappt.
+                img.Source = new BitmapImage(new Uri("/icons/off.png", UriKind.RelativeOrAbsolute));
+                llms.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
+        {
+
+            llstructure.IsSelectionEnabled = false;
+            l.IsSelectionEnabled = false;
+        }
+
+        private void StackPanel_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            llstructure.IsSelectionEnabled = true;
+        }
+
+        private void chapterItem_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            llstructure.IsSelectionEnabled = true;
+        }
+
+        private void Chapter_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            llstructure.IsSelectionEnabled = true;
+        }
+        LongListMultiSelector l;
+        private void llmsEvent_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            l = sender as LongListMultiSelector;
+            datawrapper.Event _e = e.OriginalSource as datawrapper.Event;
+            l.IsSelectionEnabled = true;
+            l.SelectedItems.Add(_e);
+        }
+
 
     }
 }

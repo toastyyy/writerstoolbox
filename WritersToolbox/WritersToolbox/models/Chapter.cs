@@ -8,6 +8,7 @@ using Microsoft.Phone.Data.Linq;
 using Microsoft.Phone.Data.Linq.Mapping;
 using System.Windows.Media;
 using System.ComponentModel;
+using System.Collections.ObjectModel;
 
 namespace WritersToolbox.models
 {
@@ -191,6 +192,23 @@ namespace WritersToolbox.models
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+
+        public static explicit operator datawrapper.Chapter(models.Chapter _chapter)
+        {
+            datawrapper.Chapter tempChapter = new datawrapper.Chapter()
+            {
+                chapterID = _chapter.chapterID,
+                title = _chapter.title,
+                addedDate = _chapter.addedDate,
+                chapterNumber = _chapter.chapterNumber,
+                deleted = _chapter.deleted,
+                events = null,
+                tome = null,
+                updatedDate = _chapter.updatedDate
+            };
+            return tempChapter;
         }
     }
 }

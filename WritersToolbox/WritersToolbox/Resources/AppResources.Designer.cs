@@ -190,6 +190,26 @@ namespace WritersToolbox.Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
+        public static byte[] off {
+            get {
+                object obj = ResourceManager.GetObject("off", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        public static byte[] on {
+            get {
+                object obj = ResourceManager.GetObject("on", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
         public static byte[] pause_reordButton {
             get {
                 object obj = ResourceManager.GetObject("pause_reordButton", resourceCulture);

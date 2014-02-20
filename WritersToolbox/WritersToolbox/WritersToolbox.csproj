@@ -347,6 +347,8 @@
     <Content Include="icons\info_checked.png" />
     <Content Include="icons\info_unchecked.png" />
     <Content Include="icons\micro.png" />
+    <Content Include="icons\on.png" />
+    <Content Include="icons\off.png" />
     <Content Include="icons\pause_reordButton.png" />
     <Content Include="icons\notiz_round_icon_sw.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
