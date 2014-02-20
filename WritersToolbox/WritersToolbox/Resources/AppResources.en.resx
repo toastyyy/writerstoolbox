@@ -231,4 +231,25 @@
   <data name="TextSave" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="AppBarCancel" xml:space="preserve">
+    <value>cancel</value>
+  </data>
+  <data name="AppBarDelete" xml:space="preserve">
+    <value>delete</value>
+  </data>
+  <data name="AppBarEdit" xml:space="preserve">
+    <value>edit</value>
+  </data>
+  <data name="AppBarSave" xml:space="preserve">
+    <value>save</value>
+  </data>
+  <data name="BookDeleteQuestion1" xml:space="preserve">
+    <value>Would you like to delete the book "</value>
+  </data>
+  <data name="BookDeleteQuestion2" xml:space="preserve">
+    <value>" ?</value>
+  </data>
+  <data name="NewBookEditBooktype" xml:space="preserve">
+    <value>Edit</value>
+  </data>
 </root>

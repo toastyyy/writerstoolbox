@@ -9,11 +9,14 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using Coding4Fun.Toolkit.Controls;
 using System.Windows.Media;
+using WritersToolbox.models;
 
 namespace WritersToolbox.views
 {
     public partial class ChangeBook : PhoneApplicationPage
     {
+        private Book book;
+
         public ChangeBook()
         {
             DataContext = Books.Books_VM;
@@ -24,13 +27,13 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void SaveBook(object sender, EventArgs e)
+        private void UpdateBook(object sender, EventArgs e)
         {
             String name = bName.Text;
 
             try
             {
-                //methode Buchupdate fehlt
+                Books.Books_VM.updateBook(book.bookID, name, book.obj_bookType.bookTypeID);
                 NavigationService.GoBack();
             }
             catch (ArgumentException ae)
@@ -56,7 +59,9 @@ namespace WritersToolbox.views
             {
                 var item = NavigationContext.QueryString["item"];
                 var indexParsed = int.Parse(item);
-                //methode BuchFürID fehlt
+                book = Books.Books_VM.getBookByID(indexParsed);
+                bName.Text = book.name;
+                booktype.Text = book.obj_bookType.name;
             }
 
 

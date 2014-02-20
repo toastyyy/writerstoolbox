@@ -90,7 +90,7 @@
                     <ColumnDefinition Width="200" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <TextBlock Margin="10,0,0,0" 
+                <TextBlock x:Name="booktype" Margin="10,0,0,0" 
                            HorizontalAlignment="Stretch" 
                            VerticalAlignment="Center" 
                            Grid.Column="0" 
@@ -113,7 +113,7 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton IconUri="/icons/save.png" Text="Save" Click="SaveBook"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/save.png" Text="Save" Click="UpdateBook"/>
             <shell:ApplicationBarIconButton IconUri="/icons/cancel.png" Text="Cancel" Click="CancelBook" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
