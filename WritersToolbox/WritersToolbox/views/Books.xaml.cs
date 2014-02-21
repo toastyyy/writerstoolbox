@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using WritersToolbox.viewmodels;
 using WritersToolbox.Resources;
+using System.Windows.Media;
 
 namespace WritersToolbox.views
 {
@@ -23,6 +24,10 @@ namespace WritersToolbox.views
         private int bookTypeID = 1;
 
         private TextBlock bookTypeTextBlock;
+
+        private datawrapper.BookType tmpBooktype;
+
+        private Grid lastSelectedGrid;
 
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
@@ -126,6 +131,12 @@ namespace WritersToolbox.views
         private void bookTypeCancel(object sender, System.Windows.Input.GestureEventArgs e)
         {
             booktype_popup.IsOpen = false;
+            tmpBooktype = null;
+            if (lastSelectedGrid != null)
+            {
+                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
+                lastSelectedGrid = null;
+            }
         }
 
         /// <summary>
@@ -274,19 +285,39 @@ namespace WritersToolbox.views
 
         private void BookTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            datawrapper.BookType btID = (sender as LongListSelector).SelectedItem as datawrapper.BookType;
-            bookTypeID = btID.bookTypeID;
-            bookTypeTextBlock.Text = btID.name;
+            tmpBooktype = (sender as LongListSelector).SelectedItem as datawrapper.BookType;
+            
         }
 
         private void saveNewBookType(object sender, RoutedEventArgs e)
         {
+            if (tmpBooktype != null)
+            {
+                bookTypeID = tmpBooktype.bookTypeID;
+                bookTypeTextBlock.Text = tmpBooktype.name;
+            }
+            if (lastSelectedGrid != null)
+            {
+                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
+                lastSelectedGrid = null;
+            }
             booktype_popup.IsOpen = false;
         }
 
         private void bookTypeLoaded(object sender, RoutedEventArgs e)
         {
             bookTypeTextBlock = sender as TextBlock;
+        }
+
+        private void highlightSelection(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (lastSelectedGrid != null)
+            {
+                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
+            }
+            Grid g = sender as Grid;
+            g.Background = new SolidColorBrush(Colors.Brown);
+            lastSelectedGrid = g;
         }
 
     }
