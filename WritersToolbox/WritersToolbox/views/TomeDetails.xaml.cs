@@ -10,6 +10,9 @@ using Microsoft.Phone.Shell;
 using WritersToolbox.viewmodels;
 using System.Windows.Media.Imaging;
 using System.Windows.Media;
+using System.Collections;
+using System.Threading.Tasks;
+using System.Windows.Input;
 
 namespace WritersToolbox.views
 {
@@ -21,11 +24,17 @@ namespace WritersToolbox.views
         private int tomeID;
         //Ablage des InformationsCode.
         private int informationCode;
-        //JumpListStyle.
-        Style jumListStyle;
+        //Buttons zum speichern/abbrechen beim Bearbeiten eines Chapters
+        private ApplicationBarIconButton save, cancel;
+        //DefaultBarButtons.
+        private ApplicationBarIconButton edit, deleteTypeObject;
+        //Textbox Chapter
+        TextBox b = new TextBox();
+
         public TomeDetails()
         {
             InitializeComponent();
+            addDefaultApplicationBarButton();
         }
 
         /// <summary>
@@ -280,7 +289,7 @@ namespace WritersToolbox.views
         }
 
         /// <summary>
-        /// Auswahl Anzal Typeobjekte.
+        /// Auswahl Anzahl Typeobjekte.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -292,7 +301,7 @@ namespace WritersToolbox.views
         }
 
         /// <summary>
-        /// Auswahl Anzahl Seiten.
+        /// Auswahl Anzahhl Seiten.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -378,6 +387,11 @@ namespace WritersToolbox.views
             }
         }
 
+       
+
+
+        
+
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
 
@@ -407,6 +421,161 @@ namespace WritersToolbox.views
             l.IsSelectionEnabled = true;
             l.SelectedItems.Add(_e);
         }
+
+        // false wenn doubleTap eintritt
+        bool singleTap;
+
+        // zustand ob dich Chapter im "doubleTap" -> bearbeitungsmodus befindet
+        bool doubleTap = false;
+
+        /// <summary>
+        /// Tap auf ein Chapter (Textbox) 
+        /// klappt Liste der Ereignisse auf/zu
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private async void ChapterTextBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+            singleTap = true;
+            // verzögerung um "tap" von "doubleTap" zu unterscheiden
+            await Task.Delay(200);
+
+            //abfrage ob gesingle- oder gedoubletaped wurde, abfrage ob sich chapter in "bearbeitung" befindet
+            if (singleTap && !doubleTap)
+            {
+                
+                TextBox tb = (TextBox)sender;
+                Grid parentImg = (Grid)((FrameworkElement)(tb.Parent)).Parent;
+                Grid parent = (((FrameworkElement)(tb.Parent)).Parent as Grid).Parent as Grid;
+
+                LongListMultiSelector llms = new LongListMultiSelector();
+                for (int i = 0; i < parent.Children.Count; i++)
+                {
+                    if (parent.Children[i].GetType().IsAssignableFrom((new LongListMultiSelector()).GetType()))
+                    {
+                        llms = (LongListMultiSelector)parent.Children[i];
+                    }
+                }
+
+
+                Image img = new Image();
+                for (int i = 0; i < parentImg.Children.Count; i++)
+                {
+                    if (parentImg.Children[i].GetType().IsAssignableFrom((new Image()).GetType()))
+                    {
+
+                        img = (Image)parentImg.Children[i];
+                    }
+                }
+
+                if (llms.Visibility == Visibility.Collapsed)    //Ist die Ereignislist zusammengeklappt, 
+                {                                               //dann wird sie aufgeklappt.
+                    img.Source = new BitmapImage(new Uri("/icons/on.png", UriKind.RelativeOrAbsolute));
+                    llms.Visibility = Visibility.Visible;
+                }
+                else      //Ist die Ereignislist aufgeklappt,
+                {         //dann wird sie zusammenfeklappt.
+                    img.Source = new BitmapImage(new Uri("/icons/off.png", UriKind.RelativeOrAbsolute));
+                    llms.Visibility = Visibility.Collapsed;
+                }
+
+            }
+
+        }
+        /// <summary>
+        /// doppelklick auf ein Chapter (Textbox)
+        /// Content kann verändert werden
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChapterTextBox_TapTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+
+            doubleTap = true;
+            singleTap = false;
+            b = (TextBox)sender;
+            b.IsReadOnly = false;
+            b.Focus();
+            //InputScope scope = new InputScope();
+            //InputScopeName scopeName = new InputScopeName();
+
+            //scopeName.NameValue = InputScopeNameValue.Text;
+            //scope.Names.Add(scopeName);
+
+            //b.InputScope = scope;
+
+            
+
+
+            //b.InputScope.Names.Add();
+            
+
+
+        }
+
+        /// <summary>
+        /// Chapter verliert den Focus
+        /// Chapter kann nichtmehr bearbeitet werden
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ChapterTextbox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            b.IsReadOnly = true;
+            doubleTap = false;
+        }
+
+        /// <summary>
+        /// Die "Default" applicationbar wird eingefügt
+        /// </summary>
+        private void addDefaultApplicationBarButton()
+        {
+            //Default Buttons von ApplicationBarButton löschen.
+            //removeEditChapterApplicationBarButton();
+
+            //ApplicationBarButton mit ManagmentButtons erfüllen.
+
+            edit = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
+            deleteTypeObject = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+
+
+            edit.Text = "Ändern";
+            deleteTypeObject.Text = "Löschen";
+
+            //Events zu Buttons hinzufügen.
+
+
+            //TODO
+            //edit.Click += saveButton_Click;
+            //cancel.Click += cancelButton_Click;
+
+
+            ApplicationBar.Buttons.Add(edit);
+            ApplicationBar.Buttons.Add(deleteTypeObject);
+        }
+
+        //private void Chapter_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)
+        //{
+        //    doubleTap = true;
+        //    singleTap = false;
+        //    Grid g = (Grid)sender;
+        //    //b.IsReadOnly = false;
+        //    //b.Focus();
+        //    Border b = new Border();
+        //    TextBox textb = new TextBox();
+        //    for (int i = 0; i < g.Children.Count; i++)
+        //    {
+        //        if (g.Children[i].GetType().IsAssignableFrom((new Border()).GetType()))
+        //        {
+        //            b = (Border)g.Children[i];
+        //            textb = (TextBox) b.Child;
+        //        }
+        //    }
+        //    textb.IsReadOnly = false;
+        //    textb.Focus();
+
+        //}
 
 
     }
