@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using WritersToolbox.models;
 using System.Diagnostics;
+using WritersToolbox.Resources;
 namespace WritersToolbox.views
 {
     public partial class BooksOverview : PhoneApplicationPage
@@ -83,7 +84,7 @@ namespace WritersToolbox.views
                 return;
             if (selectedBook.bookID == -1)
                 return;
-            BookDeleteQuestion.Text = "Wollen Sie das Werk \"" + selectedBook.name.ToString() + "\" löschen?";
+            BookDeleteQuestion.Text = AppResources.BookDeleteQuestion1 + selectedBook.name.ToString() + AppResources.BookDeleteQuestion2;
             deleteBookPopup.IsOpen = true;
         }
 

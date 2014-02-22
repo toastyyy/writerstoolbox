@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,8 +13,9 @@ namespace WritersToolbox
     /// </summary>
     public class LocalizedStrings
     {
-        private static AppResources _localizedResources = new AppResources();
+        private AppResources _localizedResources = new AppResources();
 
-        public AppResources LocalizedResources { get { return _localizedResources; } }
+        public AppResources LocalizedResources { get { return _localizedResources; }}
+
     }
 }

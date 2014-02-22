@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Linq;
 using System.Linq;
@@ -33,7 +34,7 @@ namespace WritersToolbox.viewmodels
                 imageString = sqlType.imageString,
                 title = sqlType.title,
                 typeID = sqlType.typeID,
-                typeObjects = new List<datawrapper.TypeObject>()
+                typeObjects = new ObservableCollection<datawrapper.TypeObject>()
             };
             this.NotifyPropertyChanged("Type");
         }

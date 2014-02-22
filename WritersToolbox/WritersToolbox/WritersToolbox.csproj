@@ -105,6 +105,7 @@
     <Compile Include="converter\BoolToUsedConverter.cs" />
     <Compile Include="converter\CollectionCountConverter.cs" />
     <Compile Include="converter\ColorToBrushConverter.cs" />
+    <Compile Include="converter\CollectionHasElementsConverter.cs" />
     <Compile Include="converter\TypeImageConverter.cs" />
     <Compile Include="converter\DauerConverter.cs" />
     <Compile Include="converter\DefaultIfEmptyConverter.cs" />
@@ -165,6 +166,9 @@
     </Compile>
     <Compile Include="views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\EventDetail.xaml.cs">
+      <DependentUpon>EventDetail.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\TomeDetails.xaml.cs">
       <DependentUpon>TomeDetails.xaml</DependentUpon>
@@ -236,6 +240,10 @@
     <Page Include="views\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\EventDetail.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\TomeDetails.xaml">
       <Generator>MSBuild:Compile</Generator>
@@ -355,6 +363,7 @@
     <Content Include="icons\micro.png" />
     <Content Include="icons\on.png" />
     <Content Include="icons\off.png" />
+    <Content Include="icons\no_image.png" />
     <Content Include="icons\pause_reordButton.png" />
     <Content Include="icons\notiz_round_icon_sw.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>

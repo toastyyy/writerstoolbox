@@ -137,6 +137,8 @@
                     ItemTemplate="{StaticResource TypeObjectNotesTemplate}" 
                     EnforceIsSelectionEnabled="false"
                     IsGroupingEnabled="False"
+                    LayoutMode="Grid"
+                    GridCellSize="450, 130"
                     x:Name="multiselector" Foreground="Black"
                     ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                     BorderBrush="Black"

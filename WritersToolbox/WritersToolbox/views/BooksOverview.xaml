@@ -88,17 +88,17 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock x:Name="BookDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
-                        <CheckBox IsChecked="True" Content="Alle Bände erhalten" Margin="10,10,0,0"/>
+                    <CheckBox IsChecked="True" Content="{Binding Path=LocalizedResources.CheckboxKeepTomes, Source={StaticResource LocalizedStrings}}" Margin="10,10,0,0"/>
                     </StackPanel>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteBook"/>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteBook"/>
+                <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="{Binding Path=LocalizedResources.TextDelete, Source={StaticResource LocalizedStrings}}" Margin="5,0,0,10" Click="DeleteBook"/>
+                <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="{Binding Path=LocalizedResources.TextCancel, Source={StaticResource LocalizedStrings}}" Margin="0,0,5,10" Click="DoNotDeleteBook"/>
                 </Grid>
             </Popup>
 
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="WERKE" Margin="9,0,0,0" FontSize="22" FontFamily="Segoe WP Light"/>
-            <TextBlock Text="Überblick" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.BooksPageTitle, Source={StaticResource LocalizedStrings}}" Margin="9,0,0,0" FontSize="22" FontFamily="Segoe WP Light"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.BooksHeadlineOverview, Source={StaticResource LocalizedStrings}}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
         </StackPanel>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->

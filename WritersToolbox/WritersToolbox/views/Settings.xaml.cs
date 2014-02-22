@@ -25,6 +25,8 @@ namespace WritersToolbox.views
             if (!Thread.CurrentThread.CurrentCulture.Name.Equals("de-de"))
             {
                 Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-de");
+                NavigationService.Navigate(new Uri("/views/Settings.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+                NavigationService.RemoveBackEntry();
             }
         }
 
@@ -33,6 +35,8 @@ namespace WritersToolbox.views
             if (!Thread.CurrentThread.CurrentCulture.Name.Equals("en"))
             {
                 Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+                NavigationService.Navigate(new Uri("/views/Settings.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+                NavigationService.RemoveBackEntry();
             }
         }
 

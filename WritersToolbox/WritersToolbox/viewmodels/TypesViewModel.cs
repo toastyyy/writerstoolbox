@@ -20,11 +20,60 @@ namespace WritersToolbox.viewmodels
         private WritersToolboxDatebase db;
         private Table<models.Type> tableType;
         private Table<TypeObject> tableTypeObject;
+        /// <summary>
+        /// Alle vorhandenen Typen
+        /// </summary>
+        private ObservableCollection<datawrapper.Type> types;
+
+        /// <summary>
+        /// Property für alle vorhandenen Typen.
+        /// Informiert mit NotifyPropertyChanged.
+        /// </summary>
+        public ObservableCollection<datawrapper.Type> Types
+        {
+            get { return types; }
+            set
+            {
+                types = value;
+                NotifyPropertyChanged("Types");
+            }
+        }
         public TypesViewModel()
         {
             this.db = WritersToolboxDatebase.getInstance();
             this.tableType = this.db.GetTable<models.Type>();
             this.tableTypeObject = this.db.GetTable<TypeObject>();
+        }
+
+        public void removeAddTypeObject(datawrapper.Type t) {
+            int i = Types.IndexOf(t);
+                for (int j = 0; j < Types.ElementAt(i).typeObjects.Count; j++) {
+                    if (Types.ElementAt(i).typeObjects.ElementAt(j).type.typeID == -2) {
+                        Types.ElementAt(i).typeObjects.RemoveAt(j);
+                    }
+                }
+            
+            this.NotifyPropertyChanged("Types");
+        }
+
+        public void addAddTypeObject(datawrapper.Type t)
+        {
+            int i = Types.IndexOf(t);
+                Boolean hasAdd = false;
+                for (int j = 0; j < Types.ElementAt(i).typeObjects.Count && !hasAdd; j++) {
+                    hasAdd = Types.ElementAt(i).typeObjects.ElementAt(j).type.typeID == -2;
+                }
+                if (!hasAdd) { 
+                                Types.ElementAt(i).typeObjects.Add(
+                    new datawrapper.TypeObject() {
+                        name = "Neues Objekt",
+                        imageString = "../icons/add.png",
+                        type = new datawrapper.Type() { typeID = -2 },
+                        color = "#FFADD8E6"
+                    }
+                    );
+                }
+            this.NotifyPropertyChanged("Types");
         }
 
         /// <summary>
@@ -249,6 +298,7 @@ namespace WritersToolbox.viewmodels
                 to.color = color;
             }
             to.obj_Type = type;
+            to.obj_Event = null;
             to.imageString = image;
             this.tableTypeObject.InsertOnSubmit(to);
             this.db.SubmitChanges();
@@ -291,25 +341,6 @@ namespace WritersToolbox.viewmodels
             Byte colorB = Convert.ToByte(hex.Substring(4, 2), 16);
 
             return Color.FromArgb(255, colorR, colorG, colorB);
-        }
-
-        /// <summary>
-        /// Alle vorhandenen Typen
-        /// </summary>
-        private ObservableCollection<datawrapper.Type> types;
-
-        /// <summary>
-        /// Property für alle vorhandenen Typen.
-        /// Informiert mit NotifyPropertyChanged.
-        /// </summary>
-        public ObservableCollection<datawrapper.Type> Types
-        {
-            get { return types; }
-            set
-            {
-                types = value;
-                NotifyPropertyChanged("Types");
-            }
         }
 
         public bool IsDataLoaded { get; set; }
@@ -362,12 +393,15 @@ namespace WritersToolbox.viewmodels
                 var result = from to in tableTypeObject
                              where to.fk_typeID == t.typeID && to.deleted == false
                              select to;
-                List<datawrapper.TypeObject> TypeObjects = new List<datawrapper.TypeObject>();
+                ObservableCollection<datawrapper.TypeObject> TypeObjects = new ObservableCollection<datawrapper.TypeObject>();
                 foreach (TypeObject to in result)
                 {
                     ObservableCollection<datawrapper.MemoryNote> noteDummy = new ObservableCollection<datawrapper.MemoryNote>();
 
-                    for (int i = 0; i < to.notes.Count(); i++) { 
+                    var noteCount = (from n in this.db.GetTable<MemoryNote>()
+                                where n.obj_TypeObject.typeObjectID == to.typeObjectID
+                                select n).Count();
+                    for (int i = 0; i < noteCount; i++) { 
                         noteDummy.Add(new datawrapper.MemoryNote());
                     }
                     datawrapper.TypeObject wrappedTO = new datawrapper.TypeObject()
@@ -403,7 +437,7 @@ namespace WritersToolbox.viewmodels
             if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
 
-                List<datawrapper.TypeObject> t_o = new List<datawrapper.TypeObject>();
+                ObservableCollection<datawrapper.TypeObject> t_o = new ObservableCollection<datawrapper.TypeObject>();
                 t_o.Add(new datawrapper.TypeObject()
                 {
                     name = "Neuer Typ anlegen",

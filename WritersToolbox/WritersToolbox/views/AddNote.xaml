@@ -52,7 +52,7 @@
                                 </TextBox>
                                 <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro1_Tap"/>
                             </Canvas>
-                            <TextBox x:Name="detailsTextBox" Height="350" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Foreground="Black" FontFamily="Segoe UI Light" FontSize="30"  SelectionForeground="White" SelectionBackground="#643C3C3C" BorderThickness="0" />
+                            <TextBox x:Name="detailsTextBox" Height="350" TextWrapping="Wrap" Text="Details" Width="432" Canvas.Top="58" Margin="0,0,0,40" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Foreground="Black" FontFamily="Segoe UI Light" FontSize="30"  SelectionForeground="White" SelectionBackground="#643C3C3C" BorderThickness="0" />
                             <Image x:Name="micro2" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro2_Tap"/>
                         </StackPanel>
                     </ScrollViewer>
