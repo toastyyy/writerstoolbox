@@ -17,7 +17,6 @@ namespace WritersToolbox.views
     public partial class Books : PhoneApplicationPage
     {
         public static BooksViewModel books_VM; // = null;
-        private datawrapper.Book selectedBook;
 
         private TextBox bookname;
 
@@ -278,17 +277,33 @@ namespace WritersToolbox.views
             selector.SelectedItem = null;
         }
 
+        /// <summary>
+        /// Textbox für Werkname wird gespeichert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BooknameGotFocus(object sender, RoutedEventArgs e)
         {
             bookname = sender as TextBox;
         }
 
+        /// <summary>
+        /// In der Buchtypauswahl wird eine auswahl getroffen und temporär gespeichert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BookTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             tmpBooktype = (sender as LongListSelector).SelectedItem as datawrapper.BookType;
             
         }
 
+        /// <summary>
+        /// Die Buchtypauswahl wird gespeichert. Aus der temporären Auswahl werden die benötigten Werte
+        /// gespeichert. Die Visuelle Auswahl wird augehoben und das Popup geschlossen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveNewBookType(object sender, RoutedEventArgs e)
         {
             if (tmpBooktype != null)
@@ -304,11 +319,22 @@ namespace WritersToolbox.views
             booktype_popup.IsOpen = false;
         }
 
+        /// <summary>
+        /// Der Textblock, der den Buchtyp anzeigt, wird nach dem Laden zum Zugriff gespeichert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void bookTypeLoaded(object sender, RoutedEventArgs e)
         {
             bookTypeTextBlock = sender as TextBlock;
         }
 
+
+        /// <summary>
+        /// In der Buchtypauswahl ist eine visuelle Auswahl möglich.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void highlightSelection(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (lastSelectedGrid != null)

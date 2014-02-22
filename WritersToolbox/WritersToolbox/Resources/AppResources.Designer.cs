@@ -71,6 +71,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die zurück ähnelt.
+        /// </summary>
+        public static string AppBarBack {
+            get {
+                return ResourceManager.GetString("AppBarBack", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die abbrechen ähnelt.
         /// </summary>
         public static string AppBarCancel {
@@ -94,6 +103,15 @@ namespace WritersToolbox.Resources {
         public static string AppBarEdit {
             get {
                 return ResourceManager.GetString("AppBarEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die wiederherstellen ähnelt.
+        /// </summary>
+        public static string AppBarRestore {
+            get {
+                return ResourceManager.GetString("AppBarRestore", resourceCulture);
             }
         }
         
@@ -224,6 +242,42 @@ namespace WritersToolbox.Resources {
             get {
                 object obj = ResourceManager.GetObject("delete", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Finaltext ähnelt.
+        /// </summary>
+        public static string EventDetailHeadline1 {
+            get {
+                return ResourceManager.GetString("EventDetailHeadline1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Notizen ähnelt.
+        /// </summary>
+        public static string EventDetailHeadline2 {
+            get {
+                return ResourceManager.GetString("EventDetailHeadline2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Typobjekte ähnelt.
+        /// </summary>
+        public static string EventDetailHeadline3 {
+            get {
+                return ResourceManager.GetString("EventDetailHeadline3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die EVENT ähnelt.
+        /// </summary>
+        public static string EventDetailTitle {
+            get {
+                return ResourceManager.GetString("EventDetailTitle", resourceCulture);
             }
         }
         
@@ -364,6 +418,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alle auswählen ähnelt.
+        /// </summary>
+        public static string SelectAll {
+            get {
+                return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Einstellungen ähnelt.
         /// </summary>
         public static string SettingsTitle {
@@ -446,6 +509,15 @@ namespace WritersToolbox.Resources {
         public static string TextSave {
             get {
                 return ResourceManager.GetString("TextSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Papierkorb ähnelt.
+        /// </summary>
+        public static string TrashbinHeadline {
+            get {
+                return ResourceManager.GetString("TrashbinHeadline", resourceCulture);
             }
         }
         

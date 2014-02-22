@@ -252,4 +252,28 @@
   <data name="NewBookEditBooktype" xml:space="preserve">
     <value>Edit</value>
   </data>
+  <data name="AppBarBack" xml:space="preserve">
+    <value>back</value>
+  </data>
+  <data name="AppBarRestore" xml:space="preserve">
+    <value>restore</value>
+  </data>
+  <data name="EventDetailHeadline1" xml:space="preserve">
+    <value>Final text</value>
+  </data>
+  <data name="EventDetailHeadline2" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="EventDetailHeadline3" xml:space="preserve">
+    <value>Typeobjects</value>
+  </data>
+  <data name="EventDetailTitle" xml:space="preserve">
+    <value>EVENT</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="TrashbinHeadline" xml:space="preserve">
+    <value>Recycle bin</value>
+  </data>
 </root>
