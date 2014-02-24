@@ -13,6 +13,9 @@ namespace WritersToolbox.viewmodels
     {
         //Datenbank
         private WritersToolboxDatebase wtb;
+        //Chapter als Entity object
+        private models.Chapter obj_chapter;
+
         //TypeObjecte, um die beteiligte Objekte zu zeigen.-Tabelle
         private Table<TypeObject> tableTypeObject;
         //Event-Tabelle
@@ -248,6 +251,32 @@ namespace WritersToolbox.viewmodels
             _tempChapterList.Add(_c);
 
             return _tempChapterList;
+        }
+
+        public bool isChapterNameDuplicate(string chapterName)
+        { 
+            List<models.Chapter> _c = (from chapter in tableChapter
+                                       where chapter.obj_tome.tomeID == tome.tomeID
+                                       && chapter.title == chapterName
+                                       select chapter).ToList();
+
+            return _c.Count != 0;
+        }
+
+        public void updateChapter(datawrapper.Chapter _c) 
+        {
+            try
+            {
+                //Problem: übergibt bei Focuslost (-> klick auf anderes Chapter) evtl das falsche chapter (da tap auf anderes...)
+            //obj_memoryNote = db.GetTable<models.MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
+                obj_chapter = wtb.GetTable<models.Chapter>().Single(chapter => chapter.chapterID == _c.chapterID);
+                obj_chapter.title = _c.title;
+                wtb.SubmitChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
         }
     }
 }
