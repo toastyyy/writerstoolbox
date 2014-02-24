@@ -96,7 +96,9 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
+            if (!this.PivotMain.IsLocked) {
+                NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));            
+            }
         }
 
 
