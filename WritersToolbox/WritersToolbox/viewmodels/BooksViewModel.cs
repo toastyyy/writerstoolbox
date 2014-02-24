@@ -16,10 +16,30 @@ using Microsoft.Phone.Controls;
 namespace WritersToolbox.viewmodels
 {
 
-    public class BooksViewModel 
+    public class BooksViewModel: INotifyPropertyChanged
     {
-        public ObservableCollection<datawrapper.Book> Books { get; set; }
-        public ObservableCollection<datawrapper.BookType> BookTypes { get; set; }
+        private ObservableCollection<datawrapper.Book> books;
+
+        public ObservableCollection<datawrapper.Book> Books
+        {
+            get { return books; }
+            set
+            {
+                books = value;
+                NotifyPropertyChanged("Books");
+            }
+        }
+        private ObservableCollection<datawrapper.BookType> booktypes;
+
+        public ObservableCollection<datawrapper.BookType> BookTypes
+        {
+            get { return booktypes; }
+            set
+            {
+                booktypes = value;
+                NotifyPropertyChanged("BookTypes");
+            }
+        }
         private Boolean dataLoaded { get; set; }
         private WritersToolboxDatebase wtb;
         private Table<Book> tableBook;
@@ -49,14 +69,35 @@ namespace WritersToolbox.viewmodels
             return this.Books.Count;
         }
 
-        public void addBook(String name, int bookTypeID) {
+        public void addBook(String name, datawrapper.BookType bookType) {
             Book b = new Book();
             b.name = name;
             b.addedDate = DateTime.Now;
             b.updatedDate = DateTime.Now;
-            b.obj_bookType = (from bt in tableBookType where bt.bookTypeID == bookTypeID select bt).Single();
+            b.obj_bookType = (from bt in tableBookType where bt.bookTypeID == bookType.bookTypeID select bt).Single();
+
+            Tome t = new Tome()
+                {
+                    title = "Band 1",
+                    addedDate = DateTime.Now,
+                    updatedDate = DateTime.Now,
+                    obj_book = b,
+                    information = 1
+                };
+            for(int i = 0; i < bookType.numberOfChapter; i++) 
+            {
+                Chapter c = new Chapter()
+                    {
+                        chapterNumber = i + 1,
+                        title = "Kapitel " + i.ToString(),
+                        addedDate = DateTime.Now,
+                        updatedDate = DateTime.Now,
+                        obj_tome = t
+                    };
+            }
             tableBook.InsertOnSubmit(b);
             this.wtb.SubmitChanges();
+            this.NotifyPropertyChanged("Books");
         }
 
         public void updateBook(int bookID, String name, int bookTypeID) {
@@ -65,6 +106,7 @@ namespace WritersToolbox.viewmodels
             book.obj_bookType = (from bt in tableBookType where bt.bookTypeID == bookTypeID select bt).Single();
             book.updatedDate = DateTime.Now;
             this.wtb.SubmitChanges();
+            this.NotifyPropertyChanged("Books");
         }
 
         public Book getBookByID(int bookID)
@@ -92,7 +134,7 @@ namespace WritersToolbox.viewmodels
                 );
             }
 
-            this.BookTypes = tmpBookTypes;
+            this.booktypes = tmpBookTypes;
             // buecher laden
             var sqlBooks = from b in tableBook
                                    select b;
@@ -157,7 +199,7 @@ namespace WritersToolbox.viewmodels
                 bookID=-1,
                 addedDate = new DateTime(2012,6,3,22,10,22)
             });
-            this.Books = tmpBooks;
+            this.books = tmpBooks;
         }
 
         public void deleteBook( datawrapper.Book item, bool keepTomes)
@@ -168,6 +210,7 @@ namespace WritersToolbox.viewmodels
                 obj_book.deleted = true;
                 this.wtb.SubmitChanges();
                 this.loadData();
+                this.NotifyPropertyChanged("Books");
             }
             else
             {
@@ -175,6 +218,17 @@ namespace WritersToolbox.viewmodels
             }
                 
             wtb.SubmitChanges();
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        // Used to notify the app that a property has changed.
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
         }
 
         

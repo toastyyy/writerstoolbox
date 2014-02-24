@@ -17,9 +17,6 @@ namespace WritersToolbox.views
     {
         private Book book;
 
-        private datawrapper.BookType tmpBooktype;
-
-        private Grid lastSelectedGrid;
 
         public ChangeBook()
         {
@@ -76,78 +73,6 @@ namespace WritersToolbox.views
 
         }
 
-        /// <summary>
-        /// Popup zum Buchtypändern wird geöffnet
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void changeBookType(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            booktype_popup.IsOpen = true;
-        }
-
-        /// <summary>
-        /// Popup zum Buchtypändern wird geschlossen und abgebrochen
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void bookTypeCancel(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            booktype_popup.IsOpen = false;
-            tmpBooktype = null;
-            if (lastSelectedGrid != null)
-            {
-                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
-                lastSelectedGrid = null;
-            }
-            
-        }
-
-        /// <summary>
-        /// In der Buchtypauswahl wird eine auswahl getroffen und temporär gespeichert.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void BookTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
-            tmpBooktype = (sender as LongListSelector).SelectedItem as datawrapper.BookType;
-        }
-
-        /// <summary>
-        /// Die Buchtypauswahl wird gespeichert. Aus der temporären Auswahl werden die benötigten Werte
-        /// gespeichert. Die Visuelle Auswahl wird augehoben und das Popup geschlossen.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void saveNewBookType(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (tmpBooktype != null)
-            {
-                book.obj_bookType.bookTypeID = tmpBooktype.bookTypeID;
-                booktype.Text = tmpBooktype.name;
-            }
-            if (lastSelectedGrid != null)
-            {
-                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
-                lastSelectedGrid = null;
-            }
-            booktype_popup.IsOpen = false;
-        }
-
-        /// <summary>
-        /// In der Buchtypauswahl ist eine visuelle Auswahl möglich.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void highlightSelection(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (lastSelectedGrid != null)
-            {
-                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
-            }
-            Grid g = sender as Grid;
-            g.Background = new SolidColorBrush(Colors.Brown);
-            lastSelectedGrid = g;
-        }
+        
     }
 }
