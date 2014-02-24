@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using WritersToolbox.viewmodels;
 using WritersToolbox.Resources;
+using System.Collections;
 
 namespace WritersToolbox.views
 {
@@ -24,7 +25,6 @@ namespace WritersToolbox.views
             trash = new TrashbinViewModel();
             trash.loadData();
             this.DataContext = trash;
-            llms_trash.ItemsSource = trash.loadData();
         }
 
 
@@ -76,24 +76,9 @@ namespace WritersToolbox.views
 
         private void deleteButton_Click(object sender, EventArgs e)
         {
-            //ObservableCollection<object> collection = new ObservableCollection<object>();
-            //ObservableCollection<TrashbinViewModel> collection2 = new ObservableCollection<TrashbinViewModel>(
-            //    (ObservableCollection<TrashbinViewModel>)llms_trash.ItemsSource);
-            //foreach (TrashbinViewModel item in collection2)
-            //{
-            //    if (llms_trash.SelectedItems.Contains(item))
-            //    {
-            //        llms_trash.ItemsSource.Remove(item);
-            //        llms_trash.SelectedItems.Remove(item);
-            //        collection.Add(item);
-            //    }
-
-            //}
-            //trash.deleteTrash(collection);
-            //if (llms_trash.ItemsSource.Count == 0)
-            //{
-            //    selectAllCheckBox.IsChecked = false;
-            //}
+            IList list = llms_trash.SelectedItems;
+            
+            this.trash.deleteTrash(list);
         }
 
         private void restoreButton_Click(object sender, EventArgs e)
@@ -170,7 +155,7 @@ namespace WritersToolbox.views
         {
             Grid g = (Grid)sender;
 
-            llms_trash.SelectedItems.Add(((TrashbinViewModel)g.DataContext));
+            llms_trash.SelectedItems.Add((g.DataContext));
 
             llms_trash.EnforceIsSelectionEnabled = true;
           

@@ -154,6 +154,7 @@
     <Compile Include="templateselector\TemplateSelector.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
     <Compile Include="viewmodels\BooksViewModel.cs" />
+    <Compile Include="viewmodels\EventDetailViewModel.cs" />
     <Compile Include="viewmodels\TomeDetailsViewModel.cs" />
     <Compile Include="viewmodels\TomeDetailViewModel.cs" />
     <Compile Include="viewmodels\TrashbinViewModel.cs" />
