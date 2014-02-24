@@ -222,11 +222,15 @@ namespace WritersToolbox.viewmodels
                     _events.Add((datawrapper.Event)item2);
                 }
 
-                //datawrapper.Event _e = new datawrapper.Event()
-                //{
-                //    title = "Ereignis hinzufügen",
-                //};
-                //_events.Add(_e);
+
+                //"neues Ereignis" einfügen
+                datawrapper.Event _e = new datawrapper.Event()
+                {
+                    title = "Ereignis hinzufügen",
+                    eventID = 0
+
+                };
+                _events.Add(_e);
 
                 //Die Events zu dem Kapitel hinzufügen
                 _chapter.events = _events;
@@ -234,6 +238,14 @@ namespace WritersToolbox.viewmodels
                 //Kapitel zur List hinzufügen
                 _tempChapterList.Add(_chapter);
             }
+
+            //"neues Kapitel" einfügen
+            datawrapper.Chapter _c = new datawrapper.Chapter()
+            {
+                title = "Neues Kapitel",
+                chapterID = 0
+            };
+            _tempChapterList.Add(_c);
 
             return _tempChapterList;
         }
