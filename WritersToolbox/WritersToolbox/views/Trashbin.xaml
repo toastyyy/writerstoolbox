@@ -76,7 +76,6 @@
             </Grid>
         </DataTemplate>
 
-        tomeTemplate="{StaticResource trashbinTomeTemplate}"
         <DataTemplate x:Key="trashbinTypeObjectTemplate">
             <Grid Width="Auto" Height="Auto" Margin="0,20,0,20" Tap="Grid_Tap" Hold="Grid_Hold">
                 <Grid.ColumnDefinitions>
