@@ -7,10 +7,12 @@ using System.Text;
 using System.Threading.Tasks;
 using WritersToolbox.models;
 using System.Diagnostics;
+using System.ComponentModel;
+using System.Collections;
 
 namespace WritersToolbox.viewmodels
 {
-    public class TrashbinViewModel
+    public class TrashbinViewModel : INotifyPropertyChanged
     {
         private WritersToolboxDatebase db;
         private Table<MemoryNote> tableMemoryNote;
@@ -40,7 +42,7 @@ namespace WritersToolbox.viewmodels
             }
         }
 
-        public Collection<Object> loadData()
+        public void loadData()
         {
             this.DeletedObjects = new ObservableCollection<Object>(); // O || o
             
@@ -59,7 +61,8 @@ namespace WritersToolbox.viewmodels
                     location = note.location,
                     tags = note.tags,
                     title = note.title,
-                    updatedDate = note.updatedDate
+                    updatedDate = note.updatedDate,
+                    memoryNoteID = note.memoryNoteID
                 };
                 this.DeletedObjects.Add(mn);
             }
@@ -137,20 +140,28 @@ namespace WritersToolbox.viewmodels
                 };
                 this.DeletedObjects.Add(ty);
             }
-
-
-            return DeletedObjects;
+            this.NotifyPropertyChanged("DeletedObjects");
         }
 
-        public void deleteTrash(ObservableCollection<object> list)
+        public void deleteTrash(IList list)
         {
-           // foreach(
-           //item.GetType().IsAssignableFrom((new datawrapper.TypeObject()).GetType()))
-           //     obj_memoryNote = db.GetTable<MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == item.memoryNoteID);
-           //     obj_memoryNote.deleted = true;
-            
-           // db.SubmitChanges();
-            
+            IEnumerator enumerator = list.GetEnumerator();
+            while (enumerator.MoveNext()) {
+                object entry = enumerator.Current;
+                // loeschen start
+                if (entry.GetType().IsAssignableFrom((new datawrapper.MemoryNote()).GetType()))
+                {
+                    datawrapper.MemoryNote mn = (datawrapper.MemoryNote)entry;
+                    var entries = (from m in this.tableMemoryNote
+                                   where m.memoryNoteID == mn.memoryNoteID
+                                   select m).Single();
+                    this.tableMemoryNote.DeleteOnSubmit(entries);
+                } // TODO: andere objektarten loeschen
+
+                // loeschen ende
+            }
+            this.db.SubmitChanges();
+            this.loadData();
         }
 
 
@@ -159,5 +170,15 @@ namespace WritersToolbox.viewmodels
 
         }
 
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        // Used to notify the app that a property has changed.
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
     }
 }

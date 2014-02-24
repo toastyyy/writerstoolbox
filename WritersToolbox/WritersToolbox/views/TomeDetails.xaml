@@ -22,7 +22,7 @@
                 <Border Background="Transparent" Padding="5">
                     <Border Grid.Column="1"  Background="White" BorderThickness="0,0,0,1" BorderBrush="LightGray" Width="480"    
                     Height="55" Margin="0,0,0,0" HorizontalAlignment="Left">
-                        <TextBlock x:Name="titleText" Text="{Binding title}" Foreground="#FF353535"  FontSize="25" FontFamily="Segoe WP Light" />
+                        <TextBlock x:Name="titleText" Text="{Binding title}" Foreground="#FF353535"  FontSize="25" FontFamily="Segoe WP Light" Tap="Event_Tap" />
                     </Border>
                 </Border>
             </StackPanel>
@@ -44,10 +44,8 @@
                     <Image Grid.Column="0"  Height="70" Width="90" Source="/icons/off.png" Margin="0,5,0,0" Tap="Image_Tap"  />
                     <Border Grid.Column="1" Background="White" BorderThickness="0,0,0,1" BorderBrush="LightGray" Width="480"    
                         Height="70" Margin="0,0,20,0" HorizontalAlignment="Left">
-                        <TextBox Height="100" Text="{Binding title}" Margin="0,20,0,0" Foreground="Black" FontSize="30" Padding="6" DoubleTap="ChapterTextBox_TapTap" Tap="ChapterTextBox_Tap"
-                        FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal" IsEnabled="True" IsReadOnly="True" LostFocus="ChapterTextbox_LostFocus" Background="{x:Null}" AcceptsReturn="False" />
-                        
-
+                        <TextBox Height="100" Text="{Binding title}" Margin="0,20,0,0" Foreground="Black" FontSize="30" Padding="6" DoubleTap="ChapterTextBox_TapTap" Tap="ChapterTextBox_Tap" 
+                        FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal" IsReadOnly="True" LostFocus="ChapterTextbox_LostFocus" Background="{x:Null}" AcceptsReturn="False" />                      
                     </Border>
                 </Grid>
                 <!--Ereignis-->
@@ -69,30 +67,6 @@
                        FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal"/>
             </Grid>
         </DataTemplate>
-        <!--JumpListe durch Kapitel-->
-        <!--<Style x:Key="chapterJumpListStyle" TargetType="phone:LongListSelector">
-            <Setter Property="LayoutMode" Value="List" />
-            <Setter Property="Margin" Value="12,12,12,12"/>
-            <Setter Property="ItemTemplate">
-                <Setter.Value>
-                    <DataTemplate>
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="10" />
-                                <ColumnDefinition Width="*" />
-                            </Grid.ColumnDefinitions>
-                            <Rectangle Grid.Column="0" Fill="#FFFFFFFF" HorizontalAlignment="Left" Height="70" Margin="0,20,0,0" Stroke="Black" VerticalAlignment="Top" Width="10"/>
-                            <Rectangle Grid.Column="1" Fill="#FF353535" HorizontalAlignment="Left" Height="70" Margin="0,20,0,0" Stroke="Black" VerticalAlignment="Top" Width="10"/>
-                            <Border Grid.Column="2" Background="White" Width="Auto" Height="70" Margin="0,20,0,0" >
-                                <TextBlock Text="{Binding Key}" FontFamily="Segoe WP Light" FontSize="30" Padding="15" 
-                            Foreground="#FF353535" VerticalAlignment="Center"/>
-                            </Border>
-                        </Grid>
-                    </DataTemplate>
-                </Setter.Value>
-            </Setter>
-        </Style>-->
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -105,6 +79,8 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Background="White" RenderTransformOrigin="0.506,0.509" Grid.RowSpan="2">
+
+            <Button x:Name="WorkaroundButton" HorizontalAlignment="Left" Margin="52,147,0,0" VerticalAlignment="Top"/>
             <!--HeadImage-->
             <Image Margin="0,0,0,511" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
             <!--BookTitle-->
@@ -240,7 +216,8 @@
                         LayoutMode="List"                   
                         ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                         BorderBrush="Black" />
-                
+               
+
             </Grid>
             
         </Grid>

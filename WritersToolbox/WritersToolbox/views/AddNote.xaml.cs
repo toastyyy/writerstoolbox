@@ -1003,6 +1003,7 @@ namespace WritersToolbox.views
             bool isfully = false;
 
             MessageBoxResult result = MessageBoxResult.Cancel;
+
             //Hier wird geprüft, ob die Notiz, von anderem Screen geöffnet ist,
             //oder von neue Notiz anlegen.
             if (PhoneApplicationService.Current.State.ContainsKey("edit"))

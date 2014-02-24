@@ -20,5 +20,16 @@ namespace WritersToolbox.datawrapper
         {
             typeObjects = new ObservableCollection<TypeObject>();
         }
+
+        /// <summary>
+        /// Prüft ob dieser Typ identisch mit einem anderen ist.
+        /// </summary>
+        /// <param name="obj">Zu prüfender Typ</param>
+        /// <returns>Genau dann true, wenn die typeID bei beiden Objekten übereinstimmt.</returns>
+        public override bool Equals(object obj)
+        {
+            return (obj.GetType().IsAssignableFrom(new Type().GetType())
+                && this.typeID == ((Type)obj).typeID);
+        }
     }
 }

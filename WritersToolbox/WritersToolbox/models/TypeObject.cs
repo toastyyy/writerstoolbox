@@ -264,5 +264,13 @@ namespace WritersToolbox.models
 
         //    return temptypeObjekt;
         //}
+
+        public override bool Equals(object obj)
+        {
+            if(obj.GetType().IsAssignableFrom((new TypeObject()).GetType())) {
+                return ((TypeObject) obj).typeObjectID == this.typeObjectID;
+            }
+            return false;
+        }
     }
 }
