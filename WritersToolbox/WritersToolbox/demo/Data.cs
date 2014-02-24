@@ -31,7 +31,7 @@ namespace WritersToolbox.demo
             bt3.name = "Kurzgeschichte";
             bt3.updatedDate = DateTime.Now;
             bt3.addedDate = DateTime.Now;
-            bt3.numberOfChapter = 1;
+            bt3.numberOfChapter = 2;
 
             Book b = new Book();
             b.name = "Harry Potter";

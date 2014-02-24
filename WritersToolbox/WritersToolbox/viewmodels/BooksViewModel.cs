@@ -84,20 +84,82 @@ namespace WritersToolbox.viewmodels
                     obj_book = b,
                     information = 1
                 };
-            for(int i = 0; i < bookType.numberOfChapter; i++) 
+            switch (bookType.bookTypeID)
             {
-                Chapter c = new Chapter()
-                    {
-                        chapterNumber = i + 1,
-                        title = "Kapitel " + i.ToString(),
-                        addedDate = DateTime.Now,
-                        updatedDate = DateTime.Now,
-                        obj_tome = t
-                    };
+                case 1: Chapter c1 = new Chapter()
+                        {
+                            chapterNumber = 1,
+                            title = "Einleitung",
+                            addedDate = DateTime.Now,
+                            updatedDate = DateTime.Now,
+                            obj_tome = t
+                        };
+                        tableChapter.InsertOnSubmit(c1);
+                        Chapter c2 = new Chapter()
+                        {
+                            chapterNumber = 2,
+                            title = "Kapitel 1",
+                            addedDate = DateTime.Now,
+                            updatedDate = DateTime.Now,
+                            obj_tome = t
+                        };
+                        tableChapter.InsertOnSubmit(c2);
+                        Chapter c3 = new Chapter()
+                        {
+                            chapterNumber = 3,
+                            title = "Nachwort",
+                            addedDate = DateTime.Now,
+                            updatedDate = DateTime.Now,
+                            obj_tome = t
+                        };
+                        tableChapter.InsertOnSubmit(c3);
+                        break;
+                case 2: Chapter c4 = new Chapter()
+                        {
+                            chapterNumber = 1,
+                            title = "Gedicht 1",
+                            addedDate = DateTime.Now,
+                            updatedDate = DateTime.Now,
+                            obj_tome = t
+                        };
+                        tableChapter.InsertOnSubmit(c4);
+                        Chapter c5 = new Chapter()
+                        {
+                            chapterNumber = 2,
+                            title = "Gedicht 2",
+                            addedDate = DateTime.Now,
+                            updatedDate = DateTime.Now,
+                            obj_tome = t
+                        };
+                        tableChapter.InsertOnSubmit(c5);
+                        break;
+                case 3: Chapter c6 = new Chapter()
+                        {
+                            chapterNumber = 1,
+                            title = "Einleitung",
+                            addedDate = DateTime.Now,
+                            updatedDate = DateTime.Now,
+                            obj_tome = t
+                        };
+                        tableChapter.InsertOnSubmit(c6);
+                        Chapter c7 = new Chapter()
+                        {
+                            chapterNumber = 2,
+                            title = "Geschichte 1",
+                            addedDate = DateTime.Now,
+                            updatedDate = DateTime.Now,
+                            obj_tome = t
+                        };
+                        tableChapter.InsertOnSubmit(c7);
+                        break;
             }
+            
+            
+            tableTome.InsertOnSubmit(t);
             tableBook.InsertOnSubmit(b);
             this.wtb.SubmitChanges();
             this.NotifyPropertyChanged("Books");
+            this.loadData();
         }
 
         public void updateBook(int bookID, String name, int bookTypeID) {
@@ -107,6 +169,7 @@ namespace WritersToolbox.viewmodels
             book.updatedDate = DateTime.Now;
             this.wtb.SubmitChanges();
             this.NotifyPropertyChanged("Books");
+            this.loadData();
         }
 
         public Book getBookByID(int bookID)
@@ -136,7 +199,7 @@ namespace WritersToolbox.viewmodels
 
             this.booktypes = tmpBookTypes;
             // buecher laden
-            var sqlBooks = from b in tableBook
+            var sqlBooks = from b in tableBook where b.deleted == false
                                    select b;
 
             ObservableCollection<datawrapper.Book> tmpBooks = new ObservableCollection<datawrapper.Book>();
@@ -150,18 +213,18 @@ namespace WritersToolbox.viewmodels
 
                 foreach(var t in sqlTomes) 
                 {
-                    var sqlChapters = from c in tableChapter
-                                      where c.obj_tome.tomeID == t.tomeID
-                                      select c;
+                    //var sqlChapters = from c in tableChapter
+                    //                  where c.obj_tome.tomeID == t.tomeID
+                    //                  select c;
 
                     List<datawrapper.Chapter> listChapter = new List<datawrapper.Chapter>();
-                    foreach (var c in sqlChapters) 
-                    {
-                        datawrapper.Chapter chapter = new datawrapper.Chapter() { 
+                    //foreach (var c in sqlChapters) 
+                    //{
+                    //    datawrapper.Chapter chapter = new datawrapper.Chapter() { 
                             
-                        };
-                        listChapter.Add(chapter);
-                    }
+                    //    };
+                    //    listChapter.Add(chapter);
+                    //}
                     datawrapper.Tome tome = new datawrapper.Tome() { 
                         addedDate = t.addedDate,
                         deleted = t.deleted,
@@ -200,6 +263,7 @@ namespace WritersToolbox.viewmodels
                 addedDate = new DateTime(2012,6,3,22,10,22)
             });
             this.books = tmpBooks;
+            this.NotifyPropertyChanged("Books");
         }
 
         public void deleteBook( datawrapper.Book item, bool keepTomes)
@@ -209,8 +273,8 @@ namespace WritersToolbox.viewmodels
                 obj_book = wtb.GetTable<Book>().Single(book => book.bookID == item.bookID);
                 obj_book.deleted = true;
                 this.wtb.SubmitChanges();
-                this.loadData();
                 this.NotifyPropertyChanged("Books");
+                this.loadData();
             }
             else
             {

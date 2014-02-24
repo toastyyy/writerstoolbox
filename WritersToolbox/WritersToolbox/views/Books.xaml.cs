@@ -23,6 +23,7 @@ namespace WritersToolbox.views
         private datawrapper.BookType BookType;
 
         private TextBlock BookTypeInfo;
+        private bool hasEventHandler = false;
 
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
@@ -137,8 +138,7 @@ namespace WritersToolbox.views
            
            datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
            books_VM.deleteBook(b, keepTomes.IsChecked.Value);
-
-            deleteBookPopup.IsOpen = false;
+           deleteBookPopup.IsOpen = false;
         }
 
 
@@ -172,36 +172,54 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void PivotSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Pivot p = sender as Pivot;
-            if (p == null)
-                return;
-            datawrapper.Book b = p.SelectedItem as datawrapper.Book;
+            datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
             if (b == null)
                 return;
-            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
-            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            
             if (b.bookID == -1)
             {
-                btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
-                btn1.Text = AppResources.AppBarSave;
-                btn1.Click -= new EventHandler(ChangeBook);
-                btn1.Click += new EventHandler(SaveBook);
-                btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
-                btn2.Text = AppResources.AppBarCancel;
-                btn2.Click -= new EventHandler(TryDeleteBook);
-                btn2.Click += new EventHandler(CancelBook);
+                if (hasEventHandler)
+                {
+                    loadNewBookAppBar();
+                    hasEventHandler = false;
+                }
             }
             else
             {
-                btn1.IconUri = new Uri("/icons/saveAs.png", UriKind.Relative);
-                btn1.Text = AppResources.AppBarEdit;
-                btn1.Click -= new EventHandler(SaveBook);
-                btn1.Click += new EventHandler(ChangeBook);
-                btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
-                btn2.Text = AppResources.AppBarDelete;
-                btn2.Click -= new EventHandler(CancelBook);
-                btn2.Click += new EventHandler(TryDeleteBook);
+                if (!hasEventHandler)
+                {
+                    loadBookAppBar();
+                    hasEventHandler = true;
+                }
             }
+        }
+
+        private void loadNewBookAppBar()
+        {
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
+            btn1.Text = AppResources.AppBarSave;
+            btn1.Click -= new EventHandler(ChangeBook);
+            btn1.Click += new EventHandler(SaveBook);
+            btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+            btn2.Text = AppResources.AppBarCancel;
+            btn2.Click -= new EventHandler(TryDeleteBook);
+            btn2.Click += new EventHandler(CancelBook);
+        }
+
+        private void loadBookAppBar()
+        {
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            btn1.IconUri = new Uri("/icons/saveAs.png", UriKind.Relative);
+            btn1.Text = AppResources.AppBarEdit;
+            btn1.Click -= new EventHandler(SaveBook);
+            btn1.Click += new EventHandler(ChangeBook);
+            btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
+            btn2.Text = AppResources.AppBarDelete;
+            btn2.Click -= new EventHandler(CancelBook);
+            btn2.Click += new EventHandler(TryDeleteBook);
         }
 
         /// <summary>
@@ -212,7 +230,8 @@ namespace WritersToolbox.views
         private void SaveBook(object sender, EventArgs e)
         {
             Books_VM.addBook(bookname.Text, BookType);
-            PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
+            PivotMain.SelectedIndex = PivotMain.Items.Count - 1; // wird auf das neue Werk navigiert, wird ein falsches Werk als selectedItem angegeben
+            bookname.Text = "";
         }
 
 

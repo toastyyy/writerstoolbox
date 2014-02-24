@@ -65,9 +65,13 @@ namespace WritersToolbox.views
             {
                 var item = NavigationContext.QueryString["item"];
                 var indexParsed = int.Parse(item);
-                book = Books.Books_VM.getBookByID(indexParsed);
-                bName.Text = book.name;
-                booktype.Text = book.obj_bookType.name;
+                if (indexParsed != -1)
+                {
+                    book = Books.Books_VM.getBookByID(indexParsed);
+                    bName.Text = book.name;
+                    booktype.Text = book.obj_bookType.name;
+                }
+                
             }
 
 
