@@ -22,8 +22,9 @@
         <!--Converter von boolean zu Used-->
         <converter:NoteCountConverter x:Key="noteCountConverter" />
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
+        <converter:CollectionHasElementsConverter x:Key="CollectionHasElementsConverter" />
         <DataTemplate x:Key="LongListTypeObjectTemplate">
-            <Grid Width="450" Height="Auto" Margin="0,20,0,0" Hold="TryDeleteTypeObject">
+            <Grid Width="450" Height="Auto" Margin="0,10,0,10" Tap="OpenTypeObjectDetail">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
@@ -68,7 +69,7 @@
             </Grid>
         </DataTemplate>
         <DataTemplate x:Key="LongListTypeObjectAddTemplate">
-            <Grid Width="450" Height="Auto" Margin="0,20,0,0" Hold="TryDeleteTypeObject">
+            <Grid Width="450" Height="Auto" Margin="0,10,0,10" Tap="OpenTypeObjectDetail">
                                 <Grid.ColumnDefinitions>
                                     <ColumnDefinition Width="115" />
                                     <ColumnDefinition Width="*" />
@@ -104,19 +105,22 @@
         </DataTemplate>
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
-            <Grid Width="480">
-                <phone:LongListSelector 
+            <Grid Width="480" x:Name="TypeContent">
+                <CheckBox  IsEnabled="{Binding typeObjects, Converter={StaticResource CollectionHasElementsConverter}}" x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="Alles auswählen" HorizontalAlignment="Left" Margin="0,-20,0,0" VerticalAlignment="Top" Width="224" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
+                <toolkit:LongListMultiSelector
                     Height="Auto" 
-                    Margin="20,10,10,0" 
+                    IsSelectionEnabled="False"
+                    Margin="20,30,10,0" 
                     Width="Auto" 
+                    ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}"
                     ItemsSource="{Binding typeObjects}"
                     ItemTemplate="{StaticResource SelectingTemplateTypeObject}"
                     LayoutMode="Grid"
-                    GridCellSize="450, 150"
-                    x:Name="LongList"
-                    SelectionChanged="LongList_SelectionChanged">
+                    GridCellSize="450, 130"
+                    x:Name="typeLongList"
+                    SelectionChanged="LongList_SelectionChanged" Hold="LongList_Hold">
                     <!--Template für LongListSelector-item-->
-                </phone:LongListSelector>
+                </toolkit:LongListMultiSelector>
                 <TextBlock x:Name="btnOverview" Text="klick" Foreground="White" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
             </Grid>
         </DataTemplate>
@@ -193,6 +197,7 @@
                          ItemTemplate="{StaticResource SelectingTemplateType}"
                          ItemsSource="{Binding Path=Types, Mode=OneWay}"
                          x:Name="PivotMain" 
+                         IsLocked="False"
                          SelectionChanged="PivotSelectionChanged" 
                          VerticalAlignment="Top"
                          VerticalContentAlignment="Top" FontFamily="Segoe WP Light">

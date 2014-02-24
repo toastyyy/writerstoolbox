@@ -46,7 +46,7 @@ namespace WritersToolbox.models
         }
 
         [Column(Name = "fk_typeID")]
-        public int fk_typeID;
+        public int? fk_typeID;
 
         private EntityRef<Type> _type;
 
@@ -70,7 +70,7 @@ namespace WritersToolbox.models
         }
 
         [Column(Name = "fk_eventID")]
-        private int fk_eventID; // ? = nullable type
+        private int? fk_eventID; // ? = nullable type
 
         private EntityRef<Event> _event;
 

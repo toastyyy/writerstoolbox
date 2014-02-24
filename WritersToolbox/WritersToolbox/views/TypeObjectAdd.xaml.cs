@@ -38,9 +38,7 @@ namespace WritersToolbox.views
         // PhotoChooser
         private PhotoChooserTask photoChooserTask;
 
-        private BitmapImage changedImage = null;
-
-        private WriteableBitmap backgroundImage = null;
+        private String changedImage = "";
 
         private Boolean changed;
         static string[] colors =
@@ -178,7 +176,7 @@ namespace WritersToolbox.views
                 BitmapImage bmp = new BitmapImage();
                 bmp.SetSource(e.ChosenPhoto);
                 this.imageButton.Source = bmp;
-                this.changedImage = bmp;
+                this.changedImage = e.OriginalFileName;
                 this.changed = true;
             }
         }
@@ -218,31 +216,18 @@ namespace WritersToolbox.views
             }
             String fileName = "";
             // Bild speichern
-            if (this.changedImage != null)
+            if (this.changedImage != null && !this.changedImage.Equals(""))
             {
-                var bmp = new WriteableBitmap(this.changedImage);
-                using (IsolatedStorageFile storage = IsolatedStorageFile.GetUserStoreForApplication())
+                if (!this.changedImage.Equals(""))
                 {
-                    if (!storage.DirectoryExists("user_images"))
-                    {
-                        storage.CreateDirectory("user_images");
-                    }
-
-                    fileName = GetSHA256Hash(DateTime.Now.ToString()) + ".png";
-
-                    using (IsolatedStorageFileStream stream = storage.CreateFile(@"user_images\\" + fileName))
-                    {
-                        bmp.SaveJpeg(stream, 200, 100, 0, 95);
-                        stream.Close();
-                    }
-
+                    fileName = this.changedImage;
                 }
-
+            }
                 // viewmodel erst hier erzeugen, weil es nur beim erstellen benötigt wird!
                 TypesViewModel tvm = new TypesViewModel();
                 tvm.createTypeObject(name, color, fileName, this.typeID);
                 NavigationService.Navigate(new Uri("/views/Types.xaml?item=" + this.typeID, UriKind.Relative));
-            }
+
             
         }
 
@@ -259,6 +244,9 @@ namespace WritersToolbox.views
                 {
                     NavigationService.Navigate(new Uri("/views/Types.xaml?item=" + this.typeID, UriKind.Relative));
                 }
+            }
+            else {
+                NavigationService.Navigate(new Uri("/views/Types.xaml?item=" + this.typeID, UriKind.Relative));
             }
         }
 

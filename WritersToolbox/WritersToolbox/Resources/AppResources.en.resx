@@ -122,8 +122,17 @@
     <comment>Controls the FlowDirection for all elements in the RootFrame. Set to the traditional direction of this resource file's language</comment>
   </data>
   <data name="ResourceLanguage" xml:space="preserve">
-    <value>de-de</value>
+    <value>en</value>
     <comment>Controls the Language and ensures that the font for all elements in the RootFrame aligns with the app's language. Set to the language code of this resource file's language.</comment>
+  </data>
+  <data name="ApplicationTitle" xml:space="preserve">
+    <value>MY APPLICATION</value>
+  </data>
+  <data name="AppBarButtonText" xml:space="preserve">
+    <value>add</value>
+  </data>
+  <data name="AppBarMenuItemText" xml:space="preserve">
+    <value>Menu Item</value>
   </data>
   <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
   <data name="cancel" type="System.Resources.ResXFileRef, System.Windows.Forms">
@@ -189,91 +198,82 @@
   <data name="typen_unchecked" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\typen_unchecked.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
   </data>
-  <data name="off" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\icons\off.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
-  </data>
-  <data name="on" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\icons\on.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
-  </data>
   <data name="BooksPageTitle" xml:space="preserve">
-    <value>WERKE</value>
+    <value>BOOKS</value>
   </data>
   <data name="BookName" xml:space="preserve">
-    <value>Name des Werkes</value>
+    <value>Name of the book</value>
   </data>
   <data name="BookType" xml:space="preserve">
-    <value>Buchtyp</value>
+    <value>Booktype</value>
   </data>
   <data name="BooktypeHeadline" xml:space="preserve">
-    <value>Buchtyp wählen</value>
+    <value>Choose booktype</value>
   </data>
   <data name="BooktypeText" xml:space="preserve">
-    <value>Bitte wählen Sie einen Buchtyp</value>
+    <value>Please choose a booktype</value>
   </data>
   <data name="CheckboxKeepTomes" xml:space="preserve">
-    <value>Alle Bände erhalten</value>
+    <value>keep all tomes</value>
   </data>
   <data name="NewTomeTemplate" xml:space="preserve">
-    <value>Neuen Band erstellen</value>
+    <value>New Tome</value>
   </data>
   <data name="SettingsTitle" xml:space="preserve">
-    <value>Einstellungen</value>
+    <value>Settings</value>
   </data>
   <data name="TextCancel" xml:space="preserve">
-    <value>Abbrechen</value>
+    <value>Cancel</value>
   </data>
   <data name="TextDelete" xml:space="preserve">
-    <value>Löschen</value>
+    <value>Delete</value>
   </data>
   <data name="TextSave" xml:space="preserve">
-    <value>Speichern</value>
+    <value>Save</value>
   </data>
   <data name="AppBarCancel" xml:space="preserve">
-    <value>abbrechen</value>
+    <value>cancel</value>
   </data>
   <data name="AppBarDelete" xml:space="preserve">
-    <value>löschen</value>
+    <value>delete</value>
   </data>
   <data name="AppBarEdit" xml:space="preserve">
-    <value>ändern</value>
+    <value>edit</value>
   </data>
   <data name="AppBarSave" xml:space="preserve">
-    <value>speichern</value>
+    <value>save</value>
   </data>
   <data name="BookDeleteQuestion1" xml:space="preserve">
-    <value>Wollen Sie das Werk "</value>
+    <value>Would you like to delete the book "</value>
   </data>
   <data name="BookDeleteQuestion2" xml:space="preserve">
-    <value>" löschen?</value>
-  </data>
-  <data name="BooksHeadlineOverview" xml:space="preserve">
-    <value>Überblick</value>
+    <value>" ?</value>
   </data>
   <data name="NewBookEditBooktype" xml:space="preserve">
-    <value>Ändern</value>
+    <value>Edit</value>
   </data>
   <data name="AppBarBack" xml:space="preserve">
-    <value>zurück</value>
+    <value>back</value>
   </data>
   <data name="AppBarRestore" xml:space="preserve">
-    <value>wiederherstellen</value>
+    <value>restore</value>
   </data>
   <data name="EventDetailHeadline1" xml:space="preserve">
-    <value>Finaltext</value>
+    <value>Final text</value>
   </data>
   <data name="EventDetailHeadline2" xml:space="preserve">
-    <value>Notizen</value>
+    <value>Notes</value>
   </data>
   <data name="EventDetailHeadline3" xml:space="preserve">
-    <value>Typobjekte</value>
+    <value>Typeobjects</value>
   </data>
   <data name="EventDetailTitle" xml:space="preserve">
     <value>EVENT</value>
   </data>
   <data name="SelectAll" xml:space="preserve">
-    <value>Alle auswählen</value>
+    <value>Select all</value>
   </data>
   <data name="TrashbinHeadline" xml:space="preserve">
-    <value>Papierkorb</value>
+    <value>Recycle bin</value>
   </data>
 </root>

@@ -27,6 +27,12 @@ namespace WritersToolbox.demo
             bt2.addedDate = DateTime.Now;
             bt2.numberOfChapter = 3;
 
+            BookType bt3 = new BookType();
+            bt3.name = "Kurzgeschichte";
+            bt3.updatedDate = DateTime.Now;
+            bt3.addedDate = DateTime.Now;
+            bt3.numberOfChapter = 3;
+
             Book b = new Book();
             b.name = "Harry Potter";
             b.addedDate = DateTime.Now;
@@ -232,7 +238,8 @@ namespace WritersToolbox.demo
                 obj_Type = type1,
                 color = "#0020B2AA",
                 imageString = "../icons/character_round_icon.png",
-                obj_Event = e1
+                obj_Event = e1,
+                
             };
 
             MemoryNote mn2 = new MemoryNote()
@@ -243,7 +250,8 @@ namespace WritersToolbox.demo
                 title = "aussehen",
                 associated = true,
                 tags = "harry|potter|aussehen|narbe|haare|klein",
-                obj_TypeObject = typeObject1
+                obj_TypeObject = typeObject1,
+                obj_Event = e1
             };
 
             MemoryNote mn3 = new MemoryNote()
@@ -254,7 +262,8 @@ namespace WritersToolbox.demo
                 title = "testnotiz an harry",
                 associated = true,
                 tags = "harry|potter|test",
-                obj_TypeObject = typeObject1
+                obj_TypeObject = typeObject1,
+                obj_Event = e1
             };
 
             MemoryNote mn4 = new MemoryNote()
@@ -265,7 +274,8 @@ namespace WritersToolbox.demo
                 title = "testnotiz an harry",
                 associated = true,
                 tags = "harry|potter|test",
-                obj_TypeObject = typeObject1
+                obj_TypeObject = typeObject1,
+                obj_Event = e1
             };
 
             MemoryNote mn5 = new MemoryNote()
@@ -276,7 +286,8 @@ namespace WritersToolbox.demo
                 title = "testnotiz an harry",
                 associated = true,
                 tags = "harry|potter|test",
-                obj_TypeObject = typeObject1
+                obj_TypeObject = typeObject1,
+                obj_Event = e1
             };
 
             MemoryNote mn6 = new MemoryNote()
@@ -287,11 +298,13 @@ namespace WritersToolbox.demo
                 title = "testnotiz an harry",
                 associated = true,
                 tags = "harry|potter|test",
-                obj_TypeObject = typeObject1
+                obj_TypeObject = typeObject1,
+                obj_Event = e1
             };
 
             db.GetTable<BookType>().InsertOnSubmit(bt);
             db.GetTable<BookType>().InsertOnSubmit(bt2);
+            db.GetTable<BookType>().InsertOnSubmit(bt3);
             db.GetTable<Book>().InsertOnSubmit(b);
             db.GetTable<Book>().InsertOnSubmit(b2);
             db.GetTable<Tome>().InsertOnSubmit(t1);
@@ -345,7 +358,8 @@ namespace WritersToolbox.demo
 　　                title = i.ToString(),
                     associated = true,
                     tags = "harry|potter|test",
-                    obj_TypeObject = typeObject1
+                    obj_TypeObject = typeObject1,
+                    obj_Event = e1
                 };
                 db.GetTable<MemoryNote>().InsertOnSubmit(mn);
             }
@@ -370,7 +384,8 @@ namespace WritersToolbox.demo
                     title = i.ToString(),
                     associated = true,
                     tags = "Ron|Weasley|test",
-                    obj_TypeObject = typeObject2
+                    obj_TypeObject = typeObject2,
+                    obj_Event = e1
                 };
                 db.GetTable<MemoryNote>().InsertOnSubmit(mn);
             }

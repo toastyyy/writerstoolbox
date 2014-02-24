@@ -15,8 +15,8 @@ using Microsoft.Phone.Controls;
 
 namespace WritersToolbox.viewmodels
 {
-    
-    public class BooksViewModel
+
+    public class BooksViewModel 
     {
         public ObservableCollection<datawrapper.Book> Books { get; set; }
         public ObservableCollection<datawrapper.BookType> BookTypes { get; set; }
@@ -49,7 +49,28 @@ namespace WritersToolbox.viewmodels
             return this.Books.Count;
         }
 
-        public void addBook() { 
+        public void addBook(String name, int bookTypeID) {
+            Book b = new Book();
+            b.name = name;
+            b.addedDate = DateTime.Now;
+            b.updatedDate = DateTime.Now;
+            b.obj_bookType = (from bt in tableBookType where bt.bookTypeID == bookTypeID select bt).Single();
+            tableBook.InsertOnSubmit(b);
+            this.wtb.SubmitChanges();
+        }
+
+        public void updateBook(int bookID, String name, int bookTypeID) {
+            Book book = (from b in tableBook where b.bookID == bookID select b).Single();
+            book.name = name;
+            book.obj_bookType = (from bt in tableBookType where bt.bookTypeID == bookTypeID select bt).Single();
+            book.updatedDate = DateTime.Now;
+            this.wtb.SubmitChanges();
+        }
+
+        public Book getBookByID(int bookID)
+        {
+            Book book = (from b in tableBook where b.bookID == bookID select b).Single();
+            return book;
         }
 
         public void loadData() 
@@ -155,5 +176,7 @@ namespace WritersToolbox.viewmodels
                 
             wtb.SubmitChanges();
         }
+
+        
     }
 }
