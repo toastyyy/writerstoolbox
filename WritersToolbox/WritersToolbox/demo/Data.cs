@@ -27,6 +27,12 @@ namespace WritersToolbox.demo
             bt2.addedDate = DateTime.Now;
             bt2.numberOfChapter = 3;
 
+            BookType bt3 = new BookType();
+            bt3.name = "Kurzgeschichte";
+            bt3.updatedDate = DateTime.Now;
+            bt3.addedDate = DateTime.Now;
+            bt3.numberOfChapter = 3;
+
             Book b = new Book();
             b.name = "Harry Potter";
             b.addedDate = DateTime.Now;
@@ -298,6 +304,7 @@ namespace WritersToolbox.demo
 
             db.GetTable<BookType>().InsertOnSubmit(bt);
             db.GetTable<BookType>().InsertOnSubmit(bt2);
+            db.GetTable<BookType>().InsertOnSubmit(bt3);
             db.GetTable<Book>().InsertOnSubmit(b);
             db.GetTable<Book>().InsertOnSubmit(b2);
             db.GetTable<Tome>().InsertOnSubmit(t1);

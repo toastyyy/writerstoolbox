@@ -231,4 +231,49 @@
   <data name="TextSave" xml:space="preserve">
     <value>Save</value>
   </data>
+  <data name="AppBarCancel" xml:space="preserve">
+    <value>cancel</value>
+  </data>
+  <data name="AppBarDelete" xml:space="preserve">
+    <value>delete</value>
+  </data>
+  <data name="AppBarEdit" xml:space="preserve">
+    <value>edit</value>
+  </data>
+  <data name="AppBarSave" xml:space="preserve">
+    <value>save</value>
+  </data>
+  <data name="BookDeleteQuestion1" xml:space="preserve">
+    <value>Would you like to delete the book "</value>
+  </data>
+  <data name="BookDeleteQuestion2" xml:space="preserve">
+    <value>" ?</value>
+  </data>
+  <data name="NewBookEditBooktype" xml:space="preserve">
+    <value>Edit</value>
+  </data>
+  <data name="AppBarBack" xml:space="preserve">
+    <value>back</value>
+  </data>
+  <data name="AppBarRestore" xml:space="preserve">
+    <value>restore</value>
+  </data>
+  <data name="EventDetailHeadline1" xml:space="preserve">
+    <value>Final text</value>
+  </data>
+  <data name="EventDetailHeadline2" xml:space="preserve">
+    <value>Notes</value>
+  </data>
+  <data name="EventDetailHeadline3" xml:space="preserve">
+    <value>Typeobjects</value>
+  </data>
+  <data name="EventDetailTitle" xml:space="preserve">
+    <value>EVENT</value>
+  </data>
+  <data name="SelectAll" xml:space="preserve">
+    <value>Select all</value>
+  </data>
+  <data name="TrashbinHeadline" xml:space="preserve">
+    <value>Recycle bin</value>
+  </data>
 </root>

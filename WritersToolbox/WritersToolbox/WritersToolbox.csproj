@@ -434,16 +434,16 @@
   </ItemGroup>
   <ItemGroup>
     <Reference Include="Coding4Fun.Toolkit.Audio">
-      <HintPath>..\..\..\..\..\Desktop\App_WP8\Coding4Fun.Toolkit.Audio.dll</HintPath>
+      <HintPath>..\packages\Coding4Fun.Toolkit.Audio.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Audio.dll</HintPath>
     </Reference>
     <Reference Include="Coding4Fun.Toolkit.Controls">
-      <HintPath>..\..\..\..\..\Desktop\App_WP8\Coding4Fun.Toolkit.Controls.dll</HintPath>
+      <HintPath>..\packages\Coding4Fun.Toolkit.Controls.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Controls.dll</HintPath>
     </Reference>
     <Reference Include="Coding4Fun.Toolkit.Net">
-      <HintPath>..\..\..\..\..\Desktop\App_WP8\Coding4Fun.Toolkit.Net.dll</HintPath>
+      <HintPath>..\packages\Coding4Fun.Toolkit.Net.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Net.dll</HintPath>
     </Reference>
     <Reference Include="Coding4Fun.Toolkit.Storage">
-      <HintPath>..\..\..\..\..\Desktop\App_WP8\Coding4Fun.Toolkit.Storage.dll</HintPath>
+      <HintPath>..\packages\Coding4Fun.Toolkit.Storage.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Storage.dll</HintPath>
     </Reference>
     <Reference Include="Microsoft.Expression.Controls, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">

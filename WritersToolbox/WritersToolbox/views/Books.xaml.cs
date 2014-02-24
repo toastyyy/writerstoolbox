@@ -9,13 +9,25 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using WritersToolbox.viewmodels;
+using WritersToolbox.Resources;
+using System.Windows.Media;
 
 namespace WritersToolbox.views
 {
     public partial class Books : PhoneApplicationPage
     {
         public static BooksViewModel books_VM; // = null;
-        private datawrapper.Book selectedBook;
+
+        private TextBox bookname;
+
+        private int bookTypeID = 1;
+
+        private TextBlock bookTypeTextBlock;
+
+        private datawrapper.BookType tmpBooktype;
+
+        private Grid lastSelectedGrid;
+
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
         /// </summary>
@@ -118,6 +130,12 @@ namespace WritersToolbox.views
         private void bookTypeCancel(object sender, System.Windows.Input.GestureEventArgs e)
         {
             booktype_popup.IsOpen = false;
+            tmpBooktype = null;
+            if (lastSelectedGrid != null)
+            {
+                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
+                lastSelectedGrid = null;
+            }
         }
 
         /// <summary>
@@ -131,7 +149,7 @@ namespace WritersToolbox.views
             datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
             if (b == null)
                 return;
-            BookDeleteQuestion.Text = "Wollen Sie das Werk \"" + b.name.ToString() + "\" löschen?";
+            BookDeleteQuestion.Text = AppResources.BookDeleteQuestion1 + b.name.ToString() + AppResources.BookDeleteQuestion2;
             deleteBookPopup.IsOpen = true;
         }
 
@@ -192,22 +210,22 @@ namespace WritersToolbox.views
             if (b.bookID == -1)
             {
                 btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
-                btn1.Text = "speichern";
+                btn1.Text = AppResources.AppBarSave;
                 btn1.Click -= new EventHandler(ChangeBook);
                 btn1.Click += new EventHandler(SaveBook);
                 btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
-                btn2.Text = "abbrechen";
+                btn2.Text = AppResources.AppBarCancel;
                 btn2.Click -= new EventHandler(TryDeleteBook);
                 btn2.Click += new EventHandler(CancelBook);
             }
             else
             {
                 btn1.IconUri = new Uri("/icons/saveAs.png", UriKind.Relative);
-                btn1.Text = "ändern";
+                btn1.Text = AppResources.AppBarEdit;
                 btn1.Click -= new EventHandler(SaveBook);
                 btn1.Click += new EventHandler(ChangeBook);
                 btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
-                btn2.Text = "löschen";
+                btn2.Text = AppResources.AppBarDelete;
                 btn2.Click -= new EventHandler(CancelBook);
                 btn2.Click += new EventHandler(TryDeleteBook);
             }
@@ -220,7 +238,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void SaveBook(object sender, EventArgs e)
         {
-            //save Methode fehlt
+            Books_VM.addBook(bookname.Text, bookTypeID);
             PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
         }
 
@@ -256,7 +274,76 @@ namespace WritersToolbox.views
             {
                 //neuer Band
             }
-            //selector.SelectedItem = null;
+            selector.SelectedItem = null;
+        }
+
+        /// <summary>
+        /// Textbox für Werkname wird gespeichert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BooknameGotFocus(object sender, RoutedEventArgs e)
+        {
+            bookname = sender as TextBox;
+        }
+
+        /// <summary>
+        /// In der Buchtypauswahl wird eine auswahl getroffen und temporär gespeichert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void BookTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            tmpBooktype = (sender as LongListSelector).SelectedItem as datawrapper.BookType;
+            
+        }
+
+        /// <summary>
+        /// Die Buchtypauswahl wird gespeichert. Aus der temporären Auswahl werden die benötigten Werte
+        /// gespeichert. Die Visuelle Auswahl wird augehoben und das Popup geschlossen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void saveNewBookType(object sender, RoutedEventArgs e)
+        {
+            if (tmpBooktype != null)
+            {
+                bookTypeID = tmpBooktype.bookTypeID;
+                bookTypeTextBlock.Text = tmpBooktype.name;
+            }
+            if (lastSelectedGrid != null)
+            {
+                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
+                lastSelectedGrid = null;
+            }
+            booktype_popup.IsOpen = false;
+        }
+
+        /// <summary>
+        /// Der Textblock, der den Buchtyp anzeigt, wird nach dem Laden zum Zugriff gespeichert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void bookTypeLoaded(object sender, RoutedEventArgs e)
+        {
+            bookTypeTextBlock = sender as TextBlock;
+        }
+
+
+        /// <summary>
+        /// In der Buchtypauswahl ist eine visuelle Auswahl möglich.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void highlightSelection(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (lastSelectedGrid != null)
+            {
+                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
+            }
+            Grid g = sender as Grid;
+            g.Background = new SolidColorBrush(Colors.Brown);
+            lastSelectedGrid = g;
         }
 
     }

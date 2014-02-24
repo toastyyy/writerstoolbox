@@ -71,29 +71,56 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die add ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die zurück ähnelt.
         /// </summary>
-        public static string AppBarButtonText {
+        public static string AppBarBack {
             get {
-                return ResourceManager.GetString("AppBarButtonText", resourceCulture);
+                return ResourceManager.GetString("AppBarBack", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Menu Item ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die abbrechen ähnelt.
         /// </summary>
-        public static string AppBarMenuItemText {
+        public static string AppBarCancel {
             get {
-                return ResourceManager.GetString("AppBarMenuItemText", resourceCulture);
+                return ResourceManager.GetString("AppBarCancel", resourceCulture);
             }
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die MY APPLICATION ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die löschen ähnelt.
         /// </summary>
-        public static string ApplicationTitle {
+        public static string AppBarDelete {
             get {
-                return ResourceManager.GetString("ApplicationTitle", resourceCulture);
+                return ResourceManager.GetString("AppBarDelete", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ändern ähnelt.
+        /// </summary>
+        public static string AppBarEdit {
+            get {
+                return ResourceManager.GetString("AppBarEdit", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die wiederherstellen ähnelt.
+        /// </summary>
+        public static string AppBarRestore {
+            get {
+                return ResourceManager.GetString("AppBarRestore", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die speichern ähnelt.
+        /// </summary>
+        public static string AppBarSave {
+            get {
+                return ResourceManager.GetString("AppBarSave", resourceCulture);
             }
         }
         
@@ -118,11 +145,38 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wollen Sie das Werk &quot; ähnelt.
+        /// </summary>
+        public static string BookDeleteQuestion1 {
+            get {
+                return ResourceManager.GetString("BookDeleteQuestion1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &quot; löschen? ähnelt.
+        /// </summary>
+        public static string BookDeleteQuestion2 {
+            get {
+                return ResourceManager.GetString("BookDeleteQuestion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Name des Werkes ähnelt.
         /// </summary>
         public static string BookName {
             get {
                 return ResourceManager.GetString("BookName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Überblick ähnelt.
+        /// </summary>
+        public static string BooksHeadlineOverview {
+            get {
+                return ResourceManager.GetString("BooksHeadlineOverview", resourceCulture);
             }
         }
         
@@ -192,6 +246,42 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Finaltext ähnelt.
+        /// </summary>
+        public static string EventDetailHeadline1 {
+            get {
+                return ResourceManager.GetString("EventDetailHeadline1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Notizen ähnelt.
+        /// </summary>
+        public static string EventDetailHeadline2 {
+            get {
+                return ResourceManager.GetString("EventDetailHeadline2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Typobjekte ähnelt.
+        /// </summary>
+        public static string EventDetailHeadline3 {
+            get {
+                return ResourceManager.GetString("EventDetailHeadline3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die EVENT ähnelt.
+        /// </summary>
+        public static string EventDetailTitle {
+            get {
+                return ResourceManager.GetString("EventDetailTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         public static byte[] info_checked {
@@ -218,6 +308,15 @@ namespace WritersToolbox.Resources {
             get {
                 object obj = ResourceManager.GetObject("micro", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ändern ähnelt.
+        /// </summary>
+        public static string NewBookEditBooktype {
+            get {
+                return ResourceManager.GetString("NewBookEditBooktype", resourceCulture);
             }
         }
         
@@ -319,6 +418,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alle auswählen ähnelt.
+        /// </summary>
+        public static string SelectAll {
+            get {
+                return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Einstellungen ähnelt.
         /// </summary>
         public static string SettingsTitle {
@@ -401,6 +509,15 @@ namespace WritersToolbox.Resources {
         public static string TextSave {
             get {
                 return ResourceManager.GetString("TextSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Papierkorb ähnelt.
+        /// </summary>
+        public static string TrashbinHeadline {
+            get {
+                return ResourceManager.GetString("TrashbinHeadline", resourceCulture);
             }
         }
         

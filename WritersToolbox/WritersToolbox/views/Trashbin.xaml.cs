@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using WritersToolbox.viewmodels;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.views
 {
@@ -25,6 +26,7 @@ namespace WritersToolbox.views
             this.DataContext = trash;
             llms_trash.ItemsSource = trash.loadData();
         }
+
 
         private void trash_selectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -120,6 +122,13 @@ namespace WritersToolbox.views
                 //Fertig
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            base.OnNavigatedTo(e);
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            ApplicationBarIconButton btn3 = (ApplicationBarIconButton)ApplicationBar.Buttons[2];
+            btn1.Text = AppResources.AppBarDelete;
+            btn2.Text = AppResources.AppBarBack;
+            btn3.Text = AppResources.AppBarRestore;
             trash.loadData();
             //llms_trash.ItemsSource = trash.getObservableColletion();
         }
