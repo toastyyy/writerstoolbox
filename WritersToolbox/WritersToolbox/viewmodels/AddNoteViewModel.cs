@@ -30,6 +30,7 @@ namespace WritersToolbox.viewmodels
         //Notiz, als Entity object.
         private models.MemoryNote obj_memoryNote;
         
+        
 
         /// <summary>
         /// Im Defaultkonstruktor wird die Verbindung zur Datenbank erstellt und

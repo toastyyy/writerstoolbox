@@ -25,13 +25,13 @@ namespace WritersToolbox.demo
             bt2.name = "Gedichte";
             bt2.updatedDate = DateTime.Now;
             bt2.addedDate = DateTime.Now;
-            bt2.numberOfChapter = 3;
+            bt2.numberOfChapter = 2;
 
             BookType bt3 = new BookType();
             bt3.name = "Kurzgeschichte";
             bt3.updatedDate = DateTime.Now;
             bt3.addedDate = DateTime.Now;
-            bt3.numberOfChapter = 3;
+            bt3.numberOfChapter = 2;
 
             Book b = new Book();
             b.name = "Harry Potter";
@@ -103,36 +103,42 @@ namespace WritersToolbox.demo
             Event e1 = new Event() 
             { 
                 title = "Haus der Dursleys",
-                obj_Chapter = c1
+                obj_Chapter = c1,
+                finaltext = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
             };
 
             Event e2 = new Event()
             {
                 title = "Bahnhof",
-                obj_Chapter = c1
+                obj_Chapter = c1,
+                finaltext = ""
             };
 
             Event e3 = new Event()
             {
                 title = "Haus der Dursleys",
-                obj_Chapter = c2
+                obj_Chapter = c2,
+                finaltext = ""
             };
 
             Event e4 = new Event()
             {
                 title = "Bahnhof",
-                obj_Chapter = c2
+                obj_Chapter = c2,
+                finaltext = ""
             };
             Event e5 = new Event()
             {
                 title = "Haus der Dursleys",
-                obj_Chapter = c3
+                obj_Chapter = c3, 
+                finaltext = ""
             };
 
             Event e6 = new Event()
             {
                 title = "Bahnhof",
-                obj_Chapter = c3
+                obj_Chapter = c3,
+                finaltext = ""
             };
             MemoryNote mn1 = new MemoryNote() 
             { 
@@ -176,34 +182,41 @@ namespace WritersToolbox.demo
                 obj_Type = type1,
                 used = true,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png",
-                obj_Event = e2
+                imageString = "../icons/character_round_icon.png"
             };
 
+            EntitySet<EventTypeObjects> events1 = new EntitySet<EventTypeObjects>();
+            events1.Add(new EventTypeObjects() { obj_Event = e1, obj_typeObject =  typeObject1});
+            events1.Add(new EventTypeObjects() { obj_Event = e2, obj_typeObject = typeObject1 });
+            events1.Add(new EventTypeObjects() { obj_Event = e4, obj_typeObject = typeObject1 });
+
+            typeObject1.events = events1;
             TypeObject typeObject2= new TypeObject()
             {
                 name = "Ron Weasley",
                 obj_Type = type1,
                 used = true,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png",
-                obj_Event = e2
+                imageString = "../icons/character_round_icon.png"
             };
 
+            EntitySet<EventTypeObjects> events2 = new EntitySet<EventTypeObjects>();
+            events2.Add(new EventTypeObjects() { obj_Event = e1, obj_typeObject = typeObject2 });
+            events2.Add(new EventTypeObjects() { obj_Event = e3, obj_typeObject = typeObject2 });
+            events2.Add(new EventTypeObjects() { obj_Event = e4, obj_typeObject = typeObject2 });
+            typeObject2.events = events2;
             TypeObject typeObject3 = new TypeObject()
             {
                 name = "Hogwarts",
                 obj_Type = type2,
-                color = "#FF20B2AA",
-                obj_Event = e2
+                color = "#FF20B2AA"
             };
 
             TypeObject typeObject4 = new TypeObject()
             {
                 name = "Zauberwald",
                 obj_Type = type2,
-                color = "#FF20B2AA",
-                obj_Event = e2
+                color = "#FF20B2AA"
             };
 
             TypeObject typeObject5 = new TypeObject()
@@ -211,8 +224,7 @@ namespace WritersToolbox.demo
                 name = "Frodo Beutlin",
                 obj_Type = type1,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png",
-                obj_Event = e1
+                imageString = "../icons/character_round_icon.png"
             };
 
             TypeObject typeObject6 = new TypeObject()
@@ -220,8 +232,7 @@ namespace WritersToolbox.demo
                 name = "Bilbo Beutlin",
                 obj_Type = type1,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png",
-                obj_Event = e1
+                imageString = "../icons/character_round_icon.png"
             };
 
             TypeObject typeObject7 = new TypeObject()
@@ -229,17 +240,14 @@ namespace WritersToolbox.demo
                 name = "Gandalf",
                 obj_Type = type1,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png",
-                obj_Event = e1
+                imageString = "../icons/character_round_icon.png"
             };
             TypeObject typeObject8 = new TypeObject()
             {
                 name = "Gollum",
                 obj_Type = type1,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png",
-                obj_Event = e1,
-                
+                imageString = "../icons/character_round_icon.png"
             };
 
             MemoryNote mn2 = new MemoryNote()

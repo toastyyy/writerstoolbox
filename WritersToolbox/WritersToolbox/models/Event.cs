@@ -19,6 +19,7 @@ namespace WritersToolbox.models
         public Event() 
         {
             _notes = new EntitySet<MemoryNote>();
+            _event_typeObjects = new EntitySet<EventTypeObjects>();
         }
 
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
@@ -62,6 +63,22 @@ namespace WritersToolbox.models
             }
         }
 
+        private String stg_finaltext;
+        [Column(CanBeNull = false,
+            Storage = "stg_finaltext")]
+        public String finaltext
+        {
+            get { return stg_finaltext; }
+            set
+            {
+                if (stg_finaltext != value)
+                {
+                    sendPropertyChanging("finaltext");
+                    stg_finaltext = value;
+                    sendPropertyChanged("finaltext");
+                }
+            }
+        }
         private int stg_orderInChapter;
         [Column(CanBeNull = false,
             Storage = "stg_orderInChapter")]
@@ -183,6 +200,26 @@ namespace WritersToolbox.models
                 };
 
             return tempEvent;
+        }
+
+        private EntitySet<EventTypeObjects> _event_typeObjects;
+
+        [Association(Name = "Event_TypeObjects",
+            Storage = "_event_typeObjects",         //Speicherort der Child-Instanzen.
+            ThisKey = "eventID",      //Name des Primärschlüssels.
+            OtherKey = "fk_eventID")] //Name des Fremdschlüssels.
+        public EntitySet<EventTypeObjects> typeObjects
+        {
+            get
+            {
+                return this._event_typeObjects;
+            }
+            set
+            {
+                sendPropertyChanging("typeObjects");
+                this._event_typeObjects.Assign(value);
+                sendPropertyChanged("typeObjects");
+            }
         }
     }
 }

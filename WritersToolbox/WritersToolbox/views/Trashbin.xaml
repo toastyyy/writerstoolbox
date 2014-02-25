@@ -92,7 +92,7 @@
         </DataTemplate>
 
         <DataTemplate x:Key="trashbinTypeTemplate">
-            <Grid Width="Auto" Height="Auto" Margin="0,20,0,20" Tap="Grid_Tap" Hold="Grid_Hold">
+            <Grid Height="Auto" Margin="0,20,0,20" Tap="Grid_Tap" Hold="Grid_Hold">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
@@ -140,7 +140,7 @@
             <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="trash_selectionChanged" 
-                    LayoutMode="List" GridCellSize="200,200" 
+                    LayoutMode="Grid" GridCellSize="450,130" 
                     x:Name="llms_trash" 
                     ItemsSource="{Binding DeletedObjects}"
                     IsGroupingEnabled="False" 
