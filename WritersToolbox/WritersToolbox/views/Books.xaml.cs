@@ -252,6 +252,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void tomeSelected(object sender, SelectionChangedEventArgs e)
         {
+            datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
             LongListSelector selector = sender as LongListSelector;
             if (selector == null)
                 return;
@@ -264,7 +265,7 @@ namespace WritersToolbox.views
             }
             else
             {
-                //neuer Band
+                NavigationService.Navigate(new Uri("/views/AddTome.xaml?bookID=" + b.bookID, UriKind.Relative));
             }
             selector.SelectedItem = null;
         }

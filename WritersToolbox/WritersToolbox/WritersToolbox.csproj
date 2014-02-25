@@ -154,6 +154,7 @@
     <Compile Include="templateselector\PivotTypeTemplateSelector.cs" />
     <Compile Include="templateselector\TemplateSelector.cs" />
     <Compile Include="viewmodels\AddNoteViewModel.cs" />
+    <Compile Include="viewmodels\AddTomeViewModel.cs" />
     <Compile Include="viewmodels\BooksViewModel.cs" />
     <Compile Include="viewmodels\EventDetailViewModel.cs" />
     <Compile Include="viewmodels\TomeDetailsViewModel.cs" />
@@ -168,9 +169,6 @@
     </Compile>
     <Compile Include="views\AddTome.xaml.cs">
       <DependentUpon>AddTome.xaml</DependentUpon>
-    </Compile>
-    <Compile Include="views\AddTomeViewModel.xaml.cs">
-      <DependentUpon>AddTomeViewModel.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -248,10 +246,6 @@
     <Page Include="views\AddTome.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
-    </Page>
-    <Page Include="views\AddTomeViewModel.xaml">
-      <SubType>Designer</SubType>
-      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\Settings.xaml">
       <Generator>MSBuild:Compile</Generator>

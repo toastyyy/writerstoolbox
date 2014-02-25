@@ -136,7 +136,7 @@
             </DataTemplate>
 
         <!--Template für LongListSelector-item neuen Band-->
-        <DataTemplate x:Name="newTome">
+        <DataTemplate x:Name="newTome" >
             <Grid Width="450" Height="Auto" Margin="0,20,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115"/>
