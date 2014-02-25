@@ -129,6 +129,7 @@
     <Compile Include="datawrapper\UnsortedMemoryNote.cs" />
     <Compile Include="demo\Data.cs" />
     <Compile Include="LocalizedStrings.cs" />
+    <Compile Include="models\EventTypeObjects.cs" />
     <Compile Include="models\WritersToolboxDatebase.cs" />
     <Compile Include="models\Book.cs" />
     <Compile Include="models\BookType.cs" />

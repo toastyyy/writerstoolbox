@@ -16,7 +16,7 @@ namespace WritersToolbox.datawrapper
         public ObservableCollection<MemoryNote> notes { get; set; }
         public ObservableCollection<TypeObject> typeObjects { get; set; }
         public bool deleted { get; set; }
-
+        public string finaltext { get; set; }
         public Event()
         {
             notes = new ObservableCollection<MemoryNote>();

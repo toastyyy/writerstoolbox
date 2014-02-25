@@ -25,6 +25,7 @@ namespace WritersToolbox.models
         private Table<models.TypeObject> t_typeObject;
         private Table<models.Type> t_type;
         private Table<models.MemoryNote> t_memoryNote;
+        private Table<models.EventTypeObjects> t_eventToTypeObjects;
 
         private static WritersToolboxDatebase db = null;
         private WritersToolboxDatebase() : base(tt) 

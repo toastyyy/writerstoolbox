@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
 using System.Data.Linq;
@@ -95,7 +96,7 @@ namespace WritersToolbox.viewmodels
         /// <returns>liefert Anzahl Typeobjekte zurück</returns>
         public int getNumberOfTypeObjects()
         {
-            return tableTypeObject.Count(to => to.obj_Event.obj_Chapter.obj_tome.tomeID == tome.tomeID);
+            return 0; //tableTypeObject.Count(to => to.obj_Event.obj_Chapter.obj_tome.tomeID == tome.tomeID);
         }
 
         /// <summary>
@@ -118,8 +119,8 @@ namespace WritersToolbox.viewmodels
         {
             //Abfrage auf beteiligte Typeobjekte in einem Band.
             var typeObjects = from typeObject in tableTypeObject
-                              where typeObject.obj_Event.obj_Chapter.obj_tome.tomeID == tomeID
-                              select typeObject;
+                                 where typeObject.events.Any(e => e.obj_Event.obj_Chapter.obj_tome.tomeID == tomeID)
+                                select typeObject;
             //Zwischenspeicher der beteiligten Typeobjekte.
             ObservableCollection<datawrapper.TypeObject> associatedTypeObject = null;
 
