@@ -279,5 +279,45 @@ namespace WritersToolbox.viewmodels
                 Console.WriteLine(ex.Message);
             }
         }
+
+        /// <summary>
+        /// Ein Kapitel in Datenbank speichern
+        /// </summary>
+        /// <param name="_c"></param>
+        public void saveChapter(datawrapper.Chapter _c) 
+        {
+            try
+            {
+                ObservableCollection<datawrapper.Event> _events = new ObservableCollection<datawrapper.Event>();
+                //"neues Ereignis" einfügen
+                datawrapper.Event _e = new datawrapper.Event()
+                {
+                    title = "Ereignis hinzufügen",
+                    eventID = 0
+
+                };
+                _events.Add(_e);
+
+                obj_chapter = new models.Chapter()
+                {
+                    addedDate = _c.addedDate,
+                    chapterNumber = _c.chapterNumber,
+                    deleted = _c.deleted,
+                    obj_tome = tome,    //Tome aus instanzvariable
+                    title = _c.title,
+                    updatedDate = _c.updatedDate
+
+                };
+                wtb.GetTable<models.Chapter>().InsertOnSubmit(obj_chapter);
+                wtb.SubmitChanges();    //Datenbank aktualisieren.
+                _c.events = _events;
+                _structur.Add(_c);
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
+        }
     }
 }
