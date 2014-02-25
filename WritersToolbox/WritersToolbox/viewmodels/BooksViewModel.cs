@@ -178,16 +178,18 @@ namespace WritersToolbox.viewmodels
             return book;
         }
 
-        public void loadData() 
+        public void loadBookTypes()
         {
             // buchtypen laden
             var sqlBookTypes = from bt in tableBookType
                                where bt.deleted == false
                                select bt;
             ObservableCollection<datawrapper.BookType> tmpBookTypes = new ObservableCollection<datawrapper.BookType>();
-            foreach(var bt in sqlBookTypes) {
+            foreach (var bt in sqlBookTypes)
+            {
                 tmpBookTypes.Add(
-                    new datawrapper.BookType() { 
+                    new datawrapper.BookType()
+                    {
                         name = bt.name,
                         numberOfChapter = bt.numberOfChapter,
                         updatedDate = bt.updatedDate,
@@ -198,6 +200,11 @@ namespace WritersToolbox.viewmodels
             }
 
             this.booktypes = tmpBookTypes;
+        }
+
+        public void loadData() 
+        {
+            
             // buecher laden
             var sqlBooks = from b in tableBook where b.deleted == false
                                    select b;
@@ -281,7 +288,6 @@ namespace WritersToolbox.viewmodels
 
             }
                 
-            wtb.SubmitChanges();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

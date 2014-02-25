@@ -22,12 +22,64 @@ namespace WritersToolbox.views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (NavigationContext.QueryString.ContainsKey("eventID "))
+            if (NavigationContext.QueryString.ContainsKey("eventID"))
             {
-                int eID = int.Parse(NavigationContext.QueryString["eventID "]);
+                int eID = int.Parse(NavigationContext.QueryString["eventID"]);
                 this.edvm = new EventDetailViewModel(eID);
                 this.edvm.LoadData();
                 this.DataContext = this.edvm.Event;
+            }
+            if (this.edvm.Event.notes.Count == 0)
+            {
+                selectAllCheckBox1.Visibility = Visibility.Collapsed;
+            }
+            if (this.edvm.Event.typeObjects.Count == 0)
+            {
+                selectAllCheckBox2.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            LongListMultiSelector l = null;
+            CheckBox c = sender as CheckBox;
+            if(c.Name.Equals("selectAllCheckBox1"))
+            {
+                l = NoteList;
+            }
+            else if (c.Name.Equals("selectAllCheckBox2"))
+            {
+                l = TypeObjectList;
+            }  
+            
+            if (l != null)
+            {
+                l.EnforceIsSelectionEnabled = true;
+                foreach (var item in l.ItemsSource)
+                {
+                    var container = l.ContainerFromItem(item)
+                                          as LongListMultiSelectorItem;
+                    if (container != null) container.IsSelected = true;
+                }
+            }
+            
+        }
+
+        private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            LongListMultiSelector l = null;
+            CheckBox c = sender as CheckBox;
+            if (c.Name.Equals("selectAllCheckBox1"))
+            {
+                l = NoteList;
+            }
+            else if (c.Name.Equals("selectAllCheckBox2"))
+            {
+                l = TypeObjectList;
+            }
+            if (l != null)
+            {
+                l.EnforceIsSelectionEnabled = false;
             }
         }
     }
