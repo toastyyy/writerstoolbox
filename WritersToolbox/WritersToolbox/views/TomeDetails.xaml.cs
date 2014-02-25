@@ -32,7 +32,7 @@ namespace WritersToolbox.views
         TextBox b = new TextBox();
         //Chapter
         private datawrapper.Chapter chapter;
-
+        private bool wasfocuslost;
         public TomeDetails()
         {
             InitializeComponent();
@@ -493,8 +493,10 @@ namespace WritersToolbox.views
             b.IsReadOnly = false;
             b.LostFocus -= ChapterTextbox_LostFocus;
             WorkaroundButton.Focus();
+            wasfocuslost = false;
             b.Focus();
-            b.LostFocus += ChapterTextbox_LostFocus;            
+            b.LostFocus += ChapterTextbox_LostFocus;
+
 
         }
 
@@ -506,13 +508,41 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void ChapterTextbox_LostFocus(object sender, RoutedEventArgs e)
         {
-            b.IsReadOnly = true;
-            doubleTap = false;
-            if (b.Text.Trim().Equals("")) { 
-                //Fehlermeldung
+            
+            MessageBoxResult result = MessageBoxResult.Cancel;
+            b.IsReadOnly = false;
+            doubleTap = true;
+            if (wasfocuslost)
+            {
+                b.IsReadOnly = true;
+                doubleTap = false;
+                b.Focus();
+                return;
+            }
+            if (b.Text.Trim().Equals("") || b.Text.Equals(chapter.title))
+            {
+                b.Text = chapter.title;
+            }
+            else if (tome_VM.isChapterNameDuplicate(b.Text) && !wasfocuslost)
+            {
+                b.IsReadOnly = false;
+                doubleTap = true;
+                //Fehlermeldung              
+                result = MessageBox.Show("Dieses Kapitel exisitiert schon. Bitte geben Sie einen anderen Titel an!",
+                        "Information", MessageBoxButton.OK);
+                wasfocuslost = true;
+                b.Focus();
+                
 
             }
-          
+            else 
+            { 
+            //Änderung speichern
+                chapter.title = b.Text;
+                tome_VM.updateChapter(chapter);
+            }
+
+
         }
 
         /// <summary>
@@ -553,7 +583,7 @@ namespace WritersToolbox.views
         private void Event_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             datawrapper.Event _event = (sender as TextBlock).DataContext as datawrapper.Event;
-            NavigationService.Navigate(new Uri("/views/EventDetail.xaml?eventID = " + _event.eventID, UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/views/EventDetail.xaml?eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
         }
 
         //private void Chapter_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)

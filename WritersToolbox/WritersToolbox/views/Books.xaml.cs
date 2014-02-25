@@ -20,13 +20,10 @@ namespace WritersToolbox.views
 
         private TextBox bookname;
 
-        private int bookTypeID = 1;
+        private datawrapper.BookType BookType;
 
-        private TextBlock bookTypeTextBlock;
-
-        private datawrapper.BookType tmpBooktype;
-
-        private Grid lastSelectedGrid;
+        private TextBlock BookTypeInfo;
+        private bool hasEventHandler = false;
 
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
@@ -49,7 +46,7 @@ namespace WritersToolbox.views
         public Books()
         {
             DataContext = Books_VM;
-
+            
             InitializeComponent();
         }
 
@@ -112,31 +109,8 @@ namespace WritersToolbox.views
         }
 
 
-        /// <summary>
-        /// Popup zum Buchtypändern wird geöffnet
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void changeBookType(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            booktype_popup.IsOpen = true;
-        }
-
-        /// <summary>
-        /// Popup zum Buchtypändern wird geschlossen und abgebrochen
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void bookTypeCancel(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            booktype_popup.IsOpen = false;
-            tmpBooktype = null;
-            if (lastSelectedGrid != null)
-            {
-                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
-                lastSelectedGrid = null;
-            }
-        }
+        
+       
 
         /// <summary>
         /// Hold-Event wird ausgelöst zum Löschen.
@@ -164,8 +138,7 @@ namespace WritersToolbox.views
            
            datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
            books_VM.deleteBook(b, keepTomes.IsChecked.Value);
-
-            deleteBookPopup.IsOpen = false;
+           deleteBookPopup.IsOpen = false;
         }
 
 
@@ -199,36 +172,54 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void PivotSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Pivot p = sender as Pivot;
-            if (p == null)
-                return;
-            datawrapper.Book b = p.SelectedItem as datawrapper.Book;
+            datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
             if (b == null)
                 return;
-            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
-            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            
             if (b.bookID == -1)
             {
-                btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
-                btn1.Text = AppResources.AppBarSave;
-                btn1.Click -= new EventHandler(ChangeBook);
-                btn1.Click += new EventHandler(SaveBook);
-                btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
-                btn2.Text = AppResources.AppBarCancel;
-                btn2.Click -= new EventHandler(TryDeleteBook);
-                btn2.Click += new EventHandler(CancelBook);
+                if (hasEventHandler)
+                {
+                    loadNewBookAppBar();
+                    hasEventHandler = false;
+                }
             }
             else
             {
-                btn1.IconUri = new Uri("/icons/saveAs.png", UriKind.Relative);
-                btn1.Text = AppResources.AppBarEdit;
-                btn1.Click -= new EventHandler(SaveBook);
-                btn1.Click += new EventHandler(ChangeBook);
-                btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
-                btn2.Text = AppResources.AppBarDelete;
-                btn2.Click -= new EventHandler(CancelBook);
-                btn2.Click += new EventHandler(TryDeleteBook);
+                if (!hasEventHandler)
+                {
+                    loadBookAppBar();
+                    hasEventHandler = true;
+                }
             }
+        }
+
+        private void loadNewBookAppBar()
+        {
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
+            btn1.Text = AppResources.AppBarSave;
+            btn1.Click -= new EventHandler(ChangeBook);
+            btn1.Click += new EventHandler(SaveBook);
+            btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+            btn2.Text = AppResources.AppBarCancel;
+            btn2.Click -= new EventHandler(TryDeleteBook);
+            btn2.Click += new EventHandler(CancelBook);
+        }
+
+        private void loadBookAppBar()
+        {
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            btn1.IconUri = new Uri("/icons/saveAs.png", UriKind.Relative);
+            btn1.Text = AppResources.AppBarEdit;
+            btn1.Click -= new EventHandler(SaveBook);
+            btn1.Click += new EventHandler(ChangeBook);
+            btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
+            btn2.Text = AppResources.AppBarDelete;
+            btn2.Click -= new EventHandler(CancelBook);
+            btn2.Click += new EventHandler(TryDeleteBook);
         }
 
         /// <summary>
@@ -238,8 +229,9 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void SaveBook(object sender, EventArgs e)
         {
-            Books_VM.addBook(bookname.Text, bookTypeID);
-            PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
+            Books_VM.addBook(bookname.Text, BookType);
+            PivotMain.SelectedIndex = PivotMain.Items.Count - 1; // wird auf das neue Werk navigiert, wird ein falsches Werk als selectedItem angegeben
+            bookname.Text = "";
         }
 
 
@@ -287,63 +279,24 @@ namespace WritersToolbox.views
             bookname = sender as TextBox;
         }
 
-        /// <summary>
-        /// In der Buchtypauswahl wird eine auswahl getroffen und temporär gespeichert.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
+        
+
+       
+
         private void BookTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            tmpBooktype = (sender as LongListSelector).SelectedItem as datawrapper.BookType;
-            
+            ListPicker lp = sender as ListPicker;
+            BookType = lp.SelectedItem as datawrapper.BookType;
+            if (BookTypeInfo != null)
+            {
+                BookTypeInfo.Text = "Vorangelegte Kapitel: " + BookType.numberOfChapter.ToString();
+            }
         }
 
-        /// <summary>
-        /// Die Buchtypauswahl wird gespeichert. Aus der temporären Auswahl werden die benötigten Werte
-        /// gespeichert. Die Visuelle Auswahl wird augehoben und das Popup geschlossen.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void saveNewBookType(object sender, RoutedEventArgs e)
+        private void BookTypeInfoLoaded(object sender, RoutedEventArgs e)
         {
-            if (tmpBooktype != null)
-            {
-                bookTypeID = tmpBooktype.bookTypeID;
-                bookTypeTextBlock.Text = tmpBooktype.name;
-            }
-            if (lastSelectedGrid != null)
-            {
-                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
-                lastSelectedGrid = null;
-            }
-            booktype_popup.IsOpen = false;
-        }
-
-        /// <summary>
-        /// Der Textblock, der den Buchtyp anzeigt, wird nach dem Laden zum Zugriff gespeichert.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void bookTypeLoaded(object sender, RoutedEventArgs e)
-        {
-            bookTypeTextBlock = sender as TextBlock;
-        }
-
-
-        /// <summary>
-        /// In der Buchtypauswahl ist eine visuelle Auswahl möglich.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void highlightSelection(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (lastSelectedGrid != null)
-            {
-                lastSelectedGrid.Background = new SolidColorBrush(Colors.Transparent);
-            }
-            Grid g = sender as Grid;
-            g.Background = new SolidColorBrush(Colors.Brown);
-            lastSelectedGrid = g;
+            BookTypeInfo = sender as TextBlock;
+            BookTypeInfo.Text = "Vorangelegte Kapitel: " + BookType.numberOfChapter.ToString();
         }
 
     }

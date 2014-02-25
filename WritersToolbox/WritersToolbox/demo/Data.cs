@@ -25,13 +25,13 @@ namespace WritersToolbox.demo
             bt2.name = "Gedichte";
             bt2.updatedDate = DateTime.Now;
             bt2.addedDate = DateTime.Now;
-            bt2.numberOfChapter = 3;
+            bt2.numberOfChapter = 2;
 
             BookType bt3 = new BookType();
             bt3.name = "Kurzgeschichte";
             bt3.updatedDate = DateTime.Now;
             bt3.addedDate = DateTime.Now;
-            bt3.numberOfChapter = 3;
+            bt3.numberOfChapter = 2;
 
             Book b = new Book();
             b.name = "Harry Potter";
