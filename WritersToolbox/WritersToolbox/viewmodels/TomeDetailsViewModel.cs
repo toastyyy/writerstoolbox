@@ -257,7 +257,7 @@ namespace WritersToolbox.viewmodels
         { 
             List<models.Chapter> _c = (from chapter in tableChapter
                                        where chapter.obj_tome.tomeID == tome.tomeID
-                                       && chapter.title == chapterName
+                                       && chapter.title.Equals(chapterName)
                                        select chapter).ToList();
 
             return _c.Count != 0;

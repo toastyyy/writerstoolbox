@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Collections;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using System.Diagnostics;
 
 namespace WritersToolbox.views
 {
@@ -171,7 +172,7 @@ namespace WritersToolbox.views
                 }
             }
 
-            //llstructure.ItemsSource = tome_VM.getStructure();
+            llstructure.ItemsSource = tome_VM.structur;
         }
 
         /// <summary>
@@ -187,6 +188,18 @@ namespace WritersToolbox.views
         }
 
         /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            var lastPage = NavigationService.BackStack.FirstOrDefault();
+            if (lastPage != null && lastPage.Source.ToString().Substring(0,23).Equals("/views/EventDetail.xaml"))
+            {
+                NavigationService.RemoveBackEntry();
+            }
+        }
+        /// <summary>
         /// Information Button wird geklickt
         ///     Bildquelle Information ändert sich -> checked
         ///     Bildquelle Typeobjekt und structure ändert sich -> unchecked
@@ -195,18 +208,24 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void information_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            if (!doubleTap)
+            {
+                BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_checked.png", UriKind.RelativeOrAbsolute));
+                information.Source = _bitmapimage;
+                informationGrid.Visibility = Visibility.Visible;
 
-            BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_checked.png", UriKind.RelativeOrAbsolute));
-            information.Source = _bitmapimage;
-            informationGrid.Visibility = Visibility.Visible;
+                _bitmapimage = new BitmapImage(new Uri("/icons/struktur_unchecked.png", UriKind.RelativeOrAbsolute));
+                structure.Source = _bitmapimage;
+                structureGrid.Visibility = Visibility.Collapsed;
 
-            _bitmapimage = new BitmapImage(new Uri("/icons/struktur_unchecked.png", UriKind.RelativeOrAbsolute));
-            structure.Source = _bitmapimage;
-            structureGrid.Visibility = Visibility.Collapsed;
-
-            _bitmapimage = new BitmapImage(new Uri("/icons/typen_unchecked.png", UriKind.RelativeOrAbsolute));
-            typeObject.Source = _bitmapimage;
-            TypeObjectGrid.Visibility = Visibility.Collapsed;
+                _bitmapimage = new BitmapImage(new Uri("/icons/typen_unchecked.png", UriKind.RelativeOrAbsolute));
+                typeObject.Source = _bitmapimage;
+                TypeObjectGrid.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                wasfocuslost = false;
+            }
         }
 
         /// <summary>
@@ -218,17 +237,24 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void structure_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_unchecked.png", UriKind.RelativeOrAbsolute));
-            information.Source = _bitmapimage;
-            informationGrid.Visibility = Visibility.Collapsed;
+            if (!doubleTap)
+            {
+                BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_unchecked.png", UriKind.RelativeOrAbsolute));
+                information.Source = _bitmapimage;
+                informationGrid.Visibility = Visibility.Collapsed;
 
-            _bitmapimage = new BitmapImage(new Uri("/icons/struktur_checked.png", UriKind.RelativeOrAbsolute));
-            structure.Source = _bitmapimage;
-            structureGrid.Visibility = Visibility.Visible;
+                _bitmapimage = new BitmapImage(new Uri("/icons/struktur_checked.png", UriKind.RelativeOrAbsolute));
+                structure.Source = _bitmapimage;
+                structureGrid.Visibility = Visibility.Visible;
 
-            _bitmapimage = new BitmapImage(new Uri("/icons/typen_unchecked.png", UriKind.RelativeOrAbsolute));
-            typeObject.Source = _bitmapimage;
-            TypeObjectGrid.Visibility = Visibility.Collapsed;
+                _bitmapimage = new BitmapImage(new Uri("/icons/typen_unchecked.png", UriKind.RelativeOrAbsolute));
+                typeObject.Source = _bitmapimage;
+                TypeObjectGrid.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                wasfocuslost = false;
+            }
         }
 
         /// <summary>
@@ -240,19 +266,27 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void typeObjekt_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_unchecked.png", UriKind.RelativeOrAbsolute));
-            information.Source = _bitmapimage;
-            informationGrid.Visibility = Visibility.Collapsed;
+            if (!doubleTap)
+            {
+                BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_unchecked.png", UriKind.RelativeOrAbsolute));
+                information.Source = _bitmapimage;
+                informationGrid.Visibility = Visibility.Collapsed;
 
-            _bitmapimage = new BitmapImage(new Uri("/icons/struktur_unchecked.png", UriKind.RelativeOrAbsolute));
-            structure.Source = _bitmapimage;
-            structureGrid.Visibility = Visibility.Collapsed;
+                _bitmapimage = new BitmapImage(new Uri("/icons/struktur_unchecked.png", UriKind.RelativeOrAbsolute));
+                structure.Source = _bitmapimage;
+                structureGrid.Visibility = Visibility.Collapsed;
 
-            _bitmapimage = new BitmapImage(new Uri("/icons/typen_checked.png", UriKind.RelativeOrAbsolute));
-            typeObject.Source = _bitmapimage;
-            TypeObjectGrid.Visibility = Visibility.Visible;
+                _bitmapimage = new BitmapImage(new Uri("/icons/typen_checked.png", UriKind.RelativeOrAbsolute));
+                typeObject.Source = _bitmapimage;
+                TypeObjectGrid.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                wasfocuslost = false;
+            }
         }
 
+        //FEHLER
         /// <summary>
         /// Öffnet Detailsansicht des Typeobjektes.
         /// </summary>
@@ -260,6 +294,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void typeObject_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
+
             //typeObjektID von sender Object herauslesen.
             int typeObjectID = ((datawrapper.TypeObject)((Grid)sender).DataContext).typeObjectID;
             //TypeobjectID durch URL übergeben.
@@ -374,31 +409,33 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Image img = sender as Image;
-            Grid parent = (img.Parent as Grid).Parent as Grid;
-            Border border = (parent.Children[0] as Grid).Children[1] as Border;
-            TextBox textbox = border.Child as TextBox;
-            if(!textbox.Text.Equals("Neues Kapitel"))
+            if (!doubleTap)
             {
-                LongListMultiSelector llms = ((parent.Children[1]) as LongListMultiSelector);
-                if (llms.Visibility == Visibility.Collapsed)    //Ist die Ereignislist zusammengeklappt, 
-                {                                               //dann wird sie aufgeklappt.
-                    img.Source = new BitmapImage(new Uri("/icons/on.png", UriKind.RelativeOrAbsolute));
-                    llms.Visibility = Visibility.Visible;
-                }
-                else      //Ist die Ereignislist aufgeklappt,
-                {         //dann wird sie zusammenfeklappt.
-                    img.Source = new BitmapImage(new Uri("/icons/off.png", UriKind.RelativeOrAbsolute));
-                    llms.Visibility = Visibility.Collapsed;
+                Image img = sender as Image;
+                Grid parent = (img.Parent as Grid).Parent as Grid;
+                Border border = (parent.Children[0] as Grid).Children[1] as Border;
+                TextBox textbox = border.Child as TextBox;
+                if (!textbox.Text.Equals("Neues Kapitel"))
+                {
+                    LongListMultiSelector llms = ((parent.Children[1]) as LongListMultiSelector);
+                    if (llms.Visibility == Visibility.Collapsed)    //Ist die Ereignislist zusammengeklappt, 
+                    {                                               //dann wird sie aufgeklappt.
+                        img.Source = new BitmapImage(new Uri("/icons/on.png", UriKind.RelativeOrAbsolute));
+                        llms.Visibility = Visibility.Visible;
+                    }
+                    else      //Ist die Ereignislist aufgeklappt,
+                    {         //dann wird sie zusammenfeklappt.
+                        img.Source = new BitmapImage(new Uri("/icons/off.png", UriKind.RelativeOrAbsolute));
+                        llms.Visibility = Visibility.Collapsed;
+                    }
                 }
             }
+            else
+            {
+                wasfocuslost = false;
+            }
 
-        }
-
-       
-
-
-        
+        }   
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
@@ -444,7 +481,11 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private async void ChapterTextBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-
+            //if (doubleTap)
+            //{
+            //    WorkaroundButton.Focus();
+            //}
+           
             singleTap = true;
             // verzögerung um "tap" von "doubleTap" zu unterscheiden
             await Task.Delay(200);
@@ -452,7 +493,9 @@ namespace WritersToolbox.views
             //abfrage ob gesingle- oder gedoubletaped wurde, abfrage ob sich chapter in "bearbeitung" befindet
             if (singleTap && !doubleTap)
             {
+               // WorkaroundButton.Focus();
                 //geklickte Textbox(chapter) holen, entsprechende Eventliste aufklappen/zuklappen + IMG ändern
+                //chapter = (sender as TextBox).DataContext as datawrapper.Chapter;
                 TextBox tb = sender as TextBox;
                 Image img = ((tb.Parent as Border).Parent as Grid).Children[0] as Image;
                 Grid parent = ((tb.Parent as Border).Parent as Grid).Parent as Grid;
@@ -472,7 +515,8 @@ namespace WritersToolbox.views
                 }
 
 
-            } 
+            }
+            wasfocuslost = false;
 
         }
 
@@ -484,19 +528,23 @@ namespace WritersToolbox.views
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ChapterTextBox_TapTap(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            b.Focus();
-            chapter = (sender as TextBox).DataContext as datawrapper.Chapter;
+        { 
             doubleTap = true;
             singleTap = false;
+            chapter = (sender as TextBox).DataContext as datawrapper.Chapter;       
             b = (TextBox)sender;
             b.IsReadOnly = false;
+            //Workaround...
             b.LostFocus -= ChapterTextbox_LostFocus;
             WorkaroundButton.Focus();
             wasfocuslost = false;
             b.Focus();
+            Debug.WriteLine("tapTap");
             b.LostFocus += ChapterTextbox_LostFocus;
-
+            //Workaround ende...
+            structure.Tap -= structure_Tap;
+            information.Tap -= information_Tap;
+            typeObject.Tap -= typeObject_Tap;
 
         }
 
@@ -510,36 +558,52 @@ namespace WritersToolbox.views
         {
             
             MessageBoxResult result = MessageBoxResult.Cancel;
-            b.IsReadOnly = false;
-            doubleTap = true;
-            if (wasfocuslost)
-            {
-                b.IsReadOnly = true;
-                doubleTap = false;
-                b.Focus();
-                return;
-            }
-            if (b.Text.Trim().Equals("") || b.Text.Equals(chapter.title))
-            {
-                b.Text = chapter.title;
-            }
-            else if (tome_VM.isChapterNameDuplicate(b.Text) && !wasfocuslost)
-            {
-                b.IsReadOnly = false;
-                doubleTap = true;
-                //Fehlermeldung              
-                result = MessageBox.Show("Dieses Kapitel exisitiert schon. Bitte geben Sie einen anderen Titel an!",
-                        "Information", MessageBoxButton.OK);
-                wasfocuslost = true;
-                b.Focus();
-                
 
-            }
-            else 
-            { 
-            //Änderung speichern
-                chapter.title = b.Text;
-                tome_VM.updateChapter(chapter);
+            Debug.WriteLine("lostfocus");
+            if (doubleTap)
+            {
+                bool isExist = tome_VM.isChapterNameDuplicate(b.Text);
+                if (b.Text.Trim().Equals("") || b.Text.Equals(chapter.title))            
+                {
+                    b.Text = chapter.title;
+                    wasfocuslost = true;
+                    b.IsReadOnly = true;
+                    doubleTap = false;
+                    singleTap = false;
+                    structure.Tap += structure_Tap;
+                    information.Tap += information_Tap;
+                    typeObject.Tap += typeObject_Tap;
+                }
+                else if (isExist && !wasfocuslost)
+                {
+                    b.IsReadOnly = false;
+                    doubleTap = true;
+                    //Fehlermeldung              
+                    result = MessageBox.Show("Dieses Kapitel exisitiert schon. Bitte geben Sie einen anderen Titel an!",
+                            "Information", MessageBoxButton.OK);
+                    wasfocuslost = false;
+                    b.LostFocus -= ChapterTextbox_LostFocus;
+                    WorkaroundButton.Focus();                   
+                    b.Focus();                   
+                    b.LostFocus += ChapterTextbox_LostFocus;
+                }
+                else if (!isExist)
+                {
+                    //Änderung speichern
+                    chapter.title = b.Text;
+                    tome_VM.updateChapter(chapter);
+                    wasfocuslost = true;
+                    b.IsReadOnly = true;
+                    doubleTap = false;
+                    singleTap = true;
+                    structure.Tap += structure_Tap;
+                    information.Tap += information_Tap;
+                    typeObject.Tap += typeObject_Tap;
+                }
+                else
+                {
+                    wasfocuslost = false;
+                }
             }
 
 
@@ -582,15 +646,28 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void Event_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            datawrapper.Event _event = (sender as TextBlock).DataContext as datawrapper.Event;
-            NavigationService.Navigate(new Uri("/views/EventDetail.xaml?eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
+            if (!doubleTap)
+            {
+                
+                datawrapper.Event _event = (sender as TextBlock).DataContext as datawrapper.Event;
+                NavigationService.Navigate(new Uri("/views/EventDetail.xaml?eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
+                var lastPage = NavigationService.BackStack.FirstOrDefault();
+                if (lastPage != null && lastPage.Source.ToString().Equals("/views/TomeDetails.xaml?tomeID=" + tomeID))
+                {
+                    NavigationService.RemoveBackEntry();
+                }
+            }
+            else
+            {
+                wasfocuslost = false;
+            }
         }
 
         //private void Chapter_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)
         //{
         //    doubleTap = true;
         //    singleTap = false;
-        //    Grid g = (Grid)sender;
+        //    Grid g = (Grid)sender;s
         //    //b.IsReadOnly = false;
         //    //b.Focus();
         //    Border b = new Border();
