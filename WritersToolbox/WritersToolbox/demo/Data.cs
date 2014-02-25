@@ -148,7 +148,6 @@ namespace WritersToolbox.demo
                 title = "testnotiz",
                 associated = true,
                 tags = "test1|test2",
-                ContentImageString = "sample_photo_01.jpg|sample_photo_03.jpg|sample_photo_05.jpg",
                 obj_Event = e1
             };
 

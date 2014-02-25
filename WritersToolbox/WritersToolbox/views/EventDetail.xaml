@@ -22,7 +22,7 @@
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <!-- Template fuer die Notizen in der Liste-->
         <DataTemplate x:Key="NotesTemplate">
-            <Grid Height="Auto" Margin="0,20,0,25">
+            <Grid Height="Auto" Margin="0,20,0,25" Tap="SelectNote" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
@@ -63,7 +63,7 @@
 
         <!--Template fuer die Typobjekte-->
         <DataTemplate x:Key="TypeObjectTemplate">
-            <Grid Width="450" Margin="0,20,0,25">
+            <Grid Width="450" Margin="0,20,0,25" Tap="SelectTypeObject">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
@@ -166,7 +166,8 @@
                         ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                         BorderBrush="Black"
                         ItemsSource="{Binding notes}"
-                        ItemTemplate="{StaticResource NotesTemplate}"/>
+                        ItemTemplate="{StaticResource NotesTemplate}"
+                        SelectionChanged="Notes_SelectionChanged"/>
                 </Grid>
             </phone:PivotItem>
             
@@ -199,7 +200,8 @@
                         GridCellSize="450, 150"
                         Foreground="Black"
                         ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
-                        BorderBrush="Black">
+                        BorderBrush="Black"
+                        SelectionChanged="TypeObjects_SelectionChanged">
                     </toolkit:LongListMultiSelector>
                 </Grid>
             </phone:PivotItem>

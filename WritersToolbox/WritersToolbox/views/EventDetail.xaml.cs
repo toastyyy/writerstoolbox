@@ -82,5 +82,41 @@ namespace WritersToolbox.views
                 l.EnforceIsSelectionEnabled = false;
             }
         }
+
+        private void Notes_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void TypeObjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+        }
+
+        private void SelectTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Grid g = sender as Grid;
+            if (g == null)
+                return;
+            datawrapper.TypeObject t = g.DataContext as datawrapper.TypeObject;
+            if (t == null)
+                return;
+            NavigationService.Navigate(new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + t.typeObjectID.ToString(), UriKind.Relative));
+        }
+
+        private void SelectNote(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Grid g = sender as Grid;
+            if (g == null)
+                return;
+            datawrapper.MemoryNote n = g.DataContext as datawrapper.MemoryNote;
+            if (n == null)
+                return;
+            PhoneApplicationService.Current.State["memoryNoteID"] = n.memoryNoteID.ToString();
+            PhoneApplicationService.Current.State["typeObjectID"] = n.fk_typeObjectID;
+            PhoneApplicationService.Current.State["edit"] = "true";
+            PhoneApplicationService.Current.State["assignedNote"] = "true";
+            NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
+        }
     }
 }
