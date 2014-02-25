@@ -165,6 +165,12 @@
     <Compile Include="views\AddNote.xaml.cs">
       <DependentUpon>AddNote.xaml</DependentUpon>
     </Compile>
+    <Compile Include="views\AddTome.xaml.cs">
+      <DependentUpon>AddTome.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\AddTomeViewModel.xaml.cs">
+      <DependentUpon>AddTomeViewModel.xaml</DependentUpon>
+    </Compile>
     <Compile Include="views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
     </Compile>
@@ -235,6 +241,14 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\AddNote.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\AddTome.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\AddTomeViewModel.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

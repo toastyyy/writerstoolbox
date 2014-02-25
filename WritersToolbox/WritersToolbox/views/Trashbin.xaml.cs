@@ -25,8 +25,12 @@ namespace WritersToolbox.views
             trash = new TrashbinViewModel();
             trash.loadData();
             this.DataContext = trash;
+            if (this.llms_trash.ItemsSource.Count == 0)
+            {
+                selectAllCheckBox.IsEnabled = false;
+            }
+           
         }
-
 
         private void trash_selectionChanged(object sender, SelectionChangedEventArgs e)
         {
@@ -66,6 +70,7 @@ namespace WritersToolbox.views
                 llms_trash.EnforceIsSelectionEnabled = false;
                 this.ApplicationBar.IsVisible = false;
             }
+
             else
             {
                 this.ApplicationBar.IsVisible = true;
@@ -79,31 +84,26 @@ namespace WritersToolbox.views
             IList list = llms_trash.SelectedItems;
             
             this.trash.deleteTrash(list);
+
+            if (this.llms_trash.ItemsSource.Count == 0)
+            {
+                selectAllCheckBox.IsChecked = false;
+                selectAllCheckBox.IsEnabled = false;
+            }
         }
 
         private void restoreButton_Click(object sender, EventArgs e)
         {
-            //ObservableCollection<object> collection = new ObservableCollection<object>();
-            //ObservableCollection<object> collection2 = new ObservableCollection<object>(
-            //    (ObservableCollection<object>)llms_trash.ItemsSource);
-            //foreach (object item in collection2)
-            //{
-            //    if (llms_trash.SelectedItems.Contains(item))
-            //    {
-            //        llms_trash.ItemsSource.Remove(item);
-            //        llms_trash.SelectedItems.Remove(item);
-            //        collection.Add(item);
-            //    }
+            IList list = llms_trash.SelectedItems;
+            this.trash.restoreTrash(list);
+            if (this.llms_trash.ItemsSource.Count == 0)
+            {
+                selectAllCheckBox.IsChecked = false;
+                selectAllCheckBox.IsEnabled = false;
+            }
 
-            //}
-            //trash.restoreTrash(collection);
-
-            //if (llms_trash.ItemsSource.Count == 0)
-            //{
-            //    selectAllCheckBox.IsChecked = false;
-            //}
         }
-
+        
                 //Fertig
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
@@ -114,7 +114,12 @@ namespace WritersToolbox.views
             btn1.Text = AppResources.AppBarDelete;
             btn2.Text = AppResources.AppBarBack;
             btn3.Text = AppResources.AppBarRestore;
+          
             trash.loadData();
+            if (this.llms_trash.ItemsSource.Count == 0)
+            {
+                selectAllCheckBox.IsEnabled = false;
+            }
             //llms_trash.ItemsSource = trash.getObservableColletion();
         }
 

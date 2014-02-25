@@ -116,7 +116,7 @@
             typeObjectTemplate="{StaticResource trashbinTypeObjectTemplate}" 
             typeTemplate="{StaticResource trashbinTypeTemplate}"
             tomeTemplate="{StaticResource trashbinTomeTemplate}"
-            HorizontalContentAlignment="Left"
+            HorizontalContentAlignment="Stretch"
             />
         </DataTemplate>
 
@@ -148,7 +148,7 @@
                     Margin="0,70,0,0" 
                     ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                     BorderBrush="Black"
-                    ItemTemplate="{StaticResource trashbinTemplateSelector}" HorizontalContentAlignment="Left"/>
+                    ItemTemplate="{StaticResource trashbinTemplateSelector}" HorizontalContentAlignment="Stretch"/>
 
 
         </Grid>
