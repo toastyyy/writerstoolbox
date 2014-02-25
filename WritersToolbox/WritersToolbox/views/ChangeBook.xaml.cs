@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using Coding4Fun.Toolkit.Controls;
 using System.Windows.Media;
 using WritersToolbox.models;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.views
 {
@@ -69,12 +70,14 @@ namespace WritersToolbox.views
                 {
                     book = Books.Books_VM.getBookByID(indexParsed);
                     bName.Text = book.name;
-                    booktype.Text = book.obj_bookType.name;
+                    
                 }
                 
             }
-
-
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            btn1.Text = AppResources.AppBarSave;
+            btn2.Text = AppResources.AppBarCancel;
         }
 
         

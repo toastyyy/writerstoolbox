@@ -145,6 +145,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Werk ändern ähnelt.
+        /// </summary>
+        public static string BookChangeHeadline {
+            get {
+                return ResourceManager.GetString("BookChangeHeadline", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Wollen Sie das Werk &quot; ähnelt.
         /// </summary>
         public static string BookDeleteQuestion1 {

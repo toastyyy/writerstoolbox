@@ -144,7 +144,7 @@
                 <Grid>
                     <CheckBox x:Name="selectAllCheckBox1"  
                               Style="{StaticResource CheckBoxStyleBlack}" 
-                              Content="Alles auswählen" 
+                              Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" 
                               HorizontalAlignment="Left" 
                               Margin="22,0,0,0" 
                               VerticalAlignment="Top" 
@@ -180,7 +180,7 @@
                 <Grid>
                     <CheckBox x:Name="selectAllCheckBox2"  
                               Style="{StaticResource CheckBoxStyleBlack}" 
-                              Content="Alles auswählen" 
+                              Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" 
                               HorizontalAlignment="Left" 
                               Margin="22,0,0,0" 
                               VerticalAlignment="Top" 
