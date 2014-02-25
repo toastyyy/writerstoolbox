@@ -18,6 +18,7 @@ namespace WritersToolbox.models
         public TypeObject()
         {
             _notes = new EntitySet<MemoryNote>();
+            _typeObject_typeObjects = new EntitySet<EventTypeObjects>();
             color = "#0000FF"; // default farbe blau
         }
 
@@ -66,31 +67,6 @@ namespace WritersToolbox.models
                 sendPropertyChanging("type");
                 this._type.Entity = value;
                 sendPropertyChanged("type");
-            }
-        }
-
-        [Column(Name = "fk_eventID")]
-        private int? fk_eventID; // ? = nullable type
-
-        private EntityRef<Event> _event;
-
-        [Association(Name = "FK_TypeObject_Event",
-            Storage = "_event",         //Speicherort der Child-Instanzen.
-            IsForeignKey = true,
-            ThisKey = "fk_eventID",      //Name des Primärschlüssels.
-            OtherKey = "eventID" //Name des Fremdschlüssels.
-            )]
-        public Event obj_Event
-        {
-            get
-            {
-                return this._event.Entity;
-            }
-            set
-            {
-                sendPropertyChanging("event");
-                this._event.Entity = value;
-                sendPropertyChanged("event");
             }
         }
 
@@ -271,6 +247,26 @@ namespace WritersToolbox.models
                 return ((TypeObject) obj).typeObjectID == this.typeObjectID;
             }
             return false;
+        }
+
+        private EntitySet<EventTypeObjects> _typeObject_typeObjects;
+
+        [Association(Name = "TypeObject_TypeObjects",
+            Storage = "_typeObject_typeObjects",         //Speicherort der Child-Instanzen.
+            ThisKey = "typeObjectID",      //Name des Primärschlüssels.
+            OtherKey = "fk_typeObjectID")] //Name des Fremdschlüssels.
+        public EntitySet<EventTypeObjects> events
+        {
+            get
+            {
+                return this._typeObject_typeObjects;
+            }
+            set
+            {
+                sendPropertyChanging("events");
+                this._typeObject_typeObjects.Assign(value);
+                sendPropertyChanged("events");
+            }
         }
     }
 }

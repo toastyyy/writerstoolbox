@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:converter="clr-namespace:WritersToolbox.converter"
     xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
     mc:Ignorable="d"
@@ -25,6 +26,8 @@
             <TextBlock Text="{Binding name}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
         </DataTemplate>
 
+        
+
         <DataTemplate x:Key="PivotAddItem">
             <Grid Width="450" Height="Auto" HorizontalAlignment="Stretch" VerticalAlignment="Top">
                 <StackPanel Margin="0,10,0,0">
@@ -40,34 +43,45 @@
                      BorderThickness="2" 
                      Foreground="Black" 
                      ToolTipService.ToolTip="Titel" GotFocus="BooknameGotFocus"/>
-                    <TextBlock Margin="50,30,0,10" 
+                    <TextBlock Margin="50,30,0,0" 
                        Text="{Binding Path=LocalizedResources.BookType, Source={StaticResource LocalizedStrings}}" 
                        FontSize="25"
                        Foreground="Black"/>
 
-                    <Grid Margin="50,0,0,0">
+                    <Grid Margin="40,0">
                         <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="250" />
+                            <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="*" />
                         </Grid.ColumnDefinitions>
-                        <TextBlock Margin="10,0,0,0" 
-                           HorizontalAlignment="Stretch" 
-                           VerticalAlignment="Center" 
-                           Grid.Column="0" 
-                           Text="Roman" 
-                           FontSize="28" 
-                           Foreground="DarkGreen" 
-                           TextDecorations="Underline" Loaded="bookTypeLoaded"/>
-                        <Button Width="Auto" 
-                        Content="{Binding Path=LocalizedResources.NewBookEditBooktype, Source={StaticResource LocalizedStrings}}" 
-                        Grid.Column="1" 
-                        Margin="10,0,10,0" 
-                        Foreground="Black" 
-                        Background="White" 
-                        BorderBrush="Black" 
-                        BorderThickness="3" 
-                        Height="70" 
-                        Tap="changeBookType"/>
+                        <toolkit:ListPicker ItemsSource="{Binding DataContext.BookTypes, ElementName=PivotMain}" 
+                                            FontSize="25" 
+                                            FontFamily="Segoe WP Light"
+                                            HorizontalAlignment="Left"
+                                            BorderBrush="Black"
+                                            SelectedIndex="0"
+                                            Foreground="Black"
+                                            BorderThickness="1" 
+                                            SelectionChanged="BookTypeSelectionChanged">
+                            <toolkit:ListPicker.ItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name}"/>
+                                </DataTemplate>
+                            </toolkit:ListPicker.ItemTemplate>
+                            <toolkit:ListPicker.FullModeItemTemplate>
+                                <DataTemplate>
+                                    <TextBlock Text="{Binding name}"/>
+                                </DataTemplate>
+                            </toolkit:ListPicker.FullModeItemTemplate>
+                        </toolkit:ListPicker>
+                        <TextBlock x:Name="BookTypeInfo" 
+                                   Grid.Column="1" 
+                                   Loaded="BookTypeInfoLoaded" 
+                                   Foreground="Black"
+                                   FontSize="22" 
+                                   FontFamily="Segoe WP Light" 
+                                   HorizontalAlignment="Left"
+                                   Margin="20,10,0,0"
+                                   TextWrapping="Wrap"/>
                     </Grid>
                 </StackPanel>
             </Grid>
@@ -122,7 +136,7 @@
             </DataTemplate>
 
         <!--Template für LongListSelector-item neuen Band-->
-        <DataTemplate x:Name="newTome">
+        <DataTemplate x:Name="newTome" >
             <Grid Width="450" Height="Auto" Margin="0,20,0,0">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115"/>
@@ -193,42 +207,7 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot" Background="White">      
         <Image Margin="0,-6,0,549" Source="/headImage_rot_smal.png" Stretch="Fill"/>
-        <!-- Popup fuer Buchtyp -->
-        <Popup x:Name="booktype_popup" Grid.RowSpan="2" Margin="0,-5,0,0">
-            <Grid Width="480" Background="Black" >
-                <StackPanel Margin="50,20,10,0">
-                    <TextBlock Text="{Binding Path=LocalizedResources.BooktypeHeadline, Source={StaticResource LocalizedStrings}}"  
-                               FontSize="40"/>
-                    <TextBlock Text="{Binding Path=LocalizedResources.BooktypeText, Source={StaticResource LocalizedStrings}}" 
-                               FontSize="21" 
-                               Margin="0,20,0,0" />
-                    <Grid Width="400" Height="300" Margin="0,20,0,0">
-                        <phone:LongListSelector ItemsSource="{Binding BookTypes}" SelectionChanged="BookTypeSelectionChanged">
-                            <phone:LongListSelector.ItemTemplate>
-                                <DataTemplate>
-                                    <Grid Margin="0,10" Tap="highlightSelection">
-                                        <Grid.ColumnDefinitions>
-                                            <ColumnDefinition Width="50" />
-                                            <ColumnDefinition Width="*" />
-                                        </Grid.ColumnDefinitions>
-                                        <Grid Grid.Column="0">
-                                            <Image Source="../icons/book.png"/>
-                                        </Grid>
-                                        <Grid Grid.Column="1" Margin="15,0,0,0">
-                                            <TextBlock Text="{Binding name}" FontSize="38" />
-                                        </Grid>
-                                    </Grid>
-                                </DataTemplate>
-                            </phone:LongListSelector.ItemTemplate>
-                        </phone:LongListSelector>
-                    </Grid>
-                    <StackPanel Orientation="Horizontal" Margin="0,10,40,0">
-                        <Button x:Name="btn_continue"  Content="{Binding Path=LocalizedResources.TextSave, Source={StaticResource LocalizedStrings}}" Width="180" Margin="0,0,0,10" Click="saveNewBookType" />
-                        <Button x:Name="btn_cancel"    Content="{Binding Path=LocalizedResources.TextCancel, Source={StaticResource LocalizedStrings}}"   Width="180" Tap="bookTypeCancel" Margin="0,0,0,10" />
-                    </StackPanel>
-                </StackPanel>
-            </Grid>
-        </Popup>
+        
         <!--Popup für Löschen des Werkes-->
         <Popup x:Name="deleteBookPopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,-5,0,0">
             <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">

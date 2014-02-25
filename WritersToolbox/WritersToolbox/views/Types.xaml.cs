@@ -19,8 +19,6 @@ namespace WritersToolbox.views
 {
     public partial class Types : PhoneApplicationPage
     {
-
-
         private TextBox newTypeTitle = new TextBox();
         private ListBox colorPicker;
         private datawrapper.TypeObject holdTypeobject;
