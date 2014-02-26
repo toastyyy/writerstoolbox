@@ -22,7 +22,7 @@
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <!-- Template fuer die Notizen in der Liste-->
         <DataTemplate x:Key="NotesTemplate">
-            <Grid Height="Auto" Margin="0,20,0,20">
+            <Grid Height="Auto" Margin="0,20,0,25" Tap="SelectNote" >
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
@@ -57,13 +57,13 @@
                                FontSize="20" 
                                Foreground="#FF414141"/>
                 </Grid>
-                <Border Margin="0,0,0,-20" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                <Border Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
             </Grid>
         </DataTemplate>
 
         <!--Template fuer die Typobjekte-->
         <DataTemplate x:Key="TypeObjectTemplate">
-            <Grid Width="450" Margin="0,10,0,10">
+            <Grid Width="450" Margin="0,20,0,25" Tap="SelectTypeObject">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
@@ -91,18 +91,16 @@
                                TextWrapping="Wrap"/>
                     <TextBlock Grid.Row="1" 
                                Text="{Binding notes, Converter={StaticResource noteCountConverter}}" 
-                               Foreground="#FF515151" 
-                               FontSize="22"
-                               FontFamily="Segoe WP Light" 
-                               Margin="0,-4,0,0" />
+                               Foreground="#FFA6A6A6" 
+                               FontSize="20"
+                               FontFamily="Segoe WP Light"/>
                     <TextBlock Grid.Row="2" 
                                Text="{Binding used, Converter={StaticResource boolToUsedCon}, ConverterParameter=showUnused}" 
-                               Foreground="#FF515151" 
-                               FontSize="22" 
-                               FontFamily="Segoe WP Light" 
-                               Margin="0,-4,0,0" />
+                               Foreground="#FF414141" 
+                               FontSize="20" 
+                               FontFamily="Segoe WP Light"/>
                 </Grid>
-                <Border Margin="0,0,0,-20" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                <Border Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
 
             </Grid>
         </DataTemplate>
@@ -129,8 +127,8 @@
                 <phone:PivotItem.Header>
                     <TextBlock Text="{Binding Path=LocalizedResources.EventDetailHeadline1, Source={StaticResource LocalizedStrings}}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
                 </phone:PivotItem.Header>
-                <Grid>
-                    <RichTextBox x:Name="tFinalText" Background="White" Foreground="Black">
+                <Grid Margin="20,50,20,10">
+                    <RichTextBox x:Name="tFinalText" Background="White" Foreground="Black" VerticalContentAlignment="Top">
                         <Paragraph>
                             <Run Text="{Binding finaltext}"></Run>
                         </Paragraph>
@@ -144,10 +142,22 @@
                     <TextBlock Text="{Binding Path=LocalizedResources.EventDetailHeadline2, Source={StaticResource LocalizedStrings}}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
                 </phone:PivotItem.Header>
                 <Grid>
+                    <CheckBox x:Name="selectAllCheckBox1"  
+                              Style="{StaticResource CheckBoxStyleBlack}" 
+                              Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" 
+                              HorizontalAlignment="Left" 
+                              Margin="22,0,0,0" 
+                              VerticalAlignment="Top" 
+                              Width="224" 
+                              Foreground="Black" 
+                              BorderBrush="Black" 
+                              Checked="selectAllCheckBox_Checked" 
+                              Unchecked="selectAllCheckBox_Unchecked"/>
                     <toolkit:LongListMultiSelector 
+                        x:Name="NoteList"
                         HorizontalAlignment="Stretch"
                         Height="Auto" 
-                        Margin="20,20,15,0" 
+                        Margin="10,60,15,0" 
                         Width="Auto"
                         LayoutMode="Grid"
                         GridCellSize="450, 150"
@@ -156,7 +166,8 @@
                         ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                         BorderBrush="Black"
                         ItemsSource="{Binding notes}"
-                        ItemTemplate="{StaticResource NotesTemplate}"/>
+                        ItemTemplate="{StaticResource NotesTemplate}"
+                        SelectionChanged="Notes_SelectionChanged"/>
                 </Grid>
             </phone:PivotItem>
             
@@ -167,21 +178,30 @@
                 </phone:PivotItem.Header>
 
                 <Grid>
+                    <CheckBox x:Name="selectAllCheckBox2"  
+                              Style="{StaticResource CheckBoxStyleBlack}" 
+                              Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" 
+                              HorizontalAlignment="Left" 
+                              Margin="22,0,0,0" 
+                              VerticalAlignment="Top" 
+                              Width="224" 
+                              Foreground="Black" 
+                              BorderBrush="Black" 
+                              Checked="selectAllCheckBox_Checked" 
+                              Unchecked="selectAllCheckBox_Unchecked"/>
                     <toolkit:LongListMultiSelector
-                    Margin="0,-30,20,10"
-                    Height="Auto" 
-                    Width="Auto"
-                    BorderThickness="2,2,2,2"
-                    ItemsSource="{Binding typeObjects}"
-                    ItemTemplate="{StaticResource TypeObjectTemplate}" 
-                    EnforceIsSelectionEnabled="false"
-                    IsGroupingEnabled="False"
-                    LayoutMode="Grid"
-                    GridCellSize="450, 130"
-                    x:Name="multiselector" 
-                    Foreground="Black"
-                    ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
-                    BorderBrush="Black">
+                        x:Name="TypeObjectList"
+                        Margin="10,60,15,0"
+                        ItemsSource="{Binding typeObjects}"
+                        ItemTemplate="{StaticResource TypeObjectTemplate}" 
+                        EnforceIsSelectionEnabled="false"
+                        IsGroupingEnabled="False"
+                        LayoutMode="Grid"
+                        GridCellSize="450, 150"
+                        Foreground="Black"
+                        ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
+                        BorderBrush="Black"
+                        SelectionChanged="TypeObjects_SelectionChanged">
                     </toolkit:LongListMultiSelector>
                 </Grid>
             </phone:PivotItem>

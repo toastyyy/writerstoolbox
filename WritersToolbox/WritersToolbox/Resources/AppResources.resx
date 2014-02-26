@@ -276,4 +276,7 @@
   <data name="TrashbinHeadline" xml:space="preserve">
     <value>Papierkorb</value>
   </data>
+  <data name="BookChangeHeadline" xml:space="preserve">
+    <value>Werk ändern</value>
+  </data>
 </root>

@@ -36,6 +36,7 @@ namespace WritersToolbox.views
                 {
                     books_VM = new BooksViewModel();
                     if (!books_VM.isDataLoaded())
+                        Books_VM.loadBookTypes();
                         books_VM.loadData();
 
                 }

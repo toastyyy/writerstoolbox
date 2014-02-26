@@ -128,6 +128,7 @@ namespace WritersToolbox.viewmodels
             }
             
             this.wtb.SubmitChanges();
+            this.NotifyPropertyChanged("Note");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;
