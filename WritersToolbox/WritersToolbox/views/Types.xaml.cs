@@ -13,6 +13,7 @@ using WritersToolbox.models;
 using System.Windows.Media;
 using Coding4Fun.Toolkit.Controls;
 using System.Collections;
+using WritersToolbox.Resources;
 
 
 namespace WritersToolbox.views
@@ -153,12 +154,12 @@ namespace WritersToolbox.views
             {
                 ApplicationBar.Buttons.Clear();
                 ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
-                cancel.Text = "Abbrechen";
+                cancel.Text = AppResources.AppBarCancel;
                 ApplicationBar.Buttons.Add(cancel);
                 this.PivotMain.Title = new TextBlock() { 
                     FontSize = 22,
                     Margin = new Thickness(9,0,0,0),
-                    Text = "ZU TYPOBJEKT ZUORDNEN",
+                    Text = AppResources.TypeObjectAssign,
                     FontFamily = new FontFamily("Segoe UI Light")
                 };
                 
@@ -168,8 +169,8 @@ namespace WritersToolbox.views
 
                 ApplicationBarIconButton edit = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
                 ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
-                delete.Text = "Löschen";
-                edit.Text = "Bearbeiten";
+                delete.Text = AppResources.AppBarDelete;
+                edit.Text = AppResources.AppBarEdit;
                 edit.Click += ChangeType;
                 delete.Click += TryDeleteType;
                 ApplicationBar.Buttons.Add(edit);
@@ -178,7 +179,7 @@ namespace WritersToolbox.views
                 {
                     FontSize = 22,
                     Margin = new Thickness(9, 0, 0, 0),
-                    Text = "TYPEN",
+                    Text = AppResources.TypesPageTitle,
                     FontFamily = new FontFamily("Segoe UI Light")
                 };
             if (NavigationContext.QueryString.ContainsKey("item"))
@@ -370,7 +371,7 @@ namespace WritersToolbox.views
             datawrapper.Type t = PivotMain.SelectedItem as datawrapper.Type;
             if (t == null)
                 return;
-            TypeDeleteQuestion.Text = "Wollen Sie den Typ \"" + t.title.ToString() +  "\" löschen?";
+            TypeDeleteQuestion.Text = AppResources.TypeDeleteQuestion1 + t.title.ToString() +  AppResources.TypeDeleteQuestion2;
             deleteTypePopup.IsOpen = true;
         }
 
@@ -437,11 +438,11 @@ namespace WritersToolbox.views
             if (t.typeID == -1)
             {
                 btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
-                btn1.Text = "speichern";
+                btn1.Text = AppResources.AppBarSave;
                 btn1.Click -= new EventHandler(ChangeType);
                 btn1.Click += new EventHandler(SaveType);
                 btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
-                btn2.Text = "abbrechen";
+                btn2.Text = AppResources.AppBarCancel;
                 btn2.Click -= new EventHandler(TryDeleteType);
                 btn2.Click += new EventHandler(CancelType);
                 this.currentSelectList = null;
@@ -449,11 +450,11 @@ namespace WritersToolbox.views
             else
             {
                 btn1.IconUri = new Uri("/icons/edit.png", UriKind.Relative);
-                btn1.Text = "ändern";
+                btn1.Text = AppResources.AppBarEdit;
                 btn1.Click -= new EventHandler(SaveType);
                 btn1.Click += new EventHandler(ChangeType);
                 btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
-                btn2.Text = "löschen";
+                btn2.Text = AppResources.AppBarDelete;
                 btn2.Click -= new EventHandler(CancelType);
                 btn2.Click += new EventHandler(TryDeleteType);
             }
@@ -481,9 +482,9 @@ namespace WritersToolbox.views
 
             ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
             ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
-            delete.Text = "löschen";
+            delete.Text = AppResources.AppBarDelete;
             delete.Click += deleteSelection;
-            cancel.Text = "abbrechen";
+            cancel.Text = AppResources.AppBarCancel;
             cancel.Click += cancelSelection;
             ApplicationBar.Buttons.Add(delete);
             ApplicationBar.Buttons.Add(cancel);
@@ -513,11 +514,11 @@ namespace WritersToolbox.views
             ApplicationBarIconButton btn2 = new ApplicationBarIconButton();
 
             btn1.IconUri = new Uri("/icons/edit.png", UriKind.Relative);
-            btn1.Text = "ändern";
+            btn1.Text = AppResources.AppBarEdit;
             btn1.Click -= new EventHandler(SaveType);
             btn1.Click += new EventHandler(ChangeType);
             btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
-            btn2.Text = "löschen";
+            btn2.Text = AppResources.AppBarDelete;
             btn2.Click -= new EventHandler(CancelType);
             btn2.Click += new EventHandler(TryDeleteType);
 
@@ -546,9 +547,9 @@ namespace WritersToolbox.views
 
             ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
             ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
-            delete.Text = "löschen";
+            delete.Text = AppResources.AppBarDelete;
             delete.Click += deleteSelection;
-            cancel.Text = "abbrechen";
+            cancel.Text = AppResources.AppBarCancel;
             cancel.Click += cancelSelection;
             ApplicationBar.Buttons.Add(delete);
             ApplicationBar.Buttons.Add(cancel);

@@ -235,7 +235,7 @@
     <value>löschen</value>
   </data>
   <data name="AppBarEdit" xml:space="preserve">
-    <value>ändern</value>
+    <value>bearbeiten</value>
   </data>
   <data name="AppBarSave" xml:space="preserve">
     <value>speichern</value>
@@ -278,5 +278,59 @@
   </data>
   <data name="BookChangeHeadline" xml:space="preserve">
     <value>Werk ändern</value>
+  </data>
+  <data name="BooksBookTypeInfoText" xml:space="preserve">
+    <value>Vorangelegte Kapitel: </value>
+  </data>
+  <data name="CheckboxKeepNotes" xml:space="preserve">
+    <value>Alle angehängten Notizen erhalten</value>
+  </data>
+  <data name="CheckboxKeepTypeObjects" xml:space="preserve">
+    <value>Alle Typobjekte erhalten</value>
+  </data>
+  <data name="ConverterBookCreationDate" xml:space="preserve">
+    <value>Erstellt am: </value>
+  </data>
+  <data name="ConverterNumberOfChapter" xml:space="preserve">
+    <value>Kapitelanzahl: </value>
+  </data>
+  <data name="ConverterNumberOfNotes" xml:space="preserve">
+    <value>Anzahl Notizen: </value>
+  </data>
+  <data name="ConverterSubtitleNotes" xml:space="preserve">
+    <value> NOTIZEN</value>
+  </data>
+  <data name="ConverterUnused" xml:space="preserve">
+    <value>wird nicht verwendet</value>
+  </data>
+  <data name="ConverterUsed" xml:space="preserve">
+    <value>wird verwendet</value>
+  </data>
+  <data name="NewBook" xml:space="preserve">
+    <value>Neues Werk</value>
+  </data>
+  <data name="NewType" xml:space="preserve">
+    <value>Neuer Typ anlegen</value>
+  </data>
+  <data name="NewTypeColorText" xml:space="preserve">
+    <value>Farbe</value>
+  </data>
+  <data name="NewTypeObject" xml:space="preserve">
+    <value>Neues Objekt</value>
+  </data>
+  <data name="NewTypeTitleText" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="TypeDeleteQuestion1" xml:space="preserve">
+    <value>Wollen Sie den Typ "</value>
+  </data>
+  <data name="TypeDeleteQuestion2" xml:space="preserve">
+    <value>" löschen?</value>
+  </data>
+  <data name="TypeObjectAssign" xml:space="preserve">
+    <value>ZU TYPOBJEKT ZUORDNEN</value>
+  </data>
+  <data name="TypesPageTitle" xml:space="preserve">
+    <value>TYPEN</value>
   </data>
 </root>

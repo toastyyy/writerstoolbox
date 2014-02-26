@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using Microsoft.Phone.Controls;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.viewmodels
 {
@@ -265,7 +266,7 @@ namespace WritersToolbox.viewmodels
 
             tmpBooks.Add(new datawrapper.Book()
             {
-                name="Neues Werk",
+                name= AppResources.NewBook,
                 bookID=-1,
                 addedDate = new DateTime(2012,6,3,22,10,22)
             });

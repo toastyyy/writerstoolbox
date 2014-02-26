@@ -117,14 +117,14 @@
                                                TextWrapping="Wrap"/>
                         <TextBlock Grid.Row="1" 
                                                Foreground="#FF515151" 
-                                               Text="{Binding addedDate, Converter={StaticResource dateCon}, ConverterParameter=Erstellt-am}"
+                                               Text="{Binding addedDate, Converter={StaticResource dateCon}}"
                                                FontSize="22" 
                                                FontFamily="Segoe WP Light"
                                                Margin="0,-4,0,0"
                                                TextWrapping="Wrap"/>
                         <TextBlock Grid.Row="2" 
                                                Foreground="#FF515151" 
-                                               Text="{Binding chapters, Converter={StaticResource collectionCountCon}, ConverterParameter=Kapitelanzahl:}"
+                                               Text="{Binding chapters, Converter={StaticResource collectionCountCon}}"
                                                Margin="0,-4,0,0"
                                                TextWrapping="Wrap"
                                                FontSize="22" 

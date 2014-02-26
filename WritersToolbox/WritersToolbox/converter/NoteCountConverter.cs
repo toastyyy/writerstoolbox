@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.converter
 {
@@ -13,7 +14,7 @@ namespace WritersToolbox.converter
         public object Convert(object value, Type targetType,
         object parameter, System.Globalization.CultureInfo culture)
         {
-            string noteCount = "Anzahl Notizen: ";
+            string noteCount = AppResources.ConverterNumberOfNotes;
 
             int count = (value != null) ? ((ObservableCollection<datawrapper.MemoryNote>)value).Count : 0;
 

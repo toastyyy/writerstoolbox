@@ -25,6 +25,7 @@ namespace WritersToolbox.views
             if (!Thread.CurrentThread.CurrentCulture.Name.Equals("de-de"))
             {
                 Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-de");
+                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("de-de");
                 NavigationService.Navigate(new Uri("/views/Settings.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
                 NavigationService.RemoveBackEntry();
             }
@@ -32,9 +33,10 @@ namespace WritersToolbox.views
 
         private void langEngl(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!Thread.CurrentThread.CurrentCulture.Name.Equals("en"))
+            if (!Thread.CurrentThread.CurrentCulture.Name.Equals("en-us"))
             {
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
+                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-us");
+                Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-us");
                 NavigationService.Navigate(new Uri("/views/Settings.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
                 NavigationService.RemoveBackEntry();
             }

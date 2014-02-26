@@ -98,7 +98,7 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ändern ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die bearbeiten ähnelt.
         /// </summary>
         public static string AppBarEdit {
             get {
@@ -181,6 +181,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vorangelegte Kapitel:  ähnelt.
+        /// </summary>
+        public static string BooksBookTypeInfoText {
+            get {
+                return ResourceManager.GetString("BooksBookTypeInfoText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Überblick ähnelt.
         /// </summary>
         public static string BooksHeadlineOverview {
@@ -236,11 +245,83 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alle angehängten Notizen erhalten ähnelt.
+        /// </summary>
+        public static string CheckboxKeepNotes {
+            get {
+                return ResourceManager.GetString("CheckboxKeepNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Alle Bände erhalten ähnelt.
         /// </summary>
         public static string CheckboxKeepTomes {
             get {
                 return ResourceManager.GetString("CheckboxKeepTomes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Alle Typobjekte erhalten ähnelt.
+        /// </summary>
+        public static string CheckboxKeepTypeObjects {
+            get {
+                return ResourceManager.GetString("CheckboxKeepTypeObjects", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Erstellt am:  ähnelt.
+        /// </summary>
+        public static string ConverterBookCreationDate {
+            get {
+                return ResourceManager.GetString("ConverterBookCreationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Kapitelanzahl:  ähnelt.
+        /// </summary>
+        public static string ConverterNumberOfChapter {
+            get {
+                return ResourceManager.GetString("ConverterNumberOfChapter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Anzahl Notizen:  ähnelt.
+        /// </summary>
+        public static string ConverterNumberOfNotes {
+            get {
+                return ResourceManager.GetString("ConverterNumberOfNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  NOTIZEN ähnelt.
+        /// </summary>
+        public static string ConverterSubtitleNotes {
+            get {
+                return ResourceManager.GetString("ConverterSubtitleNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die wird nicht verwendet ähnelt.
+        /// </summary>
+        public static string ConverterUnused {
+            get {
+                return ResourceManager.GetString("ConverterUnused", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die wird verwendet ähnelt.
+        /// </summary>
+        public static string ConverterUsed {
+            get {
+                return ResourceManager.GetString("ConverterUsed", resourceCulture);
             }
         }
         
@@ -321,6 +402,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Neues Werk ähnelt.
+        /// </summary>
+        public static string NewBook {
+            get {
+                return ResourceManager.GetString("NewBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Ändern ähnelt.
         /// </summary>
         public static string NewBookEditBooktype {
@@ -335,6 +425,42 @@ namespace WritersToolbox.Resources {
         public static string NewTomeTemplate {
             get {
                 return ResourceManager.GetString("NewTomeTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Neuer Typ anlegen ähnelt.
+        /// </summary>
+        public static string NewType {
+            get {
+                return ResourceManager.GetString("NewType", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Farbe ähnelt.
+        /// </summary>
+        public static string NewTypeColorText {
+            get {
+                return ResourceManager.GetString("NewTypeColorText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Neues Objekt ähnelt.
+        /// </summary>
+        public static string NewTypeObject {
+            get {
+                return ResourceManager.GetString("NewTypeObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Titel ähnelt.
+        /// </summary>
+        public static string NewTypeTitleText {
+            get {
+                return ResourceManager.GetString("NewTypeTitleText", resourceCulture);
             }
         }
         
@@ -531,6 +657,24 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wollen Sie den Typ &quot; ähnelt.
+        /// </summary>
+        public static string TypeDeleteQuestion1 {
+            get {
+                return ResourceManager.GetString("TypeDeleteQuestion1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &quot; löschen? ähnelt.
+        /// </summary>
+        public static string TypeDeleteQuestion2 {
+            get {
+                return ResourceManager.GetString("TypeDeleteQuestion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         public static byte[] typen_checked {
@@ -547,6 +691,24 @@ namespace WritersToolbox.Resources {
             get {
                 object obj = ResourceManager.GetObject("typen_unchecked", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die ZU TYPOBJEKT ZUORDNEN ähnelt.
+        /// </summary>
+        public static string TypeObjectAssign {
+            get {
+                return ResourceManager.GetString("TypeObjectAssign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die TYPEN ähnelt.
+        /// </summary>
+        public static string TypesPageTitle {
+            get {
+                return ResourceManager.GetString("TypesPageTitle", resourceCulture);
             }
         }
         
