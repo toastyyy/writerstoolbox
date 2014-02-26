@@ -14,6 +14,7 @@ using System.Collections;
 using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Diagnostics;
+using System.Windows.Data;
 
 namespace WritersToolbox.views
 {
@@ -194,7 +195,7 @@ namespace WritersToolbox.views
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             var lastPage = NavigationService.BackStack.FirstOrDefault();
-            if (lastPage != null && lastPage.Source.ToString().Substring(0,23).Equals("/views/EventDetail.xaml"))
+            if (lastPage != null && lastPage.Source.ToString().Substring(0, 23).Equals("/views/EventDetail.xaml"))
             {
                 NavigationService.RemoveBackEntry();
             }
@@ -208,7 +209,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void information_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!doubleTap)
+            if (!doubleTap && !newChapterMode)
             {
                 BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_checked.png", UriKind.RelativeOrAbsolute));
                 information.Source = _bitmapimage;
@@ -237,7 +238,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void structure_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!doubleTap)
+            if (!doubleTap && !newChapterMode)
             {
                 BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_unchecked.png", UriKind.RelativeOrAbsolute));
                 information.Source = _bitmapimage;
@@ -266,7 +267,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void typeObjekt_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!doubleTap)
+            if (!doubleTap && !newChapterMode)
             {
                 BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_unchecked.png", UriKind.RelativeOrAbsolute));
                 information.Source = _bitmapimage;
@@ -409,13 +410,13 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!doubleTap)
+            if (!doubleTap && !newChapterMode)
             {
                 Image img = sender as Image;
                 Grid parent = (img.Parent as Grid).Parent as Grid;
                 Border border = (parent.Children[0] as Grid).Children[1] as Border;
                 TextBox textbox = border.Child as TextBox;
-                if (!textbox.Text.Equals("Neues Kapitel"))
+                if (!textbox.Text.Equals("Neues Kapitel") && !newChapterMode)
                 {
                     LongListMultiSelector llms = ((parent.Children[1]) as LongListMultiSelector);
                     if (llms.Visibility == Visibility.Collapsed)    //Ist die Ereignislist zusammengeklappt, 
@@ -435,7 +436,7 @@ namespace WritersToolbox.views
                 wasfocuslost = false;
             }
 
-        }   
+        }
 
         private void ApplicationBarIconButton_Click(object sender, EventArgs e)
         {
@@ -481,26 +482,24 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private async void ChapterTextBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //if (doubleTap)
-            //{
-            //    WorkaroundButton.Focus();
-            //}
-            
+
             singleTap = true;
             // verzögerung um "tap" von "doubleTap" zu unterscheiden
+            
+            
             await Task.Delay(200);
 
             //abfrage ob gesingle- oder gedoubletaped wurde, abfrage ob sich chapter in "bearbeitung" befindet
             if (singleTap && !doubleTap)
             {
-               // WorkaroundButton.Focus();
                 //geklickte Textbox(chapter) holen, entsprechende Eventliste aufklappen/zuklappen + IMG ändern
                 //chapter = (sender as TextBox).DataContext as datawrapper.Chapter;
                 b = sender as TextBox;
                 Image img = ((b.Parent as Border).Parent as Grid).Children[0] as Image;
                 Grid parent = ((b.Parent as Border).Parent as Grid).Parent as Grid;
-                if (!b.Text.Equals("Neues Kapitel"))
+                if (!b.Text.Equals("Neues Kapitel") && !newChapterMode)
                 {
+
                     LongListMultiSelector llms = ((parent.Children[1]) as LongListMultiSelector);
                     if (llms.Visibility == Visibility.Collapsed)    //Ist die Ereignislist zusammengeklappt, 
                     {                                               //dann wird sie aufgeklappt.
@@ -508,23 +507,34 @@ namespace WritersToolbox.views
                         llms.Visibility = Visibility.Visible;
                     }
                     else      //Ist die Ereignislist aufgeklappt,
-                    {         //dann wird sie zusammenfeklappt.
+                    {         //wird sie zusammengeklappt.
                         img.Source = new BitmapImage(new Uri("/icons/off.png", UriKind.RelativeOrAbsolute));
                         llms.Visibility = Visibility.Collapsed;
                     }
                 }
-                else 
-                {
-                    //neues Kapitel einfügen
-                    //Todo:
-                    //Name bearbeiten + speichern/abbrechen Buttons einblenden
-                    //speichern -> prüfen, abbrechen -> zuruecksetzten
-                    //gespeichert: buttons ausblenden + neu angelegtes Kapitel mit "Neues Ereignis" einblenden + neues "Neues Kapitel" anlegen
-                    b.IsReadOnly = false;
-                    addAddChapterApplicationBarButton();
+                else {
 
+                    b.DoubleTap -= ChapterTextBox_TapTap;
+                    newChapterTextbox.IsEnabled = true;
+                    newChapterTextbox.Visibility = Visibility.Visible;
+                   
+                    //abfrage, da sonst bei jedem geklickten Kapitel die neues Chapter -> Titel -Textbox gefocust wird (irritierend)
+                    if (b.Text.Equals("Neues Kapitel")) {
+                        newChapterTextbox.Focus();
+                    }
+                    
 
-                } 
+                    newChapterRectangle.Visibility = Visibility.Visible;
+                    newChapterTextTitle.Visibility = Visibility.Visible;
+
+                    newChapterTextbox.Select(newChapterTextbox.Text.Length, 0);
+                    if (!newChapterMode)
+                    {
+                        addAddChapterApplicationBarButton();
+                    }
+
+                    newChapterMode = true;
+                }
 
 
             }
@@ -532,7 +542,7 @@ namespace WritersToolbox.views
 
         }
 
-
+        public bool newChapterMode = false;
         /// <summary>
         /// doppelklick auf ein Chapter (Textbox)
         /// Content kann verändert werden
@@ -542,12 +552,13 @@ namespace WritersToolbox.views
         private void ChapterTextBox_TapTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             b = (TextBox)sender;
-            if (!b.Text.Equals("Neues Kapitel")) {
-
-                doubleTap = true;
+            
+            if (!newChapterMode && !b.Text.Equals("Neues Kapitel"))
+            {
                 singleTap = false;
+            doubleTap = true;  
+                              
                 chapter = (sender as TextBox).DataContext as datawrapper.Chapter;
-
                 b.IsReadOnly = false;
                 //Workaround...
                 b.LostFocus -= ChapterTextbox_LostFocus;
@@ -561,7 +572,7 @@ namespace WritersToolbox.views
                 information.Tap -= information_Tap;
                 typeObject.Tap -= typeObject_Tap;
             }
-            
+
 
         }
 
@@ -573,16 +584,16 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void ChapterTextbox_LostFocus(object sender, RoutedEventArgs e)
         {
-            
+
             MessageBoxResult result = MessageBoxResult.Cancel;
 
             Debug.WriteLine("lostfocus");
-            if (doubleTap)
+            if (doubleTap && !newChapterMode)
             {
                 bool isExist = tome_VM.isChapterNameDuplicate(b.Text);
 
                 //Abfrage "Neues Kapitel" auf Schreibweisen (Klein/Groß etc.) prüfen
-                if (b.Text.Trim().Equals("") || b.Text.Equals(chapter.title) || b.Text.Equals("Neues Kapitel"))            
+                if (b.Text.Trim().Equals("") || b.Text.Equals(chapter.title) || b.Text.Equals("Neues Kapitel"))
                 {
                     b.Text = chapter.title;
                     wasfocuslost = true;
@@ -602,8 +613,8 @@ namespace WritersToolbox.views
                             "Information", MessageBoxButton.OK);
                     wasfocuslost = false;
                     b.LostFocus -= ChapterTextbox_LostFocus;
-                    WorkaroundButton.Focus();                   
-                    b.Focus();                   
+                    WorkaroundButton.Focus();
+                    b.Focus();
                     b.LostFocus += ChapterTextbox_LostFocus;
                 }
                 else if (!isExist)
@@ -615,14 +626,20 @@ namespace WritersToolbox.views
                     b.IsReadOnly = true;
                     doubleTap = false;
                     singleTap = true;
+
+
                     structure.Tap += structure_Tap;
                     information.Tap += information_Tap;
                     typeObject.Tap += typeObject_Tap;
+                    
+
                 }
                 else
                 {
                     wasfocuslost = false;
                 }
+
+                
             }
 
 
@@ -663,7 +680,8 @@ namespace WritersToolbox.views
             ApplicationBar.Buttons.Remove(cancel);
         }
 
-        private void removeDefaultApplicationBarButton() {
+        private void removeDefaultApplicationBarButton()
+        {
             ApplicationBar.Buttons.Remove(edit);
             ApplicationBar.Buttons.Remove(deleteTypeObject);
         }
@@ -686,7 +704,7 @@ namespace WritersToolbox.views
 
 
             //TODO
-            edit.Click += saveButton_Click;
+            save.Click += saveButton_Click;
             cancel.Click += cancelButton_Click;
 
 
@@ -699,17 +717,50 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void saveButton_Click(object sender, EventArgs e) {
-            addDefaultApplicationBarButton();
-            datawrapper.Chapter _c = new datawrapper.Chapter()
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            MessageBoxResult result = MessageBoxResult.Cancel;
+            bool doesExist = tome_VM.isChapterNameDuplicate(newChapterTextbox.Text);
+
+            if (newChapterTextbox.Text.Trim().Equals("") || newChapterTextbox.Text.Equals("Neues Kapitel"))
             {
-                addedDate = DateTime.Now,
-                chapterNumber = llstructure.ItemsSource.Count + 1,
-                deleted = false,
-                title = b.Text,
-                updatedDate = DateTime.Now
-            };
-            tome_VM.saveChapter(_c);
+                //Fehlermeldung ungültig oder leer           
+                result = MessageBox.Show("Der Titel ist leer oder ungültig. Bitte geben Sie einen anderen Titel an!",
+                        "Information", MessageBoxButton.OK);
+                newChapterTextbox.SelectAll();
+            }
+            else if (doesExist)
+            {
+                //Fehlermeldung Kapitel existiert          
+                result = MessageBox.Show("Dieses Kapitel exisitiert bereits. Bitte geben Sie einen anderen Titel an!",
+                        "Information", MessageBoxButton.OK);
+                newChapterTextbox.SelectAll();
+            }
+            else
+            {
+                addDefaultApplicationBarButton();
+                datawrapper.Chapter _c = new datawrapper.Chapter()
+                {
+                    addedDate = DateTime.Now,
+                    chapterNumber = llstructure.ItemsSource.Count + 1,
+                    deleted = false,
+                    title = newChapterTextbox.Text,
+                    updatedDate = DateTime.Now
+                };
+                tome_VM.saveChapter(_c);
+                newChapterMode = false;
+
+                //b.IsReadOnly = true;
+                
+                newChapterTextbox.IsEnabled = false;
+                newChapterTextbox.Visibility = Visibility.Collapsed;
+                newChapterRectangle.Visibility = Visibility.Collapsed;
+                newChapterTextTitle.Visibility = Visibility.Collapsed;
+                newChapterTextbox.Text = "";
+            }
+
+
+
         }
 
         /// <summary>
@@ -719,8 +770,15 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            b.Text = "Neues Kapitel";
+
             addDefaultApplicationBarButton();
+            newChapterMode = false;
+            //b.IsReadOnly = true;
+            newChapterTextbox.IsEnabled = false;
+            newChapterTextbox.Visibility = Visibility.Collapsed;
+            newChapterRectangle.Visibility = Visibility.Collapsed;
+            newChapterTextTitle.Visibility = Visibility.Collapsed;
+            newChapterTextbox.Text = "";
         }
 
         /// <summary>
@@ -731,9 +789,9 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void Event_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!doubleTap)
+            if (!doubleTap && !newChapterMode)
             {
-                
+
                 datawrapper.Event _event = (sender as TextBlock).DataContext as datawrapper.Event;
                 NavigationService.Navigate(new Uri("/views/EventDetail.xaml?eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
                 var lastPage = NavigationService.BackStack.FirstOrDefault();
@@ -748,7 +806,7 @@ namespace WritersToolbox.views
             }
         }
 
-
+        
 
     }
 }

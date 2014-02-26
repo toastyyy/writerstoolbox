@@ -103,6 +103,7 @@
       <SubType>Code</SubType>
     </Compile>
     <Compile Include="converter\BoolToUsedConverter.cs" />
+    <Compile Include="converter\ChapterCutTitel.cs" />
     <Compile Include="converter\CollectionCountConverter.cs" />
     <Compile Include="converter\ColorToBrushConverter.cs" />
     <Compile Include="converter\CollectionHasElementsConverter.cs" />

@@ -30,5 +30,9 @@ namespace WritersToolbox.views
                 this.DataContext = this.edvm.Event;
             }
         }
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=1", UriKind.RelativeOrAbsolute));
+        }
     }
 }

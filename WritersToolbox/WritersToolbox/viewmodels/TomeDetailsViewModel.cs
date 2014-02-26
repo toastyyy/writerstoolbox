@@ -288,6 +288,9 @@ namespace WritersToolbox.viewmodels
         {
             try
             {
+               
+
+
                 ObservableCollection<datawrapper.Event> _events = new ObservableCollection<datawrapper.Event>();
                 //"neues Ereignis" einfügen
                 datawrapper.Event _e = new datawrapper.Event()
@@ -311,7 +314,26 @@ namespace WritersToolbox.viewmodels
                 wtb.GetTable<models.Chapter>().InsertOnSubmit(obj_chapter);
                 wtb.SubmitChanges();    //Datenbank aktualisieren.
                 _c.events = _events;
+                
+
+                //Für die Reihenfolge den letzten Eintrag ("Neues Kapitel") löschen, das neue Kapitel einfügen und "Neues Kapitel" wieder hinzufügen
+                _structur.RemoveAt(_structur.Count - 1);
                 _structur.Add(_c);
+
+                //"neues Kapitel" einfügen
+                datawrapper.Chapter _newC = new datawrapper.Chapter()
+                {
+                    title = "Neues Kapitel",
+                    chapterID = 0
+                };
+                _structur.Add(_newC);
+
+
+               
+                
+
+
+
             }
             catch (Exception ex)
             {

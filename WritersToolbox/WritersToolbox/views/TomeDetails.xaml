@@ -6,6 +6,7 @@
     xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
     xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:converter="clr-namespace:WritersToolbox.converter"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:Coding4Fun="clr-namespace:Coding4Fun.Toolkit.Controls;assembly=Coding4Fun.Toolkit.Controls"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
@@ -17,6 +18,7 @@
 
     <phone:PhoneApplicationPage.Resources>
         <!--Anzeige der Ereignisse-->
+        
         <DataTemplate x:Key="eventItemTemplate" >
             <StackPanel x:Name="Event" VerticalAlignment="Top" Margin="80,10,0,0">
                 <Border Background="Transparent" Padding="5">
@@ -45,7 +47,7 @@
                     <Border Grid.Column="1" Background="White" BorderThickness="0,0,0,1" BorderBrush="LightGray" Width="480"    
                         Height="70" Margin="0,0,20,0" HorizontalAlignment="Left">
                         <TextBox Height="100" Text="{Binding title}" Margin="0,20,0,0" Foreground="Black" FontSize="30" Padding="6" DoubleTap="ChapterTextBox_TapTap" Tap="ChapterTextBox_Tap" 
-                        FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal" IsReadOnly="True" LostFocus="ChapterTextbox_LostFocus" Background="{x:Null}" AcceptsReturn="False" />                      
+                        FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal" IsReadOnly="True" LostFocus="ChapterTextbox_LostFocus" Background="{x:Null}" AcceptsReturn="False" />
                     </Border>
                 </Grid>
                 <!--Ereignis-->
@@ -84,7 +86,8 @@
             <!--HeadImage-->
             <Image Margin="0,0,0,511" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
             <!--BookTitle-->
-            <TextBlock x:Name="bookTitle" FontFamily="Segoe WP Light" TextWrapping="Wrap"  Foreground="White" FontSize="55" TextAlignment="Center" HorizontalAlignment="Left" Margin="22,10,0,0" Text="Harry Potter" VerticalAlignment="Top" Height="152" Width="431" />
+            <TextBlock x:Name="bookTitle" Text="Harry Potter" FontFamily="Segoe WP Light" TextWrapping="Wrap"  Foreground="White" FontSize="55" TextAlignment="Center" HorizontalAlignment="Left" Margin="22,34,0,0" VerticalAlignment="Top" Height="128" Width="431" LineHeight="48" />
+
             <!--Steuerelement-->
             <Grid x:Name="steuerelement" Margin="0,184,0,441">
                 <Grid.ColumnDefinitions>
@@ -206,7 +209,7 @@
             <!--structureGrid-->
             <Grid x:Name="structureGrid" Width="Auto" Margin="0,260,0,0" Visibility="Visible" >
 
-                
+
                 <!--JumpListStyle="{StaticResource chapterJumpListStyle}"-->
                 <toolkit:LongListMultiSelector
                         x:Name="llstructure"
@@ -216,18 +219,27 @@
                         LayoutMode="List"                   
                         ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                         BorderBrush="Black" />
-               
+
+
 
             </Grid>
-            
+
         </Grid>
 
-    </Grid>
 
+        <Rectangle x:Name="newChapterRectangle" Fill="#ddA6a6a6" Height="80" Margin="0,339,0,0" Grid.Row="2" VerticalAlignment="Top" Width="480" UseLayoutRounding="True" Visibility="Collapsed" />
+        <TextBox x:Name="newChapterTextbox" Style="{StaticResource TextBoxTransparent}" FontFamily="Segoe WP Light" Foreground="#FF353535" FontSize="30" Height="80" Margin="134,339,30,0" Padding="6,4,0,-7" Grid.Row="2"
+             VerticalAlignment="Top" Background="Transparent" TextWrapping="Wrap" Text="" BorderThickness="0,0,0,3" Visibility="Collapsed" IsEnabled="False" />
+            
+        
+        <TextBlock x:Name="newChapterTextTitle" HorizontalAlignment="Left" FontFamily="Segoe WP Light" Foreground="#FF353535" FontSize="30" Margin="50,339,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Titel:" VerticalAlignment="Top" Height="80" Width="116" Padding="0,18,0,0" Visibility="Collapsed"/>
+        
+        
+
+    </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF353535">
-            <!--<shell:ApplicationBarIconButton x:Name="edit" IconUri="/icons/edit.png" Text="Ändern" Click="ApplicationBarIconButton_Click"  />
-            <shell:ApplicationBarIconButton x:Name="deleteTypeObject" IconUri="/icons/delete.png" Text="Löschen" />-->
+
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
