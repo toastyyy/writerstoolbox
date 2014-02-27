@@ -36,6 +36,7 @@ namespace WritersToolbox.views
                 {
                     books_VM = new BooksViewModel();
                     if (!books_VM.isDataLoaded())
+                        Books_VM.loadBookTypes();
                         books_VM.loadData();
 
                 }
@@ -252,6 +253,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void tomeSelected(object sender, SelectionChangedEventArgs e)
         {
+            datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
             LongListSelector selector = sender as LongListSelector;
             if (selector == null)
                 return;
@@ -264,7 +266,7 @@ namespace WritersToolbox.views
             }
             else
             {
-                //neuer Band
+                NavigationService.Navigate(new Uri("/views/AddTome.xaml?bookID=" + b.bookID, UriKind.Relative));
             }
             selector.SelectedItem = null;
         }
@@ -289,14 +291,14 @@ namespace WritersToolbox.views
             BookType = lp.SelectedItem as datawrapper.BookType;
             if (BookTypeInfo != null)
             {
-                BookTypeInfo.Text = "Vorangelegte Kapitel: " + BookType.numberOfChapter.ToString();
+                BookTypeInfo.Text = AppResources.BooksBookTypeInfoText + BookType.numberOfChapter.ToString();
             }
         }
 
         private void BookTypeInfoLoaded(object sender, RoutedEventArgs e)
         {
             BookTypeInfo = sender as TextBlock;
-            BookTypeInfo.Text = "Vorangelegte Kapitel: " + BookType.numberOfChapter.ToString();
+            BookTypeInfo.Text = AppResources.BooksBookTypeInfoText + BookType.numberOfChapter.ToString();
         }
 
     }

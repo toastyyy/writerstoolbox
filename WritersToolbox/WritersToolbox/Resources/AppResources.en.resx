@@ -276,4 +276,61 @@
   <data name="TrashbinHeadline" xml:space="preserve">
     <value>Recycle bin</value>
   </data>
+  <data name="BookChangeHeadline" xml:space="preserve">
+    <value>Edit Book</value>
+  </data>
+  <data name="BooksBookTypeInfoText" xml:space="preserve">
+    <value>provided chapters: </value>
+  </data>
+  <data name="CheckboxKeepNotes" xml:space="preserve">
+    <value>keep all Notes</value>
+  </data>
+  <data name="CheckboxKeepTypeObjects" xml:space="preserve">
+    <value>keep all Typeobjects</value>
+  </data>
+  <data name="ConverterBookCreationDate" xml:space="preserve">
+    <value>Created on </value>
+  </data>
+  <data name="ConverterNumberOfChapter" xml:space="preserve">
+    <value>Numer of chapters: </value>
+  </data>
+  <data name="ConverterNumberOfNotes" xml:space="preserve">
+    <value>Number of Notes: </value>
+  </data>
+  <data name="ConverterSubtitleNotes" xml:space="preserve">
+    <value> NOTES</value>
+  </data>
+  <data name="ConverterUnused" xml:space="preserve">
+    <value>not used</value>
+  </data>
+  <data name="ConverterUsed" xml:space="preserve">
+    <value>used</value>
+  </data>
+  <data name="NewBook" xml:space="preserve">
+    <value>New Book</value>
+  </data>
+  <data name="NewType" xml:space="preserve">
+    <value>Create new Type</value>
+  </data>
+  <data name="NewTypeColorText" xml:space="preserve">
+    <value>Color</value>
+  </data>
+  <data name="NewTypeObject" xml:space="preserve">
+    <value>New Object</value>
+  </data>
+  <data name="NewTypeTitleText" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="TypeDeleteQuestion1" xml:space="preserve">
+    <value>Would you like to delete the Type "</value>
+  </data>
+  <data name="TypeDeleteQuestion2" xml:space="preserve">
+    <value>" ?</value>
+  </data>
+  <data name="TypeObjectAssign" xml:space="preserve">
+    <value>ASSIGN TO TYPEOBJECT</value>
+  </data>
+  <data name="TypesPageTitle" xml:space="preserve">
+    <value>TYPES</value>
+  </data>
 </root>

@@ -26,14 +26,14 @@
         
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="12,17,0,28">
-            <TextBlock Text="WERKE" Margin="9,0,0,0" FontSize="22" FontFamily="Segoe WP Light"/>
-            <TextBlock Text="Werk ändern" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.BooksPageTitle, Source={StaticResource LocalizedStrings}}" Margin="9,0,0,0" FontSize="22" FontFamily="Segoe WP Light"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.BookChangeHeadline, Source={StaticResource LocalizedStrings}}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
         </StackPanel>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <StackPanel Grid.Row="1" Margin="0,40,0,0">
             <TextBlock Margin="50,20,0,5" 
-                       Text="Name des Werkes" 
+                       Text="{Binding Path=LocalizedResources.BookName, Source={StaticResource LocalizedStrings}}" 
                        FontSize="25"
                        Foreground="Black"/>
             <TextBox x:Name="bName" 
@@ -44,25 +44,6 @@
                      BorderThickness="2" 
                      Foreground="Black" 
                      ToolTipService.ToolTip="Titel"/>
-            <TextBlock Margin="50,30,0,10" 
-                       Text="Buchtyp" 
-                       FontSize="25"
-                       Foreground="Black"/>
-
-            <Grid Margin="50,0,0,0">
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="250" />
-                    <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
-                <TextBlock x:Name="booktype" Margin="10,0,0,0" 
-                           HorizontalAlignment="Stretch" 
-                           VerticalAlignment="Center" 
-                           Grid.Column="0" 
-                           Text="Roman" 
-                           FontSize="28" 
-                           Foreground="DarkGreen" 
-                           TextDecorations="Underline"/>
-            </Grid>
         </StackPanel>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>

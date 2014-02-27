@@ -75,7 +75,7 @@
 
                             </Grid>
                             <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-                            <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                            <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" Width="Auto"/>
                         </Grid>
                     </DataTemplate>
                 </toolkit:LongListMultiSelector.ItemTemplate>

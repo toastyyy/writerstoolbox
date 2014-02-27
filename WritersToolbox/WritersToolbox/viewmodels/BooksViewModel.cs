@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using Microsoft.Phone.Controls;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.viewmodels
 {
@@ -178,16 +179,18 @@ namespace WritersToolbox.viewmodels
             return book;
         }
 
-        public void loadData() 
+        public void loadBookTypes()
         {
             // buchtypen laden
             var sqlBookTypes = from bt in tableBookType
                                where bt.deleted == false
                                select bt;
             ObservableCollection<datawrapper.BookType> tmpBookTypes = new ObservableCollection<datawrapper.BookType>();
-            foreach(var bt in sqlBookTypes) {
+            foreach (var bt in sqlBookTypes)
+            {
                 tmpBookTypes.Add(
-                    new datawrapper.BookType() { 
+                    new datawrapper.BookType()
+                    {
                         name = bt.name,
                         numberOfChapter = bt.numberOfChapter,
                         updatedDate = bt.updatedDate,
@@ -198,6 +201,11 @@ namespace WritersToolbox.viewmodels
             }
 
             this.booktypes = tmpBookTypes;
+        }
+
+        public void loadData() 
+        {
+            
             // buecher laden
             var sqlBooks = from b in tableBook where b.deleted == false
                                    select b;
@@ -258,7 +266,7 @@ namespace WritersToolbox.viewmodels
 
             tmpBooks.Add(new datawrapper.Book()
             {
-                name="Neues Werk",
+                name= AppResources.NewBook,
                 bookID=-1,
                 addedDate = new DateTime(2012,6,3,22,10,22)
             });
@@ -281,7 +289,6 @@ namespace WritersToolbox.viewmodels
 
             }
                 
-            wtb.SubmitChanges();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

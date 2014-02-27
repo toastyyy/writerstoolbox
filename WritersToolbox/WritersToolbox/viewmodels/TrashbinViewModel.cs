@@ -9,6 +9,7 @@ using WritersToolbox.models;
 using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections;
+using WritersToolbox.views;
 
 namespace WritersToolbox.viewmodels
 {
@@ -21,7 +22,7 @@ namespace WritersToolbox.viewmodels
         private Table<WritersToolbox.models.TypeObject> tableTypeObject;
         private Table<WritersToolbox.models.Type> tableType;
         private Table<Event> tableEvent;
-
+        
 
         public ObservableCollection<Object> DeletedObjects { get; set; }
         public TrashbinViewModel()
@@ -35,6 +36,8 @@ namespace WritersToolbox.viewmodels
                 tableTypeObject = db.GetTable<WritersToolbox.models.TypeObject>();
                 tableType = db.GetTable<WritersToolbox.models.Type>();
                 tableEvent = db.GetTable<Event>();
+
+                
             }
             catch (Exception ex)
             {
@@ -44,6 +47,7 @@ namespace WritersToolbox.viewmodels
 
         public void loadData()
         {
+            
             this.DeletedObjects = new ObservableCollection<Object>(); // O || o
             
             // notizen, die geloescht sind, aber nicht zugeordnet sind
@@ -156,7 +160,50 @@ namespace WritersToolbox.viewmodels
                                    where m.memoryNoteID == mn.memoryNoteID
                                    select m).Single();
                     this.tableMemoryNote.DeleteOnSubmit(entries);
-                } // TODO: andere objektarten loeschen
+                }
+
+                if (entry.GetType().IsAssignableFrom((new datawrapper.Book()).GetType()))
+                {
+                    datawrapper.Book bk = (datawrapper.Book)entry;
+                    var entries = (from b in this.tableBook
+                                   where b.bookID == bk.bookID
+                                   select b).Single();
+                    this.tableBook.DeleteOnSubmit(entries);
+                }
+
+                if (entry.GetType().IsAssignableFrom((new datawrapper.Tome()).GetType()))
+                {
+                    datawrapper.Tome to = (datawrapper.Tome)entry;
+                    var entries = (from t in this.tableTome
+                                   where t.tomeID == to.tomeID
+                                   select t).Single();
+                    this.tableTome.DeleteOnSubmit(entries);
+                }
+                if (entry.GetType().IsAssignableFrom((new datawrapper.Event()).GetType()))
+                {
+                    datawrapper.Event ev = (datawrapper.Event)entry;
+                    var entries = (from e in this.tableEvent
+                                   where e.eventID == ev.eventID
+                                   select e).Single();
+                    this.tableEvent.DeleteOnSubmit(entries);
+                }
+                if (entry.GetType().IsAssignableFrom((new datawrapper.Type()).GetType()))
+                {
+                    datawrapper.Type ty = (datawrapper.Type)entry;
+                    var entries = (from t in this.tableType
+                                   where t.typeID == ty.typeID
+                                   select t).Single();
+                    this.tableType.DeleteOnSubmit(entries);
+                }
+                if (entry.GetType().IsAssignableFrom((new datawrapper.TypeObject()).GetType()))
+                {
+                    datawrapper.TypeObject tyo = (datawrapper.TypeObject)entry;
+                    var entries = (from t in this.tableTypeObject
+                                   where t.typeObjectID == tyo.typeObjectID
+                                   select t).Single();
+                    this.tableTypeObject.DeleteOnSubmit(entries);
+                }
+                
 
                 // loeschen ende
             }
@@ -164,10 +211,25 @@ namespace WritersToolbox.viewmodels
             this.loadData();
         }
 
-
-        public void restoreTrash(ObservableCollection<object> list)
+        
+        public void restoreTrash(IList list)
         {
-
+            IEnumerator enumerator = list.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                object entry = enumerator.Current;
+                if (entry.GetType().IsAssignableFrom((new datawrapper.MemoryNote()).GetType()))
+                {
+                    datawrapper.MemoryNote mn = (datawrapper.MemoryNote)entry;
+                    var entries = (from m in this.tableMemoryNote
+                                   where m.memoryNoteID == mn.memoryNoteID
+                                   select m).Single();
+                    entries.deleted = false;
+                }
+            }
+                this.db.SubmitChanges();
+                this.loadData();
+            
         }
 
 

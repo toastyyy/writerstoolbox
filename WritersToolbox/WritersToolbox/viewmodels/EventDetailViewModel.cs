@@ -111,7 +111,8 @@ namespace WritersToolbox.viewmodels
                         location = mn.location,
                         tags = mn.tags,
                         title = mn.title,
-                        updatedDate = mn.updatedDate
+                        updatedDate = mn.updatedDate,
+                        memoryNoteID = mn.memoryNoteID
                     });
                 }
 
@@ -141,6 +142,7 @@ namespace WritersToolbox.viewmodels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
 
     }
 }

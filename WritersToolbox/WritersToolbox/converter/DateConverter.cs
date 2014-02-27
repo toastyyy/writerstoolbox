@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Text;
+using System.Threading;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.converter
 {
@@ -13,11 +15,8 @@ namespace WritersToolbox.converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             DateTime val = (DateTime)value;
-            String pre = "";
-            if (parameter != null) {
-                pre = ((String)parameter).Replace("-", " ");
-            }
-            return pre + " " + val.ToString("dd.MM.yyyy");
+
+            return AppResources.ConverterBookCreationDate + val.ToString(Thread.CurrentThread.CurrentUICulture.DateTimeFormat.ShortDatePattern);
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

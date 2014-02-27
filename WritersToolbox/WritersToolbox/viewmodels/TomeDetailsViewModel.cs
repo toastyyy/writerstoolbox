@@ -258,7 +258,7 @@ namespace WritersToolbox.viewmodels
         { 
             List<models.Chapter> _c = (from chapter in tableChapter
                                        where chapter.obj_tome.tomeID == tome.tomeID
-                                       && chapter.title == chapterName
+                                       && chapter.title.Equals(chapterName)
                                        select chapter).ToList();
 
             return _c.Count != 0;
@@ -278,6 +278,68 @@ namespace WritersToolbox.viewmodels
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        /// <summary>
+        /// Ein Kapitel in Datenbank speichern
+        /// </summary>
+        /// <param name="_c"></param>
+        public void saveChapter(datawrapper.Chapter _c) 
+        {
+            try
+            {
+               
+
+
+                ObservableCollection<datawrapper.Event> _events = new ObservableCollection<datawrapper.Event>();
+                //"neues Ereignis" einfügen
+                datawrapper.Event _e = new datawrapper.Event()
+                {
+                    title = "Ereignis hinzufügen",
+                    eventID = 0
+
+                };
+                _events.Add(_e);
+
+                obj_chapter = new models.Chapter()
+                {
+                    addedDate = _c.addedDate,
+                    chapterNumber = _c.chapterNumber,
+                    deleted = _c.deleted,
+                    obj_tome = tome,    //Tome aus instanzvariable
+                    title = _c.title,
+                    updatedDate = _c.updatedDate
+
+                };
+                wtb.GetTable<models.Chapter>().InsertOnSubmit(obj_chapter);
+                wtb.SubmitChanges();    //Datenbank aktualisieren.
+                _c.events = _events;
+                
+
+                //Für die Reihenfolge den letzten Eintrag ("Neues Kapitel") löschen, das neue Kapitel einfügen und "Neues Kapitel" wieder hinzufügen
+                _structur.RemoveAt(_structur.Count - 1);
+                _structur.Add(_c);
+
+                //"neues Kapitel" einfügen
+                datawrapper.Chapter _newC = new datawrapper.Chapter()
+                {
+                    title = "Neues Kapitel",
+                    chapterID = 0
+                };
+                _structur.Add(_newC);
+
+
+               
+                
+
+
+
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+
         }
     }
 }

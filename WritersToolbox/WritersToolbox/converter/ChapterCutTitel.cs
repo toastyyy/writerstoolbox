@@ -1,24 +1,35 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
-using WritersToolbox.Resources;
+
 namespace WritersToolbox.converter
 {
-    public class TypeObjectSubtitleConverter : IValueConverter
+    public class ChapterCutTitel: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            datawrapper.TypeObject to = (datawrapper.TypeObject)value;
-
-            return to.type.title.ToUpper() + ", " + to.notes.Count + AppResources.ConverterSubtitleNotes;
+            String titel = (String) value;
+            if (titel.Length > 26)
+            {
+                titel = titel.Substring(0,22);
+                titel += "...";
+            }
+            return titel;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
-            throw new NotImplementedException();
+
+            return value;
+           // throw new NotImplementedException();
         }
     }
+
 }
+
