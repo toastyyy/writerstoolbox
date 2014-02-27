@@ -429,7 +429,10 @@
   <data name="UnsortedNotesHeadline" xml:space="preserve">
     <value>Unsortierte Notizen</value>
   </data>
-  <data name="Warning" xml:space="preserve">
+  <data name="ErrorWarning" xml:space="preserve">
     <value>Warnung</value>
+  </data>
+  <data name="AddNoteRecordDeleteQuestion" xml:space="preserve">
+    <value>Wollen Sie die Aufnahme löschen?</value>
   </data>
 </root>

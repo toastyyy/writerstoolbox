@@ -116,7 +116,7 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Record ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Record  ähnelt.
         /// </summary>
         public static string AddNoteHeadlineRecord {
             get {
@@ -139,6 +139,15 @@ namespace WritersToolbox.Resources {
         public static string AddNotePageTitle {
             get {
                 return ResourceManager.GetString("AddNotePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wollen Sie die Aufnahme löschen? ähnelt.
+        /// </summary>
+        public static string AddNoteRecordDeleteQuestion {
+            get {
+                return ResourceManager.GetString("AddNoteRecordDeleteQuestion", resourceCulture);
             }
         }
         
@@ -480,6 +489,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sie müssen mindestens Details der Notiz eingeben!! ähnelt.
+        /// </summary>
+        public static string ErrorDetails {
+            get {
+                return ResourceManager.GetString("ErrorDetails", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Sie müssen einen Namen eingeben ähnelt.
         /// </summary>
         public static string ErrorName {
@@ -503,6 +521,15 @@ namespace WritersToolbox.Resources {
         public static string ErrorSpeechToText {
             get {
                 return ResourceManager.GetString("ErrorSpeechToText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Warnung ähnelt.
+        /// </summary>
+        public static string ErrorWarning {
+            get {
+                return ResourceManager.GetString("ErrorWarning", resourceCulture);
             }
         }
         

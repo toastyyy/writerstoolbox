@@ -426,7 +426,13 @@
   <data name="UnsortedNotesHeadline" xml:space="preserve">
     <value>Unsorted Notes</value>
   </data>
-  <data name="Warning" xml:space="preserve">
-    <value>Warnung</value>
+  <data name="AddNoteRecordDeleteQuestion" xml:space="preserve">
+    <value>Would you like to delete the record?</value>
+  </data>
+  <data name="ErrorDetails" xml:space="preserve">
+    <value>You have to add some details</value>
+  </data>
+  <data name="ErrorWarning" xml:space="preserve">
+    <value>Warning</value>
   </data>
 </root>

@@ -799,7 +799,7 @@ namespace WritersToolbox.views
             //und zurück zu dem vorherigen Screen.
             if (!isChanged)
             {
-                MessageBox.Show("Sie müssen mindestens Details der Notiz eingeben!!");
+                MessageBox.Show(AppResources.ErrorDetails);
             }
             else
             {
@@ -1541,8 +1541,8 @@ namespace WritersToolbox.views
                 playTimer = null;
             }
             //Abfrage, ob es wirklich was gelöscht werden muss.
-            MessageBoxResult result = MessageBox.Show("möchten Sie die Aufnahme löschen !",
-                        "Warnung", MessageBoxButton.OKCancel);
+            MessageBoxResult result = MessageBox.Show(AppResources.AddNoteRecordDeleteQuestion,
+                        AppResources.ErrorWarning, MessageBoxButton.OKCancel);
 
             //Wenn ja.
             if (result == MessageBoxResult.OK)
