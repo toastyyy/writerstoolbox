@@ -366,11 +366,13 @@
     <Content Include="Assets\WritersToolboxstartseiteWT.png" />
     <Content Include="headImage_rot_smal.png" />
     <Content Include="icons\add.png" />
+    <Content Include="icons\bold.png" />
     <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\edit.png" />
     <Content Include="icons\edit_picture.png" />
     <Content Include="icons\info_checked.png" />
     <Content Include="icons\info_unchecked.png" />
+    <Content Include="icons\italic.png" />
     <Content Include="icons\micro.png" />
     <Content Include="icons\on.png" />
     <Content Include="icons\off.png" />
@@ -390,6 +392,7 @@
     <Content Include="icons\struktur_checked.png" />
     <Content Include="icons\typen_unchecked.png" />
     <Content Include="icons\struktur_unchecked.png" />
+    <Content Include="icons\underline.png" />
     <Content Include="images\headImage_grayscale_top.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

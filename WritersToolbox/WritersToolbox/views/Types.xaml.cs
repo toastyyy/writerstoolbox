@@ -500,6 +500,7 @@ namespace WritersToolbox.views
 
         private void deleteSelection(object sender, EventArgs e) {
             if (currentSelectList != null) {
+                this.PivotMain.IsLocked = false;
                 IEnumerator enumerator = currentSelectList.SelectedItems.GetEnumerator();
                 while (enumerator.MoveNext()) {
                     types_VM.deleteTypeObject(((datawrapper.TypeObject)enumerator.Current).typeObjectID);

@@ -123,6 +123,16 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("Event");
         }
 
+        public void updateFinaltext(String newText)
+        {
+            if (this.Event != null)
+            {
+                this.Event.finaltext = newText;
+            }
+
+            this.wtb.SubmitChanges();
+            this.NotifyPropertyChanged("Event");
+        }
         public event PropertyChangedEventHandler PropertyChanged;
         // Used to notify the app that a property has changed.
         private void NotifyPropertyChanged(string propertyName)

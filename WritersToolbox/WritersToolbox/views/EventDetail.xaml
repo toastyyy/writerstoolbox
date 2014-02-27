@@ -116,23 +116,37 @@
         <!--ContentPanel - place additional content here-->
         
         <phone:Pivot VerticalAlignment="Top" 
+                     x:Name="eventPivot"
                      FontFamily="Segoe WP Light"
+                     SelectionChanged="Pivot_SelectionChanged"
+                     
                      >
             <phone:Pivot.Title>
                 <TextBlock Text="{Binding Path=LocalizedResources.EventDetailTitle, Source={StaticResource LocalizedStrings}}" Margin="9,0,0,0" FontSize="22" FontFamily="Segoe WP Light"/>
             </phone:Pivot.Title>
             
             <!--Finalnotiz-->
-            <phone:PivotItem>
+            <phone:PivotItem x:Name="pivotFinalText" Margin="0,28,0,0">
+                <phone:PivotItem.Background>
+                    <ImageBrush Stretch="Fill"/>
+                </phone:PivotItem.Background>
                 <phone:PivotItem.Header>
                     <TextBlock Text="{Binding Path=LocalizedResources.EventDetailHeadline1, Source={StaticResource LocalizedStrings}}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
                 </phone:PivotItem.Header>
-                <Grid Margin="20,50,20,10">
-                    <RichTextBox x:Name="tFinalText" Background="White" Foreground="Black" VerticalContentAlignment="Top">
+                <Grid Margin="0,0,0,0">
+                    <ScrollViewer>
+                        <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="tFinalText" Foreground="Black" Background="{x:Null}" Tap="tFinalText_Tap" Width="476">
                         <Paragraph>
-                            <Run Text="{Binding finaltext}"></Run>
+                                
                         </Paragraph>
                     </RichTextBox>
+                    </ScrollViewer>
+                    <Grid Visibility="Collapsed" Width="Auto" x:Name="editFinaltextGrid" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#EEFFFFFF">
+                        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <TextBox Visibility="Collapsed" Text="{Binding finaltext}" x:Name="textBoxFinalText" HorizontalAlignment="Stretch" Height="Auto" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" BorderThickness="1" BorderBrush="#BF3A3939" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                        </ScrollViewer>
+
+                    </Grid>
                 </Grid>
             </phone:PivotItem>
             
@@ -192,20 +206,21 @@
                     <toolkit:LongListMultiSelector
                         x:Name="TypeObjectList"
                         Margin="10,60,15,0"
-                        ItemsSource="{Binding typeObjects}"
-                        ItemTemplate="{StaticResource TypeObjectTemplate}" 
-                        EnforceIsSelectionEnabled="false"
-                        IsGroupingEnabled="False"
-                        LayoutMode="Grid"
+                    ItemsSource="{Binding typeObjects}"
+                    ItemTemplate="{StaticResource TypeObjectTemplate}" 
+                    EnforceIsSelectionEnabled="false"
+                    IsGroupingEnabled="False"
+                    LayoutMode="Grid"
                         GridCellSize="450, 150"
-                        Foreground="Black"
-                        ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
+                    Foreground="Black"
+                    ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                         BorderBrush="Black"
                         SelectionChanged="TypeObjects_SelectionChanged">
                     </toolkit:LongListMultiSelector>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>
+        <Button x:Name="WorkaroundButton"  Content="" HorizontalAlignment="Left" Margin="380,10,0,0" VerticalAlignment="Top" Height="40" Width="40" BorderThickness="0"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
