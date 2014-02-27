@@ -328,7 +328,7 @@
     <value>" ?</value>
   </data>
   <data name="TypeObjectAssign" xml:space="preserve">
-    <value>ASSIGN TO TYPEOBJECT</value>
+    <value>ATTACH TO TYPEOBJECT</value>
   </data>
   <data name="TypesPageTitle" xml:space="preserve">
     <value>TYPES</value>
@@ -370,7 +370,7 @@
     <value>add</value>
   </data>
   <data name="AppBarAssign" xml:space="preserve">
-    <value>assign</value>
+    <value>attach</value>
   </data>
   <data name="AppBarClose" xml:space="preserve">
     <value>close</value>
@@ -434,5 +434,17 @@
   </data>
   <data name="ErrorWarning" xml:space="preserve">
     <value>Warning</value>
+  </data>
+  <data name="SettingsLangDE" xml:space="preserve">
+    <value>German</value>
+  </data>
+  <data name="SettingsLangENG" xml:space="preserve">
+    <value>English</value>
+  </data>
+  <data name="SettingsLangText" xml:space="preserve">
+    <value>Language</value>
+  </data>
+  <data name="EventAssignTypObject" xml:space="preserve">
+    <value>Attach typeobject</value>
   </data>
 </root>

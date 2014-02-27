@@ -534,6 +534,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Typobjekt anhängen ähnelt.
+        /// </summary>
+        public static string EventAssignTypObject {
+            get {
+                return ResourceManager.GetString("EventAssignTypObject", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Finaltext ähnelt.
         /// </summary>
         public static string EventDetailHeadline1 {
@@ -819,6 +828,33 @@ namespace WritersToolbox.Resources {
         public static string SelectAll {
             get {
                 return ResourceManager.GetString("SelectAll", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deutsch ähnelt.
+        /// </summary>
+        public static string SettingsLangDE {
+            get {
+                return ResourceManager.GetString("SettingsLangDE", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Englisch ähnelt.
+        /// </summary>
+        public static string SettingsLangENG {
+            get {
+                return ResourceManager.GetString("SettingsLangENG", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sprache ähnelt.
+        /// </summary>
+        public static string SettingsLangText {
+            get {
+                return ResourceManager.GetString("SettingsLangText", resourceCulture);
             }
         }
         

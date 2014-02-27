@@ -435,4 +435,16 @@
   <data name="AddNoteRecordDeleteQuestion" xml:space="preserve">
     <value>Wollen Sie die Aufnahme löschen?</value>
   </data>
+  <data name="SettingsLangDE" xml:space="preserve">
+    <value>Deutsch</value>
+  </data>
+  <data name="SettingsLangENG" xml:space="preserve">
+    <value>Englisch</value>
+  </data>
+  <data name="SettingsLangText" xml:space="preserve">
+    <value>Sprache</value>
+  </data>
+  <data name="EventAssignTypObject" xml:space="preserve">
+    <value>Typobjekt anhängen</value>
+  </data>
 </root>
