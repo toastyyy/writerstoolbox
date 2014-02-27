@@ -333,4 +333,103 @@
   <data name="TypesPageTitle" xml:space="preserve">
     <value>TYPEN</value>
   </data>
+  <data name="AddNoteDetailsText" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="AddNoteDetailsTextUpper" xml:space="preserve">
+    <value>DETAILS</value>
+  </data>
+  <data name="AddNoteEditText" xml:space="preserve">
+    <value>NOTIZ BEARBEITEN</value>
+  </data>
+  <data name="AddNoteHeadlineImages" xml:space="preserve">
+    <value>Bilder</value>
+  </data>
+  <data name="AddNoteHeadlineNote" xml:space="preserve">
+    <value>Notiz</value>
+  </data>
+  <data name="AddNoteHeadlineRecord" xml:space="preserve">
+    <value>Record </value>
+  </data>
+  <data name="AddNoteHeadlineTags" xml:space="preserve">
+    <value>Schlagwörter</value>
+  </data>
+  <data name="AddNotePageTitle" xml:space="preserve">
+    <value>Neue Notiz</value>
+  </data>
+  <data name="AddNoteTagsText" xml:space="preserve">
+    <value>Bitte trennen Sie die Schlagwörter mit Zeilenumbruch</value>
+  </data>
+  <data name="AddNoteTitleText" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="AddNoteTitleTextUpper" xml:space="preserve">
+    <value>TITLE</value>
+  </data>
+  <data name="AppBarAdd" xml:space="preserve">
+    <value>hinzufügen</value>
+  </data>
+  <data name="AppBarAssign" xml:space="preserve">
+    <value>zuordnen</value>
+  </data>
+  <data name="AppBarClose" xml:space="preserve">
+    <value>schließen</value>
+  </data>
+  <data name="CheckboxMarkNotesUnsigned" xml:space="preserve">
+    <value>Notizen als unsortiert markieren</value>
+  </data>
+  <data name="ConverterDuration" xml:space="preserve">
+    <value>Dauer </value>
+  </data>
+  <data name="ErrorDetails" xml:space="preserve">
+    <value>Sie müssen mindestens Details der Notiz eingeben!!</value>
+  </data>
+  <data name="ErrorName" xml:space="preserve">
+    <value>Sie müssen einen Namen eingeben</value>
+  </data>
+  <data name="ErrorSave" xml:space="preserve">
+    <value>Speichern fehlgeschlagen</value>
+  </data>
+  <data name="ErrorSpeechToText" xml:space="preserve">
+    <value>Wir haben nicht verstanden, versuchen Sie nochmal !!</value>
+  </data>
+  <data name="MediaPlayerForward" xml:space="preserve">
+    <value>vorwärts</value>
+  </data>
+  <data name="MediaPlayerPause" xml:space="preserve">
+    <value>pp</value>
+  </data>
+  <data name="MediaPlayerReward" xml:space="preserve">
+    <value>rückwärts</value>
+  </data>
+  <data name="MediaPlayerStop" xml:space="preserve">
+    <value>stopp</value>
+  </data>
+  <data name="NoteDeleteQuestion1" xml:space="preserve">
+    <value>Wollen Sie alle </value>
+  </data>
+  <data name="NoteDeleteQuestion2" xml:space="preserve">
+    <value> Notizen löschen?</value>
+  </data>
+  <data name="NoteDeleteQuestionSingle" xml:space="preserve">
+    <value>Wollen Sie die Notiz löschen?</value>
+  </data>
+  <data name="TypeObjectAddCancelText" xml:space="preserve">
+    <value>Willst du deine Änderungen wirklich verwerfen?</value>
+  </data>
+  <data name="TypeObjectAddTitleText" xml:space="preserve">
+    <value>Titel eingeben</value>
+  </data>
+  <data name="TypeObjectDeleteQuestion1" xml:space="preserve">
+    <value>Wollen Sie das Typobjekt "</value>
+  </data>
+  <data name="TypeObjectDeleteQuestion2" xml:space="preserve">
+    <value>" löschen?</value>
+  </data>
+  <data name="UnsortedNotesHeadline" xml:space="preserve">
+    <value>Unsortierte Notizen</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warnung</value>
+  </data>
 </root>

@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.viewmodels;
 using System.Windows.Media;
+using WritersToolbox.Resources;
 namespace WritersToolbox.views
 {
     public partial class TypeObjectDetails2 : PhoneApplicationPage
@@ -38,6 +39,10 @@ namespace WritersToolbox.views
             {
                 selectAllCheckBox.Visibility = Visibility.Visible;
             }
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            btn1.Text = AppResources.AppBarEdit;
+            btn2.Text = AppResources.AppBarDelete;
         }
 
         /// <summary>
@@ -66,19 +71,19 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/TypeObjectEdit.xaml?typeObjectID=" + this.tdvm.TypeObject.typeObjectID, UriKind.Relative));
         }
 
-        private void deleteTypeObject_Click(object sender, EventArgs e)
-        {
-            MessageBoxResult mbr = MessageBox.Show("Möchtest du dieses Objekt wirklich löschen? Alle angehängten Notizen werden mitgelöscht. Du kannst das Objekt über den Papierkorb wiederherstellen.", "Löschen bestätigen", MessageBoxButton.OKCancel);
-            if(mbr.Equals(MessageBoxResult.OK)) {
-                TypesViewModel tvm = new TypesViewModel();
-                tvm.deleteTypeObject(this.tdvm.TypeObject.typeObjectID);
-                NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
-            }
-        }
+        //private void deleteTypeObject_Click(object sender, EventArgs e)
+        //{
+        //    MessageBoxResult mbr = MessageBox.Show("Möchtest du dieses Objekt wirklich löschen? Alle angehängten Notizen werden mitgelöscht. Du kannst das Objekt über den Papierkorb wiederherstellen.", "Löschen bestätigen", MessageBoxButton.OKCancel);
+        //    if(mbr.Equals(MessageBoxResult.OK)) {
+        //        TypesViewModel tvm = new TypesViewModel();
+        //        tvm.deleteTypeObject(this.tdvm.TypeObject.typeObjectID);
+        //        NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
+        //    }
+        //}
 
         private void TryDeleteTypeObject(object sender, EventArgs e)
         {
-            TypeObjectDeleteQuestion.Text = "Wollen Sie das Typobjekt \"" + tdvm.TypeObject.name.ToString() + "\" löschen?";
+            TypeObjectDeleteQuestion.Text = AppResources.TypeObjectDeleteQuestion1 + tdvm.TypeObject.name.ToString() + AppResources.TypeObjectDeleteQuestion2;
             deleteTypeObjectPopup.IsOpen = true;
         }
 
@@ -135,10 +140,10 @@ namespace WritersToolbox.views
 
         private void TryDeleteAssociation(object sender, RoutedEventArgs e)
         {
-            NoteDeleteQuestion.Text = "Wollen Sie die Notiz löschen?";
+            NoteDeleteQuestion.Text = AppResources.NoteDeleteQuestionSingle;
             if (multiselector.SelectedItems.Count > 1)
             {
-                NoteDeleteQuestion.Text = "Wollen Sie alle " + multiselector.SelectedItems.Count + " Notizen löschen?";
+                NoteDeleteQuestion.Text = AppResources.NoteDeleteQuestion1 + multiselector.SelectedItems.Count + AppResources.NoteDeleteQuestion2;
             }
             
             deleteNotesPopup.IsOpen = true;

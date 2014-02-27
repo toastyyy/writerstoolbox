@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.converter
 {
@@ -13,11 +14,7 @@ namespace WritersToolbox.converter
         {
             TimeSpan val = (TimeSpan)value;
             String pre = "";
-            if (parameter != null)
-            {
-                pre = ((String)parameter).Replace("-", " ");
-            }
-            return pre + " " + val.ToString(@"mm\:ss");
+            return AppResources.ConverterDuration + val.ToString(@"mm\:ss");
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

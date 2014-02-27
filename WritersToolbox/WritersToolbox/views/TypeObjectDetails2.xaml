@@ -44,7 +44,7 @@
                         <RowDefinition Height="27" />
                     </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" Text="{Binding title}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
-                    <TextBlock Grid.Row="1" Text="{Binding addedDate, Converter={StaticResource DateConverter}, ConverterParameter=Erstellt-am}" FontSize="20" Foreground="#FFA6A6A6" />
+                    <TextBlock Grid.Row="1" Text="{Binding addedDate, Converter={StaticResource DateConverter}}" FontSize="20" Foreground="#FFA6A6A6" />
                     <TextBlock Grid.Row="2" Text="{Binding contentText, Converter={StaticResource NoteShortContentConverter}}" FontSize="20" Foreground="#FF414141" />
                 </Grid>
                 <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
@@ -65,7 +65,7 @@
         </Grid.RowDefinitions>
 
         <!--ContentPanel - place additional content here-->
-        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0" Background="White" Grid.RowSpan="2" ToolTipService.ToolTip="Notiz löschen">
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="0,0,0,0" Background="White" Grid.RowSpan="2">
             <Grid.RowDefinitions>
                 <RowDefinition Height="313*"/>
                 <RowDefinition Height="455*"/>
@@ -80,10 +80,10 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock x:Name="TypeObjectDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
-                        <CheckBox x:Name="keepNotes" IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0" Style="{StaticResource CheckBoxStyleWhite}"/>
+                        <CheckBox x:Name="keepNotes" IsChecked="True" Content="{Binding Path=LocalizedResources.CheckboxKeepNotes, Source={StaticResource LocalizedStrings}}" Margin="10,10,0,0" Style="{StaticResource CheckBoxStyleWhite}"/>
                     </StackPanel>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteTypeObject"/>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="{Binding Path=LocalizedResources.AppBarDelete, Source={StaticResource LocalizedStrings}}" Margin="5,0,0,10" Click="DeleteTypeObject"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="{Binding Path=LocalizedResources.AppBarCancel, Source={StaticResource LocalizedStrings}}" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
                 </Grid>
             </Popup>
 
@@ -96,10 +96,10 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock x:Name="NoteDeleteQuestion" Text="" Margin="20,70,0,15" FontSize="25" TextWrapping="Wrap"/>
-                        <CheckBox x:Name="unsortedNotes" IsChecked="True" Content="Notizen als unsortiert markieren" Margin="10,10,0,0" Style="{StaticResource CheckBoxStyleWhite}"/>
+                        <CheckBox x:Name="unsortedNotes" IsChecked="True" Content="{Binding Path=LocalizedResources.CheckboxMarkNotesUnsigned, Source={StaticResource LocalizedStrings}}" Margin="10,10,0,0" Style="{StaticResource CheckBoxStyleWhite}"/>
                     </StackPanel>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteNotes"/>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteNotes"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="{Binding Path=LocalizedResources.AppBarDelete, Source={StaticResource LocalizedStrings}}" Margin="5,0,0,10" Click="DeleteNotes"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="{Binding Path=LocalizedResources.AppBarCancel, Source={StaticResource LocalizedStrings}}" Margin="0,0,5,10" Click="DoNotDeleteNotes"/>
                 </Grid>
             </Popup>
             <Image Margin="0,0,0,20" Source="{Binding TypeObject.color, Converter={StaticResource ImageMultiplyWithConverter}, ConverterParameter={StaticResource TypeObjectHeaderBackgroundPath}}" Stretch="Fill"/>
@@ -120,7 +120,7 @@
             </Border>
             <TextBlock FontSize="20" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,210,0,0" TextWrapping="Wrap" Text="{Binding TypeObject, Converter={StaticResource TypeObjectSubtitleConverter}}" VerticalAlignment="Top" Width="460" FontFamily="Segoe WP Light"/>
 
-            <CheckBox x:Name="selectAllCheckBox" Visibility="Collapsed" Style="{StaticResource CheckBoxStyleBlack}" Grid.Row="1" Content="Alles auswählen" HorizontalAlignment="Left" Margin="10,-17,0,0" VerticalAlignment="Top" Width="224" Foreground="Black" BorderBrush="Black" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
+            <CheckBox x:Name="selectAllCheckBox" Visibility="Collapsed" Style="{StaticResource CheckBoxStyleBlack}" Grid.Row="1" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="10,-17,0,0" VerticalAlignment="Top" Width="224" Foreground="Black" BorderBrush="Black" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
             <Coding4Fun:RoundButton  x:Name="deleteButton" Grid.Row="1"  Margin="320,-10,0,0" VerticalAlignment="Top" Height="50" Width="72" BorderThickness="1" Click="TryDeleteAssociation" BorderBrush="Black" Visibility="Collapsed" Content="" PressedBrush="White">
                 <Coding4Fun:RoundButton.Background>
                     <ImageBrush Stretch="UniformToFill" ImageSource="/icons/delete.png"/>

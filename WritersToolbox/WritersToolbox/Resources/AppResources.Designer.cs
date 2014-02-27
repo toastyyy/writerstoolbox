@@ -71,6 +71,123 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Details ähnelt.
+        /// </summary>
+        public static string AddNoteDetailsText {
+            get {
+                return ResourceManager.GetString("AddNoteDetailsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die DETAILS ähnelt.
+        /// </summary>
+        public static string AddNoteDetailsTextUpper {
+            get {
+                return ResourceManager.GetString("AddNoteDetailsTextUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die NOTIZ BEARBEITEN ähnelt.
+        /// </summary>
+        public static string AddNoteEditText {
+            get {
+                return ResourceManager.GetString("AddNoteEditText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bilder ähnelt.
+        /// </summary>
+        public static string AddNoteHeadlineImages {
+            get {
+                return ResourceManager.GetString("AddNoteHeadlineImages", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Notiz ähnelt.
+        /// </summary>
+        public static string AddNoteHeadlineNote {
+            get {
+                return ResourceManager.GetString("AddNoteHeadlineNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Record ähnelt.
+        /// </summary>
+        public static string AddNoteHeadlineRecord {
+            get {
+                return ResourceManager.GetString("AddNoteHeadlineRecord", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Schlagwörter ähnelt.
+        /// </summary>
+        public static string AddNoteHeadlineTags {
+            get {
+                return ResourceManager.GetString("AddNoteHeadlineTags", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Neue Notiz ähnelt.
+        /// </summary>
+        public static string AddNotePageTitle {
+            get {
+                return ResourceManager.GetString("AddNotePageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bitte trennen Sie die Schlagwörter mit Zeilenumbruch ähnelt.
+        /// </summary>
+        public static string AddNoteTagsText {
+            get {
+                return ResourceManager.GetString("AddNoteTagsText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Titel ähnelt.
+        /// </summary>
+        public static string AddNoteTitleText {
+            get {
+                return ResourceManager.GetString("AddNoteTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die TITLE ähnelt.
+        /// </summary>
+        public static string AddNoteTitleTextUpper {
+            get {
+                return ResourceManager.GetString("AddNoteTitleTextUpper", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die hinzufügen ähnelt.
+        /// </summary>
+        public static string AppBarAdd {
+            get {
+                return ResourceManager.GetString("AppBarAdd", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die zuordnen ähnelt.
+        /// </summary>
+        public static string AppBarAssign {
+            get {
+                return ResourceManager.GetString("AppBarAssign", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die zurück ähnelt.
         /// </summary>
         public static string AppBarBack {
@@ -85,6 +202,15 @@ namespace WritersToolbox.Resources {
         public static string AppBarCancel {
             get {
                 return ResourceManager.GetString("AppBarCancel", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die schließen ähnelt.
+        /// </summary>
+        public static string AppBarClose {
+            get {
+                return ResourceManager.GetString("AppBarClose", resourceCulture);
             }
         }
         
@@ -272,11 +398,29 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Notizen als unsortiert markieren ähnelt.
+        /// </summary>
+        public static string CheckboxMarkNotesUnsigned {
+            get {
+                return ResourceManager.GetString("CheckboxMarkNotesUnsigned", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Erstellt am:  ähnelt.
         /// </summary>
         public static string ConverterBookCreationDate {
             get {
                 return ResourceManager.GetString("ConverterBookCreationDate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Dauer  ähnelt.
+        /// </summary>
+        public static string ConverterDuration {
+            get {
+                return ResourceManager.GetString("ConverterDuration", resourceCulture);
             }
         }
         
@@ -336,6 +480,33 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Sie müssen einen Namen eingeben ähnelt.
+        /// </summary>
+        public static string ErrorName {
+            get {
+                return ResourceManager.GetString("ErrorName", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Speichern fehlgeschlagen ähnelt.
+        /// </summary>
+        public static string ErrorSave {
+            get {
+                return ResourceManager.GetString("ErrorSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wir haben nicht verstanden, versuchen Sie nochmal !! ähnelt.
+        /// </summary>
+        public static string ErrorSpeechToText {
+            get {
+                return ResourceManager.GetString("ErrorSpeechToText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Finaltext ähnelt.
         /// </summary>
         public static string EventDetailHeadline1 {
@@ -388,6 +559,42 @@ namespace WritersToolbox.Resources {
             get {
                 object obj = ResourceManager.GetObject("info_unchecked", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die vorwärts ähnelt.
+        /// </summary>
+        public static string MediaPlayerForward {
+            get {
+                return ResourceManager.GetString("MediaPlayerForward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die pp ähnelt.
+        /// </summary>
+        public static string MediaPlayerPause {
+            get {
+                return ResourceManager.GetString("MediaPlayerPause", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die rückwärts ähnelt.
+        /// </summary>
+        public static string MediaPlayerReward {
+            get {
+                return ResourceManager.GetString("MediaPlayerReward", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die stopp ähnelt.
+        /// </summary>
+        public static string MediaPlayerStop {
+            get {
+                return ResourceManager.GetString("MediaPlayerStop", resourceCulture);
             }
         }
         
@@ -471,6 +678,33 @@ namespace WritersToolbox.Resources {
             get {
                 object obj = ResourceManager.GetObject("note", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wollen Sie alle  ähnelt.
+        /// </summary>
+        public static string NoteDeleteQuestion1 {
+            get {
+                return ResourceManager.GetString("NoteDeleteQuestion1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die  Notizen löschen? ähnelt.
+        /// </summary>
+        public static string NoteDeleteQuestion2 {
+            get {
+                return ResourceManager.GetString("NoteDeleteQuestion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wollen Sie die Notiz löschen? ähnelt.
+        /// </summary>
+        public static string NoteDeleteQuestionSingle {
+            get {
+                return ResourceManager.GetString("NoteDeleteQuestionSingle", resourceCulture);
             }
         }
         
@@ -695,6 +929,24 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Willst du deine Änderungen wirklich verwerfen? ähnelt.
+        /// </summary>
+        public static string TypeObjectAddCancelText {
+            get {
+                return ResourceManager.GetString("TypeObjectAddCancelText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Titel eingeben ähnelt.
+        /// </summary>
+        public static string TypeObjectAddTitleText {
+            get {
+                return ResourceManager.GetString("TypeObjectAddTitleText", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die ZU TYPOBJEKT ZUORDNEN ähnelt.
         /// </summary>
         public static string TypeObjectAssign {
@@ -704,11 +956,38 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wollen Sie das Typobjekt &quot; ähnelt.
+        /// </summary>
+        public static string TypeObjectDeleteQuestion1 {
+            get {
+                return ResourceManager.GetString("TypeObjectDeleteQuestion1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &quot; löschen? ähnelt.
+        /// </summary>
+        public static string TypeObjectDeleteQuestion2 {
+            get {
+                return ResourceManager.GetString("TypeObjectDeleteQuestion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die TYPEN ähnelt.
         /// </summary>
         public static string TypesPageTitle {
             get {
                 return ResourceManager.GetString("TypesPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Unsortierte Notizen ähnelt.
+        /// </summary>
+        public static string UnsortedNotesHeadline {
+            get {
+                return ResourceManager.GetString("UnsortedNotesHeadline", resourceCulture);
             }
         }
         

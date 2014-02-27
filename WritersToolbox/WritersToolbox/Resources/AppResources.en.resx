@@ -333,4 +333,100 @@
   <data name="TypesPageTitle" xml:space="preserve">
     <value>TYPES</value>
   </data>
+  <data name="AddNoteDetailsText" xml:space="preserve">
+    <value>Details</value>
+  </data>
+  <data name="AddNoteDetailsTextUpper" xml:space="preserve">
+    <value>DETAILS</value>
+  </data>
+  <data name="AddNoteEditText" xml:space="preserve">
+    <value>EDIT NOTES</value>
+  </data>
+  <data name="AddNoteHeadlineImages" xml:space="preserve">
+    <value>Images</value>
+  </data>
+  <data name="AddNoteHeadlineNote" xml:space="preserve">
+    <value>Note</value>
+  </data>
+  <data name="AddNoteHeadlineRecord" xml:space="preserve">
+    <value>Record </value>
+  </data>
+  <data name="AddNoteHeadlineTags" xml:space="preserve">
+    <value>Tags</value>
+  </data>
+  <data name="AddNotePageTitle" xml:space="preserve">
+    <value>New Note</value>
+  </data>
+  <data name="AddNoteTagsText" xml:space="preserve">
+    <value>Please put a linebreak between the tags</value>
+  </data>
+  <data name="AddNoteTitleText" xml:space="preserve">
+    <value>Title</value>
+  </data>
+  <data name="AddNoteTitleTextUpper" xml:space="preserve">
+    <value>TITLE</value>
+  </data>
+  <data name="AppBarAdd" xml:space="preserve">
+    <value>add</value>
+  </data>
+  <data name="AppBarAssign" xml:space="preserve">
+    <value>assign</value>
+  </data>
+  <data name="AppBarClose" xml:space="preserve">
+    <value>close</value>
+  </data>
+  <data name="CheckboxMarkNotesUnsigned" xml:space="preserve">
+    <value>mark Notes unassigned</value>
+  </data>
+  <data name="ConverterDuration" xml:space="preserve">
+    <value>Duration</value>
+  </data>
+  <data name="ErrorName" xml:space="preserve">
+    <value>You have to add a name</value>
+  </data>
+  <data name="ErrorSave" xml:space="preserve">
+    <value>Saving error</value>
+  </data>
+  <data name="ErrorSpeechToText" xml:space="preserve">
+    <value>Please repeat your sentence</value>
+  </data>
+  <data name="MediaPlayerForward" xml:space="preserve">
+    <value>forward</value>
+  </data>
+  <data name="MediaPlayerPause" xml:space="preserve">
+    <value>pp</value>
+  </data>
+  <data name="MediaPlayerReward" xml:space="preserve">
+    <value>backward</value>
+  </data>
+  <data name="MediaPlayerStop" xml:space="preserve">
+    <value>stop</value>
+  </data>
+  <data name="NoteDeleteQuestion1" xml:space="preserve">
+    <value>Would you like to delete all </value>
+  </data>
+  <data name="NoteDeleteQuestion2" xml:space="preserve">
+    <value> Notes?</value>
+  </data>
+  <data name="NoteDeleteQuestionSingle" xml:space="preserve">
+    <value>Would you like to delete this Note?</value>
+  </data>
+  <data name="TypeObjectAddCancelText" xml:space="preserve">
+    <value>Would you like to cancel your changes?</value>
+  </data>
+  <data name="TypeObjectAddTitleText" xml:space="preserve">
+    <value>Add title</value>
+  </data>
+  <data name="TypeObjectDeleteQuestion1" xml:space="preserve">
+    <value>Would you like to delete the Typeobject "</value>
+  </data>
+  <data name="TypeObjectDeleteQuestion2" xml:space="preserve">
+    <value>" ?</value>
+  </data>
+  <data name="UnsortedNotesHeadline" xml:space="preserve">
+    <value>Unsorted Notes</value>
+  </data>
+  <data name="Warning" xml:space="preserve">
+    <value>Warnung</value>
+  </data>
 </root>

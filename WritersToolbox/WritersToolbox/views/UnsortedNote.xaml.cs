@@ -9,6 +9,7 @@ using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using System.Collections.ObjectModel;
 using WritersToolbox.viewmodels;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.views
 {
@@ -122,6 +123,10 @@ namespace WritersToolbox.views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             llms_unsortedNote.ItemsSource = unsrotedNotes.getUnsortedNotes();
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            btn1.Text = AppResources.AppBarDelete;
+            btn2.Text = AppResources.AppBarBack;
         }
 
         /// <summary>
