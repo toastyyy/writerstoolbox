@@ -154,6 +154,7 @@ namespace WritersToolbox.views
             }
             deleteNotesPopup.IsOpen = false;
             deleteButton.Visibility = Visibility.Collapsed;
+            this.tdvm.LoadData();
             if (this.tdvm.TypeObject.notes.Count == 0)
             {
                 selectAllCheckBox.Visibility = Visibility.Collapsed;
