@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.converter
 {
@@ -16,11 +17,11 @@ namespace WritersToolbox.converter
             string used = "";
             if ((bool)value)
             {
-                used = "wird verwendet";
+                used = AppResources.ConverterUsed;
             }
             else if(parameter != null && parameter.Equals("showUnused"))
             {
-                used = "wird nicht verwendet";
+                used = AppResources.ConverterUnused;
             }  
             return used;
         }

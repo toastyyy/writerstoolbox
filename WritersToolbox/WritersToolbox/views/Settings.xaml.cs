@@ -15,30 +15,64 @@ namespace WritersToolbox.views
 {
     public partial class Settings : PhoneApplicationPage
     {
+        private bool loaded = false;
+
+        private int langIndex;
+
         public Settings()
         {
             InitializeComponent();
         }
 
-        private void langDE(object sender, System.Windows.Input.GestureEventArgs e)
+        protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            if (!Thread.CurrentThread.CurrentCulture.Name.Equals("de-de"))
+            base.OnNavigatedTo(e);
+            if (Thread.CurrentThread.CurrentCulture.Name.Equals("de-DE"))
             {
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-de");
-                NavigationService.Navigate(new Uri("/views/Settings.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
-                NavigationService.RemoveBackEntry();
+                langIndex = 0;
+            }
+            else if (Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+            {
+                langIndex = 1;
             }
         }
 
-        private void langEngl(object sender, System.Windows.Input.GestureEventArgs e)
+
+        private void LanguageChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!Thread.CurrentThread.CurrentCulture.Name.Equals("en"))
+            ListPicker lp = sender as ListPicker;
+            if (loaded)
             {
-                Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en");
-                NavigationService.Navigate(new Uri("/views/Settings.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
-                NavigationService.RemoveBackEntry();
+                if (lp.SelectedIndex == 0)
+                {
+                    if (!Thread.CurrentThread.CurrentCulture.Name.Equals("de-DE"))
+                    {
+                        Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("de-DE");
+                        Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("de-DE");
+                        NavigationService.Navigate(new Uri("/views/Settings.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+                        NavigationService.RemoveBackEntry();
+                    }
+                }
+                else if (lp.SelectedIndex == 1)
+                {
+                    if (!Thread.CurrentThread.CurrentCulture.Name.Equals("en-US"))
+                    {
+                        Thread.CurrentThread.CurrentUICulture = new System.Globalization.CultureInfo("en-US");
+                        Thread.CurrentThread.CurrentCulture = new System.Globalization.CultureInfo("en-US");
+                        NavigationService.Navigate(new Uri("/views/Settings.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+                        NavigationService.RemoveBackEntry();
+                    }
+                }
             }
         }
+
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            loaded = true;
+            langPicker.SelectedIndex = langIndex;
+        }
+            
+        
 
         
     }

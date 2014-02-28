@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Data;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.converter
 {
@@ -16,8 +17,7 @@ namespace WritersToolbox.converter
         {
             IEnumerable<object> list = (IEnumerable<object>)value;
             int c = list.Count();
-            String pre = (String)parameter;
-            return pre + " " + c;
+            return AppResources.ConverterNumberOfChapter + c;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

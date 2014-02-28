@@ -90,26 +90,26 @@
         <!--Template für LongListSelector-item bereits exisitierenden Band-->
             <DataTemplate x:Name="existingTome">
             <Grid Width="450" Height="Auto" Margin="0,20,0,20" >
-                <Grid.ColumnDefinitions>
+                    <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
-                </Grid.ColumnDefinitions>
+                    </Grid.ColumnDefinitions>
                 
-                <Image Grid.Column="0" 
-                       HorizontalAlignment="Left" 
-                       Height="77" 
-                       VerticalAlignment="Top" 
-                       Width="77" 
-                       Source="../icons/Pro_Books_round_Icon.png" 
-                       Margin="20,0,0,0"/>
+                    <Image Grid.Column="0" 
+                                       HorizontalAlignment="Left" 
+                                       Height="77" 
+                                       VerticalAlignment="Top" 
+                                       Width="77" 
+                                       Source="../icons/Pro_Books_round_Icon.png" 
+                                       Margin="20,0,0,0"/>
 
-                <Grid Grid.Column="1" Margin="10,0,-10,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="27" />
-                        <RowDefinition Height="23" />
-                        <RowDefinition Height="27" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" 
+                    <Grid Grid.Column="1" Margin="10,0,-10,0">
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="27" />
+                            <RowDefinition Height="23" />
+                            <RowDefinition Height="27" />
+                        </Grid.RowDefinitions>
+                        <TextBlock Grid.Row="0" 
                                                Foreground="#FF414141" 
                                                Text="{Binding title}" 
                                                FontSize="30"
@@ -134,7 +134,7 @@
                 <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
                 <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
             </Grid>
-                
+
             </DataTemplate>
 
       
@@ -171,7 +171,7 @@
 
             </Grid>
         </DataTemplate>
-       
+
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
             <Grid Width="480">
@@ -209,9 +209,9 @@
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot" Background="White">      
         <Image Margin="0,-6,0,549" Source="/headImage_rot_smal.png" Stretch="Fill"/>
-
+        
         <!--Popup für Löschen des Werkes-->
         <Popup x:Name="deleteBookPopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,-5,0,0">
             <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">

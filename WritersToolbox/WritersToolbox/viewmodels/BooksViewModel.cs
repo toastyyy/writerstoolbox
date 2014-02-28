@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Diagnostics;
 using Microsoft.Phone.Controls;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.viewmodels
 {
@@ -201,6 +202,38 @@ namespace WritersToolbox.viewmodels
 
             this.booktypes = tmpBookTypes;
         }
+        /// <summary>
+        /// Erstellt ein neues Tome aus den angegebenen Werten.
+        /// Wenn ein Wert ungültig ist, wird eine ArgumentException geworfen.
+        /// </summary>
+        /// <param name="name">Name des Tomes</param>
+        /// <param name="typeID">ID des zugehörigen Werkes</param>
+        public void addTome(String title, int bookID)
+        {
+
+            models.Book book = (from t in tableBook
+                                where t.bookID == bookID
+                                select t).FirstOrDefault();
+
+            if (title.Equals(""))
+            {
+                throw new ArgumentException("Title muss angegeben werden", "title");
+            }
+            if (book == null)
+            {
+                throw new ArgumentException("Tome muss einem Book angehören", "book");
+            }
+
+            Tome to = new Tome();
+            to.title = title;
+            to.obj_book = book;
+            to.addedDate = DateTime.Now;
+            to.updatedDate = DateTime.Now;
+            this.tableTome.InsertOnSubmit(to);
+            this.wtb.SubmitChanges();
+            this.loadData();
+        }
+
 
         public void loadData() 
         {
@@ -265,7 +298,7 @@ namespace WritersToolbox.viewmodels
 
             tmpBooks.Add(new datawrapper.Book()
             {
-                name="Neues Werk",
+                name= AppResources.NewBook,
                 bookID=-1,
                 addedDate = new DateTime(2012,6,3,22,10,22)
             });

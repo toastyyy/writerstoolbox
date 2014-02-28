@@ -65,7 +65,10 @@ namespace WritersToolbox.models
 
         private String stg_finaltext;
         [Column(CanBeNull = false,
-            Storage = "stg_finaltext")]
+            Storage = "stg_finaltext",
+            DbType = "ntext", 
+            UpdateCheck = UpdateCheck.Never
+            )]
         public String finaltext
         {
             get { return stg_finaltext; }

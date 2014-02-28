@@ -140,7 +140,7 @@
     <Compile Include="models\Tome.cs" />
     <Compile Include="models\Type.cs" />
     <Compile Include="models\TypeObject.cs" />
-    <Compile Include="Resources\AppResources.Designer.cs">
+    <Compile Include="Resources\AppResources1.Designer.cs">
       <AutoGen>True</AutoGen>
       <DesignTime>True</DesignTime>
       <DependentUpon>AppResources.resx</DependentUpon>
@@ -366,11 +366,13 @@
     <Content Include="Assets\WritersToolboxstartseiteWT.png" />
     <Content Include="headImage_rot_smal.png" />
     <Content Include="icons\add.png" />
+    <Content Include="icons\bold.png" />
     <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\edit.png" />
     <Content Include="icons\edit_picture.png" />
     <Content Include="icons\info_checked.png" />
     <Content Include="icons\info_unchecked.png" />
+    <Content Include="icons\italic.png" />
     <Content Include="icons\micro.png" />
     <Content Include="icons\on.png" />
     <Content Include="icons\off.png" />
@@ -390,6 +392,7 @@
     <Content Include="icons\struktur_checked.png" />
     <Content Include="icons\typen_unchecked.png" />
     <Content Include="icons\struktur_unchecked.png" />
+    <Content Include="icons\underline.png" />
     <Content Include="images\headImage_grayscale_top.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
@@ -437,7 +440,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>AppResources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

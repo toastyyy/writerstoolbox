@@ -22,7 +22,7 @@ namespace WritersToolbox.viewmodels
         private Table<MemoryNote> tableMemoryNote;
         private Table<models.Type> tableType;
         private datawrapper.TypeObject typeObject;
-
+        private int typeObjectID = -1;
         public datawrapper.TypeObject TypeObject {
             get { return typeObject; }
             set { typeObject = value; }
@@ -34,18 +34,23 @@ namespace WritersToolbox.viewmodels
             tableTypeObject = wtb.GetTable<TypeObject>();
             tableMemoryNote = wtb.GetTable<MemoryNote>();
             tableType = wtb.GetTable<models.Type>();
+            this.typeObjectID = id;
+            this.LoadData();
+        }
+
+        public void LoadData() {
             var v = from to in tableTypeObject
-                    where to.typeObjectID == id
+                    where to.typeObjectID == this.typeObjectID
                     select to;
 
             var o = v.Single();
 
             var notes = from n in tableMemoryNote
-                        where n.obj_TypeObject.typeObjectID == id
+                        where n.obj_TypeObject.typeObjectID == this.typeObjectID
                         select n;
             ObservableCollection<datawrapper.MemoryNote> listNotes = new ObservableCollection<datawrapper.MemoryNote>();
 
-            foreach (var n in notes) 
+            foreach (var n in notes)
             {
                 datawrapper.MemoryNote note = new datawrapper.MemoryNote()
                 {
@@ -61,26 +66,27 @@ namespace WritersToolbox.viewmodels
                     memoryNoteID = n.memoryNoteID,
                     tags = n.tags,
                     title = n.title,
-                    updatedDate = n.updatedDate, 
+                    updatedDate = n.updatedDate,
                 };
                 listNotes.Add(note);
-                
+
             }
- 
+
             // zugehoerigen typ ermitteln
 
             models.Type typ = (from t in tableType
-                                   where t.typeID == o.fk_typeID
-                                   select t).Single();
+                               where t.typeID == o.fk_typeID
+                               select t).Single();
 
-            datawrapper.Type wrappedType = new datawrapper.Type() { 
+            datawrapper.Type wrappedType = new datawrapper.Type()
+            {
                 color = typ.color,
                 imageString = typ.imageString,
                 title = typ.title,
                 typeID = typ.typeID
             };
-            typeObject = new datawrapper.TypeObject() 
-            { 
+            typeObject = new datawrapper.TypeObject()
+            {
                 color = o.color,
                 type = wrappedType,
                 imageString = o.imageString,

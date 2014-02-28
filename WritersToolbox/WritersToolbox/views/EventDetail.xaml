@@ -8,6 +8,7 @@
     xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:converter="clr-namespace:WritersToolbox.converter"
+    xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
     FontFamily="{StaticResource PhoneFontFamilyNormal}"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -105,6 +106,42 @@
             </Grid>
         </DataTemplate>
 
+        <!--Template fuer Typobjekte anhängen-->
+        <DataTemplate x:Key="AddTypeObjectTemplate">
+            <Grid Width="450" Margin="0,20,0,25" Tap="SelectTypeObject">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="115" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+
+                <Image Grid.Column="0" 
+                       HorizontalAlignment="Left" 
+                       Height="77" 
+                       VerticalAlignment="Top" 
+                       Width="77" 
+                       Source="/icons/add.png" 
+                       Margin="20,0,0,0"/>
+                <Grid Grid.Column="1" Margin="10,0,-10,0">
+                    <TextBlock Text="{Binding name}"
+                               Foreground="#FF414141" 
+                               FontSize="30" 
+                               FontFamily="Segoe WP SemiLight" 
+                               Margin="0,-10,0,0" 
+                               TextWrapping="Wrap"
+                               Width="200"
+                               HorizontalAlignment="Left"/>
+                </Grid>
+            </Grid>
+        </DataTemplate>
+
+        <DataTemplate x:Key="SelectingTemplateTypeObject">
+            <templateselector:TypeObjectTemplateSelector
+            Content="{Binding}"
+            viewTypeObject="{StaticResource TypeObjectTemplate}"
+            addTypeObject="{StaticResource AddTypeObjectTemplate}" HorizontalContentAlignment="Stretch" VerticalContentAlignment="Stretch"
+                />
+        </DataTemplate>
+
 
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot is the root grid where all page content is placed-->
@@ -116,23 +153,37 @@
         <!--ContentPanel - place additional content here-->
         
         <phone:Pivot VerticalAlignment="Top" 
+                     x:Name="eventPivot"
                      FontFamily="Segoe WP Light"
+                     SelectionChanged="Pivot_SelectionChanged"
+                     
                      >
             <phone:Pivot.Title>
                 <TextBlock Text="{Binding Path=LocalizedResources.EventDetailTitle, Source={StaticResource LocalizedStrings}}" Margin="9,0,0,0" FontSize="22" FontFamily="Segoe WP Light"/>
             </phone:Pivot.Title>
             
             <!--Finalnotiz-->
-            <phone:PivotItem>
+            <phone:PivotItem x:Name="pivotFinalText" Margin="0,28,0,0">
+                <phone:PivotItem.Background>
+                    <ImageBrush Stretch="Fill"/>
+                </phone:PivotItem.Background>
                 <phone:PivotItem.Header>
                     <TextBlock Text="{Binding Path=LocalizedResources.EventDetailHeadline1, Source={StaticResource LocalizedStrings}}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
                 </phone:PivotItem.Header>
-                <Grid Margin="20,50,20,10">
-                    <RichTextBox x:Name="tFinalText" Background="White" Foreground="Black" VerticalContentAlignment="Top">
+                <Grid Margin="0,0,0,0">
+                    <ScrollViewer>
+                        <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="tFinalText" Foreground="Black" Background="{x:Null}" Tap="tFinalText_Tap" Width="476">
                         <Paragraph>
-                            <Run Text="{Binding finaltext}"></Run>
+                                
                         </Paragraph>
                     </RichTextBox>
+                    </ScrollViewer>
+                    <Grid Visibility="Collapsed" Width="Auto" x:Name="editFinaltextGrid" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#EEFFFFFF">
+                        <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
+                            <TextBox Visibility="Collapsed" Text="{Binding finaltext}" x:Name="textBoxFinalText" HorizontalAlignment="Stretch" Height="Auto" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" BorderThickness="1" BorderBrush="#BF3A3939" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                        </ScrollViewer>
+
+                    </Grid>
                 </Grid>
             </phone:PivotItem>
             
@@ -190,22 +241,23 @@
                               Checked="selectAllCheckBox_Checked" 
                               Unchecked="selectAllCheckBox_Unchecked"/>
                     <toolkit:LongListMultiSelector
-                        x:Name="TypeObjectList"
-                        Margin="10,60,15,0"
-                        ItemsSource="{Binding typeObjects}"
-                        ItemTemplate="{StaticResource TypeObjectTemplate}" 
-                        EnforceIsSelectionEnabled="false"
-                        IsGroupingEnabled="False"
-                        LayoutMode="Grid"
-                        GridCellSize="450, 150"
-                        Foreground="Black"
-                        ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
-                        BorderBrush="Black"
-                        SelectionChanged="TypeObjects_SelectionChanged">
+                                x:Name="TypeObjectList"
+                                Margin="10,60,15,0"
+                                ItemsSource="{Binding typeObjects}"
+                                ItemTemplate="{StaticResource SelectingTemplateTypeObject}" 
+                                EnforceIsSelectionEnabled="false"
+                                IsGroupingEnabled="False"
+                                LayoutMode="Grid"
+                                    GridCellSize="450, 150"
+                                Foreground="Black"
+                                ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
+                                BorderBrush="Black"
+                                SelectionChanged="TypeObjects_SelectionChanged">
                     </toolkit:LongListMultiSelector>
                 </Grid>
             </phone:PivotItem>
         </phone:Pivot>
+        <Button x:Name="WorkaroundButton"  Content="" HorizontalAlignment="Left" Margin="380,10,0,0" VerticalAlignment="Top" Height="40" Width="40" BorderThickness="0"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">

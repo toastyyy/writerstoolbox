@@ -291,14 +291,14 @@ namespace WritersToolbox.views
             BookType = lp.SelectedItem as datawrapper.BookType;
             if (BookTypeInfo != null)
             {
-                BookTypeInfo.Text = "Vorangelegte Kapitel: " + BookType.numberOfChapter.ToString();
+                BookTypeInfo.Text = AppResources.BooksBookTypeInfoText + BookType.numberOfChapter.ToString();
             }
         }
 
         private void BookTypeInfoLoaded(object sender, RoutedEventArgs e)
         {
             BookTypeInfo = sender as TextBlock;
-            BookTypeInfo.Text = "Vorangelegte Kapitel: " + BookType.numberOfChapter.ToString();
+            BookTypeInfo.Text = AppResources.BooksBookTypeInfoText + BookType.numberOfChapter.ToString();
         }
 
     }

@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
+using WritersToolbox.Resources;
 namespace WritersToolbox.viewmodels
 {
     public class TypesViewModel : INotifyPropertyChanged
@@ -66,7 +67,7 @@ namespace WritersToolbox.viewmodels
                 if (!hasAdd) { 
                                 Types.ElementAt(i).typeObjects.Add(
                     new datawrapper.TypeObject() {
-                        name = "Neues Objekt",
+                        name = AppResources.NewTypeObject,
                         imageString = "../icons/add.png",
                         type = new datawrapper.Type() { typeID = -2 },
                         color = "#FFADD8E6"
@@ -421,7 +422,7 @@ namespace WritersToolbox.viewmodels
                     // Neues Typobjekt
                     TypeObjects.Add(new datawrapper.TypeObject()
                     {
-                        name = "Neues Objekt",
+                        name = AppResources.NewTypeObject,
                         imageString = "../icons/add.png",
                         type = new datawrapper.Type() { typeID = -2 },
                         color = "#FFADD8E6"
@@ -439,12 +440,12 @@ namespace WritersToolbox.viewmodels
                 ObservableCollection<datawrapper.TypeObject> t_o = new ObservableCollection<datawrapper.TypeObject>();
                 t_o.Add(new datawrapper.TypeObject()
                 {
-                    name = "Neuer Typ anlegen",
+                    name = AppResources.NewType,
                     imageString = "../icons/add.png",
                     type = new datawrapper.Type() { typeID = -1 },
                     color = "#FFADD8E6"
                 });
-                tmpTypes.Add(new datawrapper.Type() { title = "Neuer Typ", imageString = "../icons/add.png", color = "#FFADD8E6", typeObjects = t_o, typeID = -1 });
+                tmpTypes.Add(new datawrapper.Type() { title = AppResources.NewType, imageString = "../icons/add.png", color = "#FFADD8E6", typeObjects = t_o, typeID = -1 });
             }
                 this.NotifyPropertyChanged("Types");
                 Types = tmpTypes;

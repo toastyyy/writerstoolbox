@@ -34,12 +34,12 @@
 
         <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
         <StackPanel Grid.Row="0" Margin="23,75,22,0">
-            <TextBlock Text="Unsortierte Notizen" Margin="9,-7,0,0" FontSize="50" FontFamily="Segoe UI Light" />
+            <TextBlock Text="{Binding Path=LocalizedResources.UnsortedNotesHeadline, Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" FontSize="50" FontFamily="Segoe UI Light" />
         </StackPanel>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
-            <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="Alles auswählen" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="224" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>
+            <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="224" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>
             <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="unsortedNote_selectionChanged" 

@@ -106,7 +106,7 @@
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
             <Grid Width="480" x:Name="TypeContent">
-                <CheckBox  IsEnabled="{Binding typeObjects, Converter={StaticResource CollectionHasElementsConverter}}" x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="Alles auswählen" HorizontalAlignment="Left" Margin="0,-20,0,0" VerticalAlignment="Top" Width="224" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
+                <CheckBox  IsEnabled="{Binding typeObjects, Converter={StaticResource CollectionHasElementsConverter}}" x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="0,-20,0,0" VerticalAlignment="Top" Width="224" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
                 <toolkit:LongListMultiSelector
                     Height="Auto" 
                     IsSelectionEnabled="False"
@@ -127,9 +127,9 @@
         <!--Template für neuen Typ-->
         <DataTemplate x:Key="newType">
             <StackPanel VerticalAlignment="Top" Margin="0,-50,0,0">
-                <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Titel" VerticalAlignment="Top" Width="149" FontSize="25"/>
+                <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTypeTitleText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Width="149" FontSize="25"/>
                 <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus"/>
-                <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" FontSize="25"/>
+                <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTypeColorText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Width="149" FontSize="25"/>
                 <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
                     <ListBox Name="colorPicker" Loaded="ColorPickerPage_Loaded" SelectionChanged="ColorPicker_SelectionChanged" ItemContainerStyle="{StaticResource ColorPickerStyle}" toolkit:TiltEffect.IsTiltEnabled="True">
                         <ListBox.ItemsPanel>
@@ -139,8 +139,8 @@
                         </ListBox.ItemsPanel>
                     </ListBox>
                 </Grid>
-                <TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" FontSize="25"/>
-                <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" BorderBrush="White" Height="65" Width="446" BorderThickness="2" Foreground="White" FontSize="20"/>
+                <!--<TextBlock HorizontalAlignment="Left" Margin="25,0,0,0" TextWrapping="Wrap" Text="Bild" VerticalAlignment="Top" Width="149" FontSize="25"/>
+                <Button Content="Bild auswählen ..." HorizontalAlignment="Left" Margin="10,0,0,0" VerticalAlignment="Top" BorderBrush="White" Height="65" Width="446" BorderThickness="2" Foreground="White" FontSize="20"/>-->
 
             </StackPanel>
         </DataTemplate>
@@ -160,7 +160,6 @@
     <Grid x:Name="LayoutRoot" Background="White">
         <Grid x:Name="layoutContent" Background="White">
             <Image Margin="0,-6,0,549" Source="/headImage_rot_smal.png" Stretch="Fill"/>
-            <!--<Rectangle Fill="#FF911124" Margin="0,50,0,0" VerticalAlignment="Top" Height="83"/>-->
             <!--Popup für Löschen des Typs-->
             <Popup x:Name="deleteTypePopup" Height="350" VerticalAlignment="Top" Margin="0,50,0,0">
                 <Grid Background="Black" Height="350" Width="480" HorizontalAlignment="Stretch">
@@ -170,10 +169,10 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock x:Name="TypeDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
-                        <CheckBox IsChecked="True" Content="Alle Typobjekte erhalten" Margin="10,10,0,0"/>
+                        <CheckBox IsChecked="True" Content="{Binding Path=LocalizedResources.CheckboxKeepTypeObjects, Source={StaticResource LocalizedStrings}}" Margin="10,10,0,0"/>
                     </StackPanel>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteType"/>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteType"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="{Binding Path=LocalizedResources.AppBarDelete, Source={StaticResource LocalizedStrings}}" Margin="5,0,0,10" Click="DeleteType"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="{Binding Path=LocalizedResources.AppBarCancel, Source={StaticResource LocalizedStrings}}" Margin="0,0,5,10" Click="DoNotDeleteType"/>
                 </Grid>
             </Popup>
             <!--Popup für Löschen des TypObjekts-->
@@ -185,10 +184,10 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock x:Name="TypeObjectDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
-                        <CheckBox IsChecked="True" Content="Alle angehängte Notizen erhalten" Margin="10,10,0,0"/>
+                        <CheckBox IsChecked="True" Content="{Binding Path=LocalizedResources.CheckboxKeepNotes, Source={StaticResource LocalizedStrings}}" Margin="10,10,0,0"/>
                     </StackPanel>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteTypeObject"/>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="{Binding Path=LocalizedResources.AppBarDelete, Source={StaticResource LocalizedStrings}}" Margin="5,0,0,10" Click="DeleteTypeObject"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="{Binding Path=LocalizedResources.AppBarCancel, Source={StaticResource LocalizedStrings}}" Margin="0,0,5,10" Click="DoNotDeleteTypeObject"/>
                 </Grid>
             </Popup>
             <!--Pivotsteuerelement-->
@@ -202,7 +201,7 @@
                          VerticalAlignment="Top"
                          VerticalContentAlignment="Top" FontFamily="Segoe WP Light">
                 <phone:Pivot.Title>
-                    <TextBlock Margin="9,0,0,0" Text="TYPEN" FontSize="22" FontFamily="Segoe WP Light"/>
+                    <TextBlock Margin="9,0,0,0" Text="{Binding Path=LocalizedResources.TypesPageTitle, Source={StaticResource LocalizedStrings}}" FontSize="22" FontFamily="Segoe WP Light"/>
                 </phone:Pivot.Title>
             </phone:Pivot>
         </Grid>

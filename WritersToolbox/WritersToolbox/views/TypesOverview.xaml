@@ -69,17 +69,17 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock x:Name="TypeDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
-                        <CheckBox IsChecked="True" Content="Alle Typobjekte erhalten" Margin="10,10,0,0"/>
+                        <CheckBox IsChecked="True" Content="{Binding Path=LocalizedResources.CheckboxKeepTypeObjects, Source={StaticResource LocalizedStrings}}" Margin="10,10,0,0"/>
                     </StackPanel>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="löschen" Margin="5,0,0,10" Click="DeleteType"/>
-                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="abbrechen" Margin="0,0,5,10" Click="DoNotDeleteType"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="{Binding Path=LocalizedResources.AppBarDelete, Source={StaticResource LocalizedStrings}}" Margin="5,0,0,10" Click="DeleteType"/>
+                    <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="{Binding Path=LocalizedResources.AppBarCancel, Source={StaticResource LocalizedStrings}}" Margin="0,0,5,10" Click="DoNotDeleteType"/>
                 </Grid>
             </Popup>
 
             <!--TitlePanel enthält den Namen der Anwendung und den Seitentitel-->
             <StackPanel Grid.Row="0" Margin="12,17,0,28">
-                <TextBlock Text="TYPEN" Margin="9,0,0,0" FontSize="22"/>
-                <TextBlock Text="Überblick" Margin="9,40,0,0" FontSize="45" Height="62"/>
+                <TextBlock Text="{Binding Path=LocalizedResources.TypesPageTitle, Source={StaticResource LocalizedStrings}}" Margin="9,0,0,0" FontSize="22"/>
+                <TextBlock Text="{Binding Path=LocalizedResources.BooksHeadlineOverview, Source={StaticResource LocalizedStrings}}" Margin="9,40,0,0" FontSize="45" Height="62"/>
             </StackPanel>
 
             <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
