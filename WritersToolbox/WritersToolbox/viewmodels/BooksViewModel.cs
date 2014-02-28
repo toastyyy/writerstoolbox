@@ -203,14 +203,12 @@ namespace WritersToolbox.viewmodels
             this.booktypes = tmpBookTypes;
         }
         /// <summary>
-        /// Erstellt ein neues Typ-Objekt aus den angegebenen Werten.
+        /// Erstellt ein neues Tome aus den angegebenen Werten.
         /// Wenn ein Wert ungültig ist, wird eine ArgumentException geworfen.
         /// </summary>
-        /// <param name="name">Name des Typ-Objektes</param>
-        /// <param name="color">Farbe des Typ-Objektes (z.B. "00ff00")</param>
-        /// <param name="image">Pfad zum Bild</param>
-        /// <param name="typeID">ID des zugehörigen Typs</param>
-        public void createTome(String title, int bookID)
+        /// <param name="name">Name des Tomes</param>
+        /// <param name="typeID">ID des zugehörigen Werkes</param>
+        public void addTome(String title, int bookID)
         {
 
             models.Book book = (from t in tableBook

@@ -92,7 +92,7 @@ namespace WritersToolbox.views
 
                 //PhoneApplicationService.Current.State.Remove("tomeID");
                 BooksViewModel bvm = new BooksViewModel();
-                bvm.createTome(title, this.bookID);
+                bvm.addTome(title, this.bookID);
                 NavigationService.GoBack();
             }
         }
