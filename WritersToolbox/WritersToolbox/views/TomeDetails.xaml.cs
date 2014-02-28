@@ -15,6 +15,7 @@ using System.Threading.Tasks;
 using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Data;
+using System.Collections.ObjectModel;
 
 namespace WritersToolbox.views
 {
@@ -770,16 +771,40 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void cancelButton_Click(object sender, EventArgs e)
         {
+            if (!newChapterTextbox.Text.Trim().Equals("")) {
+                MessageBoxResult result =
+                MessageBox.Show("Möchten sie ihre Eingabe wirklich verwerfen?",
+                   "Abbrechen", MessageBoxButton.OKCancel);
 
-            addDefaultApplicationBarButton();
-            newChapterMode = false;
-            //b.IsReadOnly = true;
-            newChapterTextbox.IsEnabled = false;
-            newChapterTextbox.Visibility = Visibility.Collapsed;
-            newChapterRectangle.Visibility = Visibility.Collapsed;
-            newChapterTextTitle.Visibility = Visibility.Collapsed;
-            newChapterTextbox.Text = "";
+                if (result == MessageBoxResult.OK)
+                {
+                    addDefaultApplicationBarButton();
+                    newChapterMode = false;
+                    //b.IsReadOnly = true;
+                    newChapterTextbox.IsEnabled = false;
+                    newChapterTextbox.Visibility = Visibility.Collapsed;
+                    newChapterRectangle.Visibility = Visibility.Collapsed;
+                    newChapterTextTitle.Visibility = Visibility.Collapsed;
+                    newChapterTextbox.Text = "";
+                }
+            } else{
+                addDefaultApplicationBarButton();
+                newChapterMode = false;
+                //b.IsReadOnly = true;
+                newChapterTextbox.IsEnabled = false;
+                newChapterTextbox.Visibility = Visibility.Collapsed;
+                newChapterRectangle.Visibility = Visibility.Collapsed;
+                newChapterTextTitle.Visibility = Visibility.Collapsed;
+                newChapterTextbox.Text = "";
+            }
+           
+
+
+            
         }
+
+
+
 
         /// <summary>
         /// Tap auf ein Event

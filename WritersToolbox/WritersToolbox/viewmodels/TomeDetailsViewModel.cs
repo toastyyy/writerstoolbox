@@ -341,5 +341,9 @@ namespace WritersToolbox.viewmodels
             }
 
         }
+
+        public void deleteChapter() { 
+        
+        }
     }
 }
