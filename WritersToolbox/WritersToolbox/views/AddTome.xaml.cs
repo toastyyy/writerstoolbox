@@ -20,8 +20,10 @@ namespace WritersToolbox.views
     {
         //Verbindung zwischen View und Model des Bandes.
         private AddTomeViewModel atvm;
-        //Primäreschlüßel des bandes.
+        //Primäreschlüssel des bandes.
         private int tomeID;
+        //Primärschlüssel des Werkes.
+        private int bookID;
         //Textbox Chapter
         TextBox b = new TextBox();
 
@@ -40,11 +42,11 @@ namespace WritersToolbox.views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
    //         base.OnNavigatedTo(e);
-            if (NavigationContext.QueryString.ContainsKey("tomeID"))
+            if (NavigationContext.QueryString.ContainsKey("bookID"))
             {
-                tomeID = int.Parse(NavigationContext.QueryString["tomeID"]);
-                atvm = new AddTomeViewModel();
-                DataContext = atvm;
+                bookID = int.Parse(NavigationContext.QueryString["bookID"]);
+              //  atvm = new AddTomeViewModel();
+              //  DataContext = atvm;
 
             }
         }
@@ -83,13 +85,14 @@ namespace WritersToolbox.views
                     ? DateTime.Now.ToString("F")
                     : titleTextBox.Text.Trim();      
                     //Notiz spiechern.
-                    atvm.save(tomeID, DateTime.Now, title, DateTime.Now);
+                    //atvm.save(tomeID, DateTime.Now, title, DateTime.Now);
                 
 
                 //Hilfsvariable in ApplicationService löschen.
 
-                PhoneApplicationService.Current.State.Remove("tomeID");
-
+                //PhoneApplicationService.Current.State.Remove("tomeID");
+                BooksViewModel bvm = new BooksViewModel();
+                bvm.createTome(title, this.bookID);
                 NavigationService.GoBack();
             }
         }
