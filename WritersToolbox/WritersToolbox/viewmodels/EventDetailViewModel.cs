@@ -162,6 +162,47 @@ namespace WritersToolbox.viewmodels
             this.wtb.SubmitChanges();
             this.NotifyPropertyChanged("Event");
         }
+
+        public void attachTypeObject(int toID, int eID)
+        {
+            Event Event = (from e in this.tableEvents
+                              where e.eventID == eID
+                              select e).Single();
+
+            var TypeObject = (from to in this.tableTypeObjects
+                                  where to.typeObjectID == toID
+                                  select to).Single();
+
+        }
+
+        public void unassignTypeObject(int toID)
+        {
+            var typeObject = (from to in tableTypeObjects
+                              where to.typeObjectID == toID
+                              select to).Single();
+        }
+
+        public void unassignNote(int nID)
+        {
+            var note = (from n in tableMemoryNote
+                        where n.memoryNoteID == nID
+                        select n).Single();
+            note.obj_Event = null;
+            this.wtb.SubmitChanges();
+            this.LoadData();
+        }
+
+        public void deleteNote(int nID)
+        {
+            var note = (from n in tableMemoryNote
+                        where n.memoryNoteID == nID
+                        select n).Single();
+            note.deleted = true;
+            note.obj_Event = null;
+            this.wtb.SubmitChanges();
+            this.LoadData();
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         // Used to notify the app that a property has changed.
         private void NotifyPropertyChanged(string propertyName)

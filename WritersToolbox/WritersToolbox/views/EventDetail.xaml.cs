@@ -11,6 +11,7 @@ using WritersToolbox.viewmodels;
 using Microsoft.Phone.Tasks;
 using System.Windows.Media.Imaging;
 using System.Text.RegularExpressions;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.views
 {
@@ -52,10 +53,76 @@ namespace WritersToolbox.views
                 }
                 
             }
+            if (PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                {
+                    int toID = (int)PhoneApplicationService.Current.State["typeObjectID"];
+                    PhoneApplicationService.Current.State.Remove("typeObjectID");
+                    PhoneApplicationService.Current.State.Remove("attachEvent");
+                    this.edvm.attachTypeObject(toID, this.edvm.Event.eventID);
+                }
+                else
+                {
+                    PhoneApplicationService.Current.State.Remove("attachEvent");
+                }
+                
+            }
         }
+
+        
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            Pivot p= sender as Pivot;
+            if(p.SelectedIndex == 0)
+            {
+                ApplicationBar.Buttons.Clear();
+            }
+            else if(p.SelectedIndex == 1)
+            {
+                ApplicationBar.Buttons.Clear();
+                ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
+                unattach.Text = AppResources.AppBarUnattached;
+                unattach.Click += unattachNotes;
+                ApplicationBar.Buttons.Add(unattach);
+                ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+                delete.Text = AppResources.AppBarDelete;
+                delete.Click += deleteNotes;
+                ApplicationBar.Buttons.Add(delete);
+            }
+            else if (p.SelectedIndex == 2)
+            {
+                ApplicationBar.Buttons.Clear();
+                ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
+                unattach.Text = AppResources.AppBarUnattached;
+                unattach.Click += unattachTypeObjects;
+                ApplicationBar.Buttons.Add(unattach);
+            }
+        }
+
+        private void unattachTypeObjects(object sender, EventArgs e)
+        {
+            foreach (datawrapper.TypeObject to in TypeObjectList.SelectedItems)
+            {
+                this.edvm.unassignTypeObject(to.typeObjectID);
+            }
+        }
+
+        private void deleteNotes(object sender, EventArgs e)
+        {
+            foreach (datawrapper.MemoryNote n in NoteList.SelectedItems)
+            {
+                this.edvm.deleteNote(n.memoryNoteID);
+            }
+        }
+
+        private void unattachNotes(object sender, EventArgs e)
+        {
+            foreach (datawrapper.MemoryNote n in NoteList.SelectedItems)
+            {
+                this.edvm.unassignNote(n.memoryNoteID);
+            }
         }
 
         private void tFinalText_Tap(object sender, System.Windows.Input.GestureEventArgs e)

@@ -260,6 +260,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Zuordnung löschen ähnelt.
+        /// </summary>
+        public static string AppBarUnattached {
+            get {
+                return ResourceManager.GetString("AppBarUnattached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         public static byte[] aufnahme {

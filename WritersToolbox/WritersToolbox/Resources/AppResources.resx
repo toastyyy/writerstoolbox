@@ -447,4 +447,7 @@
   <data name="EventAssignTypObject" xml:space="preserve">
     <value>Typobjekt anhängen</value>
   </data>
+  <data name="AppBarUnattached" xml:space="preserve">
+    <value>Zuordnung löschen</value>
+  </data>
 </root>
