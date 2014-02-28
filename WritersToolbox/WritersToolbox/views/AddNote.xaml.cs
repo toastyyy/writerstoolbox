@@ -29,6 +29,7 @@ using Coding4Fun.Toolkit.Audio;
 using Coding4Fun.Toolkit.Audio.Helpers;
 using System.Threading;
 using WritersToolbox.datawrapper;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.views
 {
@@ -120,8 +121,8 @@ namespace WritersToolbox.views
             //Alle notwendige Daten der Notiz zzurückgeben.
             string temp_title = anvm.getTitle(NoteID);
             string temp_details = anvm.getDetails(NoteID);
-            titleTextBox.Text = temp_title.Equals("") ? "Title" : temp_title;
-            detailsTextBox.Text = temp_details.Equals("") ? "Details" : temp_details;
+            titleTextBox.Text = temp_title.Equals("") ? AppResources.AddNoteTitleText : temp_title;
+            detailsTextBox.Text = temp_details.Equals("") ? AppResources.AddNoteDetailsText : temp_details;
             schlagwoerterTextBox.Text = anvm.getTags(NoteID);
 
             //Um die Größe des Textboxs anzupassen.
@@ -163,7 +164,7 @@ namespace WritersToolbox.views
             if (!PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
             {
                 saveAs = new ApplicationBarIconButton(new Uri("/icons/speichernUnter.png", UriKind.Relative));
-                saveAs.Text = "zuordnen";
+                saveAs.Text = AppResources.AppBarAssign;
                 saveAs.Click += saveAsButton_Click;
                 ApplicationBar.Buttons.Add(saveAs);
             }
@@ -173,8 +174,8 @@ namespace WritersToolbox.views
             cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
 
             
-            save.Text = "speichern";
-            cancel.Text = "schließen";
+            save.Text = AppResources.AppBarSave;
+            cancel.Text = AppResources.AppBarClose;
 
             //Events zu Buttons hinzufügen.
             
@@ -202,10 +203,10 @@ namespace WritersToolbox.views
             forward = new ApplicationBarIconButton(new Uri("/icons/forward.png", UriKind.Relative));
             stop = new ApplicationBarIconButton(new Uri("/icons/stop.png", UriKind.Relative));
 
-            pp.Text = "pp";
-            reward.Text = "rückwärts";
-            forward.Text = "vorwärts";
-            stop.Text = "stop";
+            pp.Text = AppResources.MediaPlayerPause;
+            reward.Text = AppResources.MediaPlayerReward;
+            forward.Text = AppResources.MediaPlayerForward;
+            stop.Text = AppResources.MediaPlayerStop;
             //Events zu Buttons hinzufügen.
             pp.Click += play_pause_Click;
             reward.Click += soundbar_reward_button_Click;
@@ -271,11 +272,11 @@ namespace WritersToolbox.views
                 if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
                 {
                     //Wenn in Title nicht geändert wurde, dann wird automatisch der aktuelle Datum für Title gegeben.
-                    string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+                    string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleText))
                         ? DateTime.Now.ToString("F")
                         : titleTextBox.Text.Trim();
 
-                    string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS"))
+                    string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsText))
                         ? ""
                         : detailsTextBox.Text.Trim();
 
@@ -327,7 +328,7 @@ namespace WritersToolbox.views
             //Überprüfung durchzuführen.
             if (!isPhotoChooserOpened && PhoneApplicationService.Current.State.ContainsKey("edit"))
             {
-                this.ScreenTitle.Text = "NOTIZ BEARBEITEN";
+                this.ScreenTitle.Text = AppResources.AddNoteEditText;
                 tempTitle = titleTextBox.Text;
                 tempDetails = detailsTextBox.Text;
                 tempTags = schlagwoerterTextBox.Text;
@@ -488,7 +489,7 @@ namespace WritersToolbox.views
             titleTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
             SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
             titleTextBox.Background = _s;
-            if (titleTextBox.Text.ToString().Trim().ToUpper().Equals("TITLE"))
+            if (titleTextBox.Text.ToString().Trim().ToUpper().Equals(AppResources.AddNoteTitleTextUpper))
             {
                 titleTextBox.Text = "";
             }
@@ -505,7 +506,7 @@ namespace WritersToolbox.views
             titleTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
             if (titleTextBox.Text.Trim().Length == 0)
             {
-                titleTextBox.Text = "Title";
+                titleTextBox.Text = AppResources.AddNoteTitleText;
             }
         }
 
@@ -520,7 +521,7 @@ namespace WritersToolbox.views
             detailsTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
             SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
             detailsTextBox.Background = _s;
-            if (detailsTextBox.Text.ToString().ToUpper().Equals("DETAILS"))
+            if (detailsTextBox.Text.ToString().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper))
             {
                 detailsTextBox.Text = "";
             }
@@ -537,7 +538,7 @@ namespace WritersToolbox.views
             detailsTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
             if (detailsTextBox.Text.Trim().Length == 0)
             {
-                detailsTextBox.Text = "Details";
+                detailsTextBox.Text = AppResources.AddNoteDetailsText;
             }
         }
 
@@ -612,7 +613,7 @@ namespace WritersToolbox.views
             {
                 if ((int)result.RecognitionResult.TextConfidence < (int)SpeechRecognitionConfidence.Medium)
                 {
-                    MessageBox.Show("Wir haben nicht verstanden, versuchen Sie nochmal !!");
+                    MessageBox.Show(AppResources.ErrorSpeechToText);
                     await sr.RecognizeWithUIAsync();
                 }
                 else
@@ -624,7 +625,7 @@ namespace WritersToolbox.views
                     }
                     else if (textbox == titleTextBox)
                     {
-                        if (textbox.Text.ToString().Trim().ToUpper().Equals("TITLE"))
+                        if (textbox.Text.ToString().Trim().ToUpper().Equals(AppResources.AddNoteTitleText))
                         {
                             textbox.Text = "";
                         }
@@ -632,7 +633,7 @@ namespace WritersToolbox.views
                     }
                     else if (textbox == detailsTextBox)
                     {
-                        if (textbox.Text.ToString().ToUpper().Trim().Equals("DETAILS"))
+                        if (textbox.Text.ToString().ToUpper().Trim().Equals(AppResources.AddNoteDetailsText))
                         {
                             textbox.Text = "";
                         }
@@ -772,11 +773,11 @@ namespace WritersToolbox.views
             //Hilfsvariable für die Kontrolle der Änderungen.
             bool isChanged = false;
             //Änderungen kontrollieren.
-            if(!titleTextBox.Text.Trim().Equals("") || !titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+            if(!titleTextBox.Text.Trim().Equals("") || !titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleText))
             {
                 isChanged = true;
             }
-            if(!detailsTextBox.Text.Trim().Equals("") || !detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS"))
+            if(!detailsTextBox.Text.Trim().Equals("") || !detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper))
             {
                 isChanged = true;
             }
@@ -798,16 +799,16 @@ namespace WritersToolbox.views
             //und zurück zu dem vorherigen Screen.
             if (!isChanged)
             {
-                MessageBox.Show("Sie müssen mindestens Details der Notiz eingeben!!");
+                MessageBox.Show(AppResources.ErrorDetails);
             }
             else
             {
                 //Wenn in Title nicht geändert wurde, dann wird automatisch der aktuelle Datum für Title gegeben.
-                string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+                string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleTextUpper))
                     ? DateTime.Now.ToString("F")
                     : titleTextBox.Text.Trim();
 
-                string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS"))
+                string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper))
                     ? ""
                     : detailsTextBox.Text.Trim();
                 if(PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
@@ -1017,8 +1018,8 @@ namespace WritersToolbox.views
                     isfully = true;
                 }
             }
-            else if ((!titleTextBox.Text.Trim().Equals("") && !titleTextBox.Text.Trim().ToUpper().Equals("TITLE")) ||
-                (!detailsTextBox.Text.Trim().Equals("") && !detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS")) ||
+            else if ((!titleTextBox.Text.Trim().Equals("") && !titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleTextUpper)) ||
+                (!detailsTextBox.Text.Trim().Equals("") && !detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper)) ||
                 !schlagwoerterTextBox.Text.Trim().Equals("") ||
                 Image_Items.Count >= 1 ||
                 sound_Items.Count >= 1)
@@ -1029,8 +1030,8 @@ namespace WritersToolbox.views
             //Abfragen, wenn was geändert oder hinzugefügt ist, ob es wirklich weggeworfen werden muss.
             if (isfully)
             {
-                result = MessageBox.Show("möchten Sie Ihre Einträge wegwerfen !",
-                        "schließen", MessageBoxButton.OKCancel);
+                result = MessageBox.Show(AppResources.TypeObjectAddCancelText,
+                        AppResources.AppBarClose, MessageBoxButton.OKCancel);
             }
 
             //Wenn ok ausgewählt ist und gar nichts in der Notiz geändert oder hinzugefügt ist.
@@ -1150,7 +1151,7 @@ namespace WritersToolbox.views
                 //Filename generieren.
                 string[] fileNames = isoStore.GetFileNames("Record*");
                 int lastindex = findlastFile(fileNames);
-                string filename = "Record " + (lastindex + 1);
+                string filename = AppResources.AddNoteHeadlineRecord+ (lastindex + 1);
                 //Name des Records durch aktuelles Datum erstellen.
                 string _tempFileName = string.Format("{0}.wav", filename);
                 
@@ -1540,8 +1541,8 @@ namespace WritersToolbox.views
                 playTimer = null;
             }
             //Abfrage, ob es wirklich was gelöscht werden muss.
-            MessageBoxResult result = MessageBox.Show("möchten Sie die Aufnahme löschen !",
-                        "Warnung", MessageBoxButton.OKCancel);
+            MessageBoxResult result = MessageBox.Show(AppResources.AddNoteRecordDeleteQuestion,
+                        AppResources.ErrorWarning, MessageBoxButton.OKCancel);
 
             //Wenn ja.
             if (result == MessageBoxResult.OK)

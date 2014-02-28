@@ -21,6 +21,7 @@ using Windows.Storage.Streams;
 using System.IO;
 using Windows.Storage;
 using Microsoft.Xna.Framework.Media;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.views
 {
@@ -166,6 +167,10 @@ namespace WritersToolbox.views
                 var tID = NavigationContext.QueryString["typeID"];
                 typeID = int.Parse(tID);
             }
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            btn1.Text = AppResources.AppBarCancel;
+            btn2.Text = AppResources.AppBarAdd;
         }
 
         private void photoChooserTask_Completed(object sender, PhotoResult e)
@@ -211,7 +216,7 @@ namespace WritersToolbox.views
             String color = this.selectedColor.ToString();
             if (name.Equals(""))
             {
-                MessageBox.Show("Du musst einen Namen angeben", "Speichern fehlgeschlagen", MessageBoxButton.OK);
+                MessageBox.Show(AppResources.ErrorName, AppResources.ErrorSave, MessageBoxButton.OK);
                 return;
             }
             String fileName = "";
@@ -235,8 +240,8 @@ namespace WritersToolbox.views
         {
             if (changed)
             {
-                string message = "Willst du deine Änderungen wirklich verwerfen?";
-                string caption = "Abbrechen";
+                string message = AppResources.TypeObjectAddCancelText;
+                string caption = AppResources.TextCancel;
                 MessageBoxButton buttons = MessageBoxButton.OKCancel;
                 // Show message box
                 MessageBoxResult result = MessageBox.Show(message, caption, buttons);

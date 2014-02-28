@@ -240,8 +240,17 @@ namespace WritersToolbox.views
             datawrapper.TypeObject t = g.DataContext as datawrapper.TypeObject;
             if (t == null)
                 return;
-            NavigationService.Navigate(new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + t.typeObjectID.ToString(), UriKind.Relative));
+            if (t.typeObjectID != -1)
+            {
+                NavigationService.Navigate(new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + t.typeObjectID.ToString(), UriKind.Relative));
+            }
+            else if (t.typeObjectID == -1)
+            {
+                PhoneApplicationService.Current.State["attachEvent"] = true;
+                NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
+            }
         }
+            
 
         private void SelectNote(object sender, System.Windows.Input.GestureEventArgs e)
         {

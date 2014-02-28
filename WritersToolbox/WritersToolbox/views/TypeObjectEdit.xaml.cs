@@ -14,6 +14,7 @@ using System.Windows.Media.Imaging;
 using System.IO.IsolatedStorage;
 using System.Security.Cryptography;
 using Microsoft.Xna.Framework.Media;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.views
 {
@@ -82,6 +83,10 @@ namespace WritersToolbox.views
                 this.headerBackground.Source = wb;
                 changed = false;
             }
+            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            btn1.Text = AppResources.AppBarCancel;
+            btn2.Text = AppResources.AppBarSave;
         }
 
         /// <summary>
@@ -127,7 +132,7 @@ namespace WritersToolbox.views
 
             TypesViewModel tvm = new TypesViewModel();
             if (name.Equals("")) {
-                MessageBox.Show("Du musst einen Namen angeben", "Speichern fehlgeschlagen", MessageBoxButton.OK);
+                MessageBox.Show(AppResources.ErrorName, AppResources.ErrorSave, MessageBoxButton.OK);
                 return;
             }
 
@@ -144,8 +149,8 @@ namespace WritersToolbox.views
         {
             if (changed)
             {
-                string message = "Willst du deine Änderungen wirklich verwerfen?";
-                string caption = "Abbrechen";
+                string message = AppResources.TypeObjectAddCancelText;
+                string caption = AppResources.TextCancel;
                 MessageBoxButton buttons = MessageBoxButton.OKCancel;
                 // Show message box
                 MessageBoxResult result = MessageBox.Show(message, caption, buttons);

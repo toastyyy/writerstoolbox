@@ -30,7 +30,7 @@
             </Grid.RowDefinitions>
             <Image x:Name="headerBackground" Margin="0,0,0,20" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
 
-            <TextBox Name="tTitle"  Foreground="White" FontSize="48" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,152,0,0" TextWrapping="Wrap" Text="Titel eingeben" VerticalAlignment="Top" Height="90" Width="460" FontFamily="Segoe WP Light" Background="{x:Null}" BorderThickness="0,0,0,1" GotFocus="TextBox_GotFocus" TextChanged="tTitle_TextChanged"/>
+            <TextBox Name="tTitle"  Foreground="White" FontSize="48" TextAlignment="Center" HorizontalAlignment="Left" Margin="10,152,0,0" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.TypeObjectAddTitleText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Height="90" Width="460" FontFamily="Segoe WP Light" Background="{x:Null}" BorderThickness="0,0,0,1" GotFocus="TextBox_GotFocus" TextChanged="tTitle_TextChanged"/>
             <Border Background="White" Width="130" Height="130" CornerRadius="75" Margin="165,20,165,134" BorderThickness="5" BorderBrush="#33000000" Tap="imageButton_Tap">
                 <Image x:Name="imageButton" Margin="-10" Stretch="Fill" Width="130" Height="130" Tap="imageButton_Tap">
                     <Image.Clip>

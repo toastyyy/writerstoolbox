@@ -12,6 +12,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using WritersToolbox.models;
 using System.Diagnostics;
+using WritersToolbox.Resources;
 namespace WritersToolbox.views
 {
     public partial class TypesOverview : PhoneApplicationPage
@@ -83,7 +84,7 @@ namespace WritersToolbox.views
                 return;
             if (selectedType.typeID == -1)
                 return;
-            TypeDeleteQuestion.Text = "Wollen Sie den Typ \"" + selectedType.title.ToString() + "\" löschen?";
+            TypeDeleteQuestion.Text = AppResources.TypeDeleteQuestion1 + selectedType.title.ToString() + AppResources.TypeDeleteQuestion2;
             deleteTypePopup.IsOpen = true;
         }
 
