@@ -150,11 +150,13 @@ namespace WritersToolbox.views
         {
             base.OnNavigatedTo(e);
             types_VM.LoadData();
-            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote") || 
+                PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
             {
                 ApplicationBar.Buttons.Clear();
                 ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
                 cancel.Text = AppResources.AppBarCancel;
+                cancel.Click += CancelType;
                 ApplicationBar.Buttons.Add(cancel);
                 this.PivotMain.Title = new TextBlock() { 
                     FontSize = 22,
@@ -213,7 +215,7 @@ namespace WritersToolbox.views
             if (holdTypeobject == null)
                 return;
 
-            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote") || PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
             {
                 PhoneApplicationService.Current.State["typeObjectID"] = holdTypeobject.typeObjectID;
                 NavigationService.GoBack();
@@ -424,7 +426,8 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void PivotSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            if (!(PhoneApplicationService.Current.State.ContainsKey("assignNote") ||
+                PhoneApplicationService.Current.State.ContainsKey("attachEvent")))
             { 
             Pivot p = sender as Pivot;
             if (p == null)
