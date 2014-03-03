@@ -180,7 +180,7 @@
                     </ScrollViewer>
                     <Grid Visibility="Collapsed" Width="Auto" x:Name="editFinaltextGrid" Margin="0,0,0,0" VerticalAlignment="Stretch" HorizontalAlignment="Stretch" Background="#EEFFFFFF">
                         <ScrollViewer HorizontalAlignment="Stretch" VerticalAlignment="Stretch">
-                            <TextBox Visibility="Collapsed" Text="{Binding finaltext}" x:Name="textBoxFinalText" HorizontalAlignment="Stretch" Height="Auto" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" BorderThickness="1" BorderBrush="#BF3A3939" ScrollViewer.VerticalScrollBarVisibility="Auto" />
+                            <TextBox Visibility="Collapsed" Text="{Binding finaltext}" x:Name="textBoxFinalText" HorizontalAlignment="Stretch" Height="Auto" Margin="0,0,0,0" TextWrapping="Wrap" VerticalAlignment="Stretch" Width="Auto" BorderThickness="1" BorderBrush="#BF3A3939" ScrollViewer.VerticalScrollBarVisibility="Auto" AcceptsReturn="True" />
                         </ScrollViewer>
 
                     </Grid>

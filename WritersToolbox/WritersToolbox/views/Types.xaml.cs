@@ -389,6 +389,11 @@ namespace WritersToolbox.views
             if (t == null)
                 return;
             Types.Types_VM.deleteType(t.typeID);
+            this.PivotMain.SelectedIndex = (this.PivotMain.SelectedIndex) % this.PivotMain.Items.Count;
+            this.PivotMain.SelectedIndex = (this.PivotMain.SelectedIndex == 0) ? 
+                this.PivotMain.Items.Count -1 : 
+                this.PivotMain.SelectedIndex--;
+
             deleteTypePopup.IsOpen = false;
         }
 

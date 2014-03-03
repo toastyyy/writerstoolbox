@@ -13,7 +13,7 @@ using System.Collections;
 namespace WritersToolbox.models
 {
     [Table(Name="Notes")]
-    public class MemoryNote : INotifyPropertyChanging, INotifyPropertyChanged
+    public class MemoryNote : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]
@@ -287,5 +287,30 @@ namespace WritersToolbox.models
         }
 
 
+
+        public string getTitle()
+        {
+            return this.title;
+        }
+
+        public string getSubtitle()
+        {
+            return this.contentText.Substring(0, 30) + " ...";
+        }
+
+        public Uri getUri()
+        {
+            return new Uri("/views/AddNote.xaml", UriKind.RelativeOrAbsolute);
+        }
+
+        public System.Windows.Media.Imaging.BitmapImage getImage()
+        {
+            return new System.Windows.Media.Imaging.BitmapImage(new Uri("/icons/notiz_round_icon.png"));
+        }
+
+        public bool matchesQuery(string query)
+        {
+            return this.title.Contains(query) || this.contentText.Contains(query);
+        }
     }
 }

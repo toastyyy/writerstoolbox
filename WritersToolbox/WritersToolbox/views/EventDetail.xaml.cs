@@ -204,21 +204,23 @@ namespace WritersToolbox.views
 
             String retXaml = "";
             String text = plain;
-            text = Regex.Replace(text, @"<b>(\w+)</b>", "<Bold>$1</Bold>");
-            text = Regex.Replace(text, @"<i>(\w+)</i>", "<Italic>$1</Italic>");
-            text = Regex.Replace(text, @"<u>(\w+)</u>", "<Underline>$1</Underline>");
+            text = text.Replace("<b>", "<Bold>").Replace("</b>", "</Bold>");
+            text = text.Replace("<i>", "<Italic>").Replace("</i>", "</Italic>");
+            text = text.Replace("<u>", "<Underline>").Replace("</u>", "</Underline>");
 
+            text = text.Replace(@"\n", "</Paragraph><Paragraph>");
             retXaml = 
                 @"<Section xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">" +
-                "<Paragraph>" + text + "</Paragraph>" + 
+                @"<Paragraph TextAlignment=""Justify"">" + text + "</Paragraph>" + 
                 "</Section>";
             return retXaml;
         }
 
         private String parsePlainText(String xaml) {
             String ret = xaml.Replace("<", "&lt;").Replace(">", "&gt;");
+            ret = ret.Replace("\n", "</Paragraph><Paragraph>");
             return @"<Section xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">" +
-                "<Paragraph>" + ret + "</Paragraph>" +
+                @"<Paragraph TextAlignment=""Justify"">" + ret + "</Paragraph>" +
                 "</Section>";
         }
 
