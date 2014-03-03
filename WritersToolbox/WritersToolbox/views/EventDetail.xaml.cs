@@ -19,26 +19,14 @@ namespace WritersToolbox.views
     public partial class EventDetail : PhoneApplicationPage
     {
         private EventDetailViewModel edvm = null;
-        private PhotoChooserTask photoChooserTask;
-        private int photochooserSelStart = -1;
-        private int photochooserSelLength = 0;
         public EventDetail()
         {
             InitializeComponent();
-            photoChooserTask = new PhotoChooserTask();
-            photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (PhoneApplicationService.Current.State.ContainsKey("preventUpdate") &&
-                (Boolean)PhoneApplicationService.Current.State["preventUpdate"] == true)
-            {
-                PhoneApplicationService.Current.State["preventUpdate"] = false;
-                return;
-            }
-
             if (NavigationContext.QueryString.ContainsKey("eventID"))
             {
                 int eID = int.Parse(NavigationContext.QueryString["eventID"]);
@@ -229,18 +217,6 @@ namespace WritersToolbox.views
             catch (Exception ex)
             {
                 this.tFinalText.Xaml = this.parsePlainText(this.edvm.Event.finaltext);
-            }
-        }
-
-        private void photoChooserTask_Completed(object sender, PhotoResult e)
-        {
-            if (e.TaskResult == TaskResult.OK)
-            {
-                String curText = this.textBoxFinalText.Text;
-                this.textBoxFinalText.Text =
-                    curText.Substring(0, this.photochooserSelStart)
-                    + "<p>" + e.OriginalFileName.Replace(@"\", "/") + "</p>" +
-                    curText.Substring(this.photochooserSelStart + this.photochooserSelLength);
             }
         }
 

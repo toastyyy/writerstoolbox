@@ -48,7 +48,7 @@
                        FontSize="25"
                        Foreground="Black"/>
 
-                    <Grid Margin="40,0">
+                    <Grid Margin="0,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="*" />
@@ -59,7 +59,7 @@
                                             HorizontalAlignment="Left"
                                             BorderBrush="Black"
                                             SelectedIndex="0"
-                                            Foreground="Black"
+                                            Foreground="#FF353535"
                                             BorderThickness="1" 
                                             SelectionChanged="BookTypeSelectionChanged">
                             <toolkit:ListPicker.ItemTemplate>
@@ -76,7 +76,7 @@
                         <TextBlock x:Name="BookTypeInfo" 
                                    Grid.Column="1" 
                                    Loaded="BookTypeInfoLoaded" 
-                                   Foreground="Black"
+                                   Foreground="#FF353535"
                                    FontSize="22" 
                                    FontFamily="Segoe WP Light" 
                                    HorizontalAlignment="Left"
@@ -89,11 +89,12 @@
 
         <!--Template für LongListSelector-item bereits exisitierenden Band-->
             <DataTemplate x:Name="existingTome">
-                <Grid Width="450" Height="Auto" Margin="0,15,0,0">
+            <Grid Width="450" Height="Auto" Margin="0,20,0,20" >
                     <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="115"/>
-                        <ColumnDefinition Width="*"/>
+                    <ColumnDefinition Width="115" />
+                    <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
+                
                     <Image Grid.Column="0" 
                                        HorizontalAlignment="Left" 
                                        Height="77" 
@@ -117,23 +118,26 @@
                                                TextWrapping="Wrap"/>
                         <TextBlock Grid.Row="1" 
                                                Foreground="#FF515151" 
-                                               Text="{Binding addedDate, Converter={StaticResource dateCon}}"
-                                               FontSize="22" 
+                                               Text="{Binding addedDate, Converter={StaticResource dateCon}, ConverterParameter=Erstellt-am}"
+                                               FontSize="20" 
                                                FontFamily="Segoe WP Light"
-                                               Margin="0,-4,0,0"
+                                              
                                                TextWrapping="Wrap"/>
                         <TextBlock Grid.Row="2" 
                                                Foreground="#FF515151" 
-                                               Text="{Binding chapters, Converter={StaticResource collectionCountCon}}"
-                                               Margin="0,-4,0,0"
+                                               Text="{Binding chapters, Converter={StaticResource collectionCountCon}, ConverterParameter=Kapitelanzahl:}"
+                                               
                                                TextWrapping="Wrap"
-                                               FontSize="22" 
+                                               FontSize="20" 
                                                FontFamily="Segoe WP Light"/>
                     </Grid>
-                    <Border Margin="0,0,0,-20" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+                <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+            </Grid>
 
-                </Grid>
             </DataTemplate>
+
+      
 
         <!--Template für LongListSelector-item neuen Band-->
         <DataTemplate x:Name="newTome" >
@@ -173,12 +177,12 @@
             <Grid Width="480">
                 <phone:LongListSelector 
                     Height="Auto" 
-                    Margin="20,20,15,0" 
+                    Margin="20,30,10,0" 
                     Width="Auto"
                     HorizontalAlignment="Stretch"
                     ItemsSource="{Binding tomes}"
                     LayoutMode="Grid"
-                    GridCellSize="450, 150"
+                    GridCellSize="450, 130"
                     x:Name="LongList"
                     SelectionChanged="tomeSelected">
                     <phone:LongListSelector.ItemTemplate>
@@ -191,7 +195,7 @@
                         </DataTemplate>
                     </phone:LongListSelector.ItemTemplate>
                 </phone:LongListSelector>
-                <TextBlock Text="klick" Foreground="Black" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
+                <TextBlock Text="klick" Foreground="#ff353535" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
             </Grid>
         </DataTemplate>
 

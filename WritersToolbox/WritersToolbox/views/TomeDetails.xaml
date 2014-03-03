@@ -46,7 +46,7 @@
                     <Image Grid.Column="0"  Height="70" Width="90" Source="/icons/off.png" Margin="0,5,0,0" Tap="Image_Tap"  />
                     <Border Grid.Column="1" Background="White" BorderThickness="0,0,0,1" BorderBrush="LightGray" Width="480"    
                         Height="70" Margin="0,0,20,0" HorizontalAlignment="Left">
-                        <TextBox Height="100" Text="{Binding title}" Margin="0,20,0,0" Foreground="Black" FontSize="30" Padding="6" DoubleTap="ChapterTextBox_TapTap" Tap="ChapterTextBox_Tap" 
+                        <TextBox Height="100" Text="{Binding title}" Margin="0,20,0,0" Foreground="#FF353535" FontSize="30" Padding="6" DoubleTap="ChapterTextBox_TapTap" Tap="ChapterTextBox_Tap" 
                         FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal" IsReadOnly="True" LostFocus="ChapterTextbox_LostFocus" Background="{x:Null}" AcceptsReturn="False" />
                     </Border>
                 </Grid>
@@ -65,7 +65,7 @@
         <!--Grouping-->
         <DataTemplate x:Key="groupItemTemplate">
             <Grid x:Name="chapterItem" >
-                <TextBlock Text="{Binding title}" Margin="0,0,0,0" Foreground="Black" FontSize="0" 
+                <TextBlock Text="{Binding title}" Margin="0,0,0,0" Foreground="#FF353535" FontSize="0" 
                        FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal"/>
             </Grid>
         </DataTemplate>
