@@ -30,7 +30,7 @@ namespace WritersToolbox.views
         //Buttons zum speichern/abbrechen beim Bearbeiten eines Chapters
         private ApplicationBarIconButton save, cancel;
         //DefaultBarButtons.
-        private ApplicationBarIconButton edit, deleteTypeObject;
+        private ApplicationBarIconButton edit, delete;
         //Textbox Chapter
         TextBox b = new TextBox();
         //Chapter
@@ -465,8 +465,13 @@ namespace WritersToolbox.views
         {
             l = sender as LongListMultiSelector;
             datawrapper.Event _e = e.OriginalSource as datawrapper.Event;
-            l.IsSelectionEnabled = true;
-            l.SelectedItems.Add(_e);
+
+            if (llstructure.SelectedItems.Count == 0) { 
+                l.IsSelectionEnabled = true;
+                l.SelectedItems.Add(_e);
+                llstructure.EnforceIsSelectionEnabled = false;
+            } 
+            
         }
 
         // false wenn doubleTap eintritt
@@ -657,22 +662,22 @@ namespace WritersToolbox.views
             //ApplicationBarButton mit ManagmentButtons erfüllen.
 
             edit = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
-            deleteTypeObject = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+            delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
 
 
             edit.Text = "Ändern";
-            deleteTypeObject.Text = "Löschen";
+            delete.Text = "Löschen";
 
             //Events zu Buttons hinzufügen.
 
 
             //TODO
             //edit.Click += saveButton_Click;
-            //cancel.Click += cancelButton_Click;
+            delete.Click += deleteButton_Click;
 
 
             ApplicationBar.Buttons.Add(edit);
-            ApplicationBar.Buttons.Add(deleteTypeObject);
+            ApplicationBar.Buttons.Add(delete);
         }
 
         private void removeAddChapterApplicationBarButton()
@@ -684,7 +689,7 @@ namespace WritersToolbox.views
         private void removeDefaultApplicationBarButton()
         {
             ApplicationBar.Buttons.Remove(edit);
-            ApplicationBar.Buttons.Remove(deleteTypeObject);
+            ApplicationBar.Buttons.Remove(delete);
         }
 
         private void addAddChapterApplicationBarButton()
@@ -711,6 +716,27 @@ namespace WritersToolbox.views
 
             ApplicationBar.Buttons.Add(save);
             ApplicationBar.Buttons.Add(cancel);
+        }
+
+
+        private void deleteButton_Click(object sender, EventArgs e) 
+        {
+        //    datawrapper.Type t = PivotMain.SelectedItem as datawrapper.Type;
+        //    if (t == null)
+        //        return;
+        //    Types.Types_VM.deleteType(t.typeID);
+        //    deleteTypePopup.IsOpen = false;
+
+            IEnumerator enumerator = llstructure.SelectedItems.GetEnumerator();
+
+            while (enumerator.MoveNext()) {
+                Object cur = enumerator.Current;
+                if(cur.GetType().IsAssignableFrom((new datawrapper.Chapter()).GetType())) {
+                    datawrapper.Chapter c = (datawrapper.Chapter)cur;
+                    
+                }
+            }
+        
         }
 
         /// <summary>
@@ -829,6 +855,32 @@ namespace WritersToolbox.views
             {
                 wasfocuslost = false;
             }
+        }
+
+
+        public bool chapterSelected = false;
+        public bool eventSelected = false;
+        
+        private void selectionChangedChapter(object sender, SelectionChangedEventArgs e)
+        {
+            chapterSelected = true;
+           // var itemliste = llstructure.
+            foreach (LongListMultiSelector llmsE in llmsEventListe) {
+                llmsE.IsSelectionEnabled = false;
+                llmsE.EnforceIsSelectionEnabled = false;
+            }
+        }
+
+        private void selectionChangedEvents(object sender, SelectionChangedEventArgs e)
+        {
+            eventSelected = true;
+        }
+
+        public List<LongListMultiSelector> llmsEventListe = new List<LongListMultiSelector>();
+
+        private void loadLlmsEvent(object sender, RoutedEventArgs e)
+        {
+            llmsEventListe.Add((LongListMultiSelector)sender);
         }
 
         
