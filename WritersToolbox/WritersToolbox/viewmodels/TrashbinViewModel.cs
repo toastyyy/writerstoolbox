@@ -52,7 +52,7 @@ namespace WritersToolbox.viewmodels
             
             // notizen, die geloescht sind, aber nicht zugeordnet sind
             var sqlNotes = from n in tableMemoryNote
-                           where n.associated == false && n.deleted == true
+                           where n.deleted == true
                            select n;
             foreach(var note in sqlNotes) {
                 datawrapper.MemoryNote mn = new datawrapper.MemoryNote() {

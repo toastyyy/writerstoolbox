@@ -276,9 +276,6 @@
   <data name="TrashbinHeadline" xml:space="preserve">
     <value>Papierkorb</value>
   </data>
-  <data name="BookChangeHeadline" xml:space="preserve">
-    <value>Werk ändern</value>
-  </data>
   <data name="BooksBookTypeInfoText" xml:space="preserve">
     <value>Vorangelegte Kapitel: </value>
   </data>
@@ -446,5 +443,11 @@
   </data>
   <data name="EventAssignTypObject" xml:space="preserve">
     <value>Typobjekt anhängen</value>
+  </data>
+  <data name="AppBarUnattached" xml:space="preserve">
+    <value>Zuordnung löschen</value>
+  </data>
+  <data name="BookChangeHeadline" xml:space="preserve">
+    <value>Werk ändern</value>
   </data>
 </root>

@@ -417,7 +417,7 @@ namespace WritersToolbox.viewmodels
                     TypeObjects.Add(wrappedTO);
                 }
 
-                if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+                if (!(PhoneApplicationService.Current.State.ContainsKey("assignNote") || PhoneApplicationService.Current.State.ContainsKey("attachEvent")))
                 {
                     // Neues Typobjekt
                     TypeObjects.Add(new datawrapper.TypeObject()
@@ -434,7 +434,7 @@ namespace WritersToolbox.viewmodels
             }
 
             // hinzufuegen fuer neuer Typ
-            if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            if (!(PhoneApplicationService.Current.State.ContainsKey("assignNote") || PhoneApplicationService.Current.State.ContainsKey("attachEvent")))
             {
 
                 ObservableCollection<datawrapper.TypeObject> t_o = new ObservableCollection<datawrapper.TypeObject>();

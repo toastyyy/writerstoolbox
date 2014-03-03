@@ -277,7 +277,7 @@ namespace WritersToolbox.views
             catch (ArgumentException ae) 
             {
                 MessageBox.Show(ae.Message, "Fehler", MessageBoxButton.OK);
-                NavigationService.GoBack();
+                //NavigationService.GoBack();
             }
         }
 

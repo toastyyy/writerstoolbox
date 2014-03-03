@@ -218,7 +218,7 @@
                         BorderBrush="Black"
                         ItemsSource="{Binding notes}"
                         ItemTemplate="{StaticResource NotesTemplate}"
-                        SelectionChanged="Notes_SelectionChanged"/>
+                        SelectionChanged="Notes_SelectionChanged" Hold="NoteList_Hold"/>
                 </Grid>
             </phone:PivotItem>
             
@@ -247,12 +247,13 @@
                                 ItemTemplate="{StaticResource SelectingTemplateTypeObject}" 
                                 EnforceIsSelectionEnabled="false"
                                 IsGroupingEnabled="False"
+                                
                                 LayoutMode="Grid"
                                     GridCellSize="450, 150"
                                 Foreground="Black"
                                 ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                                 BorderBrush="Black"
-                                SelectionChanged="TypeObjects_SelectionChanged">
+                                SelectionChanged="TypeObjects_SelectionChanged" Hold="TypeObjectList_Hold">
                     </toolkit:LongListMultiSelector>
                 </Grid>
             </phone:PivotItem>

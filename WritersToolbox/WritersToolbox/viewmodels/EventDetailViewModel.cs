@@ -72,6 +72,7 @@ namespace WritersToolbox.viewmodels
 
                 var sqlTypeObjects = (from to in this.tableTypeObjects
                                       where to.events.Any(e => e.fk_eventID == this.event_id)
+                                      && to.deleted == false
                                       select to);
 
                 ObservableCollection<datawrapper.TypeObject> typeObjects = new ObservableCollection<datawrapper.TypeObject>();
@@ -123,6 +124,7 @@ namespace WritersToolbox.viewmodels
 
                 var sqlMemoryNotes = (from mn in this.tableNotes
                                       where mn.obj_Event.eventID == this.event_id
+                                      && mn.deleted == false
                                       select mn);
 
                 ObservableCollection<datawrapper.MemoryNote> memoryNotes = new ObservableCollection<datawrapper.MemoryNote>();
@@ -162,6 +164,90 @@ namespace WritersToolbox.viewmodels
             this.wtb.SubmitChanges();
             this.NotifyPropertyChanged("Event");
         }
+
+        public void attachTypeObject(int toID, int eID)
+        {
+            Event ev = (from e in this.tableEvents
+                           where e.eventID == eID
+                           select e).Single();
+
+            var TypeObject = (from to in this.tableTypeObjects
+                              where to.typeObjectID == toID
+                              select to).Single();
+            ev.typeObjects.Add(new EventTypeObjects() { fk_eventID = ev.eventID, fk_typeObjectID = TypeObject.typeObjectID});
+            TypeObject.used = true;
+            this.wtb.SubmitChanges();
+            this.LoadData();
+
+        }
+
+        public void unassignTypeObject(int toID)
+        {
+            try
+            {
+                var assignment = (from a in this.wtb.GetTable<EventTypeObjects>()
+                                  where a.fk_eventID == this.event_id && a.fk_typeObjectID == toID
+                                  select a).Single();
+                TypeObject to = (from t in tableTypeObjects
+                                where t.typeObjectID == toID
+                                select t).Single();
+                if (to.events.Count == 0) {
+                    to.used = false;
+                }
+
+                this.wtb.GetTable<EventTypeObjects>().DeleteOnSubmit(assignment);
+                this.wtb.SubmitChanges();
+                this.LoadData();
+            }
+            catch (Exception e) { 
+            
+            }
+        }
+
+        public void unassignNote(int nID)
+        {
+            var note = (from n in tableMemoryNote
+                        where n.memoryNoteID == nID
+                        select n).Single();
+            note.obj_Event = null;
+            note.associated = false;
+            this.wtb.SubmitChanges();
+            this.LoadData();
+        }
+
+        public void deleteNote(int nID)
+        {
+            var note = (from n in tableMemoryNote
+                        where n.memoryNoteID == nID
+                        select n).Single();
+            note.deleted = true;
+           
+            //note.obj_Event = null;
+            this.wtb.SubmitChanges();
+            this.LoadData();
+        }
+
+        public void removeAddTypeObject()
+        {
+            if (this.Event.typeObjects.ElementAt(this.Event.typeObjects.Count - 1).typeObjectID == -1) { 
+                this.Event.typeObjects.RemoveAt(this.Event.typeObjects.Count - 1);
+                this.NotifyPropertyChanged("Event");            
+            }
+
+        }
+
+        public void addAddTypeObject()
+        {
+            this.Event.typeObjects.Add(
+                new datawrapper.TypeObject()
+                {
+                    typeObjectID = -1,
+                    type = new datawrapper.Type() { typeID = -2 },
+                    name = AppResources.EventAssignTypObject
+                });
+            this.NotifyPropertyChanged("Event");
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
         // Used to notify the app that a property has changed.
         private void NotifyPropertyChanged(string propertyName)
