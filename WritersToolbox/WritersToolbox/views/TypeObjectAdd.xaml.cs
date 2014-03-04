@@ -307,5 +307,11 @@ namespace WritersToolbox.views
             }
             return wb;
         }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            NavigationService.RemoveBackEntry();
+        }
     }
 }
