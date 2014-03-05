@@ -19,6 +19,7 @@ namespace WritersToolbox.views
     public partial class EventDetail : PhoneApplicationPage
     {
         private EventDetailViewModel edvm = null;
+        private bool newEvent = false;
         public EventDetail()
         {
             InitializeComponent();
@@ -30,15 +31,24 @@ namespace WritersToolbox.views
             if (NavigationContext.QueryString.ContainsKey("eventID"))
             {
                 int eID = int.Parse(NavigationContext.QueryString["eventID"]);
-                this.edvm = new EventDetailViewModel(eID);
-                this.edvm.LoadData();
-                this.DataContext = this.edvm.Event;
-                try
+                if (eID == 0)
                 {
-                    this.tFinalText.Xaml = this.parseRichTextFormat(this.edvm.Event.finaltext);
+                    newEvent = true;
+                    this.edvm = new EventDetailViewModel(eID);
                 }
-                catch (Exception ex) {
-                    this.tFinalText.Xaml = this.parsePlainText(this.edvm.Event.finaltext);
+                else
+                {
+                    this.edvm = new EventDetailViewModel(eID);
+                    this.edvm.LoadData();
+                    this.DataContext = this.edvm.Event;
+                    try
+                    {
+                        this.tFinalText.Xaml = this.parseRichTextFormat(this.edvm.Event.finaltext);
+                    }
+                    catch (Exception ex)
+                    {
+                        this.tFinalText.Xaml = this.parsePlainText(this.edvm.Event.finaltext);
+                    }
                 }
                 
             }
@@ -63,43 +73,58 @@ namespace WritersToolbox.views
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Pivot p = sender as Pivot;
-            if (p.SelectedIndex == 0)
+            if (!newEvent)
             {
-                ApplicationBar.Buttons.Clear();
+                Pivot p = sender as Pivot;
+                if (p.SelectedIndex == 0)
+                {
+                    ApplicationBar.Buttons.Clear();
+                }
+                else if (p.SelectedIndex == 1)
+                {
+                    if (this.edvm.Event.notes.Count > 0)
+                    {
+                        ApplicationBar.Buttons.Clear();
+                        ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
+                        unattach.Text = AppResources.AppBarUnattached;
+                        unattach.Click += unattachNotes;
+                        ApplicationBar.Buttons.Add(unattach);
+                        ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+                        delete.Text = AppResources.AppBarDelete;
+                        delete.Click += deleteNotes;
+                        ApplicationBar.Buttons.Add(delete);
+                    }
+                }
+                else if (p.SelectedIndex == 2)
+                {
+                    if (this.edvm.Event.typeObjects.Count > 1)
+                    {
+                        ApplicationBar.Buttons.Clear();
+                        ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
+                        unattach.Text = AppResources.AppBarUnattached;
+                        unattach.Click += unattachTypeObjects;
+                        ApplicationBar.Buttons.Add(unattach);
+                    }
+                }
             }
-            else if (p.SelectedIndex == 1)
-            {
-                ApplicationBar.Buttons.Clear();
-                ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
-                unattach.Text = AppResources.AppBarUnattached;
-                unattach.Click += unattachNotes;
-                ApplicationBar.Buttons.Add(unattach);
-                ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
-                delete.Text = AppResources.AppBarDelete;
-                delete.Click += deleteNotes;
-                ApplicationBar.Buttons.Add(delete);
-            }
-            else if (p.SelectedIndex == 2)
-            {
-                ApplicationBar.Buttons.Clear();
-                ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
-                unattach.Text = AppResources.AppBarUnattached;
-                unattach.Click += unattachTypeObjects;
-                ApplicationBar.Buttons.Add(unattach);
-            }
+            
         }
 
+        
         private void tFinalText_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            this.editFinaltextGrid.Visibility = Visibility.Visible;
-            this.textBoxFinalText.Visibility = Visibility.Visible;
+            if (!newEvent)
+            {
+                this.editFinaltextGrid.Visibility = Visibility.Visible;
+                this.textBoxFinalText.Visibility = Visibility.Visible;
 
-            //workaround fuer tastatur
-            this.textBoxFinalText.Focus();
-            this.WorkaroundButton.Focus();
-            this.textBoxFinalText.Focus();
-            this.createTextEditApplicationBar();
+                //workaround fuer tastatur
+                this.textBoxFinalText.Focus();
+                this.WorkaroundButton.Focus();
+                this.textBoxFinalText.Focus();
+                this.createTextEditApplicationBar();
+            }
+            
         }
 
         private void insertBold(object sender, System.EventArgs e)
@@ -409,5 +434,43 @@ namespace WritersToolbox.views
             Grid g = (Grid)c.Parent;
             llms.SelectedItems.Add(((datawrapper.MemoryNote)g.DataContext));
         }
+
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            if (newEvent)
+            {
+                ApplicationBar.Buttons.Clear();
+                ApplicationBarIconButton save = new ApplicationBarIconButton(new Uri("/icons/save.png", UriKind.Relative));
+                save.Text = AppResources.AppBarSave;
+                save.Click += saveNewEvent;
+                ApplicationBar.Buttons.Add(save);
+                ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+                cancel.Text = AppResources.AppBarCancel;
+                cancel.Click += cancelNewEvent;
+                ApplicationBar.Buttons.Add(cancel);
+                newEventTextbox.Focus();
+                eventPivot.IsLocked = true;
+                newEventTitle.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void cancelNewEvent(object sender, EventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+        private void saveNewEvent(object sender, EventArgs e)
+        {
+            this.edvm.newEvent(newEventTextbox.Text, 1);
+            this.edvm.LoadData();
+            this.DataContext = null;
+            this.DataContext = this.edvm.Event;
+            eventPivot.IsLocked = false;
+            newEventTitle.Visibility = Visibility.Collapsed;
+            ApplicationBar.Buttons.Clear();
+            newEvent = false;
+            NavigationContext.QueryString.Clear();
+        }
+
     }
 }

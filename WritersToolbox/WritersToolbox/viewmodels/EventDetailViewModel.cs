@@ -23,14 +23,15 @@ namespace WritersToolbox.viewmodels
         public datawrapper.Event Event = null;
         public EventDetailViewModel(int event_id) {
             this.wtb = WritersToolboxDatebase.getInstance();
-            if (event_id > 0) {
-                this.event_id = event_id;
-            }
             this.tableEvents = this.wtb.GetTable<Event>();
             this.tableChapter = this.wtb.GetTable<Chapter>();
             this.tableNotes = this.wtb.GetTable<MemoryNote>();
             this.tableTypeObjects = this.wtb.GetTable<TypeObject>();
             tableMemoryNote = wtb.GetTable<MemoryNote>();
+            if (event_id > 0)
+            {
+                this.event_id = event_id;
+            }
         }
 
         public void LoadData() {
@@ -246,6 +247,24 @@ namespace WritersToolbox.viewmodels
                     name = AppResources.EventAssignTypObject
                 });
             this.NotifyPropertyChanged("Event");
+        }
+
+        public void newEvent(string title, int chapterID)
+        {
+            models.Chapter c = (from chapter in tableChapter
+                                             where chapter.chapterID == chapterID
+                                             select chapter).Single();
+            Event e = new Event();
+            e.title = title;
+            e.obj_Chapter = c;
+            e.finaltext = "";
+            this.tableEvents.InsertOnSubmit(e);
+            this.wtb.SubmitChanges();
+            Event nE = (from ev in this.tableEvents
+                        orderby ev.eventID descending
+                        select ev).First();
+            this.event_id = nE.eventID;
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

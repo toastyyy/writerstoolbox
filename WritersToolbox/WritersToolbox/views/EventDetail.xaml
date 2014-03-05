@@ -14,7 +14,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="PageLoaded">
 
     <phone:PhoneApplicationPage.Resources>
         <converter:DateConverter x:Key="DateConverter"/>
@@ -171,6 +171,24 @@
                     <TextBlock Text="{Binding Path=LocalizedResources.EventDetailHeadline1, Source={StaticResource LocalizedStrings}}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
                 </phone:PivotItem.Header>
                 <Grid Margin="0,0,0,0">
+                    <Grid x:Name="newEventTitle" Visibility="Collapsed" VerticalAlignment="Bottom">
+                        <Rectangle x:Name="newChapterRectangle" Fill="#ddA6a6a6" Height="80" Margin="0,0,0,0" VerticalAlignment="Top" Width="480" UseLayoutRounding="True" />
+                        <TextBox x:Name="newEventTextbox" 
+                             FontFamily="Segoe WP Light" 
+                             Foreground="#FF353535" 
+                             FontSize="30" 
+                             Height="80" 
+                             Margin="134,0,30,0" 
+                             Padding="6,4,0,-7" 
+                             VerticalAlignment="Top" 
+                             Background="Transparent" 
+                             TextWrapping="Wrap" 
+                             Text="" 
+                             BorderThickness="0,0,0,3" />
+                        <TextBlock x:Name="newChapterTextTitle" HorizontalAlignment="Left" FontFamily="Segoe WP Light" Foreground="#FF353535" FontSize="30" Margin="50,0,0,0" TextWrapping="Wrap" Text="Titel:" VerticalAlignment="Top" Height="80" Width="116" Padding="0,18,0,0" />
+
+                    </Grid>
+                    
                     <ScrollViewer>
                         <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="tFinalText" Foreground="Black" Background="{x:Null}" Tap="tFinalText_Tap" Width="476">
                         <Paragraph>
