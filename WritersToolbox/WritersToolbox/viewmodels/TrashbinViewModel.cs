@@ -147,6 +147,22 @@ namespace WritersToolbox.viewmodels
                 this.DeletedObjects.Add(ty);
             }
             this.NotifyPropertyChanged("DeletedObjects");
+        
+         //Komplette Events die gelöscht sind.
+            var sqlEvent = from te in tableEvent
+                                where te.deleted == true
+                                select te;
+            foreach (var eevent in sqlEvent)
+            {
+                datawrapper.Event te = new datawrapper.Event()
+                {
+                   
+                    eventID = eevent.eventID,
+                    title = eevent.title,
+
+                };
+                this.DeletedObjects.Add(te);
+            }
         }
 
         public void deleteTrash(IList list)
@@ -187,6 +203,17 @@ namespace WritersToolbox.viewmodels
                     var entries = (from e in this.tableEvent
                                    where e.eventID == ev.eventID
                                    select e).Single();
+                        foreach (var n in entries.notes)
+                        {
+                            tableMemoryNote.DeleteOnSubmit(n);
+                        }
+                        var tos = from to in this.db.GetTable<EventTypeObjects>()
+                                  where to.fk_eventID == entries.eventID
+                                  select to;
+                        foreach (var t in tos) {
+                            this.db.GetTable<EventTypeObjects>().DeleteOnSubmit(t);
+                        }
+                        entries.typeObjects.Clear();
                     this.tableEvent.DeleteOnSubmit(entries);
                 }
                 if (entry.GetType().IsAssignableFrom((new datawrapper.Type()).GetType()))

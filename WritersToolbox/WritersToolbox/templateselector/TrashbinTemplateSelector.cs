@@ -38,6 +38,10 @@ namespace WritersToolbox.templateselector
             {
                 return typeTemplate;
             }
+            else if (item.GetType().IsAssignableFrom((new datawrapper.Event()).GetType()))
+            {
+                return eventTemplate;
+            }
             
             
 
