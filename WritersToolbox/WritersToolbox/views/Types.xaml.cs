@@ -174,7 +174,7 @@ namespace WritersToolbox.views
                 delete.Text = AppResources.AppBarDelete;
                 edit.Text = AppResources.AppBarEdit;
                 edit.Click += ChangeType;
-                delete.Click += TryDeleteType;
+                delete.Click += DeleteType;
                 ApplicationBar.Buttons.Add(edit);
                 ApplicationBar.Buttons.Add(delete);
                 this.PivotMain.Title = new TextBlock()
@@ -273,6 +273,8 @@ namespace WritersToolbox.views
                 Types.types_VM.createType(title, color, "/icons/character.png");
                 //zum gerade erzeugten Typ navigieren
                 PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
+                PivotMain.SelectedIndex++;
+                PivotMain.SelectedIndex--;
             }
             catch (ArgumentException ae) 
             {
@@ -388,6 +390,10 @@ namespace WritersToolbox.views
             datawrapper.Type t = PivotMain.SelectedItem as datawrapper.Type;
             if (t == null)
                 return;
+            if (t.typeObjects.Count > 1) {
+                MessageBox.Show("Du kannst nur Typen löschen, die keine Objekte enthalten.", "Fehler beim Löschen", MessageBoxButton.OK);
+                return;
+            }
             Types.Types_VM.deleteType(t.typeID);
             this.PivotMain.SelectedIndex = (this.PivotMain.SelectedIndex) % this.PivotMain.Items.Count;
             this.PivotMain.SelectedIndex = (this.PivotMain.SelectedIndex == 0) ? 
@@ -441,31 +447,30 @@ namespace WritersToolbox.views
             if (t == null)
                 return;
             this.currentType = t;
-            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
-            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+            ApplicationBarIconButton btn1 = new ApplicationBarIconButton();
+            ApplicationBarIconButton btn2 = new ApplicationBarIconButton();
+            ApplicationBar.Buttons.Clear();
             if (t.typeID == -1)
             {
                 btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
                 btn1.Text = AppResources.AppBarSave;
-                btn1.Click -= new EventHandler(ChangeType);
-                btn1.Click += new EventHandler(SaveType);
+                btn1.Click += SaveType;
                 btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
                 btn2.Text = AppResources.AppBarCancel;
-                btn2.Click -= new EventHandler(TryDeleteType);
-                btn2.Click += new EventHandler(CancelType);
+                btn2.Click += CancelType;
                 this.currentSelectList = null;
             }
             else
             {
                 btn1.IconUri = new Uri("/icons/edit.png", UriKind.Relative);
                 btn1.Text = AppResources.AppBarEdit;
-                btn1.Click -= new EventHandler(SaveType);
-                btn1.Click += new EventHandler(ChangeType);
+                btn1.Click += ChangeType;
                 btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
                 btn2.Text = AppResources.AppBarDelete;
-                btn2.Click -= new EventHandler(CancelType);
-                btn2.Click += new EventHandler(TryDeleteType);
+                btn2.Click += DeleteType;
             }
+            ApplicationBar.Buttons.Add(btn1);
+            ApplicationBar.Buttons.Add(btn2);
             }
             
         }
@@ -524,12 +529,12 @@ namespace WritersToolbox.views
 
             btn1.IconUri = new Uri("/icons/edit.png", UriKind.Relative);
             btn1.Text = AppResources.AppBarEdit;
-            btn1.Click -= new EventHandler(SaveType);
-            btn1.Click += new EventHandler(ChangeType);
+            btn1.Click -= SaveType;
+            btn1.Click += ChangeType;
             btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
             btn2.Text = AppResources.AppBarDelete;
-            btn2.Click -= new EventHandler(CancelType);
-            btn2.Click += new EventHandler(TryDeleteType);
+            btn2.Click -= CancelType;
+            btn2.Click += DeleteType;
 
             ApplicationBar.Buttons.Clear();
             ApplicationBar.Buttons.Add(btn1);

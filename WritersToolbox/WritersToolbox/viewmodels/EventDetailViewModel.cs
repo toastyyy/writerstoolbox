@@ -175,7 +175,11 @@ namespace WritersToolbox.viewmodels
             var TypeObject = (from to in this.tableTypeObjects
                               where to.typeObjectID == toID
                               select to).Single();
-            ev.typeObjects.Add(new EventTypeObjects() { fk_eventID = ev.eventID, fk_typeObjectID = TypeObject.typeObjectID});
+
+            EventTypeObjects eto = new EventTypeObjects() { fk_eventID = ev.eventID, fk_typeObjectID = TypeObject.typeObjectID };
+            ev.typeObjects.Add(eto);
+
+            this.wtb.GetTable<EventTypeObjects>().InsertOnSubmit(eto);
             TypeObject.used = true;
             this.wtb.SubmitChanges();
             this.LoadData();
