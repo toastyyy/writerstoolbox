@@ -50,6 +50,11 @@ namespace WritersToolbox.gui
         //Fertig
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (PhoneApplicationService.Current.State.ContainsKey("cancelAssignment")) {
+                PhoneApplicationService.Current.State.Remove("cancelAssignment");
+                PhoneApplicationService.Current.State.Remove("assignNote");
+                NavigationService.GoBack();
+            }
             if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
             {
                 NavigationService.GoBack();
@@ -127,6 +132,10 @@ namespace WritersToolbox.gui
             NavigationService.Navigate(new Uri("/views/Settings.xaml", UriKind.Relative));
         }
 
-        
+        private void ApplicationBarIconButton_Click(object sender, EventArgs e)
+        {
+            PhoneApplicationService.Current.State.Remove("assignNote");
+            NavigationService.GoBack();
+        }      
     }
 }

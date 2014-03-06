@@ -13,6 +13,7 @@ using System.ComponentModel;
 using System.Diagnostics;
 using Microsoft.Phone.Controls;
 using WritersToolbox.Resources;
+using Microsoft.Phone.Shell;
 
 namespace WritersToolbox.viewmodels
 {
@@ -279,11 +280,14 @@ namespace WritersToolbox.viewmodels
 
                 }
 
-                datawrapper.Tome newTome = new datawrapper.Tome()
-                {
-                    tomeID = -1
-                };
-                tmpTomes.Add(newTome);
+                if (!PhoneApplicationService.Current.State.ContainsKey("assignNote")) { 
+                    datawrapper.Tome newTome = new datawrapper.Tome()
+                    {
+                        tomeID = -1
+                    };
+                    tmpTomes.Add(newTome);
+                }
+                
 
                 datawrapper.Book book = new datawrapper.Book() {
                     addedDate = b.addedDate,
@@ -296,12 +300,16 @@ namespace WritersToolbox.viewmodels
                 tmpBooks.Add(book);
             }
 
-            tmpBooks.Add(new datawrapper.Book()
+            if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
-                name= AppResources.NewBook,
-                bookID=-1,
-                addedDate = new DateTime(2012,6,3,22,10,22)
-            });
+                tmpBooks.Add(new datawrapper.Book()
+                {
+                    name= AppResources.NewBook,
+                    bookID=-1,
+                    addedDate = new DateTime(2012,6,3,22,10,22)
+                });
+                
+            }
             this.books = tmpBooks;
             this.NotifyPropertyChanged("Books");
         }

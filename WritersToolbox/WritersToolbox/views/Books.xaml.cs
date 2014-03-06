@@ -84,6 +84,14 @@ namespace WritersToolbox.views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            Books_VM.loadData();
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                PivotMain.Title = new TextBlock() { Text = "Notiz zuweisen" };
+                ApplicationBar.Buttons.Clear();
+                hasEventHandler = false;
+            }
+
             if (NavigationContext.QueryString.ContainsKey("item"))
             {
                 var item = NavigationContext.QueryString["item"];
@@ -94,8 +102,6 @@ namespace WritersToolbox.views
                 } else 
                     PivotMain.SelectedIndex = indexParsed - 1;
             }
-
-
         }
 
 
@@ -139,6 +145,10 @@ namespace WritersToolbox.views
            
            datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
            books_VM.deleteBook(b, keepTomes.IsChecked.Value);
+           this.PivotMain.SelectedIndex = (this.PivotMain.SelectedIndex) % this.PivotMain.Items.Count;
+           this.PivotMain.SelectedIndex = (this.PivotMain.SelectedIndex == 0) ?
+               this.PivotMain.Items.Count - 1 :
+               this.PivotMain.SelectedIndex--;
            deleteBookPopup.IsOpen = false;
         }
 
@@ -197,30 +207,53 @@ namespace WritersToolbox.views
 
         private void loadNewBookAppBar()
         {
-            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
-            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
-            btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
-            btn1.Text = AppResources.AppBarSave;
-            btn1.Click -= new EventHandler(ChangeBook);
-            btn1.Click += new EventHandler(SaveBook);
-            btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
-            btn2.Text = AppResources.AppBarCancel;
-            btn2.Click -= new EventHandler(TryDeleteBook);
-            btn2.Click += new EventHandler(CancelBook);
+            if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+                ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+                btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
+                btn1.Text = AppResources.AppBarSave;
+                btn1.Click -= new EventHandler(ChangeBook);
+                btn1.Click += new EventHandler(SaveBook);
+                btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+                btn2.Text = AppResources.AppBarCancel;
+                btn2.Click -= new EventHandler(TryDeleteBook);
+                btn2.Click += new EventHandler(CancelBook);
+            }
+            else {
+                ApplicationBar.Buttons.Clear();
+                ApplicationBarIconButton btn = new ApplicationBarIconButton();
+                btn.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+                btn.Text = AppResources.AppBarCancel;
+                btn.Click += new EventHandler(cancelAssignment);
+                ApplicationBar.Buttons.Add(btn);
+            }
         }
 
         private void loadBookAppBar()
         {
-            ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
-            ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
-            btn1.IconUri = new Uri("/icons/saveAs.png", UriKind.Relative);
-            btn1.Text = AppResources.AppBarEdit;
-            btn1.Click -= new EventHandler(SaveBook);
-            btn1.Click += new EventHandler(ChangeBook);
-            btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
-            btn2.Text = AppResources.AppBarDelete;
-            btn2.Click -= new EventHandler(CancelBook);
-            btn2.Click += new EventHandler(TryDeleteBook);
+            if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
+                ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
+                btn1.IconUri = new Uri("/icons/saveAs.png", UriKind.Relative);
+                btn1.Text = AppResources.AppBarEdit;
+                btn1.Click -= new EventHandler(SaveBook);
+                btn1.Click += new EventHandler(ChangeBook);
+                btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
+                btn2.Text = AppResources.AppBarDelete;
+                btn2.Click -= new EventHandler(CancelBook);
+                btn2.Click += new EventHandler(TryDeleteBook);
+            }
+            else
+            {
+                ApplicationBar.Buttons.Clear();
+                ApplicationBarIconButton btn = new ApplicationBarIconButton();
+                btn.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+                btn.Text = AppResources.AppBarCancel;
+                btn.Click += new EventHandler(cancelAssignment);
+                ApplicationBar.Buttons.Add(btn);
+            }
         }
 
         /// <summary>
@@ -231,7 +264,9 @@ namespace WritersToolbox.views
         private void SaveBook(object sender, EventArgs e)
         {
             Books_VM.addBook(bookname.Text, BookType);
-            PivotMain.SelectedIndex = PivotMain.Items.Count - 1; // wird auf das neue Werk navigiert, wird ein falsches Werk als selectedItem angegeben
+            PivotMain.SelectedIndex = PivotMain.Items.Count - 2; // wird auf das neue Werk navigiert, wird ein falsches Werk als selectedItem angegeben
+            PivotMain.SelectedIndex++;
+            PivotMain.SelectedIndex--;
             bookname.Text = "";
         }
 
@@ -301,5 +336,10 @@ namespace WritersToolbox.views
             BookTypeInfo.Text = AppResources.BooksBookTypeInfoText + BookType.numberOfChapter.ToString();
         }
 
+        private void cancelAssignment(object sender, EventArgs e)
+        {
+            PhoneApplicationService.Current.State["cancelAssignment"] = true;
+            NavigationService.GoBack();
+        }
     }
 }

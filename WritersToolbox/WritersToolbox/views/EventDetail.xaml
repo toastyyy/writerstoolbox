@@ -190,7 +190,7 @@
                     </Grid>
                     
                     <ScrollViewer>
-                        <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="tFinalText" Foreground="Black" Background="{x:Null}" Tap="tFinalText_Tap" Width="476">
+                        <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="tFinalText" Foreground="Black" Background="{x:Null}" Tap="tFinalText_Tap" Width="476" VerticalContentAlignment="Top">
                         <Paragraph>
                                 
                         </Paragraph>
