@@ -58,7 +58,7 @@
                         ItemsSource="{Binding events}"
                         LayoutMode="List"         
                         ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
-                        BorderBrush="Black" Grid.Row="1" Hold="llmsEvent_Hold" Visibility="Collapsed" />
+                        BorderBrush="Black" Grid.Row="1" Hold="llmsEvent_Hold" Visibility="Collapsed" IsSelectionEnabledChanged="llmsEvent_IsSelectionEnabledChanged" />
             </Grid>
         </DataTemplate>
 
@@ -218,7 +218,7 @@
                         ItemTemplate="{StaticResource chapterItemTemplate}"
                         LayoutMode="List"                   
                         ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
-                        BorderBrush="Black" />
+                        BorderBrush="Black" SelectionChanged="llstructure_SelectionChanged" IsSelectionEnabledChanged="llstructure_IsSelectionEnabledChanged" />
 
 
 
