@@ -111,7 +111,7 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar >
         <shell:ApplicationBar x:Name="cancelBar" IsVisible="False" IsMenuEnabled="false" BackgroundColor="#FF72A91C">
-            <shell:ApplicationBarIconButton IconUri="icons/cancel.png" Text="Abbrechen" />
+            <shell:ApplicationBarIconButton IconUri="icons/cancel.png" Text="Abbrechen" Click="ApplicationBarIconButton_Click" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

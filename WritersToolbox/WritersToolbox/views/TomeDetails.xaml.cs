@@ -196,7 +196,7 @@ namespace WritersToolbox.views
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             var lastPage = NavigationService.BackStack.FirstOrDefault();
-            if (lastPage != null && lastPage.Source.ToString().Substring(0, 23).Equals("/views/EventDetail.xaml"))
+            if (lastPage != null && lastPage.Source.ToString().Equals("/views/EventDetail.xaml"))
             {
                 NavigationService.RemoveBackEntry();
             }

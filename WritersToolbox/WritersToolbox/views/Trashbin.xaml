@@ -108,6 +108,23 @@
             </Grid>
         </DataTemplate>
 
+        <DataTemplate x:Key="trashbinEventTemplate">
+            <Grid Height="Auto" Margin="0,20,0,20" Tap="Grid_Tap" Hold="Grid_Hold">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="115" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
+                <Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Typen_round_Icon.png"/>
+                <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="29" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Column="0" x:Name="titleTypeTextBlock" Text="{Binding title}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight"  Margin="0,-10,0,0"/>
+                </Grid>
+                <Border Margin="0,0,0,-20" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
+            </Grid>
+        </DataTemplate>
+
         <DataTemplate x:Key="trashbinTemplateSelector">
             <templateselector:TrashbinTemplateSelector
             Content="{Binding}"
@@ -116,6 +133,7 @@
             typeObjectTemplate="{StaticResource trashbinTypeObjectTemplate}" 
             typeTemplate="{StaticResource trashbinTypeTemplate}"
             tomeTemplate="{StaticResource trashbinTomeTemplate}"
+            eventTemplate="{StaticResource trashbinEventTemplate}"
             HorizontalContentAlignment="Stretch"
             />
         </DataTemplate>

@@ -12,129 +12,119 @@ using Microsoft.Phone.Tasks;
 using System.Windows.Media.Imaging;
 using System.Text.RegularExpressions;
 using WritersToolbox.Resources;
+using System.Collections;
 
 namespace WritersToolbox.views
 {
     public partial class EventDetail : PhoneApplicationPage
     {
         private EventDetailViewModel edvm = null;
-        private PhotoChooserTask photoChooserTask;
-        private int photochooserSelStart = -1;
-        private int photochooserSelLength = 0;
+        private bool newEvent = false;
         public EventDetail()
         {
             InitializeComponent();
-            photoChooserTask = new PhotoChooserTask();
-            photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            if (PhoneApplicationService.Current.State.ContainsKey("preventUpdate") &&
-                (Boolean)PhoneApplicationService.Current.State["preventUpdate"] == true)
-            {
-                PhoneApplicationService.Current.State["preventUpdate"] = false;
-                return;
-            }
-
             if (NavigationContext.QueryString.ContainsKey("eventID"))
             {
                 int eID = int.Parse(NavigationContext.QueryString["eventID"]);
+                if (eID == 0)
+                {
+                    newEvent = true;
                 this.edvm = new EventDetailViewModel(eID);
+                }
+                else
+                {
+                    this.edvm = new EventDetailViewModel(eID);
                 this.edvm.LoadData();
                 this.DataContext = this.edvm.Event;
-                try
-                {
-                    this.tFinalText.Xaml = this.parseRichTextFormat(this.edvm.Event.finaltext);
-                }
-                catch (Exception ex) {
-                    this.tFinalText.Xaml = this.parsePlainText(this.edvm.Event.finaltext);
+                    try
+                    {
+                        this.tFinalText.Xaml = this.parseRichTextFormat(this.edvm.Event.finaltext);
+                    }
+                    catch (Exception ex)
+                    {
+                        this.tFinalText.Xaml = this.parsePlainText(this.edvm.Event.finaltext);
+                    }
                 }
                 
             }
             if (PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
-            {
+             {
                 if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
                 {
                     int toID = (int)PhoneApplicationService.Current.State["typeObjectID"];
                     PhoneApplicationService.Current.State.Remove("typeObjectID");
-                    PhoneApplicationService.Current.State.Remove("attachEvent");
-                    this.edvm.attachTypeObject(toID, this.edvm.Event.eventID);
-                }
-                else
-                {
-                    PhoneApplicationService.Current.State.Remove("attachEvent");
-                }
-                
-            }
+                     PhoneApplicationService.Current.State.Remove("attachEvent");
+                     this.edvm.attachTypeObject(toID, this.edvm.Event.eventID);
+                     this.DataContext = null;
+                     this.DataContext = this.edvm.Event;
+                 }
+                 else
+                 {
+                     PhoneApplicationService.Current.State.Remove("attachEvent");
+                 }
+                 
+             }
         }
-
-        
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            Pivot p= sender as Pivot;
-            if(p.SelectedIndex == 0)
+            if (!newEvent)
             {
-                ApplicationBar.Buttons.Clear();
+                Pivot p = sender as Pivot;
+                if (p.SelectedIndex == 0)
+                {
+                    ApplicationBar.Buttons.Clear();
+                }
+                else if (p.SelectedIndex == 1)
+                {
+                    if (this.edvm.Event.notes.Count > 0)
+                    {
+                        ApplicationBar.Buttons.Clear();
+                        ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
+                        unattach.Text = AppResources.AppBarUnattached;
+                        unattach.Click += unattachNotes;
+                        ApplicationBar.Buttons.Add(unattach);
+                        ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+                        delete.Text = AppResources.AppBarDelete;
+                        delete.Click += deleteNotes;
+                        ApplicationBar.Buttons.Add(delete);
+                    }
+                }
+                else if (p.SelectedIndex == 2)
+                {
+                    if (this.edvm.Event.typeObjects.Count > 1)
+                    {
+                        ApplicationBar.Buttons.Clear();
+                        ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
+                        unattach.Text = AppResources.AppBarUnattached;
+                        unattach.Click += unattachTypeObjects;
+                        ApplicationBar.Buttons.Add(unattach);
+                    }
+                }
             }
-            else if(p.SelectedIndex == 1)
-            {
-                ApplicationBar.Buttons.Clear();
-                ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
-                unattach.Text = AppResources.AppBarUnattached;
-                unattach.Click += unattachNotes;
-                ApplicationBar.Buttons.Add(unattach);
-                ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
-                delete.Text = AppResources.AppBarDelete;
-                delete.Click += deleteNotes;
-                ApplicationBar.Buttons.Add(delete);
-            }
-            else if (p.SelectedIndex == 2)
-            {
-                ApplicationBar.Buttons.Clear();
-                ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
-                unattach.Text = AppResources.AppBarUnattached;
-                unattach.Click += unattachTypeObjects;
-                ApplicationBar.Buttons.Add(unattach);
-            }
+            
         }
 
-        private void unattachTypeObjects(object sender, EventArgs e)
-        {
-            foreach (datawrapper.TypeObject to in TypeObjectList.SelectedItems)
-            {
-                this.edvm.unassignTypeObject(to.typeObjectID);
-            }
-        }
-
-        private void deleteNotes(object sender, EventArgs e)
-        {
-            foreach (datawrapper.MemoryNote n in NoteList.SelectedItems)
-            {
-                this.edvm.deleteNote(n.memoryNoteID);
-            }
-        }
-
-        private void unattachNotes(object sender, EventArgs e)
-        {
-            foreach (datawrapper.MemoryNote n in NoteList.SelectedItems)
-            {
-                this.edvm.unassignNote(n.memoryNoteID);
-            }
-        }
-
+        
         private void tFinalText_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            this.editFinaltextGrid.Visibility = Visibility.Visible;
-            this.textBoxFinalText.Visibility = Visibility.Visible;
+            if (!newEvent)
+            {
+                this.editFinaltextGrid.Visibility = Visibility.Visible;
+                this.textBoxFinalText.Visibility = Visibility.Visible;
 
-            //workaround fuer tastatur
-            this.textBoxFinalText.Focus();
-            this.WorkaroundButton.Focus();
-            this.textBoxFinalText.Focus();
-            this.createTextEditApplicationBar();
+                //workaround fuer tastatur
+                this.textBoxFinalText.Focus();
+                this.WorkaroundButton.Focus();
+                this.textBoxFinalText.Focus();
+                this.createTextEditApplicationBar();
+            }
+            
         }
 
         private void insertBold(object sender, System.EventArgs e)
@@ -255,37 +245,27 @@ namespace WritersToolbox.views
             }
         }
 
-        private void photoChooserTask_Completed(object sender, PhotoResult e)
-        {
-            if (e.TaskResult == TaskResult.OK)
-            {
-                String curText = this.textBoxFinalText.Text;
-                this.textBoxFinalText.Text =
-                    curText.Substring(0, this.photochooserSelStart)
-                    + "<p>" + e.OriginalFileName.Replace(@"\", "/") + "</p>" +
-                    curText.Substring(this.photochooserSelStart + this.photochooserSelLength);
-            }
-        }
-
         private String parseRichTextFormat(String plain) {
 
             String retXaml = "";
             String text = plain;
-            text = Regex.Replace(text, @"<b>(\w+)</b>", "<Bold>$1</Bold>");
-            text = Regex.Replace(text, @"<i>(\w+)</i>", "<Italic>$1</Italic>");
-            text = Regex.Replace(text, @"<u>(\w+)</u>", "<Underline>$1</Underline>");
+            text = text.Replace("<b>", "<Bold>").Replace("</b>", "</Bold>");
+            text = text.Replace("<i>", "<Italic>").Replace("</i>", "</Italic>");
+            text = text.Replace("<u>", "<Underline>").Replace("</u>", "</Underline>");
 
+            text = text.Replace(@"\n", "</Paragraph><Paragraph>");
             retXaml = 
                 @"<Section xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">" +
-                "<Paragraph>" + text + "</Paragraph>" + 
+                @"<Paragraph TextAlignment=""Justify"">" + text + "</Paragraph>" + 
                 "</Section>";
             return retXaml;
         }
 
         private String parsePlainText(String xaml) {
             String ret = xaml.Replace("<", "&lt;").Replace(">", "&gt;");
+            ret = ret.Replace("\n", "</Paragraph><Paragraph>");
             return @"<Section xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">" +
-                "<Paragraph>" + ret + "</Paragraph>" +
+                @"<Paragraph TextAlignment=""Justify"">" + ret + "</Paragraph>" +
                 "</Section>";
         }
 
@@ -296,7 +276,21 @@ namespace WritersToolbox.views
 
         private void TypeObjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (TypeObjectList.SelectedItems.Count > 0)
+            {
+                this.edvm.removeAddTypeObject();
+            }
+            else {
+                this.edvm.addAddTypeObject();
+            }
 
+            this.selectAllCheckBox2.Unchecked -= selectAllCheckBox_Unchecked;
+            this.selectAllCheckBox2.Checked -= selectAllCheckBox_Checked;
+            this.selectAllCheckBox2.IsChecked = TypeObjectList.SelectedItems.Count == TypeObjectList.ItemsSource.Count;
+            this.TypeObjectList.EnforceIsSelectionEnabled = TypeObjectList.SelectedItems.Count > 0;
+            this.eventPivot.IsLocked = TypeObjectList.SelectedItems.Count > 0;
+            this.selectAllCheckBox2.Unchecked += selectAllCheckBox_Unchecked;
+            this.selectAllCheckBox2.Checked += selectAllCheckBox_Checked;
         }
 
         private void SelectTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
@@ -341,6 +335,9 @@ namespace WritersToolbox.views
 
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
         {
+            this.TypeObjectList.SelectionChanged -= TypeObjects_SelectionChanged;
+            this.edvm.removeAddTypeObject();
+
             LongListMultiSelector l = null;
             CheckBox c = sender as CheckBox;
             if (c.Name.Equals("selectAllCheckBox1"))
@@ -349,24 +346,29 @@ namespace WritersToolbox.views
             }
             else if (c.Name.Equals("selectAllCheckBox2"))
             {
+                this.eventPivot.IsLocked = true;
                 l = TypeObjectList;
             }
 
             if (l != null)
             {
                 l.EnforceIsSelectionEnabled = true;
-                foreach (var item in l.ItemsSource)
+                IEnumerator enumerator = l.ItemsSource.GetEnumerator();
+                while (enumerator.MoveNext())
                 {
-                    var container = l.ContainerFromItem(item)
-                                          as LongListMultiSelectorItem;
-                    if (container != null) container.IsSelected = true;
+                    l.SelectedItems.Add(enumerator.Current);
                 }
             }
+            this.TypeObjectList.SelectionChanged += TypeObjects_SelectionChanged;
 
         }
 
         private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
+            this.TypeObjectList.SelectionChanged -= TypeObjects_SelectionChanged;
+            this.edvm.addAddTypeObject();
+            //this.DataContext = null;
+            //this.DataContext = this.edvm.Event;
             LongListMultiSelector l = null;
             CheckBox c = sender as CheckBox;
             if (c.Name.Equals("selectAllCheckBox1"))
@@ -375,12 +377,100 @@ namespace WritersToolbox.views
             }
             else if (c.Name.Equals("selectAllCheckBox2"))
             {
+                this.eventPivot.IsLocked = false;
                 l = TypeObjectList;
             }
             if (l != null)
             {
                 l.EnforceIsSelectionEnabled = false;
             }
+            this.TypeObjectList.SelectionChanged += TypeObjects_SelectionChanged;
         }
+
+        private void unattachTypeObjects(object sender, EventArgs e)
+        {
+            foreach (datawrapper.TypeObject to in TypeObjectList.SelectedItems)
+            {
+                this.edvm.unassignTypeObject(to.typeObjectID);
+            }
+            this.DataContext = null;
+            this.DataContext = this.edvm.Event;
+        }
+
+        private void unattachNotes(object sender, EventArgs e)
+        {
+            foreach (datawrapper.MemoryNote n in NoteList.SelectedItems)
+            {
+                this.edvm.unassignNote(n.memoryNoteID);
+            }
+            this.DataContext = null;
+            this.DataContext = this.edvm.Event;
+        }
+
+        private void deleteNotes(object sender, EventArgs e)
+        {
+            foreach (datawrapper.MemoryNote n in NoteList.SelectedItems)
+            {
+                this.edvm.deleteNote(n.memoryNoteID);
+            }
+            this.DataContext = null;
+            this.DataContext = this.edvm.Event;
+        }
+
+        private void TypeObjectList_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            LongListMultiSelector llms = (LongListMultiSelector)sender;
+            FrameworkElement c = (FrameworkElement)e.OriginalSource;
+            while (!llms.Parent.GetType().IsAssignableFrom((new Grid()).GetType())) { };
+            Grid g = (Grid)c.Parent;
+            llms.SelectedItems.Add(((datawrapper.TypeObject)g.DataContext));
+        }
+
+        private void NoteList_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            LongListMultiSelector llms = (LongListMultiSelector)sender;
+            FrameworkElement c = (FrameworkElement)e.OriginalSource;
+            while (!llms.Parent.GetType().IsAssignableFrom((new Grid()).GetType())) { };
+            Grid g = (Grid)c.Parent;
+            llms.SelectedItems.Add(((datawrapper.MemoryNote)g.DataContext));
+        }
+
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            if (newEvent)
+            {
+                ApplicationBar.Buttons.Clear();
+                ApplicationBarIconButton save = new ApplicationBarIconButton(new Uri("/icons/save.png", UriKind.Relative));
+                save.Text = AppResources.AppBarSave;
+                save.Click += saveNewEvent;
+                ApplicationBar.Buttons.Add(save);
+                ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+                cancel.Text = AppResources.AppBarCancel;
+                cancel.Click += cancelNewEvent;
+                ApplicationBar.Buttons.Add(cancel);
+                newEventTextbox.Focus();
+                eventPivot.IsLocked = true;
+                newEventTitle.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void cancelNewEvent(object sender, EventArgs e)
+        {
+            NavigationService.GoBack();
+        }
+
+        private void saveNewEvent(object sender, EventArgs e)
+        {
+            this.edvm.newEvent(newEventTextbox.Text, 1);
+            this.edvm.LoadData();
+            this.DataContext = null;
+            this.DataContext = this.edvm.Event;
+            eventPivot.IsLocked = false;
+            newEventTitle.Visibility = Visibility.Collapsed;
+            ApplicationBar.Buttons.Clear();
+            newEvent = false;
+            NavigationContext.QueryString.Clear();
+        }
+
     }
 }

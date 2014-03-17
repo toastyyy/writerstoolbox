@@ -142,7 +142,7 @@
                     x:Name="multiselector" Foreground="Black"
                     ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}" 
                     BorderBrush="Black"
-                    SelectionChanged="NoteSelectionChanged">
+                    SelectionChanged="NoteSelectionChanged" Hold="multiselector_Hold">
                 </toolkit:LongListMultiSelector>
             </Grid>
         </Grid>

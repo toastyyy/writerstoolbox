@@ -132,7 +132,8 @@ namespace WritersToolbox.demo
             {
                 title = "Bahnhof",
                 obj_Chapter = c2,
-                finaltext = ""
+                finaltext = "",
+                deleted = true
             };
             Event e5 = new Event()
             {

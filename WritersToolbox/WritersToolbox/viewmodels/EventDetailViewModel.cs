@@ -23,14 +23,15 @@ namespace WritersToolbox.viewmodels
         public datawrapper.Event Event = null;
         public EventDetailViewModel(int event_id) {
             this.wtb = WritersToolboxDatebase.getInstance();
-            if (event_id > 0) {
-                this.event_id = event_id;
-            }
             this.tableEvents = this.wtb.GetTable<Event>();
             this.tableChapter = this.wtb.GetTable<Chapter>();
             this.tableNotes = this.wtb.GetTable<MemoryNote>();
             this.tableTypeObjects = this.wtb.GetTable<TypeObject>();
             tableMemoryNote = wtb.GetTable<MemoryNote>();
+            if (event_id > 0)
+            {
+                this.event_id = event_id;
+            }
         }
 
         public void LoadData() {
@@ -72,6 +73,7 @@ namespace WritersToolbox.viewmodels
 
                 var sqlTypeObjects = (from to in this.tableTypeObjects
                                       where to.events.Any(e => e.fk_eventID == this.event_id)
+                                      && to.deleted == false
                                       select to);
 
                 ObservableCollection<datawrapper.TypeObject> typeObjects = new ObservableCollection<datawrapper.TypeObject>();
@@ -123,6 +125,7 @@ namespace WritersToolbox.viewmodels
 
                 var sqlMemoryNotes = (from mn in this.tableNotes
                                       where mn.obj_Event.eventID == this.event_id
+                                      && mn.deleted == false
                                       select mn);
 
                 ObservableCollection<datawrapper.MemoryNote> memoryNotes = new ObservableCollection<datawrapper.MemoryNote>();
@@ -165,21 +168,45 @@ namespace WritersToolbox.viewmodels
 
         public void attachTypeObject(int toID, int eID)
         {
-            Event Event = (from e in this.tableEvents
-                              where e.eventID == eID
-                              select e).Single();
+            Event ev = (from e in this.tableEvents
+                           where e.eventID == eID
+                           select e).Single();
 
             var TypeObject = (from to in this.tableTypeObjects
-                                  where to.typeObjectID == toID
-                                  select to).Single();
+                              where to.typeObjectID == toID
+                              select to).Single();
+
+            EventTypeObjects eto = new EventTypeObjects() { fk_eventID = ev.eventID, fk_typeObjectID = TypeObject.typeObjectID };
+            ev.typeObjects.Add(eto);
+
+            this.wtb.GetTable<EventTypeObjects>().InsertOnSubmit(eto);
+            TypeObject.used = true;
+            this.wtb.SubmitChanges();
+            this.LoadData();
 
         }
 
         public void unassignTypeObject(int toID)
         {
-            var typeObject = (from to in tableTypeObjects
-                              where to.typeObjectID == toID
-                              select to).Single();
+            try
+            {
+                var assignment = (from a in this.wtb.GetTable<EventTypeObjects>()
+                                  where a.fk_eventID == this.event_id && a.fk_typeObjectID == toID
+                                  select a).Single();
+                TypeObject to = (from t in tableTypeObjects
+                                where t.typeObjectID == toID
+                                select t).Single();
+                if (to.events.Count == 0) {
+                    to.used = false;
+                }
+
+                this.wtb.GetTable<EventTypeObjects>().DeleteOnSubmit(assignment);
+                this.wtb.SubmitChanges();
+                this.LoadData();
+            }
+            catch (Exception e) { 
+            
+            }
         }
 
         public void unassignNote(int nID)
@@ -188,6 +215,7 @@ namespace WritersToolbox.viewmodels
                         where n.memoryNoteID == nID
                         select n).Single();
             note.obj_Event = null;
+            note.associated = false;
             this.wtb.SubmitChanges();
             this.LoadData();
         }
@@ -198,9 +226,49 @@ namespace WritersToolbox.viewmodels
                         where n.memoryNoteID == nID
                         select n).Single();
             note.deleted = true;
-            note.obj_Event = null;
+           
+            //note.obj_Event = null;
             this.wtb.SubmitChanges();
             this.LoadData();
+        }
+
+        public void removeAddTypeObject()
+        {
+            if (this.Event.typeObjects.ElementAt(this.Event.typeObjects.Count - 1).typeObjectID == -1) { 
+                this.Event.typeObjects.RemoveAt(this.Event.typeObjects.Count - 1);
+                this.NotifyPropertyChanged("Event");            
+            }
+
+        }
+
+        public void addAddTypeObject()
+        {
+            this.Event.typeObjects.Add(
+                new datawrapper.TypeObject()
+                {
+                    typeObjectID = -1,
+                    type = new datawrapper.Type() { typeID = -2 },
+                    name = AppResources.EventAssignTypObject
+                });
+            this.NotifyPropertyChanged("Event");
+        }
+
+        public void newEvent(string title, int chapterID)
+        {
+            models.Chapter c = (from chapter in tableChapter
+                                             where chapter.chapterID == chapterID
+                                             select chapter).Single();
+            Event e = new Event();
+            e.title = title;
+            e.obj_Chapter = c;
+            e.finaltext = "";
+            this.tableEvents.InsertOnSubmit(e);
+            this.wtb.SubmitChanges();
+            Event nE = (from ev in this.tableEvents
+                        orderby ev.eventID descending
+                        select ev).First();
+            this.event_id = nE.eventID;
+
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

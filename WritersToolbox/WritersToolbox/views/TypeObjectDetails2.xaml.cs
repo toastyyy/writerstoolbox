@@ -10,6 +10,7 @@ using Microsoft.Phone.Shell;
 using WritersToolbox.viewmodels;
 using System.Windows.Media;
 using WritersToolbox.Resources;
+using System.Diagnostics;
 namespace WritersToolbox.views
 {
     public partial class TypeObjectDetails2 : PhoneApplicationPage
@@ -169,6 +170,15 @@ namespace WritersToolbox.views
         private void DoNotDeleteNotes(object sender, EventArgs e)
         {
             deleteNotesPopup.IsOpen = false;
+        }
+
+        private void multiselector_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            LongListMultiSelector llms = (LongListMultiSelector)sender;
+            FrameworkElement c = (FrameworkElement)e.OriginalSource;
+            while (!llms.Parent.GetType().IsAssignableFrom((new Grid()).GetType())) { };
+            Grid g = (Grid)c.Parent;
+            llms.SelectedItems.Add(((datawrapper.MemoryNote)g.DataContext));
         }
     }
 }
