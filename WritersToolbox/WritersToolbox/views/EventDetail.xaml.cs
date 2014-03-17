@@ -34,13 +34,13 @@ namespace WritersToolbox.views
                 if (eID == 0)
                 {
                     newEvent = true;
-                    this.edvm = new EventDetailViewModel(eID);
+                this.edvm = new EventDetailViewModel(eID);
                 }
                 else
                 {
                     this.edvm = new EventDetailViewModel(eID);
-                    this.edvm.LoadData();
-                    this.DataContext = this.edvm.Event;
+                this.edvm.LoadData();
+                this.DataContext = this.edvm.Event;
                     try
                     {
                         this.tFinalText.Xaml = this.parseRichTextFormat(this.edvm.Event.finaltext);

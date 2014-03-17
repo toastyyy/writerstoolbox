@@ -201,9 +201,11 @@ namespace WritersToolbox.viewmodels
             ObservableCollection<datawrapper.Chapter> _tempChapterList =
                 new ObservableCollection<datawrapper.Chapter>();
 
+            
+////deleted geändert
             //Alle Kapitel des Bandes von Datenbank holen.
             List<models.Chapter> chapters = (from chapter in tableChapter
-                                             where chapter.obj_tome.tomeID == tome.tomeID
+                                             where chapter.obj_tome.tomeID == tome.tomeID && chapter.deleted == false
                                              orderby chapter.chapterNumber
                                              select chapter).ToList();
             //Alle geholten Kapitel durchlaufen.
@@ -214,7 +216,7 @@ namespace WritersToolbox.viewmodels
 
                 //Alle events des Kapitels von Datenbank holen.
                 List<models.Event> events = (from _event in tableEvent
-                                             where _event.obj_Chapter.chapterID == item.chapterID
+                                             where _event.obj_Chapter.chapterID == item.chapterID && _event.deleted == false
                                              orderby _event.orderInChapter
                                              select _event).ToList();
 
@@ -342,8 +344,8 @@ namespace WritersToolbox.viewmodels
 
         }
 
-        public void deleteChapter() { 
-        
+        public void deleteChapter(List<Chapter> ChapterList) { 
+            
         }
 
         public void removeNewChapterEntry() {
