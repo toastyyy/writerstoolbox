@@ -326,7 +326,7 @@ namespace WritersToolbox.viewmodels
                 datawrapper.Chapter _newC = new datawrapper.Chapter()
                 {
                     title = "Neues Kapitel",
-                    chapterID = 0
+                    chapterID = 0 // TODO: ÄNDERN AUF -1
                 };
                 _structur.Add(_newC);
 
@@ -346,6 +346,48 @@ namespace WritersToolbox.viewmodels
 
         public void deleteChapter(List<Chapter> ChapterList) { 
             
+        }
+
+        public void removeNewChapterEntry() {
+            if (this._structur.Last().chapterID == 0) {
+                this._structur.RemoveAt(this._structur.Count - 1);
+            }
+        }
+
+        public void addNewChapterEntry() {
+            if (this._structur.Last().chapterID != 0)
+            {
+                this._structur.Add(new datawrapper.Chapter()
+                {
+                    title = "Neues Kapitel",
+                    chapterID = 0 // TODO: ÄNDERN AUF -1
+                });
+            }
+        }
+
+        public void removeNewEventEntry() {
+            IEnumerator<datawrapper.Chapter> enumerator = this._structur.GetEnumerator();
+            while (enumerator.MoveNext()) {
+                if (enumerator.Current.events.Count > 0 && enumerator.Current.events.Last().eventID == 0) {
+                    enumerator.Current.events.RemoveAt(enumerator.Current.events.Count - 1);
+                }
+            }
+        }
+
+        public void addNewEventEntry() {
+            IEnumerator<datawrapper.Chapter> enumerator = this._structur.GetEnumerator();
+            while (enumerator.MoveNext())
+            {
+                if (enumerator.Current.chapterID != 0 && enumerator.Current.events.Last().eventID != 0)
+                {
+                    enumerator.Current.events.Add(new datawrapper.Event()
+                    {
+                        title = "Ereignis hinzufügen",
+                        eventID = 0
+
+                    });
+                }
+            }
         }
     }
 }

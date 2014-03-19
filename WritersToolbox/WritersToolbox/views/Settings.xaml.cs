@@ -71,9 +71,10 @@ namespace WritersToolbox.views
             loaded = true;
             langPicker.SelectedIndex = langIndex;
         }
-            
-        
 
-        
+        private void Button_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/ExportText.xaml", UriKind.RelativeOrAbsolute));
+        }        
     }
 }

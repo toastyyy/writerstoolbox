@@ -467,11 +467,11 @@ namespace WritersToolbox.views
             datawrapper.Event _e = e.OriginalSource as datawrapper.Event;
 
             if (llstructure.SelectedItems.Count == 0) { 
-                l.IsSelectionEnabled = true;
-                l.SelectedItems.Add(_e);
+            l.IsSelectionEnabled = true;
+            l.SelectedItems.Add(_e);
                 llstructure.EnforceIsSelectionEnabled = false;
-            } 
-            
+        }
+
         }
 
         // false wenn doubleTap eintritt
@@ -736,7 +736,7 @@ namespace WritersToolbox.views
                     
                 }
             }
-        
+
         }
 
         /// <summary>
@@ -881,6 +881,49 @@ namespace WritersToolbox.views
         private void loadLlmsEvent(object sender, RoutedEventArgs e)
         {
             llmsEventListe.Add((LongListMultiSelector)sender);
+        }
+
+        private void llstructure_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (llstructure.IsSelectionEnabled == true)
+            {
+                this.tome_VM.removeNewChapterEntry();
+            }
+            else {
+                this.tome_VM.addNewChapterEntry();
+            }
+
+            this.DataContext = null;
+            this.DataContext = this.tome_VM;
+        }
+
+        private void llstructure_IsSelectionEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            if (llstructure.IsSelectionEnabled)
+            {
+                this.tome_VM.removeNewChapterEntry();
+            }
+            else
+            {
+                this.tome_VM.addNewChapterEntry();
+            }
+
+            this.DataContext = null;
+            this.DataContext = this.tome_VM;
+        }
+
+        private void llmsEvent_IsSelectionEnabledChanged(object sender, DependencyPropertyChangedEventArgs e)
+        {
+            LongListMultiSelector llms = (LongListMultiSelector)sender;
+            if (llms.IsSelectionEnabled)
+            {
+                this.tome_VM.removeNewEventEntry();
+            }
+            else {
+                this.tome_VM.addNewEventEntry();
+            }
+            this.DataContext = null;
+            this.DataContext = this.tome_VM;
         }
 
         
