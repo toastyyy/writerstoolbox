@@ -22,92 +22,76 @@
 
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot">
-        <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="19*"/>
-            <ColumnDefinition Width="13*"/>
-        </Grid.ColumnDefinitions>
-        <Grid.Background>
-            <ImageBrush ImageSource="/Assets/test_strpage2.png"/>
-        </Grid.Background>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="Auto" MinHeight="223"/>
-            <RowDefinition/>
-        </Grid.RowDefinitions>
 
+        <Image HorizontalAlignment="Left" Height="805" VerticalAlignment="Top" Width="526" Source="/images/titel_background.png" Margin="0,0,-46,-37"/>
+        <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="73" HorizontalAlignment="Center" Width="480" Margin="0,52,0,0" FontSize="48" Text="Writer's Toolbox" TextAlignment="Center" />
         <!--<StackPanel Grid.Row="0" Margin="10,10,-10,58" Height="120">-->
         <!-- <TextBlock Text="Writers Toolbox" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" HorizontalAlignment="Center" FontSize="44"/>-->
         <!-- </StackPanel>-->
 
         <!--TitlePanel contains the name of the application and page title-->
-        <Grid  x:Name="title" Grid.Row="0" Margin="10,0,10,46" Grid.ColumnSpan="2" >
-            <Image Source="/Assets/WritersToolboxstartseiteWT.png" Margin="0,10,10,30" HorizontalAlignment="Right" Width="440" Visibility="Collapsed"/>
-            <TextBlock x:Name="tTitle" HorizontalAlignment="Left" Height="99" Margin="34,48,0,0" TextWrapping="Wrap" Text="" VerticalAlignment="Top" Width="394" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="53.333" TextAlignment="Center"/>
-        </Grid>
+
         <!--ContentPanel - place additional content here-->
-        <Grid Background="White" x:Name="ContentPanel" Margin="0,182,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2">
-            <Grid.RowDefinitions>
-                <RowDefinition Height="0*"/>
-                <RowDefinition/>
-            </Grid.RowDefinitions>
-            <Grid.ColumnDefinitions>
-                <ColumnDefinition Width="194*"/>
-                <ColumnDefinition Width="91*"/>
-                <ColumnDefinition Width="145*"/>
-            </Grid.ColumnDefinitions>
-            
-            <Button x:Name="btnNewNote" BorderBrush="LightGray"  HorizontalAlignment="Left" Margin="20,0,0,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" Width="200" Height="200" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Click="newNote" Grid.Row="1" Grid.ColumnSpan="2">
+        <Grid  x:Name="ContentPanel" Margin="0,182,0,0" Grid.ColumnSpan="2" Grid.RowSpan="2">
+
+
+            <Button x:Name="btnNewNote" BorderBrush="Transparent"  HorizontalAlignment="Left" Margin="44,-13,0,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" Width="250" Height="207" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Click="newNote">
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
-                    <Image VerticalAlignment="Center" Height="100" Source="/icons/notiz_round_icon.png" x:Name="image1" Margin="2,20,28,0" />
-                    <TextBlock Foreground="Black" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="239" Margin="0,20,-60,0" FontSize="20" FontWeight="Bold" Text="Neue Notiz" />
+                    <Image VerticalAlignment="Center" Height="136" Source="/icons/notizen.png" x:Name="image1" Margin="2,19,-24,0" />
+                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="52" HorizontalAlignment="Center" Width="224" Margin="0,-32,-24,0" FontSize="20" Text="Neue Notiz" TextAlignment="Center" />
                 </StackPanel>
 
                 <!-- <TextBlock VerticalAlignment="Center" FontSize="26.667" Foreground="White" Width="256" Height="94" HorizontalAlignment="Center" TextAlignment="Center" Text="neue Notiz" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"/>-->
             </Button>
-            <Button x:Name="btnTypes" BorderBrush="LightGray" HorizontalAlignment="Left" Margin="20,186,0,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" Height="200" Width="200" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Click="navigateToTypes" Grid.Row="1" Grid.ColumnSpan="2">
+            <Button x:Name="btnTypes" BorderBrush="#00D3D3D3" HorizontalAlignment="Left" Margin="44,182,0,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" Height="254" Width="205" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Click="navigateToTypes" Foreground="Transparent">
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
-                    <Image VerticalAlignment="Center" Height="100" Source="/icons/Pro_Typen_round_Icon.png" x:Name="image2" Margin="2,20,28,0" />
-                    <TextBlock Foreground="Black" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="239" Margin="0,20,-60,0" FontSize="20" FontWeight="Bold" Text="Typen" />
+                    <Image VerticalAlignment="Center" Height="188" Source="/icons/typen.png" x:Name="image2" Margin="2,-26,21,0" />
+                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="179" Margin="0,-36,21,0" FontSize="20" Text="Typen" TextAlignment="Center" />
                 </StackPanel>
 
 
                 <!-- <TextBlock VerticalAlignment="Center" FontSize="26.667" Foreground="White" Width="209" Height="98" HorizontalAlignment="Center" TextAlignment="Center" Text="Typen" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"/>-->
             </Button>
-            <Button x:Name="btnSettings"  HorizontalAlignment="Right" Margin="0,376,20,0" VerticalAlignment="Top" BorderBrush="LightGray" Background="Transparent" BorderThickness="1" Height="200" Width="200" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Grid.ColumnSpan="3" Grid.Row="2" Click="navigateToSettings">
+            <Button x:Name="btnSettings"  HorizontalAlignment="Right" Margin="0,182,36,0" VerticalAlignment="Top" BorderBrush="#00D3D3D3" Background="Transparent" BorderThickness="1" Height="113" Width="207" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Click="navigateToSettings">
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
-                    <Image VerticalAlignment="Center" Height="100" Source="/icons/Pro_Einstellungen_round_Icon.png" x:Name="image4" Margin="2,20,28,0" />
-                    <TextBlock Foreground="Black" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="239" Margin="0,20,-60,0" FontSize="20" FontWeight="Bold" Text="Einstellungen" />
+
+                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="67" HorizontalAlignment="Center" Width="180" Margin="0,28,20,0" FontSize="20" Text="Einstellungen" TextAlignment="Center" />
                 </StackPanel>
 
                 <!--  <TextBlock Height="58" TextWrapping="Wrap" Text="       Settings" Width="142"/>-->
             </Button>
 
-            <Button  x:Name="btnBooks" HorizontalAlignment="Right" Margin="0,186,20,0" VerticalAlignment="Top" BorderBrush="LightGray" Background="Transparent" BorderThickness="1" Height="200" Width="200" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Grid.ColumnSpan="2" Grid.Row="1" Tap="navigateToBooks" Grid.Column="1">
+            <Button  x:Name="btnBooks" HorizontalAlignment="Right" Margin="0,283,36,0" VerticalAlignment="Top" BorderBrush="#00D3D3D3" Background="Transparent" BorderThickness="1" Height="255" Width="207" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Tap="navigateToBooks">
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
-                    <Image VerticalAlignment="Center" Height="100" Source="/icons/Pro_Books_round_Icon.png" x:Name="image3" Margin="2,20,28,0" />
-                    <TextBlock Foreground="Black" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="239" Margin="0,20,-60,0" FontSize="20" FontWeight="Bold" Text="Werke" />
+                    <Image VerticalAlignment="Center" Height="185" Source="/icons/werke.png" x:Name="image3" Margin="2,-16,28,0" />
+                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="179" Margin="0,-37,21,0" FontSize="20" Text="Werke" TextAlignment="Center" />
                 </StackPanel>
 
 
                 <!--<TextBlock VerticalAlignment="Center" FontSize="26.667" Foreground="White" Width="256" Height="109" HorizontalAlignment="Center" TextAlignment="Center" Text="Werke" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"/>-->
             </Button>
-            <Button BorderBrush="LightGray" x:Name="btnTrash" Margin="20,376,0,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" Height="200" Width="200" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Grid.Row="3" Click="navigateToTrash" Grid.ColumnSpan="1" >
+            <Button BorderBrush="#00D3D3D3" x:Name="btnTrash" Margin="44,426,0,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" Height="112" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Click="navigateToTrash" HorizontalAlignment="Left" Width="205" >
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
-                    <Image VerticalAlignment="Center" Height="100" Source="/icons/Pro_Trash_round_Icon.png" x:Name="image5" Margin="2,20,28,0" />
-                    <TextBlock Foreground="Black" x:Name="TrashCounter" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="239" Margin="0,20,-60,0" FontSize="20" FontWeight="Bold"/>
+                    <TextBlock Foreground="White" x:Name="TrashCounter" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="38" HorizontalAlignment="Center" Width="177" Margin="0,28,23,0" FontSize="20" Text="Papierkorb" TextAlignment="Center"/>
                 </StackPanel>
 
             </Button>
-            <Button x:Name="btnUnsortedNotes" HorizontalAlignment="Right" Margin="0,0,20,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" BorderBrush="LightGray" Width="200" Height="200" Padding="0,0,0,0" Grid.Column="1" Click="navigateToUnsortedNote" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="24" RenderTransformOrigin="0.5,0.5" Grid.Row="1" Grid.ColumnSpan="2">
+            <Button x:Name="btnUnsortedNotes" HorizontalAlignment="Right" Margin="0,-13,36,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" BorderBrush="Transparent" Width="159" Height="207" Padding="0,0,0,0" Click="navigateToUnsortedNote" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" FontSize="24" RenderTransformOrigin="0.5,0.5" Foreground="Transparent">
                 <Button.RenderTransform>
                     <CompositeTransform/>
                 </Button.RenderTransform>
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
-                    <TextBlock Foreground="#720f3a" x:Name="NumberUN" VerticalAlignment="Center" FontSize="96" Height="100" HorizontalAlignment="Center" TextAlignment="Center" Margin="2,20,30,0"/>
-                    <TextBlock Foreground="Black" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="239" Margin="0,20,-60,0" FontSize="20" FontWeight="Bold" Text="Unsort. Notizen" />
+                    <TextBlock Foreground="White" x:Name="NumberUN" VerticalAlignment="Center" FontSize="96" Height="115" HorizontalAlignment="Center" TextAlignment="Center" Margin="13,-3,80,0" RenderTransformOrigin="0.5,0.5" Width="107" FontFamily="Segoe UI Light">
+                        <TextBlock.RenderTransform>
+                            <CompositeTransform ScaleX="-1"/>
+                        </TextBlock.RenderTransform>
+                    </TextBlock>
+                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="72" HorizontalAlignment="Center" Width="133" Margin="0,2,67,0" FontSize="20" Text="Unsortierte Notizen" TextAlignment="Center" />
                 </StackPanel>
             </Button>
 
         </Grid>
+
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar >
         <shell:ApplicationBar x:Name="cancelBar" IsVisible="False" IsMenuEnabled="false" BackgroundColor="#FF72A91C">
