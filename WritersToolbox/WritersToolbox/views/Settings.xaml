@@ -16,7 +16,7 @@
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True" Loaded="PageLoaded">
 
-    
+
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="#FFFFFFFF">
         <Grid.RowDefinitions>
@@ -48,10 +48,11 @@
                 <toolkit:ListPickerItem Content="{Binding Path=LocalizedResources.SettingsLangDE, Source={StaticResource LocalizedStrings}}"/>
                 <toolkit:ListPickerItem Content="{Binding Path=LocalizedResources.SettingsLangENG, Source={StaticResource LocalizedStrings}}"/>
             </toolkit:ListPicker>
+            <Button Content="Buch exportieren" Foreground="Black" HorizontalAlignment="Left" Margin="0,182,0,0" VerticalAlignment="Top" Width="456" Tap="Button_Tap" BorderBrush="#FF0A0A0A"/>
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false" BackgroundColor="#15135C">
-            </shell:ApplicationBar>
+        </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
