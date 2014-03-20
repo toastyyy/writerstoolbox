@@ -330,7 +330,8 @@ namespace WritersToolbox.views
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=1", UriKind.RelativeOrAbsolute));
+            NavigationService.GoBack();
+            //NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=1", UriKind.RelativeOrAbsolute));
         }
 
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)

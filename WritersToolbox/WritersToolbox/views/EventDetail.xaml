@@ -280,8 +280,8 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton IconUri="/icons/saveAs.png" Text="ändern"/>
+            <!--<shell:ApplicationBarIconButton IconUri="/icons/saveAs.png" Text="ändern"/>
             <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
-        </shell:ApplicationBar>
+        --></shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

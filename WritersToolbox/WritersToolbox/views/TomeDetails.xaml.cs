@@ -195,11 +195,11 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            var lastPage = NavigationService.BackStack.FirstOrDefault();
-            if (lastPage != null && lastPage.Source.ToString().Equals("/views/EventDetail.xaml"))
-            {
-                NavigationService.RemoveBackEntry();
-            }
+            //var lastPage = NavigationService.BackStack.FirstOrDefault();
+            //if (lastPage != null && lastPage.Source.ToString().Equals("/views/EventDetail.xaml"))
+            //{
+            //    NavigationService.RemoveBackEntry();
+            //}
         }
         /// <summary>
         /// Information Button wird geklickt
@@ -848,7 +848,7 @@ namespace WritersToolbox.views
                 var lastPage = NavigationService.BackStack.FirstOrDefault();
                 if (lastPage != null && lastPage.Source.ToString().Equals("/views/TomeDetails.xaml?tomeID=" + tomeID))
                 {
-                    NavigationService.RemoveBackEntry();
+                    //NavigationService.RemoveBackEntry();
                 }
             }
             else

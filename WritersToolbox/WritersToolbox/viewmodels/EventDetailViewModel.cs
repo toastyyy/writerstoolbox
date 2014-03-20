@@ -162,6 +162,10 @@ namespace WritersToolbox.viewmodels
                 this.Event.finaltext = newText;
             }
 
+            var ev = (from e in tableEvents
+                      where e.eventID == this.event_id
+                      select e).Single();
+            ev.finaltext = newText;
             this.wtb.SubmitChanges();
             this.NotifyPropertyChanged("Event");
         }
