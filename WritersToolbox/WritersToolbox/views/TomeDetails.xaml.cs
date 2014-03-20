@@ -926,6 +926,34 @@ namespace WritersToolbox.views
             this.DataContext = this.tome_VM;
         }
 
+        private void moveChapterDown(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Image i = sender as Image;
+            Grid g1 = i.Parent as Grid;
+            datawrapper.Chapter c = (datawrapper.Chapter)g1.DataContext;
+            if (!c.title.Equals("Neues Kapitel")) { 
+                this.tome_VM.moveChapterDown((datawrapper.Chapter)g1.DataContext);
+            }
+            this.llstructure.ItemsSource = this.tome_VM.structur;
+            //NavigationService.Navigate(new Uri("/views/TomeDetails.xaml", UriKind.RelativeOrAbsolute));
+            //NavigationService.RemoveBackEntry();
+        }
+
+        private void moveChapterUp(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Image i = sender as Image;
+            Grid g1 = i.Parent as Grid;
+            datawrapper.Chapter c = (datawrapper.Chapter)g1.DataContext;
+            if (!c.title.Equals("Neues Kapitel"))
+            {
+                this.tome_VM.moveChapterUp((datawrapper.Chapter)g1.DataContext);
+            }
+
+            this.llstructure.ItemsSource = this.tome_VM.structur;
+            //NavigationService.Navigate(new Uri("/views/TomeDetails.xaml", UriKind.RelativeOrAbsolute));
+            //NavigationService.RemoveBackEntry();
+        }
+
         
 
     }

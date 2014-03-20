@@ -2,7 +2,9 @@
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
+using System.ComponentModel;
 using System.Data.Linq;
+using System.Diagnostics;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -10,7 +12,7 @@ using WritersToolbox.models;
 
 namespace WritersToolbox.viewmodels
 {
-    class TomeDetailsViewModel
+    class TomeDetailsViewModel : INotifyPropertyChanged
     {
         //Datenbank
         private WritersToolboxDatebase wtb;
@@ -387,6 +389,74 @@ namespace WritersToolbox.viewmodels
 
                     });
                 }
+            }
+        }
+
+        public void moveChapterDown(datawrapper.Chapter chapter) {
+            var sqlChapters = from ch in tableChapter
+                              where ch.obj_tome.tomeID == this.tome.tomeID
+                              select ch;
+            Chapter exchange = null;
+            int maxChapterNumber = 2 ^ 31;
+            foreach (var sqlc in sqlChapters) {
+                if (sqlc.chapterNumber > chapter.chapterNumber && sqlc.chapterNumber < maxChapterNumber) {
+                    maxChapterNumber = sqlc.chapterNumber;
+                    exchange = sqlc;
+                }
+            }
+            if (exchange != null) {
+                int tmp = exchange.chapterNumber;
+                exchange.chapterNumber = chapter.chapterNumber;
+
+                var clickedChapter = (from c in tableChapter
+                                     where c.chapterID == chapter.chapterID
+                                     select c).Single();
+                Debug.WriteLine("Exchange '" + exchange.title + "' with '" + clickedChapter.title + "'");
+                clickedChapter.chapterNumber = tmp;
+                this.wtb.SubmitChanges();
+                this._structur = this.getStructure();
+                this.NotifyPropertyChanged("_structur");
+            }
+        }
+
+        public void moveChapterUp(datawrapper.Chapter chapter)
+        {
+            var sqlChapters = from ch in tableChapter
+                              where ch.obj_tome.tomeID == this.tome.tomeID
+                              select ch;
+            Chapter exchange = null;
+            int maxChapterNumber = -1;
+            foreach (var sqlc in sqlChapters)
+            {
+                if (sqlc.chapterNumber < chapter.chapterNumber && sqlc.chapterNumber > maxChapterNumber)
+                {
+                    maxChapterNumber = sqlc.chapterNumber;
+                    exchange = sqlc;
+                }
+            }
+            if (exchange != null)
+            {
+                int tmp = exchange.chapterNumber;
+                exchange.chapterNumber = chapter.chapterNumber;
+
+                var clickedChapter = (from c in tableChapter
+                                      where c.chapterID == chapter.chapterID
+                                      select c).Single();
+                Debug.WriteLine("Exchange '" + exchange.title + "' with '" + clickedChapter.title + "'");
+                clickedChapter.chapterNumber = tmp;
+                this.wtb.SubmitChanges();
+                this._structur = this.getStructure();
+                this.NotifyPropertyChanged("_structur");
+            }
+        }
+
+        public event PropertyChangedEventHandler PropertyChanged;
+        // Used to notify the app that a property has changed.
+        private void NotifyPropertyChanged(string propertyName)
+        {
+            if (PropertyChanged != null)
+            {
+                PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
     }
