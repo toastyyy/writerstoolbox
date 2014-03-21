@@ -16,6 +16,7 @@ using System.Windows.Input;
 using System.Diagnostics;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
+using System.Threading;
 
 namespace WritersToolbox.views
 {
@@ -28,9 +29,9 @@ namespace WritersToolbox.views
         //Ablage des InformationsCode.
         private int informationCode;
         //Buttons zum speichern/abbrechen beim Bearbeiten eines Chapters
-        private ApplicationBarIconButton save, cancel;
+        private ApplicationBarIconButton save, cancel, delete;
         //DefaultBarButtons.
-        private ApplicationBarIconButton edit, delete;
+        
         //Textbox Chapter
         TextBox b = new TextBox();
         //Chapter
@@ -39,7 +40,7 @@ namespace WritersToolbox.views
         public TomeDetails()
         {
             InitializeComponent();
-            addDefaultApplicationBarButton();
+           
         }
 
         /// <summary>
@@ -486,14 +487,15 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private async void ChapterTextBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void ChapterTextBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+       // private async void ChapterTextBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
 
             singleTap = true;
             // verzögerung um "tap" von "doubleTap" zu unterscheiden
-            
-            
-            await Task.Delay(200);
+
+            Thread.Sleep(200);
+            //await Task.Delay(200);
 
             //abfrage ob gesingle- oder gedoubletaped wurde, abfrage ob sich chapter in "bearbeitung" befindet
             if (singleTap && !doubleTap)
@@ -652,32 +654,33 @@ namespace WritersToolbox.views
         }
 
         /// <summary>
-        /// Die "Default" applicationbar wird eingefügt
+        /// Die "Selection" applicationbar wird eingefügt
         /// </summary>
-        private void addDefaultApplicationBarButton()
+        private void addSelectionApplicationBarButton()
         {
             //Default Buttons von ApplicationBarButton löschen.
             removeAddChapterApplicationBarButton();
 
             //ApplicationBarButton mit ManagmentButtons erfüllen.
 
-            edit = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
             delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+            cancel = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
 
 
-            edit.Text = "Ändern";
             delete.Text = "Löschen";
+            cancel.Text = "Äbbrechen";
+            
 
             //Events zu Buttons hinzufügen.
 
 
             //TODO
             //edit.Click += saveButton_Click;
-            delete.Click += deleteButton_Click;
+            //delete.Click += deleteButton_Click;
 
 
-            ApplicationBar.Buttons.Add(edit);
             ApplicationBar.Buttons.Add(delete);
+            ApplicationBar.Buttons.Add(cancel);
         }
 
         private void removeAddChapterApplicationBarButton()
@@ -686,16 +689,16 @@ namespace WritersToolbox.views
             ApplicationBar.Buttons.Remove(cancel);
         }
 
-        private void removeDefaultApplicationBarButton()
+        private void removeSelectionApplicationBarButton()
         {
-            ApplicationBar.Buttons.Remove(edit);
             ApplicationBar.Buttons.Remove(delete);
+            ApplicationBar.Buttons.Remove(cancel);
         }
 
         private void addAddChapterApplicationBarButton()
         {
             //Default Buttons von ApplicationBarButton löschen.
-            removeDefaultApplicationBarButton();
+            removeSelectionApplicationBarButton();
 
             //ApplicationBarButton mit Buttons zum Speichern/Abbrechen beim Anlegen eines Kapitels.
 
@@ -765,7 +768,8 @@ namespace WritersToolbox.views
             }
             else
             {
-                addDefaultApplicationBarButton();
+                
+                removeAddChapterApplicationBarButton();
                 datawrapper.Chapter _c = new datawrapper.Chapter()
                 {
                     addedDate = DateTime.Now,
@@ -804,7 +808,7 @@ namespace WritersToolbox.views
 
                 if (result == MessageBoxResult.OK)
                 {
-                    addDefaultApplicationBarButton();
+                    removeAddChapterApplicationBarButton();
                     newChapterMode = false;
                     //b.IsReadOnly = true;
                     newChapterTextbox.IsEnabled = false;
@@ -814,7 +818,7 @@ namespace WritersToolbox.views
                     newChapterTextbox.Text = "";
                 }
             } else{
-                addDefaultApplicationBarButton();
+                removeAddChapterApplicationBarButton();
                 newChapterMode = false;
                 //b.IsReadOnly = true;
                 newChapterTextbox.IsEnabled = false;
