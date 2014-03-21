@@ -404,6 +404,7 @@ namespace WritersToolbox.viewmodels
                     exchange = sqlc;
                 }
             }
+
             if (exchange != null) {
                 int tmp = exchange.chapterNumber;
                 exchange.chapterNumber = chapter.chapterNumber;
@@ -448,6 +449,174 @@ namespace WritersToolbox.viewmodels
                 this._structur = this.getStructure();
                 this.NotifyPropertyChanged("_structur");
             }
+        }
+
+        public void moveEventDown(datawrapper.Event ev) {
+
+            // zunaechst INNERHALB des kapitels eine neue position suchen
+            var sqlEventsInChapter = from e in tableEvent
+                                     where e.fk_chapterID == ev.chapter.chapterID
+                                     select e;
+            int maxEventPosition = 2 ^ 31;
+            Event exchange = null;
+            foreach (var e in sqlEventsInChapter) {
+                if (e.orderInChapter > ev.orderInChapter && e.orderInChapter < maxEventPosition) {
+                    maxEventPosition = e.orderInChapter;
+                    exchange = e;
+                }
+            }
+
+            if (exchange != null)
+            {
+                // ein nachfolgerevent wurde gefunden, plätze tauschen
+                int tmp = exchange.orderInChapter;
+                exchange.orderInChapter = ev.orderInChapter;
+
+                var curEvent = (from e in tableEvent
+                                where e.eventID == ev.eventID
+                                select e).Single();
+                curEvent.orderInChapter = tmp;
+                Debug.WriteLine("Exchange '" + exchange.title + "' with '" + curEvent.title + "'");
+                this.wtb.SubmitChanges();
+            }
+            else { 
+                // kein nachfolgerevent gefunden, ggf. an erste position des folgenden kapitels verschieben
+                var sqlThisChapter = (from c in tableChapter
+                                     where c.chapterID == ev.chapter.chapterID
+                                     select c).Single();
+                var sqlAllChapterInTome = (from c in tableChapter
+                                           where c.obj_tome.tomeID == this.tome.tomeID
+                                           orderby c.chapterNumber
+                                           select c);
+                Chapter chapterToChange = null;
+                int minChapterID = 2 ^ 31;
+                foreach (var chapter in sqlAllChapterInTome) {
+                    if (chapter.chapterNumber > sqlThisChapter.chapterNumber && chapter.chapterNumber < minChapterID) {
+                        chapterToChange = chapter;
+                        minChapterID = chapter.chapterNumber;
+                    }
+                }
+
+                if (chapterToChange != null) { 
+                    // ein nachfolgekapitel wurde gefunden, verschiebe ereignis an den beginn des nächsten kapitels
+                    int firstID = (chapterToChange.events.Count() > 0) ? chapterToChange.events.First().orderInChapter : 1;
+                    foreach (var t in chapterToChange.events) {
+                        t.orderInChapter++;
+                    }
+                    Event curEvent = (from e in tableEvent
+                                     where e.eventID == ev.eventID
+                                     select e).Single();
+                    Debug.WriteLine("Changing Chapter of event '" + curEvent.title + curEvent.eventID + "' from '" + curEvent.obj_Chapter.title + curEvent.obj_Chapter.chapterID + "' to '" + chapterToChange.title + chapterToChange.chapterID + "'");
+
+                    Chapter oldChapter = (from c in tableChapter
+                                          where c.chapterID == curEvent.obj_Chapter.chapterID
+                                          select c).Single();
+                    oldChapter.events.Remove(curEvent);
+                    curEvent.fk_chapterID = chapterToChange.chapterID;
+                    curEvent.obj_Chapter = null;
+                    curEvent.orderInChapter = firstID;
+                    chapterToChange.events.Add(curEvent);
+
+                    this.wtb.SubmitChanges();
+                    curEvent = (from e in tableEvent
+                                where e.eventID == ev.eventID
+                                select e).Single();
+
+                    curEvent.obj_Chapter = chapterToChange;
+                    //curEvent.fk_chapterID = chapterToChange.chapterID;
+                    //curEvent.obj_Chapter = chapterToChange;
+                    //chapterToChange.events.Add(curEvent);
+                    this.wtb.SubmitChanges();
+                }
+            }
+
+            this._structur = this.getStructure();
+        }
+
+        public void moveEventUp(datawrapper.Event ev) {
+            // zunaechst INNERHALB des kapitels eine neue position suchen
+            var sqlEventsInChapter = from e in tableEvent
+                                     where e.fk_chapterID == ev.chapter.chapterID
+                                     select e;
+            int maxEventPosition = -1;
+            Event exchange = null;
+            foreach (var e in sqlEventsInChapter)
+            {
+                if (e.orderInChapter < ev.orderInChapter && e.orderInChapter > maxEventPosition)
+                {
+                    maxEventPosition = e.orderInChapter;
+                    exchange = e;
+                }
+            }
+
+            if (exchange != null)
+            {
+                // ein vorheriges event wurde gefunden, plätze tauschen
+                int tmp = exchange.orderInChapter;
+                exchange.orderInChapter = ev.orderInChapter;
+
+                var curEvent = (from e in tableEvent
+                                where e.eventID == ev.eventID
+                                select e).Single();
+                curEvent.orderInChapter = tmp;
+                Debug.WriteLine("Exchange '" + exchange.title + "' with '" + curEvent.title + "'");
+                this.wtb.SubmitChanges();
+            }
+            else
+            {
+                // kein nachfolgerevent gefunden, ggf. an letzte position des vorherigen kapitels verschieben
+                var sqlThisChapter = (from c in tableChapter
+                                      where c.chapterID == ev.chapter.chapterID
+                                      select c).Single();
+                var sqlAllChapterInTome = (from c in tableChapter
+                                           where c.obj_tome.tomeID == this.tome.tomeID
+                                           orderby c.chapterNumber
+                                           select c);
+                Chapter chapterToChange = null;
+                int maxChapterID = -1;
+                foreach (var chapter in sqlAllChapterInTome)
+                {
+                    if (chapter.chapterNumber < sqlThisChapter.chapterNumber && chapter.chapterNumber > maxChapterID)
+                    {
+                        chapterToChange = chapter;
+                        maxChapterID = chapter.chapterNumber;
+                    }
+                }
+
+                if (chapterToChange != null)
+                {
+                    // ein nachfolgekapitel wurde gefunden, verschiebe ereignis an das ende des vorherigen kapitels
+                    int lastID = (chapterToChange.events.Count() > 0) ? chapterToChange.events.First().orderInChapter : 1;
+                    foreach (var t in chapterToChange.events)
+                    {
+                        t.orderInChapter++;
+                    }
+                    Event curEvent = (from e in tableEvent
+                                      where e.eventID == ev.eventID
+                                      select e).Single();
+                    Debug.WriteLine("Changing Chapter of event '" + curEvent.title + curEvent.eventID + "' from '" + curEvent.obj_Chapter.title + curEvent.obj_Chapter.chapterID + "' to '" + chapterToChange.title + chapterToChange.chapterID + "'");
+
+                    Chapter oldChapter = (from c in tableChapter
+                                          where c.chapterID == curEvent.obj_Chapter.chapterID
+                                          select c).Single();
+                    oldChapter.events.Remove(curEvent);
+                    curEvent.fk_chapterID = chapterToChange.chapterID;
+                    curEvent.obj_Chapter = null;
+                    curEvent.orderInChapter = lastID;
+                    chapterToChange.events.Add(curEvent);
+
+                    this.wtb.SubmitChanges();
+                    curEvent = (from e in tableEvent
+                                where e.eventID == ev.eventID
+                                select e).Single();
+
+                    curEvent.obj_Chapter = chapterToChange;
+
+                    this.wtb.SubmitChanges();
+                }
+            }
+
+            this._structur = this.getStructure();
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

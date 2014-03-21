@@ -102,7 +102,7 @@ namespace WritersToolbox.demo
 
             Event e1 = new Event() 
             { 
-                title = "Haus der Dursleys",
+                title = "Haus der Dursleys A",
                 obj_Chapter = c1,
                 finaltext = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore" +
                                                     "because they just didn't hold with such nonsense. Mr. Dursley was the director of a firm called Grunnings, which made drills. He was a big, beefy man with hardly any neck," +
@@ -111,21 +111,25 @@ namespace WritersToolbox.demo
                                     "The Dursleys had everything they wanted, but they also had a secret, and their greatest fear was that somebody would discover it. They didn't think they could bear it" +
                 "if anyone found out about the Potters. Mrs. Potter was Mrs. Dursley's sister, but they hadn't met for several years; in fact, Mrs. Dursley pretended she didn't have a sister, because her sister and" +
                 "her good-for-nothing husband were as unDursleyish as it was possible to be. The Dursleys shuddered to think what the neighbors would say if the Potters arrived in the street. The Dursleys knew that the" + 
-                "et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet."
+                "et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
+                orderInChapter = 0
+            
             };
 
             Event e2 = new Event()
             {
                 title = "Bahnhof",
                 obj_Chapter = c1,
-                finaltext = ""
+                finaltext = "",
+                orderInChapter = 1
             };
 
             Event e3 = new Event()
             {
-                title = "Haus der Dursleys",
-                obj_Chapter = c2,
-                finaltext = ""
+                title = "Haus der Dursleys B",
+                obj_Chapter = c1,
+                finaltext = "",
+                orderInChapter = 2
             };
 
             Event e4 = new Event()
@@ -133,20 +137,23 @@ namespace WritersToolbox.demo
                 title = "Bahnhof",
                 obj_Chapter = c2,
                 finaltext = "",
-                deleted = true
+                deleted = false,
+                orderInChapter = 1
             };
             Event e5 = new Event()
             {
-                title = "Haus der Dursleys",
+                title = "Haus der Dursleys C",
                 obj_Chapter = c3, 
-                finaltext = ""
+                finaltext = "",
+                orderInChapter = 0
             };
 
             Event e6 = new Event()
             {
                 title = "Bahnhof",
                 obj_Chapter = c3,
-                finaltext = ""
+                finaltext = "",
+                orderInChapter = 1
             };
             MemoryNote mn1 = new MemoryNote() 
             { 

@@ -20,14 +20,21 @@
         <!--Anzeige der Ereignisse-->
         
         <DataTemplate x:Key="eventItemTemplate" >
-            <StackPanel x:Name="Event" VerticalAlignment="Top" Margin="80,10,0,0">
-                <Border Background="Transparent" Padding="5">
+            <Grid x:Name="Event" VerticalAlignment="Top" Margin="80,10,0,0">
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="290" />
+                    <ColumnDefinition Width="30" />
+                    <ColumnDefinition Width="30" />
+                </Grid.ColumnDefinitions>
+                <Border Background="Transparent" Padding="5" Grid.Column="0">
                     <Border Grid.Column="1"  Background="White" BorderThickness="0,0,0,1" BorderBrush="LightGray" Width="480"    
                     Height="55" Margin="0,0,0,0" HorizontalAlignment="Left">
                         <TextBlock x:Name="titleText" Text="{Binding title}" Foreground="#FF353535"  FontSize="25" FontFamily="Segoe WP Light" Tap="Event_Tap" />
                     </Border>
                 </Border>
-            </StackPanel>
+                <Image Opacity="0.6" Grid.Column="1" Height="40" Source="/icons/move-down.png" Tap="moveEventDown" />
+                <Image Opacity="0.6" Grid.Column="2" Height="40" Source="/icons/move-up.png" Tap="moveEventUp" />
+            </Grid>
         </DataTemplate>
 
         <!--DataTemplate der Strukture -->
@@ -41,7 +48,7 @@
                 <Grid x:Name="Chapter" Grid.Row="0" Hold="Chapter_Hold" Background="White" Canvas.ZIndex="1" >
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="50" />
-                        <ColumnDefinition Width="350" />
+                        <ColumnDefinition Width="345" />
                         <ColumnDefinition Width="30" />
                         <ColumnDefinition Width="30" />
                     </Grid.ColumnDefinitions>
