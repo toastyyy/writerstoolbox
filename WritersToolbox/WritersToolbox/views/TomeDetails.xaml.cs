@@ -954,6 +954,32 @@ namespace WritersToolbox.views
             //NavigationService.RemoveBackEntry();
         }
 
+        private void moveEventDown(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Image i = sender as Image;
+            Grid g1 = i.Parent as Grid;
+            datawrapper.Event ev = (datawrapper.Event)g1.DataContext;
+            if (!ev.title.Equals("Neues Ereignis"))
+            {
+                this.tome_VM.moveEventDown(ev);
+            }
+
+            this.llstructure.ItemsSource = this.tome_VM.structur;
+        }
+
+        private void moveEventUp(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            Image i = sender as Image;
+            Grid g1 = i.Parent as Grid;
+            datawrapper.Event ev = (datawrapper.Event)g1.DataContext;
+            if (!ev.title.Equals("Neues Ereignis"))
+            {
+                this.tome_VM.moveEventUp(ev);
+            }
+
+            this.llstructure.ItemsSource = this.tome_VM.structur;
+        }
+
         
 
     }

@@ -101,7 +101,7 @@ namespace WritersToolbox.models
 
         
         [Column(Name = "fk_chapterID")]
-        public int fk_chapterID;
+        public int? fk_chapterID;
 
         private EntityRef<Chapter> _chapter;
 
@@ -193,7 +193,7 @@ namespace WritersToolbox.models
 
             datawrapper.Event tempEvent = new datawrapper.Event()
                 {
-                    chapter = null,
+                    chapter = new datawrapper.Chapter() { chapterID = (int)_event.fk_chapterID},
                     deleted = _event.deleted,
                     eventID = _event.eventID,
                     notes = null,
