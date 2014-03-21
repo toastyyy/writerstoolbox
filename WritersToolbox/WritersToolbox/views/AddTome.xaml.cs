@@ -13,6 +13,7 @@ using System.Windows.Media;
 using System.Collections;
 using System.Threading.Tasks;
 using System.Windows.Input;
+using WritersToolbox.models;
 
 namespace WritersToolbox.views
 {
@@ -26,6 +27,7 @@ namespace WritersToolbox.views
         private int bookID;
         //Textbox Chapter
         TextBox b = new TextBox();
+        private datawrapper.BookType BookType;
 
         public AddTome()
         {
@@ -44,6 +46,7 @@ namespace WritersToolbox.views
    //         base.OnNavigatedTo(e);
             if (NavigationContext.QueryString.ContainsKey("bookID"))
             {
+              //  bookType = int.Parse(NavigationContext.QueryString["bookType"]);
                 bookID = int.Parse(NavigationContext.QueryString["bookID"]);
               //  atvm = new AddTomeViewModel();
               //  DataContext = atvm;
@@ -92,14 +95,15 @@ namespace WritersToolbox.views
 
                 //PhoneApplicationService.Current.State.Remove("tomeID");
                 BooksViewModel bvm = new BooksViewModel();
-                bvm.addTome(title, this.bookID);
+                Book b = bvm.getBookByID(this.bookID);
+                bvm.addTome(title, this.bookID, b.obj_bookType.bookTypeID);
                 NavigationService.GoBack();
             }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            //cancel
+            NavigationService.GoBack();
         }
 
         /// <summary>

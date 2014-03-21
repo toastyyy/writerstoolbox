@@ -51,7 +51,7 @@ namespace WritersToolbox.viewmodels
              return title == null ? "" : title;
          }
 
-         public void save(int tomeID, DateTime addedDate, string title, DateTime updatedDate)
+         public void save(int tomeID, DateTime addedDate, string title, DateTime updatedDate, datawrapper.BookType bookType)
          {
              try
              {

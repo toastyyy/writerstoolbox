@@ -23,6 +23,7 @@ namespace WritersToolbox.viewmodels
         private Table<WritersToolbox.models.Type> tableType;
         private Table<Event> tableEvent;
         private Table<Chapter> tableChapter;
+        private Table<EventTypeObjects> tableEventTypeObject;
         
 
         public ObservableCollection<Object> DeletedObjects { get; set; }
@@ -37,6 +38,7 @@ namespace WritersToolbox.viewmodels
                 tableTypeObject = db.GetTable<WritersToolbox.models.TypeObject>();
                 tableType = db.GetTable<WritersToolbox.models.Type>();
                 tableEvent = db.GetTable<Event>();
+                tableEventTypeObject = db.GetTable<EventTypeObjects>();
                 tableChapter = db.GetTable<Chapter>();
 
                 
@@ -203,17 +205,18 @@ namespace WritersToolbox.viewmodels
                     var entries = (from e in this.tableEvent
                                    where e.eventID == ev.eventID
                                    select e).Single();
-                        foreach (var n in entries.notes)
-                        {
-                            tableMemoryNote.DeleteOnSubmit(n);
-                        }
-                        var tos = from to in this.db.GetTable<EventTypeObjects>()
-                                  where to.fk_eventID == entries.eventID
-                                  select to;
-                        foreach (var t in tos) {
-                            this.db.GetTable<EventTypeObjects>().DeleteOnSubmit(t);
-                        }
-                        entries.typeObjects.Clear();
+                    foreach (var n in entries.notes)
+                    {
+                        tableMemoryNote.DeleteOnSubmit(n);
+                    }
+                    var tos = from to in this.tableEventTypeObject
+                              where to.fk_eventID == entries.eventID
+                              select to;
+                    foreach (var t in tos)
+                    {
+                        tableEventTypeObject.DeleteOnSubmit(t);
+                    }
+                    entries.typeObjects.Clear();
                     this.tableEvent.DeleteOnSubmit(entries);
                 }
                 if (entry.GetType().IsAssignableFrom((new datawrapper.Type()).GetType()))
@@ -227,10 +230,28 @@ namespace WritersToolbox.viewmodels
                 if (entry.GetType().IsAssignableFrom((new datawrapper.TypeObject()).GetType()))
                 {
                     datawrapper.TypeObject tyo = (datawrapper.TypeObject)entry;
-                    var entries = (from t in this.tableTypeObject
+
+                    var to = (from t in this.tableTypeObject
                                    where t.typeObjectID == tyo.typeObjectID
                                    select t).Single();
-                    this.tableTypeObject.DeleteOnSubmit(entries);
+                    var entries = (from t in this.tableMemoryNote
+                                   where t.obj_TypeObject.typeObjectID == to.typeObjectID
+                                   select t).ToList();
+                    
+                    foreach (var n in entries)
+                    {
+                        tableMemoryNote.DeleteOnSubmit(n);
+                    }
+                    var tos = from x in this.tableEventTypeObject
+                              where x.obj_typeObject.typeObjectID == to.typeObjectID
+                              select x;
+                    foreach (var t in tos)
+                    {
+                        tableEventTypeObject.DeleteOnSubmit(t);
+                    }
+                    
+                   
+                    this.tableTypeObject.DeleteOnSubmit(to);
                 }
                 if (entry.GetType().IsAssignableFrom((new datawrapper.Chapter()).GetType()))
                 {

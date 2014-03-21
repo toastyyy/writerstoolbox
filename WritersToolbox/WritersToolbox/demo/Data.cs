@@ -189,7 +189,8 @@ namespace WritersToolbox.demo
                 obj_Type = type1,
                 used = true,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "../icons/character_round_icon.png",
+                deleted = true
             };
 
             EntitySet<EventTypeObjects> events1 = new EntitySet<EventTypeObjects>();
