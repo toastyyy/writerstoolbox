@@ -17,6 +17,7 @@ using System.Diagnostics;
 using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.Threading;
+using System.Windows.Threading;
 
 namespace WritersToolbox.views
 {
@@ -30,17 +31,25 @@ namespace WritersToolbox.views
         private int informationCode;
         //Buttons zum speichern/abbrechen beim Bearbeiten eines Chapters
         private ApplicationBarIconButton save, cancel, delete;
-        //DefaultBarButtons.
         
+        //timer für den Slider der Infodetails
+        private DispatcherTimer infoTimer;
+        //interval des Slider Timers, hier 8sek
+        private readonly TimeSpan infoInterval = new TimeSpan(0, 0, 8);
+        // Nummer der im Slider angezeigten Info (Kapitel, Ereignisse, typobjekte, Seiten, Wörter)
+        private int SliderNumberOfInfo = 1;
+
         //Textbox Chapter
         TextBox b = new TextBox();
         //Chapter
         private datawrapper.Chapter chapter;
         private bool wasfocuslost;
+
+
+
         public TomeDetails()
         {
             InitializeComponent();
-           
         }
 
         /// <summary>
@@ -51,128 +60,132 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            
             base.OnNavigatedTo(e);
+
             if (NavigationContext.QueryString.ContainsKey("tomeID"))
             {
                 tomeID = int.Parse(NavigationContext.QueryString["tomeID"]);
                 tome_VM = new TomeDetailsViewModel(tomeID);
                 DataContext = tome_VM;
+                //ist das hier richtig? funktionieren tuts
+                informationSlide();
                 int code = tome_VM.getInformation();
-                switch (code)
-                {
-                    case 1:
-                        rbNumberOfChapter.IsChecked = true;
-                        break;
-                    case 2:
-                        rbNumberOfEvent.IsChecked = true;
-                        break;
-                    case 3:
-                        rbNumberOfTypeObject.IsChecked = true;
-                        break;
-                    case 400:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 0;
-                        fontSizeList.SelectedIndex = 0;
-                        break;
-                    case 410:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 1;
-                        fontSizeList.SelectedIndex = 0;
-                        break;
-                    case 420:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 2;
-                        fontSizeList.SelectedIndex = 0;
-                        break;
-                    case 430:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 3;
-                        fontSizeList.SelectedIndex = 0;
-                        break;
-                    case 440:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 4;
-                        fontSizeList.SelectedIndex = 0;
-                        break;
-                    case 401:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 0;
-                        fontSizeList.SelectedIndex = 1;
-                        break;
-                    case 402:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 0;
-                        fontSizeList.SelectedIndex = 2;
-                        break;
-                    case 403:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 0;
-                        fontSizeList.SelectedIndex = 3;
-                        break;
-                    case 411:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 1;
-                        fontSizeList.SelectedIndex = 1;
-                        break;
-                    case 412:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 1;
-                        fontSizeList.SelectedIndex = 2;
-                        break;
-                    case 413:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 1;
-                        fontSizeList.SelectedIndex = 3;
-                        break;
-                    case 421:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 2;
-                        fontSizeList.SelectedIndex = 1;
-                        break;
-                    case 422:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 2;
-                        fontSizeList.SelectedIndex = 2;
-                        break;
-                    case 423:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 2;
-                        fontSizeList.SelectedIndex = 3;
-                        break;
-                    case 431:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 3;
-                        fontSizeList.SelectedIndex = 1;
-                        break;
-                    case 432:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 3;
-                        fontSizeList.SelectedIndex = 2;
-                        break;
-                    case 433:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 3;
-                        fontSizeList.SelectedIndex = 3;
-                        break;
-                    case 441:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 4;
-                        fontSizeList.SelectedIndex = 1;
-                        break;
-                    case 442:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 4;
-                        fontSizeList.SelectedIndex = 2;
-                        break;
-                    case 443:
-                        rbNumberOfPage.IsChecked = true;
-                        formatList.SelectedIndex = 4;
-                        fontSizeList.SelectedIndex = 3;
-                        break;
-                    case 5:
-                        rbNumberOfWord.IsChecked = true;
-                        break;
-                }
+                //switch (code)
+                //{
+                //    case 1:
+                //        rbNumberOfChapter.IsChecked = true;
+                //        break;
+                //    case 2:
+                //        rbNumberOfEvent.IsChecked = true;
+                //        break;
+                //    case 3:
+                //        rbNumberOfTypeObject.IsChecked = true;
+                //        break;
+                //    case 400:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 0;
+                //        fontSizeList.SelectedIndex = 0;
+                //        break;
+                //    case 410:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 1;
+                //        fontSizeList.SelectedIndex = 0;
+                //        break;
+                //    case 420:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 2;
+                //        fontSizeList.SelectedIndex = 0;
+                //        break;
+                //    case 430:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 3;
+                //        fontSizeList.SelectedIndex = 0;
+                //        break;
+                //    case 440:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 4;
+                //        fontSizeList.SelectedIndex = 0;
+                //        break;
+                //    case 401:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 0;
+                //        fontSizeList.SelectedIndex = 1;
+                //        break;
+                //    case 402:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 0;
+                //        fontSizeList.SelectedIndex = 2;
+                //        break;
+                //    case 403:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 0;
+                //        fontSizeList.SelectedIndex = 3;
+                //        break;
+                //    case 411:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 1;
+                //        fontSizeList.SelectedIndex = 1;
+                //        break;
+                //    case 412:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 1;
+                //        fontSizeList.SelectedIndex = 2;
+                //        break;
+                //    case 413:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 1;
+                //        fontSizeList.SelectedIndex = 3;
+                //        break;
+                //    case 421:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 2;
+                //        fontSizeList.SelectedIndex = 1;
+                //        break;
+                //    case 422:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 2;
+                //        fontSizeList.SelectedIndex = 2;
+                //        break;
+                //    case 423:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 2;
+                //        fontSizeList.SelectedIndex = 3;
+                //        break;
+                //    case 431:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 3;
+                //        fontSizeList.SelectedIndex = 1;
+                //        break;
+                //    case 432:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 3;
+                //        fontSizeList.SelectedIndex = 2;
+                //        break;
+                //    case 433:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 3;
+                //        fontSizeList.SelectedIndex = 3;
+                //        break;
+                //    case 441:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 4;
+                //        fontSizeList.SelectedIndex = 1;
+                //        break;
+                //    case 442:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 4;
+                //        fontSizeList.SelectedIndex = 2;
+                //        break;
+                //    case 443:
+                //        rbNumberOfPage.IsChecked = true;
+                //        formatList.SelectedIndex = 4;
+                //        fontSizeList.SelectedIndex = 3;
+                //        break;
+                //    case 5:
+                //        rbNumberOfWord.IsChecked = true;
+                //        break;
+                //}
             }
 
             llstructure.ItemsSource = tome_VM.structur;
@@ -188,6 +201,8 @@ namespace WritersToolbox.views
             base.OnNavigatedFrom(e);
             //Ausgewählte Information in der Datenbank aktualisieren.
             tome_VM.updateInformation(informationCode);
+            infoTimer.Stop();
+            infoTimer = null;
         }
 
         /// <summary>
@@ -202,6 +217,8 @@ namespace WritersToolbox.views
             //    NavigationService.RemoveBackEntry();
             //}
         }
+
+
         /// <summary>
         /// Information Button wird geklickt
         ///     Bildquelle Information ändert sich -> checked
@@ -216,6 +233,7 @@ namespace WritersToolbox.views
                 BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_checked.png", UriKind.RelativeOrAbsolute));
                 information.Source = _bitmapimage;
                 informationGrid.Visibility = Visibility.Visible;
+                detailInfotexteErstellen();
 
                 _bitmapimage = new BitmapImage(new Uri("/icons/struktur_unchecked.png", UriKind.RelativeOrAbsolute));
                 structure.Source = _bitmapimage;
@@ -304,73 +322,132 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + typeObjectID, UriKind.RelativeOrAbsolute));
         }
 
+
         /// <summary>
-        /// Auswahl Anzahl Kapitel.
+        /// Informationslider wird erstellt:
+        /// Dispatchertimer wird erstellt
+        /// Intervall wird festgelegt
+        /// Aktivität beim Wechsel wird festgelegt (infoTimer_Tick)
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void rbNumberOfChapter_Checked(object sender, RoutedEventArgs e)
+        private void informationSlide() 
         {
-            informationCode = 1;
+            if (infoTimer == null) {
+                infoTimer = new DispatcherTimer();
+                infoTimer.Interval = infoInterval;
+                infoTimer.Tick += new EventHandler(infoTimer_Tick);
+                infoTimer.Start();
+            }
             numberInforamtionText.Text = "" + tome_VM.getNumberOfChapters();
             inforamtionText.Text = "Kapitel";
         }
 
-        /// <summary>
-        /// Auswahl Anzahl Ereignisse.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void rbNumberOfEvent_Checked(object sender, RoutedEventArgs e)
-        {
-            informationCode = 2;
-            numberInforamtionText.Text = "" + tome_VM.getNumberOfEvents();
-            inforamtionText.Text = "Ereignis-se";
-        }
 
+        
+        
         /// <summary>
-        /// Auswahl Anzahl Typeobjekte.
+        /// Wenn der Timer tickt, werden die Infos durchlaufen
+        /// SliderNumberOfInfo gibt an welche Info an der Reihe ist
+        /// (Kapitel, Ereignisse, typobjekte, Seiten, Wörter)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void rbNumberOfTypeObject_Checked(object sender, RoutedEventArgs e)
-        {
-            informationCode = 3;
-            numberInforamtionText.Text = "" + tome_VM.getNumberOfTypeObjects();
-            inforamtionText.Text = "Typeobjekt-e";
-        }
+        private void infoTimer_Tick(object sender, EventArgs e) {
 
-        /// <summary>
-        /// Auswahl Anzahhl Seiten.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void rbNumberOfPage_Checked(object sender, RoutedEventArgs e)
-        {
-            if (informationCode > 399)
+            //System.Diagnostics.Debug.WriteLine(infoTimer);
+
+            int n;
+            switch (SliderNumberOfInfo)
+                {
+                    case 0:
+                        numberInforamtionText.Text = "" + tome_VM.getNumberOfChapters();
+                        inforamtionText.Text = "Kapitel";
+                        break;
+                    case 1:
+                        n = tome_VM.getNumberOfEvents();
+                        numberInforamtionText.Text = n.ToString();
+                        if(n == 1){
+                            inforamtionText.Text = "Event";
+                        } else {
+                            inforamtionText.Text = "Events";
+                        }
+                        break;
+                    case 2:
+                        n = tome_VM.getNumberOfTypeObjects();
+                        numberInforamtionText.Text = n.ToString();
+                        if(n == 1){
+                            inforamtionText.Text = "Typ Objekt";
+                        } else {
+                            inforamtionText.Text = "Typ Objekte";
+                        }
+                        break;
+                    case 3:
+                        n = getNumberOfPages();
+                        numberInforamtionText.Text = n.ToString();
+                        if (n == 1)
+                        {
+                            inforamtionText.Text = "Seite";
+                        }
+                        else
+                        {
+                            inforamtionText.Text = "Seiten";
+                        }
+                        break;
+                    case 4:
+                        n = tome_VM.getNumberOfWords();
+                        numberInforamtionText.Text = n.ToString();
+                        if (n == 1)
+                        {
+                            inforamtionText.Text = "Wort";
+                        }
+                        else
+                        {
+                            inforamtionText.Text = "Wörter";
+                        }
+                        break;
+                }
+
+            //Slider fängt von vorne an
+            if (SliderNumberOfInfo == 4)
             {
-                //Um die zweite Stelle herauszulesen.
-                formatList.SelectedIndex = (int)(informationCode % 100 / 10);
-                //Um die letzte Stelle herauszulesen.
-                fontSizeList.SelectedIndex = (int)(informationCode % 10);
+                SliderNumberOfInfo = 0;
             }
-            formatList.IsEnabled = true;
-            fontSizeList.IsEnabled = true;
+            else 
+            {
+                SliderNumberOfInfo++;    
+            }
+
         }
 
         /// <summary>
-        /// Auswahl Anzahl Seiten aufheben.
+        /// rechnet die Anzahl an Seiten aus. 
         /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void rbNumberOfPage_Unchecked(object sender, RoutedEventArgs e)
-        {
-            formatList.IsEnabled = false;
-            fontSizeList.IsEnabled = false;
+        /// <returns></returns>       
+        private int getNumberOfPages() {
+            int NumberSigns = tome_VM.getsNumberOfSignsFinaltext();
+
+            //Tabelle Anzahl Wörter
+            //            9       10      12      14
+            //12*19       2600    2200    1500    1100
+            //13,5*21,5   3500    2900    2000    1500
+            //14,8*21     3700    3200    2100    1600
+            //15,5*22     4000    3400    2400    1800
+            //17*22       4500    3700    2600    2000
+
+            int[,] wordTabell = new int[,]{{2600, 2200, 1500, 1100}, 
+                                           {3500, 2900, 2000, 1500}, 
+                                           {3700, 3200, 2100, 1600}, 
+                                           {4000, 3400, 2400, 1800}, 
+                                           {4500, 3700, 2600, 2000}};
+
+            int formatIndex = formatList.SelectedIndex;
+            int fontsizeIndex = fontSizeList.SelectedIndex;
+            //System.Diagnostics.Debug.WriteLine("formatindex: " + formatIndex);
+            return  (int) (NumberSigns / wordTabell[formatIndex, fontsizeIndex] + 0.5);
         }
 
+
         /// <summary>
-        /// 
+        /// Inhalt der Liste mit Formaten wird gewechselt
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -378,12 +455,13 @@ namespace WritersToolbox.views
         {
             if (formatList != null && fontSizeList != null)
             {
-                informationCode = 400 + formatList.SelectedIndex * 10 + fontSizeList.SelectedIndex;
+                detailInfotexteErstellen();
+                // informationCode = 400 + formatList.SelectedIndex * 10 + fontSizeList.SelectedIndex;
             }
         }
 
         /// <summary>
-        /// 
+        /// Inhalt der iste mit Schriftgrößen wird gewechselt
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -391,19 +469,151 @@ namespace WritersToolbox.views
         {
             if (formatList != null && fontSizeList != null)
             {
-                informationCode = 400 + formatList.SelectedIndex * 10 + fontSizeList.SelectedIndex;
+                detailInfotexteErstellen();
+                //informationCode = 400 + formatList.SelectedIndex * 10 + fontSizeList.SelectedIndex;
             }
         }
+
+
+        /// <summary>
+        /// Die Infos für die Detailansicht werden erstellt
+        /// Chapter, Events, Typobjekte, Seitenzahl, Wörter
+        /// </summary>
+        private void detailInfotexteErstellen() 
+        {
+            int n;
+            NumberOfChapter_Zahl.Text = " " + tome_VM.getNumberOfChapters();
+            NumberOfEvent_Zahl.Text = "" + tome_VM.getNumberOfEvents();
+            NumberOfTypeObject_Zahl.Text = "" + tome_VM.getNumberOfTypeObjects();
+            NumberOfPage_Zahl.Text = "" + getNumberOfPages();
+            NumberOfWord_Zahl.Text = "" + tome_VM.getNumberOfWords();
+
+
+            //Texte, Mehrzahl/Einzahl
+            //Event/Events
+            n = tome_VM.getNumberOfEvents();
+            if (n == 1)
+            {
+                NumberOfEvent_Text.Text = "Event";
+            }
+            else
+            {
+                NumberOfEvent_Text.Text = "Events";
+            }
+
+            //Typobjekte
+            n = tome_VM.getNumberOfTypeObjects();
+            if (n == 1)
+            {
+                NumberOfTypeObject_Text.Text = "Typ Objekt";
+            }
+            else
+            {
+                NumberOfTypeObject_Text.Text = "Typ Objekte";
+            }
+
+            //Seiten
+            n = getNumberOfPages();
+            if (n == 1)
+            {
+                NumberOfPage_Text.Text = "Seite";
+            }
+            else
+            {
+                NumberOfPage_Text.Text = "Seiten";
+            }
+
+            //Wort/Wörter
+            n = tome_VM.getNumberOfWords();
+            if (n == 1)
+            {
+                NumberOfWord_Text.Text = "Wort";
+            }
+            else
+            {
+                NumberOfWord_Text.Text = "Wörter";
+            }
+
+        }
+
+        
+
+        /// <summary>
+        /// Auswahl Anzahl Kapitel.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //private void rbNumberOfChapter_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    informationCode = 1;
+        //    numberInforamtionText.Text = "" + tome_VM.getNumberOfChapters();
+        //    inforamtionText.Text = "Kapitel";
+        //}
+
+        /// <summary>
+        /// Auswahl Anzahl Ereignisse.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //private void rbNumberOfEvent_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    informationCode = 2;
+        //    numberInforamtionText.Text = "" + tome_VM.getNumberOfEvents();
+        //    inforamtionText.Text = "Ereignis-se";
+        //}
+
+        /// <summary>
+        /// Auswahl Anzahl Typeobjekte.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //private void rbNumberOfTypeObject_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    informationCode = 3;
+        //    numberInforamtionText.Text = "" + tome_VM.getNumberOfTypeObjects();
+        //    inforamtionText.Text = "Typeobjekt-e";
+        //}
+
+        /// <summary>
+        /// Auswahl Anzahhl Seiten.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //private void rbNumberOfPage_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    if (informationCode > 399)
+        //    {
+        //        //Um die zweite Stelle herauszulesen.
+        //        formatList.SelectedIndex = (int)(informationCode % 100 / 10);
+        //        //Um die letzte Stelle herauszulesen.
+        //        fontSizeList.SelectedIndex = (int)(informationCode % 10);
+        //    }
+        //    formatList.IsEnabled = true;
+        //    fontSizeList.IsEnabled = true;
+        //}
+
+        /// <summary>
+        /// Auswahl Anzahl Seiten aufheben.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        //private void rbNumberOfPage_Unchecked(object sender, RoutedEventArgs e)
+        //{
+        //    formatList.IsEnabled = false;
+        //    fontSizeList.IsEnabled = false;
+        //}
+
+        
 
         /// <summary>
         /// 
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void rbNumberOfWord_Checked(object sender, RoutedEventArgs e)
-        {
-            informationCode = 5;
-        }
+        //private void rbNumberOfWord_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    informationCode = 5;
+        //}
 
         /// <summary>
         /// Ereignislist aufklappen bzw. zusammenklappen.
