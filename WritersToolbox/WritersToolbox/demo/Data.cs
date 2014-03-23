@@ -8,6 +8,7 @@ using System.Data.Linq.Mapping;
 using Microsoft.Phone.Data.Linq;
 using Microsoft.Phone.Data.Linq.Mapping;
 using WritersToolbox.models;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.demo
 {
@@ -51,7 +52,8 @@ namespace WritersToolbox.demo
                 addedDate = DateTime.Now,
                 updatedDate = DateTime.Now,
                 obj_book = b,
-                information = 1
+                information = 1,
+                deleted = true
             };
 
             Tome t2 = new Tome()
@@ -120,7 +122,14 @@ namespace WritersToolbox.demo
             {
                 title = "Bahnhof",
                 obj_Chapter = c1,
-                finaltext = "",
+                finaltext = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore" +
+                                                    "because they just didn't hold with such nonsense. Mr. Dursley was the director of a firm called Grunnings, which made drills. He was a big, beefy man with hardly any neck," +
+                                    "although he did have a very large mustache. Mrs. Dursley was thin and blonde and had nearly twice the usual amount of neck, which came in very useful as she spent so much of her" +
+                                    "time craning over garden fences, spying on the neighbors. The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere." +
+                                    "The Dursleys had everything they wanted, but they also had a secret, and their greatest fear was that somebody would discover it. They didn't think they could bear it" +
+                "if anyone found out about the Potters. Mrs. Potter was Mrs. Dursley's sister, but they hadn't met for several years; in fact, Mrs. Dursley pretended she didn't have a sister, because her sister and" +
+                "her good-for-nothing husband were as unDursleyish as it was possible to be. The Dursleys shuddered to think what the neighbors would say if the Potters arrived in the street. The Dursleys knew that the" +
+                "et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                 orderInChapter = 1
             };
 
@@ -128,7 +137,14 @@ namespace WritersToolbox.demo
             {
                 title = "Haus der Dursleys B",
                 obj_Chapter = c1,
-                finaltext = "",
+                finaltext = "Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore" +
+                                                    "because they just didn't hold with such nonsense. Mr. Dursley was the director of a firm called Grunnings, which made drills. He was a big, beefy man with hardly any neck," +
+                                    "although he did have a very large mustache. Mrs. Dursley was thin and blonde and had nearly twice the usual amount of neck, which came in very useful as she spent so much of her" +
+                                    "time craning over garden fences, spying on the neighbors. The Dursleys had a small son called Dudley and in their opinion there was no finer boy anywhere." +
+                                    "The Dursleys had everything they wanted, but they also had a secret, and their greatest fear was that somebody would discover it. They didn't think they could bear it" +
+                "if anyone found out about the Potters. Mrs. Potter was Mrs. Dursley's sister, but they hadn't met for several years; in fact, Mrs. Dursley pretended she didn't have a sister, because her sister and" +
+                "her good-for-nothing husband were as unDursleyish as it was possible to be. The Dursleys shuddered to think what the neighbors would say if the Potters arrived in the street. The Dursleys knew that the" +
+                "et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est Lorem ipsum dolor sit amet.",
                 orderInChapter = 2
             };
 
@@ -167,26 +183,22 @@ namespace WritersToolbox.demo
             };
 
             WritersToolbox.models.Type type1 = new WritersToolbox.models.Type() {
-                title = "Charakter",
+                title = AppResources.TypesHeadlineCharacter,
                 color = "#FF32CD32",
                 imageString = "../icons/character_round_icon.png"
             };
 
             WritersToolbox.models.Type type2 = new WritersToolbox.models.Type()
             {
-                title = "Handlungsort",
+                title = AppResources.TypesHeadlineSetting,
                 color = "#FF32CD32"
             };
 
-            WritersToolbox.models.Type type3 = new WritersToolbox.models.Type()
-            {
-                title = "Formeln",
-                color = "#FF32CD32"
-            };
+            
 
             WritersToolbox.models.Type type4 = new WritersToolbox.models.Type()
             {
-                title = "Gruppierungen",
+                title = AppResources.TypesHeadlineCreatures,
                 color = "#FF32CD32"
             };
 
@@ -196,7 +208,8 @@ namespace WritersToolbox.demo
                 obj_Type = type1,
                 used = true,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "../icons/character_round_icon.png",
+                deleted = true
             };
 
             EntitySet<EventTypeObjects> events1 = new EntitySet<EventTypeObjects>();
@@ -344,7 +357,6 @@ namespace WritersToolbox.demo
 
             db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type1);
             db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type2);
-            db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type3);
             db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type4);
 
             db.GetTable<TypeObject>().InsertOnSubmit(typeObject1);

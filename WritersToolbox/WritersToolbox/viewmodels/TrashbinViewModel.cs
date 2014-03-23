@@ -23,6 +23,7 @@ namespace WritersToolbox.viewmodels
         private Table<WritersToolbox.models.Type> tableType;
         private Table<Event> tableEvent;
         private Table<Chapter> tableChapter;
+        private Table<EventTypeObjects> tableEventTypeObject;
         
 
         public ObservableCollection<Object> DeletedObjects { get; set; }
@@ -37,6 +38,7 @@ namespace WritersToolbox.viewmodels
                 tableTypeObject = db.GetTable<WritersToolbox.models.TypeObject>();
                 tableType = db.GetTable<WritersToolbox.models.Type>();
                 tableEvent = db.GetTable<Event>();
+                tableEventTypeObject = db.GetTable<EventTypeObjects>();
                 tableChapter = db.GetTable<Chapter>();
 
                 
@@ -47,17 +49,16 @@ namespace WritersToolbox.viewmodels
             }
         }
 
-        public void loadData()
+        public void loadDeletedMemoryNotes()
         {
-            
-            this.DeletedObjects = new ObservableCollection<Object>(); // O || o
-            
             // notizen, die geloescht sind, aber nicht zugeordnet sind
             var sqlNotes = from n in tableMemoryNote
                            where n.deleted == true
                            select n;
-            foreach(var note in sqlNotes) {
-                datawrapper.MemoryNote mn = new datawrapper.MemoryNote() {
+            foreach (var note in sqlNotes)
+            {
+                datawrapper.MemoryNote mn = new datawrapper.MemoryNote()
+                {
                     addedDate = note.addedDate,
                     associated = false,
                     contentAudioString = note.contentAudioString,
@@ -72,14 +73,19 @@ namespace WritersToolbox.viewmodels
                 };
                 this.DeletedObjects.Add(mn);
             }
+        }
+
+        public void loadDeletedBooks()
+        {
             // buecher, die geloescht sind
             var sqlBooks = from b in tableBook
-                          where b.deleted == true
-                          select b;
-            foreach(var book in sqlBooks) {
+                           where b.deleted == true
+                           select b;
+            foreach (var book in sqlBooks)
+            {
                 datawrapper.Book b = new datawrapper.Book()
-                {     
-                    
+                {
+
                     updatedDate = book.updatedDate,
                     addedDate = book.addedDate,
                     name = book.name,
@@ -87,8 +93,10 @@ namespace WritersToolbox.viewmodels
                 };
                 this.DeletedObjects.Add(b);
             }
+        }
 
-
+        public void loadDeletedTomes()
+        {
             // Tomes, die geloescht sind.
             var sqlTomes = from t in tableTome
                            where t.deleted == true
@@ -107,10 +115,14 @@ namespace WritersToolbox.viewmodels
                 };
                 this.DeletedObjects.Add(t);
             }
+        }
+
+        public void loadDeletedTypeObjects()
+        {
             //typeObjecte die geloescht sind
             var sqlTypeObject = from tO in tableTypeObject
-                          where tO.deleted == true
-                          select tO;
+                                where tO.deleted == true
+                                select tO;
             foreach (var typeObject in sqlTypeObject)
             {
                 datawrapper.TypeObject tO = new datawrapper.TypeObject()
@@ -122,33 +134,39 @@ namespace WritersToolbox.viewmodels
                     color = typeObject.color,
                     used = typeObject.used,
                     name = typeObject.name,
-                  
+
                     imageString = typeObject.imageString
 
                 };
                 this.DeletedObjects.Add(tO);
             }
+        }
+
+        public void loadDeletedTypes()
+        {
             //Komplette Typen die gelöscht sind.
             var sqlType = from ty in tableType
-                                where ty.deleted == true
-                                select ty;
+                          where ty.deleted == true
+                          select ty;
             foreach (var type in sqlType)
             {
                 datawrapper.Type ty = new datawrapper.Type()
                 {
-                   
+
                     typeID = type.typeID,
                     title = type.title,
                     color = type.color,
                     imageString = type.imageString,
-                 //   typeObjects = type.typeObjects
+                    //   typeObjects = type.typeObjects
 
                 };
                 this.DeletedObjects.Add(ty);
             }
             this.NotifyPropertyChanged("DeletedObjects");
-        
-         //Komplette Events die gelöscht sind.
+        }
+        public void loadDeletedEvents()
+        {
+             //Komplette Events die gelöscht sind.
             var sqlEvent = from te in tableEvent
                                 where te.deleted == true
                                 select te;
@@ -163,6 +181,20 @@ namespace WritersToolbox.viewmodels
                 };
                 this.DeletedObjects.Add(te);
             }
+        }
+
+        public void loadData()
+        {
+
+            this.DeletedObjects = new ObservableCollection<Object>(); // O || o
+
+            loadDeletedMemoryNotes();
+            loadDeletedBooks();
+            loadDeletedTomes();
+            loadDeletedTypeObjects();
+            loadDeletedTypes();
+            loadDeletedEvents();
+
         }
 
         public void deleteTrash(IList list)
@@ -192,10 +224,42 @@ namespace WritersToolbox.viewmodels
                 if (entry.GetType().IsAssignableFrom((new datawrapper.Tome()).GetType()))
                 {
                     datawrapper.Tome to = (datawrapper.Tome)entry;
-                    var entries = (from t in this.tableTome
+                    var tome = (from t in this.tableTome
                                    where t.tomeID == to.tomeID
                                    select t).Single();
-                    this.tableTome.DeleteOnSubmit(entries);
+
+                    var chapter = (from c in this.tableChapter
+                                   where c.obj_tome.tomeID == tome.tomeID
+                                   select c).ToList();
+
+                    foreach (var ch in chapter)
+                    {
+                        var even = (from e in this.tableEvent
+                                       where e.fk_chapterID == ch.chapterID
+                                       select e).ToList();
+                        foreach (var eve in even)
+                        {
+                            var notes = (from n in this.tableMemoryNote
+                                       where n.obj_Event.eventID == eve.eventID
+                                       select n).ToList();
+                            foreach (var note in notes)
+                            {
+                                
+                                this.tableMemoryNote.DeleteOnSubmit(note);
+                            }
+                            var eto = (from t in this.tableEventTypeObject
+                                      where t.fk_eventID == eve.eventID
+                                      select t).ToList();
+                            foreach (var evento in eto)
+                            {
+                                this.tableEventTypeObject.DeleteOnSubmit(evento);
+                            }
+                            this.tableEvent.DeleteOnSubmit(eve);
+                        }
+                        this.tableChapter.DeleteOnSubmit(ch);
+                    }
+
+                    this.tableTome.DeleteOnSubmit(tome);
                 }
                 if (entry.GetType().IsAssignableFrom((new datawrapper.Event()).GetType()))
                 {
@@ -203,17 +267,18 @@ namespace WritersToolbox.viewmodels
                     var entries = (from e in this.tableEvent
                                    where e.eventID == ev.eventID
                                    select e).Single();
-                        foreach (var n in entries.notes)
-                        {
-                            tableMemoryNote.DeleteOnSubmit(n);
-                        }
-                        var tos = from to in this.db.GetTable<EventTypeObjects>()
-                                  where to.fk_eventID == entries.eventID
-                                  select to;
-                        foreach (var t in tos) {
-                            this.db.GetTable<EventTypeObjects>().DeleteOnSubmit(t);
-                        }
-                        entries.typeObjects.Clear();
+                    foreach (var n in entries.notes)
+                    {
+                        tableMemoryNote.DeleteOnSubmit(n);
+                    }
+                    var tos = from to in this.tableEventTypeObject
+                              where to.fk_eventID == entries.eventID
+                              select to;
+                    foreach (var t in tos)
+                    {
+                        tableEventTypeObject.DeleteOnSubmit(t);
+                    }
+                    entries.typeObjects.Clear();
                     this.tableEvent.DeleteOnSubmit(entries);
                 }
                 if (entry.GetType().IsAssignableFrom((new datawrapper.Type()).GetType()))
@@ -227,10 +292,28 @@ namespace WritersToolbox.viewmodels
                 if (entry.GetType().IsAssignableFrom((new datawrapper.TypeObject()).GetType()))
                 {
                     datawrapper.TypeObject tyo = (datawrapper.TypeObject)entry;
-                    var entries = (from t in this.tableTypeObject
+
+                    var to = (from t in this.tableTypeObject
                                    where t.typeObjectID == tyo.typeObjectID
                                    select t).Single();
-                    this.tableTypeObject.DeleteOnSubmit(entries);
+                    var entries = (from t in this.tableMemoryNote
+                                   where t.obj_TypeObject.typeObjectID == to.typeObjectID
+                                   select t).ToList();
+                    
+                    foreach (var n in entries)
+                    {
+                        tableMemoryNote.DeleteOnSubmit(n);
+                    }
+                    var tos = from x in this.tableEventTypeObject
+                              where x.obj_typeObject.typeObjectID == to.typeObjectID
+                              select x;
+                    foreach (var t in tos)
+                    {
+                        tableEventTypeObject.DeleteOnSubmit(t);
+                    }
+                    
+                   
+                    this.tableTypeObject.DeleteOnSubmit(to);
                 }
                 if (entry.GetType().IsAssignableFrom((new datawrapper.Chapter()).GetType()))
                 {

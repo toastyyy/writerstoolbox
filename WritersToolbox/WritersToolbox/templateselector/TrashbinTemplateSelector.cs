@@ -15,6 +15,7 @@ namespace WritersToolbox.templateselector
         public DataTemplate eventTemplate { get; set; }
         public DataTemplate typeObjectTemplate { get; set; }
         public DataTemplate typeTemplate { get; set; }
+        public DataTemplate chapterTemplate { get; set; }
 
         public override DataTemplate SelectTemplate(object item, DependencyObject container)
         {
@@ -41,6 +42,10 @@ namespace WritersToolbox.templateselector
             else if (item.GetType().IsAssignableFrom((new datawrapper.Event()).GetType()))
             {
                 return eventTemplate;
+            }
+            else if (item.GetType().IsAssignableFrom((new datawrapper.Chapter()).GetType()))
+            {
+                return chapterTemplate;
             }
             
             

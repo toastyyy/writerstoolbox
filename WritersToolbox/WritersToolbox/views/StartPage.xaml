@@ -38,7 +38,7 @@
             <Button x:Name="btnNewNote" BorderBrush="Transparent"  HorizontalAlignment="Left" Margin="44,-13,0,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" Width="250" Height="207" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Click="newNote">
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
                     <Image VerticalAlignment="Center" Height="136" Source="/icons/notizen.png" x:Name="image1" Margin="2,19,-24,0" />
-                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="52" HorizontalAlignment="Center" Width="224" Margin="0,-32,-24,0" FontSize="24" Text="Neue Notiz" TextAlignment="Center" />
+                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="52" HorizontalAlignment="Center" Width="224" Margin="0,-32,-24,0" FontSize="24" Text="{Binding Path=LocalizedResources.StartpageNewNote, Source={StaticResource LocalizedStrings}}" TextAlignment="Center" />
                 </StackPanel>
 
                 <!-- <TextBlock VerticalAlignment="Center" FontSize="26.667" Foreground="White" Width="256" Height="94" HorizontalAlignment="Center" TextAlignment="Center" Text="neue Notiz" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"/>-->
@@ -46,7 +46,7 @@
             <Button x:Name="btnTypes" BorderBrush="#00D3D3D3" HorizontalAlignment="Left" Margin="44,182,0,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" Height="254" Width="205" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Click="navigateToTypes" Foreground="Transparent">
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
                     <Image VerticalAlignment="Center" Height="188" Source="/icons/typen.png" x:Name="image2" Margin="2,-18,21,0" />
-                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="179" Margin="0,-36,21,0" FontSize="24" Text="Typen" TextAlignment="Center" />
+                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="179" Margin="0,-36,21,0" FontSize="24" Text="{Binding Path=LocalizedResources.StartpageTypes, Source={StaticResource LocalizedStrings}}" TextAlignment="Center" />
                 </StackPanel>
 
 
@@ -55,7 +55,7 @@
             <Button x:Name="btnSettings"  HorizontalAlignment="Right" Margin="0,182,36,0" VerticalAlignment="Top" BorderBrush="#00D3D3D3" Background="Transparent" BorderThickness="1" Height="113" Width="207" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Click="navigateToSettings">
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
 
-                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="67" HorizontalAlignment="Center" Width="180" Margin="0,28,20,0" FontSize="24" Text="Einstellungen" TextAlignment="Center" />
+                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="67" HorizontalAlignment="Center" Width="180" Margin="0,28,20,0" FontSize="24" Text="{Binding Path=LocalizedResources.StartpageSettings, Source={StaticResource LocalizedStrings}}" TextAlignment="Center" />
                 </StackPanel>
 
                 <!--  <TextBlock Height="58" TextWrapping="Wrap" Text="       Settings" Width="142"/>-->
@@ -64,7 +64,7 @@
             <Button  x:Name="btnBooks" HorizontalAlignment="Right" Margin="0,283,36,0" VerticalAlignment="Top" BorderBrush="#00D3D3D3" Background="Transparent" BorderThickness="1" Height="255" Width="207" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Tap="navigateToBooks">
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
                     <Image VerticalAlignment="Center" Height="185" Source="/icons/werke.png" x:Name="image3" Margin="2,-16,28,0" />
-                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="179" Margin="0,-37,21,0" FontSize="24" Text="Werke" TextAlignment="Center" />
+                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="179" Margin="0,-37,21,0" FontSize="24" Text="{Binding Path=LocalizedResources.StartpageBooks, Source={StaticResource LocalizedStrings}}" TextAlignment="Center" />
                 </StackPanel>
 
 
@@ -72,7 +72,7 @@
             </Button>
             <Button BorderBrush="#00D3D3D3" x:Name="btnTrash" Margin="44,426,0,0" VerticalAlignment="Top" Background="Transparent" BorderThickness="1" Height="112" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Click="navigateToTrash" HorizontalAlignment="Left" Width="205" >
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
-                    <TextBlock Foreground="White" x:Name="TrashCounter" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="38" HorizontalAlignment="Center" Width="177" Margin="0,28,23,0" FontSize="24" Text="Papierkorb" TextAlignment="Center"/>
+                    <TextBlock Foreground="White" x:Name="TrashCounter" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="38" HorizontalAlignment="Center" Width="177" Margin="0,28,23,0" FontSize="24" Text="{Binding Path=LocalizedResources.StartpageTrashbin, Source={StaticResource LocalizedStrings}}" TextAlignment="Center"/>
                 </StackPanel>
 
             </Button>
@@ -86,7 +86,7 @@
                             <CompositeTransform ScaleX="-1"/>
                         </TextBlock.RenderTransform>
                     </TextBlock>
-                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="74" HorizontalAlignment="Center" Width="133" Margin="0,2,67,0" FontSize="24" Text="Unsortierte Notizen" TextAlignment="Center" />
+                    <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="74" HorizontalAlignment="Center" Width="133" Margin="0,2,67,0" FontSize="24" Text="{Binding Path=LocalizedResources.StartpageUnsortedNotes, Source={StaticResource LocalizedStrings}}" TextAlignment="Center" />
                 </StackPanel>
             </Button>
 

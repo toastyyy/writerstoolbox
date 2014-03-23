@@ -209,7 +209,7 @@ namespace WritersToolbox.viewmodels
         /// </summary>
         /// <param name="name">Name des Tomes</param>
         /// <param name="typeID">ID des zugehörigen Werkes</param>
-        public void addTome(String title, int bookID)
+        public void addTome(String title, int bookID, int bookTypeID)
         {
 
             models.Book book = (from t in tableBook
@@ -230,9 +230,81 @@ namespace WritersToolbox.viewmodels
             to.obj_book = book;
             to.addedDate = DateTime.Now;
             to.updatedDate = DateTime.Now;
-            this.tableTome.InsertOnSubmit(to);
-            this.wtb.SubmitChanges();
-            this.loadData();
+
+
+            switch (bookTypeID)
+            {
+                case 1: Chapter c1 = new Chapter()
+                        {
+                            chapterNumber = 1,
+                            title = "Einleitung",
+                            addedDate = DateTime.Now,
+                            updatedDate = DateTime.Now,
+                            obj_tome = to
+                        };
+                    tableChapter.InsertOnSubmit(c1);
+                    Chapter c2 = new Chapter()
+                    {
+                        chapterNumber = 2,
+                        title = "Kapitel 1",
+                        addedDate = DateTime.Now,
+                        updatedDate = DateTime.Now,
+                        obj_tome = to
+                    };
+                    tableChapter.InsertOnSubmit(c2);
+                    Chapter c3 = new Chapter()
+                    {
+                        chapterNumber = 3,
+                        title = "Nachwort",
+                        addedDate = DateTime.Now,
+                        updatedDate = DateTime.Now,
+                        obj_tome = to
+                    };
+                    tableChapter.InsertOnSubmit(c3);
+                    break;
+                case 2: Chapter c4 = new Chapter()
+                        {
+                            chapterNumber = 1,
+                            title = "Gedicht 1",
+                            addedDate = DateTime.Now,
+                            updatedDate = DateTime.Now,
+                            obj_tome = to
+                        };
+                    tableChapter.InsertOnSubmit(c4);
+                    Chapter c5 = new Chapter()
+                    {
+                        chapterNumber = 2,
+                        title = "Gedicht 2",
+                        addedDate = DateTime.Now,
+                        updatedDate = DateTime.Now,
+                        obj_tome = to
+                    };
+                    tableChapter.InsertOnSubmit(c5);
+                    break;
+                case 3: Chapter c6 = new Chapter()
+                        {
+                            chapterNumber = 1,
+                            title = "Einleitung",
+                            addedDate = DateTime.Now,
+                            updatedDate = DateTime.Now,
+                            obj_tome = to
+                        };
+                    tableChapter.InsertOnSubmit(c6);
+                    Chapter c7 = new Chapter()
+                    {
+                        chapterNumber = 2,
+                        title = "Geschichte 1",
+                        addedDate = DateTime.Now,
+                        updatedDate = DateTime.Now,
+                        obj_tome = to
+                    };
+                    tableChapter.InsertOnSubmit(c7);
+                    break;
+            }
+                    this.tableTome.InsertOnSubmit(to);
+                    this.wtb.SubmitChanges();
+                    this.loadData();
+            
         }
 
 
