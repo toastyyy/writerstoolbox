@@ -307,7 +307,7 @@
     <value>Neues Werk</value>
   </data>
   <data name="NewType" xml:space="preserve">
-    <value>Neuer Typ anlegen</value>
+    <value>Neuen Typ anlegen</value>
   </data>
   <data name="NewTypeColorText" xml:space="preserve">
     <value>Farbe</value>
@@ -346,7 +346,7 @@
     <value>Notiz</value>
   </data>
   <data name="AddNoteHeadlineRecord" xml:space="preserve">
-    <value>Record </value>
+    <value>Aufnahme</value>
   </data>
   <data name="AddNoteHeadlineTags" xml:space="preserve">
     <value>Schlagwörter</value>
@@ -449,5 +449,32 @@
   </data>
   <data name="BookChangeHeadline" xml:space="preserve">
     <value>Werk ändern</value>
+  </data>
+  <data name="StartpageBooks" xml:space="preserve">
+    <value>Werke</value>
+  </data>
+  <data name="StartpageNewNote" xml:space="preserve">
+    <value>Neue Notiz</value>
+  </data>
+  <data name="StartpageSettings" xml:space="preserve">
+    <value>Einstellungen</value>
+  </data>
+  <data name="StartpageTrashbin" xml:space="preserve">
+    <value>Papierkorb</value>
+  </data>
+  <data name="StartpageTypes" xml:space="preserve">
+    <value>Typen</value>
+  </data>
+  <data name="StartpageUnsortedNotes" xml:space="preserve">
+    <value>Unsortierte Notizen</value>
+  </data>
+  <data name="TypesHeadlineCharacter" xml:space="preserve">
+    <value>Charakter</value>
+  </data>
+  <data name="TypesHeadlineCreatures" xml:space="preserve">
+    <value>Kreaturen</value>
+  </data>
+  <data name="TypesHeadlineSetting" xml:space="preserve">
+    <value>Schauplatz</value>
   </data>
 </root>

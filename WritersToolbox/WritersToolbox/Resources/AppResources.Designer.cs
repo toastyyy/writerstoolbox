@@ -116,7 +116,7 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Record .
+        ///   Looks up a localized string similar to Aufnahme.
         /// </summary>
         public static string AddNoteHeadlineRecord {
             get {
@@ -681,7 +681,7 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Neuer Typ anlegen.
+        ///   Looks up a localized string similar to Neuen Typ anlegen.
         /// </summary>
         public static string NewType {
             get {
@@ -907,6 +907,60 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Werke.
+        /// </summary>
+        public static string StartpageBooks {
+            get {
+                return ResourceManager.GetString("StartpageBooks", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Neue Notiz.
+        /// </summary>
+        public static string StartpageNewNote {
+            get {
+                return ResourceManager.GetString("StartpageNewNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Einstellungen.
+        /// </summary>
+        public static string StartpageSettings {
+            get {
+                return ResourceManager.GetString("StartpageSettings", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Papierkorb.
+        /// </summary>
+        public static string StartpageTrashbin {
+            get {
+                return ResourceManager.GetString("StartpageTrashbin", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Typen.
+        /// </summary>
+        public static string StartpageTypes {
+            get {
+                return ResourceManager.GetString("StartpageTypes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Unsortierte Notizen.
+        /// </summary>
+        public static string StartpageUnsortedNotes {
+            get {
+                return ResourceManager.GetString("StartpageUnsortedNotes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized resource of type System.Byte[].
         /// </summary>
         public static byte[] struktur_checked {
@@ -1042,6 +1096,33 @@ namespace WritersToolbox.Resources {
         public static string TypeObjectDeleteQuestion2 {
             get {
                 return ResourceManager.GetString("TypeObjectDeleteQuestion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Charakter.
+        /// </summary>
+        public static string TypesHeadlineCharacter {
+            get {
+                return ResourceManager.GetString("TypesHeadlineCharacter", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Kreaturen.
+        /// </summary>
+        public static string TypesHeadlineCreatures {
+            get {
+                return ResourceManager.GetString("TypesHeadlineCreatures", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Schauplatz.
+        /// </summary>
+        public static string TypesHeadlineSetting {
+            get {
+                return ResourceManager.GetString("TypesHeadlineSetting", resourceCulture);
             }
         }
         

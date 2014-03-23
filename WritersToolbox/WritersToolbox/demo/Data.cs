@@ -8,6 +8,7 @@ using System.Data.Linq.Mapping;
 using Microsoft.Phone.Data.Linq;
 using Microsoft.Phone.Data.Linq.Mapping;
 using WritersToolbox.models;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.demo
 {
@@ -51,7 +52,8 @@ namespace WritersToolbox.demo
                 addedDate = DateTime.Now,
                 updatedDate = DateTime.Now,
                 obj_book = b,
-                information = 1
+                information = 1,
+                deleted = true
             };
 
             Tome t2 = new Tome()
@@ -167,26 +169,22 @@ namespace WritersToolbox.demo
             };
 
             WritersToolbox.models.Type type1 = new WritersToolbox.models.Type() {
-                title = "Charakter",
+                title = AppResources.TypesHeadlineCharacter,
                 color = "#FF32CD32",
                 imageString = "../icons/character_round_icon.png"
             };
 
             WritersToolbox.models.Type type2 = new WritersToolbox.models.Type()
             {
-                title = "Handlungsort",
+                title = AppResources.TypesHeadlineSetting,
                 color = "#FF32CD32"
             };
 
-            WritersToolbox.models.Type type3 = new WritersToolbox.models.Type()
-            {
-                title = "Formeln",
-                color = "#FF32CD32"
-            };
+            
 
             WritersToolbox.models.Type type4 = new WritersToolbox.models.Type()
             {
-                title = "Gruppierungen",
+                title = AppResources.TypesHeadlineCreatures,
                 color = "#FF32CD32"
             };
 
@@ -345,7 +343,6 @@ namespace WritersToolbox.demo
 
             db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type1);
             db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type2);
-            db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type3);
             db.GetTable<WritersToolbox.models.Type>().InsertOnSubmit(type4);
 
             db.GetTable<TypeObject>().InsertOnSubmit(typeObject1);

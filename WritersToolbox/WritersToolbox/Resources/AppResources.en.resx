@@ -450,4 +450,31 @@
   <data name="AppBarUnattached" xml:space="preserve">
     <value>delete assignment</value>
   </data>
+  <data name="StartpageBooks" xml:space="preserve">
+    <value>Books</value>
+  </data>
+  <data name="StartpageNewNote" xml:space="preserve">
+    <value>New Note</value>
+  </data>
+  <data name="StartpageSettings" xml:space="preserve">
+    <value>Settings</value>
+  </data>
+  <data name="StartpageTrashbin" xml:space="preserve">
+    <value>Recycle Bin</value>
+  </data>
+  <data name="StartpageTypes" xml:space="preserve">
+    <value>Types</value>
+  </data>
+  <data name="StartpageUnsortedNotes" xml:space="preserve">
+    <value>Unsorted Notes</value>
+  </data>
+  <data name="TypesHeadlineCharacter" xml:space="preserve">
+    <value>Character</value>
+  </data>
+  <data name="TypesHeadlineCreatures" xml:space="preserve">
+    <value>Creatures</value>
+  </data>
+  <data name="TypesHeadlineSetting" xml:space="preserve">
+    <value>Setting</value>
+  </data>
 </root>

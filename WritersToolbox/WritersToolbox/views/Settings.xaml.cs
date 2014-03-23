@@ -75,6 +75,12 @@ namespace WritersToolbox.views
         private void Button_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/ExportText.xaml", UriKind.RelativeOrAbsolute));
-        }        
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+
+            NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.RelativeOrAbsolute));
+        }
     }
 }

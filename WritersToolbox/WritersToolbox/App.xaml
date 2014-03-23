@@ -581,7 +581,7 @@
                                         </VisualState>
                                     </VisualStateGroup>
                                 </VisualStateManager.VisualStateGroups>
-                                <Border x:Name="brd" BorderBrush="White" Width="40" Height="40" 
+                                <Border x:Name="brd" BorderBrush="Black" Width="40" Height="40" 
             						BorderThickness="{TemplateBinding BorderThickness}" 
             						Margin="10, 5, 0, 5" 
             						Background="{Binding Color, Converter={StaticResource ColorToBrushConverter}}"/>
