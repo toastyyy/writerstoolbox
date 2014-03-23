@@ -75,6 +75,11 @@ namespace WritersToolbox.views
         private void Button_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/ExportText.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void Button_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/ExportImportBackup.xaml", UriKind.RelativeOrAbsolute));
         }        
     }
 }

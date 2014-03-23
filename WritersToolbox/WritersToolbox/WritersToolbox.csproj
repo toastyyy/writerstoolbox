@@ -159,6 +159,7 @@
     <Compile Include="viewmodels\AddTomeViewModel.cs" />
     <Compile Include="viewmodels\BooksViewModel.cs" />
     <Compile Include="viewmodels\EventDetailViewModel.cs" />
+    <Compile Include="viewmodels\ExportViewModel.cs" />
     <Compile Include="viewmodels\TomeDetailsViewModel.cs" />
     <Compile Include="viewmodels\TomeDetailViewModel.cs" />
     <Compile Include="viewmodels\TrashbinViewModel.cs" />
@@ -171,6 +172,12 @@
     </Compile>
     <Compile Include="views\AddTome.xaml.cs">
       <DependentUpon>AddTome.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\DropboxAuthorize.xaml.cs">
+      <DependentUpon>DropboxAuthorize.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\ExportImportBackup.xaml.cs">
+      <DependentUpon>ExportImportBackup.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\ExportText.xaml.cs">
       <DependentUpon>ExportText.xaml</DependentUpon>
@@ -251,6 +258,14 @@
     <Page Include="views\AddTome.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
+    </Page>
+    <Page Include="views\DropboxAuthorize.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\ExportImportBackup.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\ExportText.xaml">
       <SubType>Designer</SubType>
@@ -352,6 +367,7 @@
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten.png" />
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten_2.png" />
     <Content Include="Assets\hintergrund_trashbin_white.png" />
+    <Content Include="icons\dropbox-logo.png" />
     <Content Include="icons\move-down.png" />
     <Content Include="icons\move-up.png" />
     <Content Include="Assets\start_background.png" />
@@ -473,9 +489,15 @@
     <Reference Include="Coding4Fun.Toolkit.Storage">
       <HintPath>..\packages\Coding4Fun.Toolkit.Storage.2.0.7\lib\windowsphone8\Coding4Fun.Toolkit.Storage.dll</HintPath>
     </Reference>
+    <Reference Include="DropNet.WindowsPhone">
+      <HintPath>..\packages\DropNet.1.9.6\lib\sl4-wp71\DropNet.WindowsPhone.dll</HintPath>
+    </Reference>
     <Reference Include="Microsoft.Expression.Controls, Version=3.9.5.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL" />
     <Reference Include="Microsoft.Phone.Controls.Toolkit">
       <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
+    </Reference>
+    <Reference Include="RestSharp.WindowsPhone">
+      <HintPath>..\packages\RestSharp.104.1\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>
     </Reference>
     <Reference Include="WriteableBitmapExWinPhone">
       <HintPath>..\packages\WriteableBitmapEx.1.0.9.0\lib\WindowsPhone8\WriteableBitmapExWinPhone.dll</HintPath>

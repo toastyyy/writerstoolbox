@@ -11,6 +11,9 @@ using WritersToolbox.viewmodels;
 using System.Collections;
 using System.IO.IsolatedStorage;
 using System.IO;
+using DropNet;
+using DropNet.Models;
+using System.Diagnostics;
 
 namespace WritersToolbox.views
 {
@@ -18,6 +21,8 @@ namespace WritersToolbox.views
     {
         private BooksViewModel bvm = null;
         private int bookID = -1;
+        UserLogin token = null;
+        DropNetClient _client;
 
         private static String exportCSSString = @"
                 body {
@@ -38,6 +43,21 @@ namespace WritersToolbox.views
         public ExportText()
         {
             InitializeComponent();
+            String credentials = this.loadUserCredentials();
+            if (credentials.Equals(""))
+            {
+                _client = new DropNetClient("6uvenkdtbc0antp", "dxb48bxwgem3ziz");
+            }
+            else
+            {
+                String secret = credentials.Split('|')[0];
+                String usertoken = credentials.Split('|')[1].Replace("\r\n", "");
+                _client = new DropNetClient("6uvenkdtbc0antp", "dxb48bxwgem3ziz", usertoken, secret);
+                this.btnConnectDropbox.Visibility = Visibility.Collapsed;
+                this.displayAccountInformation();
+            }
+
+            _client.UseSandbox = true;
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -48,6 +68,26 @@ namespace WritersToolbox.views
             this.bvm.loadData();
             PhoneApplicationService.Current.State.Remove("assignNote");
             this.DataContext = this.bvm;
+
+            if (PhoneApplicationService.Current.State.ContainsKey("dropboxAuth"))
+            {
+                PhoneApplicationService.Current.State.Remove("dropboxAuth");
+                this.btnConnectDropbox.Visibility = Visibility.Collapsed;
+
+                _client.GetAccessTokenAsync(
+                        (accessToken) =>
+                        {
+                            this.token = accessToken;
+                            this.saveUserCredentials(this.token.Secret, this.token.Token);
+                            this._client.UserLogin = accessToken;
+                            this.displayAccountInformation();
+                        },
+                        (error) =>
+                        {
+                            Debug.WriteLine(error.Message);
+                        }
+                    );
+            }
         }
 
         private void BookChanged(object sender, SelectionChangedEventArgs e)
@@ -121,21 +161,97 @@ namespace WritersToolbox.views
                     html = html.Replace("\r\n", " ").Replace("  ", " ");
 
                     String filename = (book.name.Replace(" ", "_")) + ".html";
-                    using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(filename, FileMode.OpenOrCreate, isoStore))
-                    {    
-                        using (StreamWriter writer = new StreamWriter(isoStream))
+                    _client.UploadFileAsync("/", filename, this.generateStringStream(html),
+                        (response) =>
                         {
-                            writer.WriteLine(html);
+                            MessageBox.Show("Das Buch wurde erfolgreich exportiert", "Buch exportiert", MessageBoxButton.OK);
+
+                        },
+                        (error) =>
+                        {
+                            MessageBox.Show("Beim Erstellen des Buches ist ein Fehler aufgetreten. Möglicherweise ist die Verbindung abgebrochen oder die Dropbox ist voll.");
                         }
-                        isoStream.Close();
-                    }
-                    MessageBox.Show("Das Buch wurde erfolgreich exportiert", "Buch exportiert", MessageBoxButton.OK);
+                        );
                 }
 
 
             }
 
             
+        }
+
+        private void connectToDropbox(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            _client.GetTokenAsync(
+                (userLogin) =>
+                {
+                    // Rechte fuer die App einfordern
+                    var url = _client.BuildAuthorizeUrl("http://dkdevelopment.net/BoxShotLogin.htm");
+                    PhoneApplicationService.Current.State["authURL"] = url;
+                    NavigationService.Navigate(new Uri("/views/DropboxAuthorize.xaml", UriKind.RelativeOrAbsolute));
+                },
+                (error) =>
+                {
+                    Debug.WriteLine(error.Message);
+                }
+);
+        }
+
+        /// <summary>
+        /// Speichert UserToken, damit der User die App nicht bei jedem Neustart authorisieren muss.
+        /// </summary>
+        /// <param name="secret"></param>
+        /// <param name="token"></param>
+        private void saveUserCredentials(String secret, String token)
+        {
+            IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication();
+            using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("dropbox_user", FileMode.OpenOrCreate, isoStore))
+            {
+                using (StreamWriter writer = new StreamWriter(isoStream))
+                {
+                    writer.WriteLine(secret + "|" + token);
+                }
+                isoStream.Close();
+            }
+        }
+
+        private String loadUserCredentials()
+        {
+            String ret = "";
+            IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication();
+            if (isoStore.FileExists("dropbox_user"))
+            {
+                using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream("dropbox_user", FileMode.Open, isoStore))
+                {
+                    using (StreamReader reader = new StreamReader(isoStream))
+                    {
+                        ret = reader.ReadToEnd();
+                    }
+                }
+            }
+            return ret;
+        }
+
+        private void displayAccountInformation()
+        {
+            _client.AccountInfoAsync((accountInfo) =>
+            {
+                tInfo.Text = "Eingeloggt als " + accountInfo.display_name;
+            },
+            (error) =>
+            {
+                tInfo.Text = "Fehler beim Abfragen von Accountinformationen";
+            });
+        }
+
+        private Stream generateStringStream(String s)
+        {
+            MemoryStream stream = new MemoryStream();
+            StreamWriter writer = new StreamWriter(stream);
+            writer.Write(s);
+            writer.Flush();
+            stream.Position = 0;
+            return stream;
         }
     }
 }

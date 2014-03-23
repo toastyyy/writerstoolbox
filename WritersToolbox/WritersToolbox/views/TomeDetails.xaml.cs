@@ -491,8 +491,8 @@ namespace WritersToolbox.views
 
             singleTap = true;
             // verzögerung um "tap" von "doubleTap" zu unterscheiden
-            
-            
+
+
             await Task.Delay(200);
 
             //abfrage ob gesingle- oder gedoubletaped wurde, abfrage ob sich chapter in "bearbeitung" befindet

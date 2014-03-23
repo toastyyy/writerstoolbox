@@ -1,0 +1,36 @@
+﻿<phone:PhoneApplicationPage
+    x:Class="WritersToolbox.views.DropboxAuthorize"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:phone="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone"
+    xmlns:shell="clr-namespace:Microsoft.Phone.Shell;assembly=Microsoft.Phone"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    FontFamily="{StaticResource PhoneFontFamilyNormal}"
+    FontSize="{StaticResource PhoneFontSizeNormal}"
+    Foreground="{StaticResource PhoneForegroundBrush}"
+    SupportedOrientations="Portrait" Orientation="Portrait"
+    mc:Ignorable="d"
+    shell:SystemTray.IsVisible="True">
+
+    <!--LayoutRoot is the root grid where all page content is placed-->
+    <Grid x:Name="LayoutRoot" Background="White">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+
+        <Image Margin="0,-6,0,0" Source="/headImage_rot_smal.png" Stretch="Fill" Height="156" VerticalAlignment="Top"/>
+
+        <StackPanel Grid.Row="0" Margin="23,75,22,0">
+            <TextBlock Text="Dropbox aktivieren" Margin="9,-7,0,0" FontSize="50" FontFamily="Segoe UI Light" />
+        </StackPanel>
+
+        <!--ContentPanel - place additional content here-->
+        <Grid x:Name="ContentPanel" Grid.Row="1" Margin="10">
+            <phone:WebBrowser x:Name="webBrowser" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10,10,0,0" Height="578" Width="440" Navigated="webBrowser_Navigated" Navigating="webBrowser_Navigating"/>
+
+        </Grid>
+    </Grid>
+
+</phone:PhoneApplicationPage>
