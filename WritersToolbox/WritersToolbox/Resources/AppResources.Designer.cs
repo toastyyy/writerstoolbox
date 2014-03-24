@@ -672,11 +672,20 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Neuen Band erstellen.
+        ///   Looks up a localized string similar to Neues Band erstellen.
         /// </summary>
         public static string NewTomeTemplate {
             get {
                 return ResourceManager.GetString("NewTomeTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Titel.
+        /// </summary>
+        public static string NewTomeTitleText {
+            get {
+                return ResourceManager.GetString("NewTomeTitleText", resourceCulture);
             }
         }
         

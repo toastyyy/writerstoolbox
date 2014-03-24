@@ -82,6 +82,7 @@ namespace WritersToolbox.demo
                 addedDate = DateTime.Now,
                 updatedDate = DateTime.Now,
                 obj_tome = t1
+               
             };
 
             Chapter c2 = new Chapter()
@@ -153,7 +154,7 @@ namespace WritersToolbox.demo
                 title = "Bahnhof",
                 obj_Chapter = c2,
                 finaltext = "",
-                deleted = false,
+                deleted = true,
                 orderInChapter = 1
             };
             Event e5 = new Event()

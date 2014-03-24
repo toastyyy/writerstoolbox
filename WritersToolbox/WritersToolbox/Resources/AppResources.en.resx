@@ -477,4 +477,7 @@
   <data name="TypesHeadlineSetting" xml:space="preserve">
     <value>Setting</value>
   </data>
+  <data name="NewTomeTitleText" xml:space="preserve">
+    <value>Title</value>
+  </data>
 </root>

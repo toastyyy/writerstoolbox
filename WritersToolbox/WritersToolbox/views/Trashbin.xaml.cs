@@ -28,6 +28,7 @@ namespace WritersToolbox.views
             if (this.llms_trash.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsEnabled = false;
+                filterMemoryNotes.IsEnabled = false;
             }
            
         }
@@ -89,6 +90,8 @@ namespace WritersToolbox.views
             {
                 selectAllCheckBox.IsChecked = false;
                 selectAllCheckBox.IsEnabled = false;
+                filterMemoryNotes.IsChecked = false;
+                filterMemoryNotes.IsEnabled = false;
             }
         }
 
@@ -100,6 +103,8 @@ namespace WritersToolbox.views
             {
                 selectAllCheckBox.IsChecked = false;
                 selectAllCheckBox.IsEnabled = false;
+                filterMemoryNotes.IsChecked = false;
+                filterMemoryNotes.IsEnabled = false;
             }
 
         }
@@ -119,8 +124,17 @@ namespace WritersToolbox.views
             if (this.llms_trash.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsEnabled = false;
+                filterMemoryNotes.IsEnabled = false;
             }
             //llms_trash.ItemsSource = trash.getObservableColletion();
+        }
+        private void filter_Checked(object sender, RoutedEventArgs e)
+        {
+            //
+        }
+        private void filter_Unchecked(object sender, RoutedEventArgs e)
+        {
+            //
         }
 
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)

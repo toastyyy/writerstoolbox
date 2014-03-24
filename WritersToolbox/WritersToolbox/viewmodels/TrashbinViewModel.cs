@@ -218,6 +218,9 @@ namespace WritersToolbox.viewmodels
                     var entries = (from b in this.tableBook
                                    where b.bookID == bk.bookID
                                    select b).Single();
+
+
+
                     this.tableBook.DeleteOnSubmit(entries);
                 }
 

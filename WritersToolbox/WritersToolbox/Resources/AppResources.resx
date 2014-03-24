@@ -214,7 +214,7 @@
     <value>Alle Bände erhalten</value>
   </data>
   <data name="NewTomeTemplate" xml:space="preserve">
-    <value>Neuen Band erstellen</value>
+    <value>Neues Band erstellen</value>
   </data>
   <data name="SettingsTitle" xml:space="preserve">
     <value>Einstellungen</value>
@@ -476,5 +476,8 @@
   </data>
   <data name="TypesHeadlineSetting" xml:space="preserve">
     <value>Schauplatz</value>
+  </data>
+  <data name="NewTomeTitleText" xml:space="preserve">
+    <value>Titel</value>
   </data>
 </root>
