@@ -62,6 +62,7 @@ namespace WritersToolbox.views
                 return;
              // dem Navigationspfad wird angehängt, welches item geklickt wurde und zu welchem Pivotitem naviert werden soll
             NavigationService.Navigate(new Uri("/views/Books.xaml?item=" + b.bookID, UriKind.Relative));
+            NavigationService.RemoveBackEntry();
             selector.SelectedItem = null;
         }
 
@@ -98,6 +99,11 @@ namespace WritersToolbox.views
             deleteBookPopup.IsOpen = false;
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            NavigationService.RemoveBackEntry();
+        }
 
     }
 }
