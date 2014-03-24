@@ -48,7 +48,7 @@
                        FontSize="25"
                        Foreground="Black"/>
 
-                    <Grid Margin="0,0">
+                    <Grid Margin="35,0">
                         <Grid.ColumnDefinitions>
                             <ColumnDefinition Width="200" />
                             <ColumnDefinition Width="*" />
