@@ -244,8 +244,7 @@ namespace WritersToolbox.viewmodels
                                        select n).ToList();
                             foreach (var note in notes)
                             {
-                                
-                                this.tableMemoryNote.DeleteOnSubmit(note);
+                                note.obj_Event = null;
                             }
                             var eto = (from t in this.tableEventTypeObject
                                       where t.fk_eventID == eve.eventID
