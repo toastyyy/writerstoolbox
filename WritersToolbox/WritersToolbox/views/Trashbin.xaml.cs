@@ -93,6 +93,7 @@ namespace WritersToolbox.views
                 filterMemoryNotes.IsChecked = false;
                 filterMemoryNotes.IsEnabled = false;
             }
+            deletePopup.IsOpen = false;
         }
 
         private void restoreButton_Click(object sender, EventArgs e)
@@ -130,11 +131,13 @@ namespace WritersToolbox.views
         }
         private void filter_Checked(object sender, RoutedEventArgs e)
         {
-            //
+            this.trash.deleteList();
+            this.trash.loadDeletedTomes();
         }
         private void filter_Unchecked(object sender, RoutedEventArgs e)
         {
-            //
+            this.trash.deleteList();
+            this.trash.loadData();
         }
 
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -183,6 +186,16 @@ namespace WritersToolbox.views
         private void zurueckButton_Click(object sender, EventArgs e)
         {
             llms_trash.EnforceIsSelectionEnabled = false;
+        }
+
+        private void DoNotDelete(object sender, RoutedEventArgs e)
+        {
+            deletePopup.IsOpen = false;
+        }
+
+        private void deletePopupClick(object sender, EventArgs e)
+        {
+            deletePopup.IsOpen = true;
         }
     }
 }

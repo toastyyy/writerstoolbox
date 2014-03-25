@@ -40,11 +40,20 @@ namespace WritersToolbox.demo
             b.updatedDate = DateTime.Now;
             b.obj_bookType = bt;
 
+
             Book b2 = new Book();
             b2.name = "Der Herr der Ringe";
             b2.addedDate = DateTime.Now;
             b2.updatedDate = DateTime.Now;
             b2.obj_bookType = bt;
+
+
+            Book b3 = new Book();
+            b3.name = "Test Buch";
+            b3.addedDate = DateTime.Now;
+            b3.updatedDate = DateTime.Now;
+            b3.obj_bookType = bt;
+            b3.deleted = true;
 
             Tome t1 = new Tome() 
             {
@@ -343,6 +352,7 @@ namespace WritersToolbox.demo
             db.GetTable<BookType>().InsertOnSubmit(bt3);
             db.GetTable<Book>().InsertOnSubmit(b);
             db.GetTable<Book>().InsertOnSubmit(b2);
+            db.GetTable<Book>().InsertOnSubmit(b3);
             db.GetTable<Tome>().InsertOnSubmit(t1);
             db.GetTable<Tome>().InsertOnSubmit(t2);
             db.GetTable<Tome>().InsertOnSubmit(t3);

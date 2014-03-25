@@ -480,4 +480,7 @@
   <data name="NewTomeTitleText" xml:space="preserve">
     <value>Title</value>
   </data>
+  <data name="TrashbinDeleteQuestion" xml:space="preserve">
+    <value>All selected and hierarchically  associated Data will be deleted permantently.</value>
+  </data>
 </root>

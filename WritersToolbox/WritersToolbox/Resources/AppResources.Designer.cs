@@ -1017,6 +1017,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Looks up a localized string similar to Es werden alle markierten und dazugehörigen, hierarchisch untergeordnete Daten permanent gelöscht. .
+        /// </summary>
+        public static string TrashbinDeleteQuestion {
+            get {
+                return ResourceManager.GetString("TrashbinDeleteQuestion", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Looks up a localized string similar to Papierkorb.
         /// </summary>
         public static string TrashbinHeadline {

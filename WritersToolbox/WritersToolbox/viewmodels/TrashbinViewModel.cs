@@ -197,6 +197,11 @@ namespace WritersToolbox.viewmodels
 
         }
 
+        public void deleteList()
+        {
+            this.DeletedObjects.Clear();
+        }
+
         public void deleteTrash(IList list)
         {
             IEnumerator enumerator = list.GetEnumerator();
