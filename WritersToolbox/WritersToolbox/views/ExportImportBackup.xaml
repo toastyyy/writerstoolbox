@@ -31,7 +31,7 @@
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="10,10,14,-10">
             <Button x:Name="btnConnectDropbox" Foreground="Black" Content="Verbinde ..." HorizontalAlignment="Left" Margin="-5,156,0,0" VerticalAlignment="Top" Width="176" BorderBrush="Black" Tap="connectToDropbox"/>
             <Button x:Name="exportBackupButton" Foreground="Black" Content="Backup exportieren ..." HorizontalAlignment="Left" Margin="-5,331,0,0" VerticalAlignment="Top" Width="458" BorderBrush="Black" Tap="exportBackup" Visibility="Collapsed"/>
-            <Button x:Name="importBackupButton" Foreground="Black" Content="Backup importieren ..." HorizontalAlignment="Left" Margin="-5,259,0,0" VerticalAlignment="Top" Width="458" BorderBrush="Black" Visibility="Collapsed"/>
+            <Button x:Name="importBackupButton" Foreground="Black" Content="Backup importieren ..." HorizontalAlignment="Left" Margin="-5,259,0,0" VerticalAlignment="Top" Width="458" BorderBrush="Black" Visibility="Collapsed" Tap="importBackupButton_Tap"/>
             <TextBlock x:Name="tInfo" HorizontalAlignment="Left" Margin="176,10,0,0" TextWrapping="Wrap" Text="Du kannst deine Daten auf Dropbox exportieren, damit diese bei einem Datenverlust oder bei einem neuen Smartphone nicht verloren gehen! Du musst diese Funktion erst durch einen Login bei Dropbox aktivieren." VerticalAlignment="Top" Height="218" Width="280" Foreground="Black" />
             <Image HorizontalAlignment="Left" Height="152" Margin="5,10,0,0" VerticalAlignment="Top" Width="159" Source="/icons/dropbox-logo.png"/>
         </Grid>

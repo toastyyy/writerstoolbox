@@ -17,13 +17,16 @@ using WritersToolbox.viewmodels;
 using System.Collections;
 using System.Xml.Linq;
 using System.Xml;
-
+using System.Security.Cryptography;
+using Microsoft.Xna.Framework.Media;
+using Microsoft.Xna.Framework.Media.PhoneExtensions;
 namespace WritersToolbox.views
 {
     public partial class ExportImportBackup : PhoneApplicationPage
     {
         UserLogin token = null;
         DropNetClient _client;
+        Dictionary<String, String> imagePaths;
         public ExportImportBackup()
         {
             InitializeComponent();
@@ -115,13 +118,13 @@ namespace WritersToolbox.views
         {
             MemoryStream ms = new MemoryStream();
             ms.Position = 0;
+            this.imagePaths = new Dictionary<string, string>();
             Dictionary<String, IEnumerator> data = this.getExportData();
 
 
                 XDocument doc = new XDocument();
                 var root = new XElement("data");
 
-                var elementBookTypes = new XElement("bookTypes");
                 IEnumerator bookTypes = data["bookTypes"];
                 while (bookTypes.MoveNext()) {
                     datawrapper.BookType bt = (datawrapper.BookType) bookTypes.Current;
@@ -131,11 +134,9 @@ namespace WritersToolbox.views
                     bookType.SetAttributeValue("name", bt.name);
                     bookType.SetAttributeValue("numberOfChapter", bt.numberOfChapter);
                     bookType.SetAttributeValue("updatedDate", bt.updatedDate.ToString());
-                    elementBookTypes.Add(bookType);
+                    root.Add(bookType);
                 }
-                root.Add(elementBookTypes);
 
-                var elementBooks = new XElement("books");
                 IEnumerator books = data["books"];
                 while (books.MoveNext())
                 {
@@ -146,11 +147,9 @@ namespace WritersToolbox.views
                     book.SetAttributeValue("bookTypeID", b.bookType.bookTypeID);
                     book.SetAttributeValue("name", b.name);
                     book.SetAttributeValue("updatedDate", b.updatedDate);
-                    elementBooks.Add(book);
+                    root.Add(book);
                 }
-                root.Add(elementBooks);
 
-                var elementTomes = new XElement("tomes");
                 IEnumerator tomes = data["tomes"];
                 while (tomes.MoveNext())
                 {
@@ -164,11 +163,9 @@ namespace WritersToolbox.views
                     tome.SetAttributeValue("tomeID", t.tomeID);
                     tome.SetAttributeValue("tomeNumber", t.tomeNumber);
                     tome.SetAttributeValue("updatedDate", t.updatedDate);
-                    elementTomes.Add(tome);
+                    root.Add(tome);
                 }
-                root.Add(elementTomes);
 
-                var elementChapters = new XElement("chapters");
                 IEnumerator chapters = data["chapters"];
                 while (chapters.MoveNext())
                 {
@@ -181,11 +178,9 @@ namespace WritersToolbox.views
                     chapter.SetAttributeValue("title", c.title);
                     chapter.SetAttributeValue("tomeID", c.tome.tomeID);
                     chapter.SetAttributeValue("updatedDate", c.updatedDate.ToString());
-                    elementChapters.Add(chapter);
+                    root.Add(chapter);
                 }
-                root.Add(elementChapters);
 
-                var elementEvents = new XElement("events");
                 IEnumerator events = data["events"];
                 while (events.MoveNext())
                 {
@@ -197,20 +192,42 @@ namespace WritersToolbox.views
                     ev.SetAttributeValue("finaltext", eve.finaltext);
                     ev.SetAttributeValue("orderInChapter", eve.orderInChapter);
                     ev.SetAttributeValue("title", eve.title);
-                    elementChapters.Add(ev);
+                    root.Add(ev);
                 }
-                root.Add(elementEvents);
 
-                var elementNotes = new XElement("notes");
                 IEnumerator notes = data["notes"];
                 while (notes.MoveNext())
                 {
                     datawrapper.MemoryNote mn = (datawrapper.MemoryNote)notes.Current;
+                    // updaten von contentImagestring und contentAudioString
+                    String newContentImageString = "";
+                    if (mn.contentImageString != null) { 
+                        String[] old = mn.contentImageString.Split('|');
+                        for (var i = 0; i < old.Length - 1; i++) {
+                            String newName = getSHA1(old[i]) + ".jpg";
+                            this.imagePaths.Add(old[i], newName);
+                            newContentImageString += newName + "|";
+                        }
+                    }
+                    
+                    String newContentAudioString = "";
+
+                    if (mn.contentAudioString != null && !mn.contentAudioString.Equals("")) {       
+                        String [] old = mn.contentAudioString.Split('|');
+                        for (var i = 0; i < old.Length - 1; i++) {
+                            String newName = getSHA1(old[i]).Split(';')[0] + ".wav";
+                            this.imagePaths.Add(old[i].Split(';')[0], newName);
+                            newContentAudioString = newName;
+                        }
+                    }
+
+                    // Speichern des Entities
+                    
                     var note = new XElement("Note");
                     note.SetAttributeValue("addedDate", mn.addedDate);
                     note.SetAttributeValue("associated", mn.associated);
-                    note.SetAttributeValue("contentAudioString", mn.contentAudioString);
-                    note.SetAttributeValue("contentImageString", mn.contentImageString);
+                    note.SetAttributeValue("contentAudioString", newContentAudioString);
+                    note.SetAttributeValue("contentImageString", newContentImageString);
                     note.SetAttributeValue("contentText", mn.contentText);
                     note.SetAttributeValue("deleted", mn.deleted);
                     note.SetAttributeValue("eventID", mn.fk_eventID);
@@ -221,41 +238,54 @@ namespace WritersToolbox.views
                     note.SetAttributeValue("updatedDate", mn.updatedDate);
                     note.SetAttributeValue("memoryNoteID", mn.memoryNoteID);
 
-                    elementNotes.Add(note);
+                    root.Add(note);
                 }
-                root.Add(elementNotes);
 
 
-                var elementTypes = new XElement("types");
                 IEnumerator types = data["types"];
                 while (types.MoveNext())
                 {
                     datawrapper.Type t = (datawrapper.Type)types.Current;
+                    String newImageString = "";
+                    if (t.imageString != null) {
+                        newImageString = getSHA1(t.imageString) + ".jpg";
+                        if (!this.imagePaths.ContainsKey(t.imageString))
+                        {
+                            this.imagePaths.Add(t.imageString, newImageString);
+                        }
+                    }
+                    
                     var type = new XElement("Type");
                     type.SetAttributeValue("color", t.color);
-                    type.SetAttributeValue("imageString", t.imageString);
+                    type.SetAttributeValue("imageString", newImageString);
                     type.SetAttributeValue("title", t.title);
                     type.SetAttributeValue("typeID", t.typeID);
 
-                    elementTypes.Add(type);
+                    root.Add(type);
                 }
-                root.Add(elementTypes);
 
-                var elementTypeObjects = new XElement("typeObjects");
                 IEnumerator typeObjects = data["typeObjects"];
                 while (typeObjects.MoveNext())
                 {
                     datawrapper.TypeObject to = (datawrapper.TypeObject)typeObjects.Current;
+                    String newImageString = "";
+                    if (to.imageString != null)
+                    {
+                        newImageString = getSHA1(to.imageString) + ".jpg";
+                        if (!this.imagePaths.ContainsKey(to.imageString)) { 
+                            this.imagePaths.Add(to.imageString, newImageString);
+                        }
+                        
+                    }
                     var typeObject = new XElement("TypeObject");
                     typeObject.SetAttributeValue("color", to.color);
-                    typeObject.SetAttributeValue("imageString", to.imageString);
+                    typeObject.SetAttributeValue("imageString", newImageString);
                     typeObject.SetAttributeValue("name", to.name);
                     typeObject.SetAttributeValue("typeID", to.type.typeID);
                     typeObject.SetAttributeValue("typeObjectID", to.typeObjectID);
                     typeObject.SetAttributeValue("used", to.used);
-                    elementTypeObjects.Add(typeObject);
+                    root.Add(typeObject);
                 }
-                root.Add(elementTypeObjects);
 
                 doc.Add(root);
                 doc.Save(ms);
@@ -273,6 +303,8 @@ namespace WritersToolbox.views
                             MessageBox.Show("Beim Erstellen des Backups ist ein Fehler aufgetreten. Möglicherweise ist die Verbindung abgebrochen oder die Dropbox ist voll.");
                         }
                         );
+
+            this.backupImages();
         }
 
         /// <summary>
@@ -311,6 +343,93 @@ namespace WritersToolbox.views
         private Dictionary<String, IEnumerator> getExportData() {
             ExportViewModel evm = new ExportViewModel();
             return evm.exportData;
+        }
+
+        private String getSHA1(String plain) {
+            var sha = new SHA1Managed();
+            var bytes = System.Text.Encoding.UTF8.GetBytes(plain);
+            byte[] hash = sha.ComputeHash(bytes);
+            String ret = "";
+            for (var i = 0; i < hash.Length; i++)
+            {
+                ret += hash[i].ToString("X2");
+            }
+            return ret;
+        }
+
+        private void backupImages() {
+            var keys = this.imagePaths.Keys.GetEnumerator();
+            MediaLibrary ml = new MediaLibrary();
+
+            while (keys.MoveNext()) {
+                Debug.WriteLine("Lade " + keys.Current + " hoch ...");
+                if (keys.Current.EndsWith(".jpg")) {
+
+                    Picture p = ml.Pictures.Where(P => P.GetPath().Equals(keys.Current)).Single();
+                       
+                        Stream stream = p.GetImage();
+                        stream.Position = 0;
+                        _client.UploadFileAsync("/images/", this.imagePaths[keys.Current], stream,
+                        (response) =>
+                        {
+                            Debug.WriteLine(keys.Current + " hochgeladen!");
+                        },
+                        (error) =>
+                        {
+                            Debug.WriteLine("Fehler beim Hochladen von " + keys.Current);
+                        }
+                        );
+
+                }
+                else if (keys.Current.EndsWith(".wav")) {
+                    IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication();
+                    if (isoStore.FileExists(keys.Current))
+                    {
+                        using (IsolatedStorageFileStream isoStream = new IsolatedStorageFileStream(keys.Current, FileMode.Open, isoStore))
+                        {
+                            isoStream.Position = 0;
+                            byte[] bytes = new byte[isoStream.Length];
+                            isoStream.Read(bytes, 0, (int)isoStream.Length);
+                            MemoryStream ms = new MemoryStream(bytes);
+                            _client.UploadFileAsync("/audios/", this.imagePaths[keys.Current], ms,
+                            (response) =>
+                            {
+                                Debug.WriteLine(response.Name);
+                            },
+                            (error) =>
+                            {
+                                Debug.WriteLine("Fehler beim Hochladen von Datei:" + error.Message);
+                            }
+                        );
+                        }
+                    }
+                }
+            }
+        }
+
+        private void importBackupButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            if (MessageBox.Show("Wenn du jetzt ein Backup importierst, werden alle deine alten Daten gelöscht! Klicke OK um fortzufahren", "Warnung", MessageBoxButton.OKCancel)
+                == MessageBoxResult.OK) {
+                    this.importBackup();
+            }
+        }
+
+        private void importBackup() {
+            _client.GetFileAsync("/backup.xml",
+            (response) =>
+            {
+                String content = response.Content;
+                XmlReader reader = XmlReader.Create(new StringReader(content));
+                Boolean started = false;
+                while (reader.Read()) {
+                    Debug.WriteLine(reader.Name);
+                }
+            },
+            (error) =>
+            {
+                //Do something on error
+            });
         }
     }
 }

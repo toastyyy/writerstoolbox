@@ -172,5 +172,7 @@ namespace WritersToolbox.viewmodels
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
         }
+
+        public void addPersistentObject() { }
     }
 }
