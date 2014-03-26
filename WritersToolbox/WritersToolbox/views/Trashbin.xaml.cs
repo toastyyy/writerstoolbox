@@ -28,6 +28,7 @@ namespace WritersToolbox.views
             if (this.llms_trash.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsEnabled = false;
+                filterMemoryNotes.IsEnabled = false;
             }
            
         }
@@ -89,7 +90,10 @@ namespace WritersToolbox.views
             {
                 selectAllCheckBox.IsChecked = false;
                 selectAllCheckBox.IsEnabled = false;
+                filterMemoryNotes.IsChecked = false;
+                filterMemoryNotes.IsEnabled = false;
             }
+            deletePopup.IsOpen = false;
         }
 
         private void restoreButton_Click(object sender, EventArgs e)
@@ -100,6 +104,8 @@ namespace WritersToolbox.views
             {
                 selectAllCheckBox.IsChecked = false;
                 selectAllCheckBox.IsEnabled = false;
+                filterMemoryNotes.IsChecked = false;
+                filterMemoryNotes.IsEnabled = false;
             }
 
         }
@@ -119,8 +125,19 @@ namespace WritersToolbox.views
             if (this.llms_trash.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsEnabled = false;
+                filterMemoryNotes.IsEnabled = false;
             }
             //llms_trash.ItemsSource = trash.getObservableColletion();
+        }
+        private void filter_Checked(object sender, RoutedEventArgs e)
+        {
+            this.trash.deleteList();
+            this.trash.loadDeletedTomes();
+        }
+        private void filter_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.trash.deleteList();
+            this.trash.loadData();
         }
 
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
@@ -169,6 +186,16 @@ namespace WritersToolbox.views
         private void zurueckButton_Click(object sender, EventArgs e)
         {
             llms_trash.EnforceIsSelectionEnabled = false;
+        }
+
+        private void DoNotDelete(object sender, RoutedEventArgs e)
+        {
+            deletePopup.IsOpen = false;
+        }
+
+        private void deletePopupClick(object sender, EventArgs e)
+        {
+            deletePopup.IsOpen = true;
         }
     }
 }

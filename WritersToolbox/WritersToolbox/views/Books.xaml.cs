@@ -130,8 +130,15 @@ namespace WritersToolbox.views
             datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
             if (b == null)
                 return;
-            BookDeleteQuestion.Text = AppResources.BookDeleteQuestion1 + b.name.ToString() + AppResources.BookDeleteQuestion2;
-            deleteBookPopup.IsOpen = true;
+            if (b.tomes.Count == 1)
+            {
+                BookDeleteQuestion.Text = AppResources.BookDeleteQuestion1 + b.name.ToString() + AppResources.BookDeleteQuestion2;
+                deleteBookPopup.IsOpen = true;
+            }
+            else
+            {
+                MessageBox.Show("Es ist nur möglich ein Werk zu löschen, wenn keine Bände mehr existieren.", "Fehler", MessageBoxButton.OK);
+            }
         }
 
 

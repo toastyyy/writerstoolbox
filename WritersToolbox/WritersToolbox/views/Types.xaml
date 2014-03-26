@@ -70,28 +70,25 @@
         </DataTemplate>
         <DataTemplate x:Key="LongListTypeObjectAddTemplate">
             <Grid Width="450" Height="Auto" Margin="0,10,0,10" Tap="OpenTypeObjectDetail">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="115" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="115" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/character_round_icon.png" Margin="20,0,0,0"/>
-                                <Grid Grid.Column="1" Margin="10,0,-10,0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="27" />
-                                        <RowDefinition Height="23" />
-                                        <RowDefinition Height="27" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
+                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/add.png" Margin="20,0,0,0"/>
+                <Grid Grid.Column="1" Margin="10,0,-10,0">
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="27" />
+                        <RowDefinition Height="23" />
+                        <RowDefinition Height="27" />
+                    </Grid.RowDefinitions>
+                    <TextBlock Grid.Row="0" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
                     <TextBlock Grid.Row="1" Text="" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
                     <TextBlock Grid.Row="2" Text="" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
 
-                                </Grid>
-                                <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-                                <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-
-                            </Grid>
-                        </DataTemplate>
+                </Grid>   
+             </Grid>
+         </DataTemplate>
         <!--Template für PivotHeader-->
         <DataTemplate x:Key="PivotHeader">
             <TextBlock Text="{Binding title}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>

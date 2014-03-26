@@ -672,11 +672,20 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized string similar to Neuen Band erstellen.
+        ///   Looks up a localized string similar to Neues Band erstellen.
         /// </summary>
         public static string NewTomeTemplate {
             get {
                 return ResourceManager.GetString("NewTomeTemplate", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Titel.
+        /// </summary>
+        public static string NewTomeTitleText {
+            get {
+                return ResourceManager.GetString("NewTomeTitleText", resourceCulture);
             }
         }
         
@@ -1004,6 +1013,15 @@ namespace WritersToolbox.Resources {
         public static string TextSave {
             get {
                 return ResourceManager.GetString("TextSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Looks up a localized string similar to Es werden alle markierten und dazugehörigen, hierarchisch untergeordnete Daten permanent gelöscht. .
+        /// </summary>
+        public static string TrashbinDeleteQuestion {
+            get {
+                return ResourceManager.GetString("TrashbinDeleteQuestion", resourceCulture);
             }
         }
         
