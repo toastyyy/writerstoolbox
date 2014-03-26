@@ -83,7 +83,7 @@
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
                     <TextBlock Foreground="White" x:Name="NumberUN" VerticalAlignment="Center" FontSize="96" Height="115" HorizontalAlignment="Center" TextAlignment="Center" Margin="13,-3,80,0" RenderTransformOrigin="0.5,0.5" Width="107" FontFamily="Segoe UI Light">
                         <TextBlock.RenderTransform>
-                            <CompositeTransform ScaleX="-1"/>
+                            <ScaleTransform ScaleX="1"/>
                         </TextBlock.RenderTransform>
                     </TextBlock>
                     <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="74" HorizontalAlignment="Center" Width="133" Margin="0,2,67,0" FontSize="24" Text="{Binding Path=LocalizedResources.StartpageUnsortedNotes, Source={StaticResource LocalizedStrings}}" TextAlignment="Center" />
