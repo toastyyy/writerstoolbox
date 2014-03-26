@@ -413,6 +413,7 @@
     <Content Include="icons\Pro_Einstellungen_round_Icon.png" />
     <Content Include="icons\Pro_Trash_round_Icon.png" />
     <Content Include="icons\Pro_Typen_round_Icon.png" />
+    <Content Include="icons\Pro_Werke_round_Icon.png" />
     <Content Include="icons\speaker_reordButton.png" />
     <Content Include="charakter.png" />
     <Content Include="icons\typen.png" />
@@ -448,6 +449,9 @@
     <Content Include="icons\stop.png" />
     <Content Include="icons\zurueck.png" />
     <Content Include="images\headImage_rot_top.png" />
+    <Content Include="images\newTome.png" />
+    <Content Include="images\newTome2.png" />
+    <Content Include="images\newTome3.png" />
     <Content Include="images\titel_background.png" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
     <Content Include="README_FIRST.txt" />

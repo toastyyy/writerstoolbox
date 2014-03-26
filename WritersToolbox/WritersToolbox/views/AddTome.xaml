@@ -29,14 +29,17 @@
             <Image Margin="0,0,0,511" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
             <!--BookTitle-->
             <TextBlock Margin="10,10,0,0" Text="{Binding Path=LocalizedResources.NewTomeTemplate, Source={StaticResource LocalizedStrings}}" FontSize="22" FontFamily="Segoe WP Light"/>
-            <TextBox x:Name="titleTextBox" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTomeTitleText, Source={StaticResource LocalizedStrings}}" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Foreground="#FF020202" FontFamily="Segoe WP Light" FontSize="40" SelectionForeground="White" SelectionBackground="Transparent" BorderThickness="0,0,0,3" Margin="52,67,37,527" >
+            <TextBox  x:Name="titleTextBox" TextChanged="titleTextBox_TextChanged" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTomeTitleText ,Source={StaticResource LocalizedStrings}}" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Foreground="#FF020202" FontFamily="Segoe WP Light" FontSize="40" SelectionForeground="White" SelectionBackground="Transparent" BorderThickness="0,0,0,3" Margin="52,67,37,527" >
                 <TextBox.BorderBrush>
                     <SolidColorBrush Color="#33636161"/>
                 </TextBox.BorderBrush>
             </TextBox>
-          
+            <Image HorizontalAlignment="Left" Height="356" Margin="65,244,0,0" Source="/images/newTome3.png" VerticalAlignment="Top" Width="359"/>
+            <TextBox x:Name="titleTextBox2" TextWrapping="Wrap"  GotFocus="titleTextBox_GotFocus"  LostFocus="titleTextBox_LostFocus" Foreground="#FF020202" FontFamily="Segoe WP Light" FontSize="26" SelectionForeground="White" SelectionBackground="Transparent" BorderThickness="0,0,0,3" Margin="147,190,142,457" >
+                
+            </TextBox>
         </Grid>
-       
+
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
