@@ -69,12 +69,23 @@ namespace WritersToolbox
         // This code will not execute when the application is first launched
         private void Application_Activated(object sender, ActivatedEventArgs e)
         {
+            if (e.IsApplicationInstancePreserved)
+            {
+                // Dormant - state ispreserved in memory
+            }
+            else
+            {
+                // Tombstone - state is cleared. Soneed to restore from ASD
+                PhoneApplicationService.Current.State["tombstoned"]= "";
+                
+            }
         }
 
         // Code to execute when the application is deactivated (sent to background)
         // This code will not execute when the application is closing
         private void Application_Deactivated(object sender, DeactivatedEventArgs e)
         {
+            
         }
 
         // Code to execute when the application is closing (eg, user hit Back)
@@ -117,6 +128,8 @@ namespace WritersToolbox
         // Avoid double-initialization
         private bool phoneApplicationInitialized = false;
 
+        private bool reset;
+
         // Do not add any additional code to this method
         private void InitializePhoneApplication()
         {
@@ -138,6 +151,23 @@ namespace WritersToolbox
 
             // Ensure we don't initialize again
             phoneApplicationInitialized = true;
+
+            RootFrame.Navigating += RootFrame_Navigating;
+            RootFrame.Navigated += RootFrame_Navigated;
+        }
+
+        void RootFrame_Navigating(object sender, NavigatingCancelEventArgs e)
+        {
+            if (reset && e.IsCancelable && e.Uri.OriginalString == "/MainPage.xaml")
+            {
+                e.Cancel = true;
+                reset = false;
+            }
+        }
+
+        void RootFrame_Navigated(object sender, NavigationEventArgs e)
+        {
+            reset = e.NavigationMode == NavigationMode.Reset;
         }
 
         // Do not add any additional code to this method

@@ -31,7 +31,7 @@ namespace WritersToolbox.views
         private Color selectedColor;
 
         //Index einer bereits benutzten Farbe, wird zum Ändern gebraucht
-        private int selectedColorIndex;
+        private String selectedColorIndex;
 
         private int typeID;
         //Farben für Colorpicker
@@ -171,6 +171,21 @@ namespace WritersToolbox.views
             ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
             btn1.Text = AppResources.AppBarCancel;
             btn2.Text = AppResources.AppBarAdd;
+            if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("RestoreData"))
+                {
+                    datawrapper.TypeObject t = (datawrapper.TypeObject)PhoneApplicationService.Current.State["RestoreData"];
+                    tTitle.Text = t.name;
+                    if (t.color != null)
+                    {
+                        Color i = fromHexToColor(t.color);
+                        selectedColorIndex = t.color;
+                    }
+                    PhoneApplicationService.Current.State.Remove("RestoreData");
+                }
+                PhoneApplicationService.Current.State.Remove("tombstoned");
+            }
         }
 
         private void photoChooserTask_Completed(object sender, PhotoResult e)
@@ -264,6 +279,12 @@ namespace WritersToolbox.views
                 item.Add(new ColorItem() { Color = fromHexToColor(colors[i]) });
             };
             colorPicker.ItemsSource = item; //Fill ItemSource with all colors
+            if (selectedColorIndex != null)
+            {
+                int i = Array.IndexOf(colors, selectedColorIndex);
+                colorPicker.SelectedIndex = i;
+                selectedColorIndex = null;
+            }
         }
 
         private void colorPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
@@ -311,6 +332,24 @@ namespace WritersToolbox.views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
+            if (colorPicker.SelectedItem != null)
+            {
+                PhoneApplicationService.Current.State["RestoreData"] =
+                new datawrapper.TypeObject()
+                {
+                    name = tTitle.Text,
+                    color = ((colorPicker.SelectedItem) as ColorItem).Color.ToString()
+                };
+            }
+            else
+            {
+                PhoneApplicationService.Current.State["RestoreData"] =
+                new datawrapper.TypeObject()
+                {
+                    name = tTitle.Text
+                };
+            }
+            
             NavigationService.RemoveBackEntry();
         }
     }
