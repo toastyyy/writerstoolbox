@@ -37,7 +37,7 @@ namespace WritersToolbox.views
         //interval des Slider Timers, hier 8sek
         private readonly TimeSpan infoInterval = new TimeSpan(0, 0, 8);
         // Nummer der im Slider angezeigten Info (Kapitel, Ereignisse, typobjekte, Seiten, Wörter)
-        private int SliderNumberOfInfo = 1;
+        private int InfoStatus = 1;
 
         //Textbox Chapter
         TextBox b = new TextBox();
@@ -356,7 +356,7 @@ namespace WritersToolbox.views
             //System.Diagnostics.Debug.WriteLine(infoTimer);
 
             int n;
-            switch (SliderNumberOfInfo)
+            switch (InfoStatus)
                 {
                     case 0:
                         numberInforamtionText.Text = "" + tome_VM.getNumberOfChapters();
@@ -407,13 +407,13 @@ namespace WritersToolbox.views
         }
 
             //Slider fängt von vorne an
-            if (SliderNumberOfInfo == 4)
+            if (InfoStatus == 4)
         {
-                SliderNumberOfInfo = 0;
+                InfoStatus = 0;
             }
             else 
             {
-                SliderNumberOfInfo++;    
+                InfoStatus++;    
             }
 
         }
@@ -442,7 +442,13 @@ namespace WritersToolbox.views
             int formatIndex = formatList.SelectedIndex;
             int fontsizeIndex = fontSizeList.SelectedIndex;
             //System.Diagnostics.Debug.WriteLine("formatindex: " + formatIndex);
-            return  (int) (NumberSigns / wordTabell[formatIndex, fontsizeIndex] + 0.5);
+
+            
+
+
+            return (int) (NumberSigns / wordTabell[formatIndex, fontsizeIndex] + 0.5);
+
+           
         }
 
 
@@ -456,6 +462,19 @@ namespace WritersToolbox.views
             if (formatList != null && fontSizeList != null)
             {
                 detailInfotexteErstellen();
+                if (InfoStatus == 4)
+                {
+
+                    numberInforamtionText.Text = getNumberOfPages().ToString();
+                    if (getNumberOfPages() == 1)
+                    {
+                        inforamtionText.Text = "Seite";
+                    }
+                    else
+                    {
+                        inforamtionText.Text = "Seiten";
+                    }
+                }
                 // informationCode = 400 + formatList.SelectedIndex * 10 + fontSizeList.SelectedIndex;
             }
         }
@@ -470,6 +489,19 @@ namespace WritersToolbox.views
             if (formatList != null && fontSizeList != null)
             {
                 detailInfotexteErstellen();
+                if (InfoStatus == 4)
+                {
+
+                    numberInforamtionText.Text = getNumberOfPages().ToString();
+                    if (getNumberOfPages() == 1)
+                    {
+                        inforamtionText.Text = "Seite";
+                    }
+                    else
+                    {
+                        inforamtionText.Text = "Seiten";
+                    }
+                }
                 //informationCode = 400 + formatList.SelectedIndex * 10 + fontSizeList.SelectedIndex;
             }
         }
