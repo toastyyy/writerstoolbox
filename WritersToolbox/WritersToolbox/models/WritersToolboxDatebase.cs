@@ -39,6 +39,11 @@ namespace WritersToolbox.models
             return db;
         }
 
+        public static WritersToolboxDatebase forceNewInstance()
+        {
+            db = new WritersToolboxDatebase();
+            return db;
+        }
 
         
     }

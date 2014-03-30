@@ -120,6 +120,7 @@
     <Compile Include="datawrapper\BookType.cs" />
     <Compile Include="datawrapper\Chapter.cs" />
     <Compile Include="datawrapper\Event.cs" />
+    <Compile Include="datawrapper\EventTypeObject.cs" />
     <Compile Include="datawrapper\KeyedList.cs" />
     <Compile Include="datawrapper\MemoryNote.cs" />
     <Compile Include="datawrapper\MyImage.cs" />
