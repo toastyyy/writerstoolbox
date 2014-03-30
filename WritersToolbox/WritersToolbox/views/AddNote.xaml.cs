@@ -255,6 +255,19 @@ namespace WritersToolbox.views
             NoteDiscard();
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            PhoneApplicationService.Current.State["RestoreData"] = 
+                new datawrapper.MemoryNote() 
+                { 
+                    contentText = detailsTextBox.Text, 
+                    title = titleTextBox.Text,
+                    tags = schlagwoerterTextBox.Text
+                };
+            
+        }
+
         /// <summary>
         /// Diese Methode wird ausgeführt, wenn es zu diesem Screen navigiert wird.
         /// </summary>
@@ -336,6 +349,19 @@ namespace WritersToolbox.views
                 tempImage_Items = new ObservableCollection<MyImage>(Image_Items);                
             }
             isPhotoChooserOpened = false;
+
+            if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("RestoreData"))
+                {
+                    datawrapper.MemoryNote note = (datawrapper.MemoryNote) PhoneApplicationService.Current.State["RestoreData"];
+                    titleTextBox.Text = note.title;
+                    detailsTextBox.Text = note.contentText;
+                    schlagwoerterTextBox.Text = note.tags;
+                    PhoneApplicationService.Current.State.Remove("RestoreData");
+                }
+                PhoneApplicationService.Current.State.Remove("tombstoned");
+            }
         }
 
         /// <summary>

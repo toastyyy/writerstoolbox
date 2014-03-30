@@ -136,6 +136,12 @@ namespace WritersToolbox.views
             {
                 titleTextBox.Text = "Title";
             }
+            //titleTextBox2.Text = titleTextBox.Text;
+        }
+
+        private void titleTextBox_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            titleTextBox2.Text = titleTextBox.Text;
         }   
     }
 }

@@ -42,7 +42,7 @@
                      BorderBrush="Gray" 
                      BorderThickness="2" 
                      Foreground="Black" 
-                     ToolTipService.ToolTip="Titel" GotFocus="BooknameGotFocus"/>
+                     ToolTipService.ToolTip="Titel" GotFocus="BooknameGotFocus" Loaded="BooknameLoaded"/>
                     <TextBlock Margin="50,30,0,0" 
                        Text="{Binding Path=LocalizedResources.BookType, Source={StaticResource LocalizedStrings}}" 
                        FontSize="25"
@@ -61,7 +61,7 @@
                                             SelectedIndex="0"
                                             Foreground="#FF353535"
                                             BorderThickness="1" 
-                                            SelectionChanged="BookTypeSelectionChanged">
+                                            SelectionChanged="BookTypeSelectionChanged" Loaded="PickerLoaded">
                             <toolkit:ListPicker.ItemTemplate>
                                 <DataTemplate>
                                     <TextBlock Text="{Binding name}"/>

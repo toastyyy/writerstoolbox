@@ -20,7 +20,11 @@ namespace WritersToolbox.views
 
         private TextBox bookname;
 
-        private datawrapper.BookType BookType;
+        private datawrapper.Book b;
+
+        private datawrapper.BookType BT;
+
+        private ListPicker picker;
 
         private TextBlock BookTypeInfo;
         private bool hasEventHandler = false;
@@ -76,6 +80,22 @@ namespace WritersToolbox.views
 
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            if (PivotMain.SelectedIndex == PivotMain.Items.Count - 1)
+            {
+                PhoneApplicationService.Current.State["RestoreData"] =
+                new datawrapper.Book()
+                {
+                    name = bookname.Text,
+                    bookType = BT
+                };
+            }
+            
+
+        }
+
         /// <summary>
         /// Wird auf diese Page naviert, überprüft die Methode, ob zu einem gewünschten Pivotitem
         /// navigiert werden soll.
@@ -101,6 +121,18 @@ namespace WritersToolbox.views
                     PivotMain.SelectedIndex = Books_VM.getBookCount() - 1;
                 } else 
                     PivotMain.SelectedIndex = indexParsed - 1;
+            }
+            if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("RestoreData"))
+                {
+                    b = (datawrapper.Book)PhoneApplicationService.Current.State["RestoreData"];
+
+                    PivotMain.SelectedIndex = books_VM.getBookCount() -1;
+                    loadNewBookAppBar();
+                    PhoneApplicationService.Current.State.Remove("RestoreData");
+                }
+                PhoneApplicationService.Current.State.Remove("tombstoned");
             }
         }
 
@@ -270,7 +302,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void SaveBook(object sender, EventArgs e)
         {
-            Books_VM.addBook(bookname.Text, BookType);
+            Books_VM.addBook(bookname.Text, BT);
             PivotMain.SelectedIndex = PivotMain.Items.Count - 2; // wird auf das neue Werk navigiert, wird ein falsches Werk als selectedItem angegeben
             PivotMain.SelectedIndex++;
             PivotMain.SelectedIndex--;
@@ -330,23 +362,42 @@ namespace WritersToolbox.views
         private void BookTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListPicker lp = sender as ListPicker;
-            BookType = lp.SelectedItem as datawrapper.BookType;
+            picker = lp;
+            BT = lp.SelectedItem as datawrapper.BookType;
             if (BookTypeInfo != null)
             {
-                BookTypeInfo.Text = AppResources.BooksBookTypeInfoText + BookType.numberOfChapter.ToString();
+                BookTypeInfo.Text = AppResources.BooksBookTypeInfoText + BT.numberOfChapter.ToString();
             }
         }
 
         private void BookTypeInfoLoaded(object sender, RoutedEventArgs e)
         {
             BookTypeInfo = sender as TextBlock;
-            BookTypeInfo.Text = AppResources.BooksBookTypeInfoText + BookType.numberOfChapter.ToString();
+            BookTypeInfo.Text = AppResources.BooksBookTypeInfoText + BT.numberOfChapter.ToString();
         }
 
         private void cancelAssignment(object sender, EventArgs e)
         {
             PhoneApplicationService.Current.State["cancelAssignment"] = true;
             NavigationService.GoBack();
+        }
+
+        private void BooknameLoaded(object sender, RoutedEventArgs e)
+        {
+            bookname = sender as TextBox;
+            if (b != null)
+            {
+                bookname.Text = b.name;
+            }
+        }
+
+        private void PickerLoaded(object sender, RoutedEventArgs e)
+        {
+            ListPicker lp = sender as ListPicker;
+            if (b != null)
+            {
+                lp.SelectedIndex = b.bookType.bookTypeID -1;
+            }
         }
     }
 }

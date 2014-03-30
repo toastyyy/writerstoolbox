@@ -25,6 +25,8 @@ namespace WritersToolbox.views
         private datawrapper.TypeObject holdTypeobject;
         public static TypesViewModel types_VM = null;
 
+        private datawrapper.Type restoreType;
+
         private LongListMultiSelector currentSelectList = null;
         private datawrapper.Type currentType = null;
         //bei selectionChanged wird Farbe hier zwischengespeichert
@@ -141,6 +143,18 @@ namespace WritersToolbox.views
             }
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            PhoneApplicationService.Current.State["RestoreData"] =
+                new datawrapper.Type()
+                {
+                    title = newTypeTitle.Text,
+                    color = selectedColor.ToString()
+                };
+            
+        }
+
         /// <summary>
         /// Wird auf diese Page naviert, überprüft die Methode, ob zu einem gewünschten Pivotitem
         /// navigiert werden soll.
@@ -198,7 +212,17 @@ namespace WritersToolbox.views
             }
             }
 
-                
+            if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("RestoreData"))
+                {
+                    restoreType = (datawrapper.Type)PhoneApplicationService.Current.State["RestoreData"];
+                    
+                    
+                    PhoneApplicationService.Current.State.Remove("RestoreData");
+                }
+                PhoneApplicationService.Current.State.Remove("tombstoned");
+            }  
            
         }
 
@@ -291,6 +315,7 @@ namespace WritersToolbox.views
         private void ColorPickerPage_Loaded(object sender, RoutedEventArgs e)
         {
             ListBox l = sender as ListBox;
+            colorPicker = l;
             List<ColorItem> item = new List<ColorItem>();
             for (int i = 0; i < colors.Length; i++)
             {
@@ -298,6 +323,11 @@ namespace WritersToolbox.views
             };
 
             l.ItemsSource = item; //Fill ItemSource with all colors
+            if (restoreType != null)
+            {
+                colorPicker.SelectedIndex = Array.IndexOf(colors, restoreType.color);
+                restoreType = null;
+            }
         }
 
         /// <summary>
@@ -336,8 +366,12 @@ namespace WritersToolbox.views
         private void ColorPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBox l = sender as ListBox;
-            ColorItem c = l.SelectedItem as ColorItem;
-            selectedColor = c.Color;
+            if (l.SelectedItem != null)
+            {
+                ColorItem c = l.SelectedItem as ColorItem;
+                selectedColor = c.Color;
+            }
+            
         }
 
         /// <summary>
@@ -585,6 +619,18 @@ namespace WritersToolbox.views
             }
             this.restoreApplicationBar();
             types_VM.addAddTypeObject(this.currentType);
+        }
+
+        
+        private void TitleLoaded(object sender, RoutedEventArgs e)
+        {
+            newTypeTitle = sender as TextBox;
+            if (restoreType != null)
+            {
+                newTypeTitle.Text = restoreType.title;
+                PivotMain.SelectedIndex = types_VM.getTypeCount() - 1;
+                
+            }
         }
     }
 }

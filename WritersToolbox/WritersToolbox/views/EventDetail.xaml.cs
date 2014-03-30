@@ -25,6 +25,21 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            
+            PhoneApplicationService.Current.State["RestoreData"] =
+            new datawrapper.Event()
+            {
+                finaltext = textBoxFinalText.Text,
+                eventID = this.edvm.Event.eventID
+            };
+           
+
+
+        }
+
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -69,6 +84,30 @@ namespace WritersToolbox.views
                  }
                  
              }
+            if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
+            {
+                if (PhoneApplicationService.Current.State.ContainsKey("RestoreData"))
+                {
+                    
+                    datawrapper.Event ev = (datawrapper.Event)PhoneApplicationService.Current.State["RestoreData"];
+                    this.edvm = new EventDetailViewModel(ev.eventID);
+                    this.edvm.LoadData();
+                    this.DataContext = this.edvm.Event;
+                    try
+                    {
+                        this.tFinalText.Xaml = this.parseRichTextFormat(ev.finaltext);
+                        textBoxFinalText.Text = ev.finaltext;
+                    }
+                    catch (Exception ex)
+                    {
+                        this.tFinalText.Xaml = this.parsePlainText(ev.finaltext);
+                        textBoxFinalText.Text = ev.finaltext;
+                    }
+                    newEvent = false;
+                    PhoneApplicationService.Current.State.Remove("RestoreData");
+                }
+                PhoneApplicationService.Current.State.Remove("tombstoned");
+            }
         }
 
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
