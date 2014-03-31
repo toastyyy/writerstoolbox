@@ -29,6 +29,9 @@ namespace WritersToolbox.views
         UserLogin token = null;
         DropNetClient _client;
         Dictionary<String, String> imagePaths;
+        /// <summary>
+        /// Initialisiert den Dropboxclient und läd ggf. gespeicherte Usertokens.
+        /// </summary>
         public ExportImportBackup()
         {
             InitializeComponent();
@@ -51,6 +54,11 @@ namespace WritersToolbox.views
             _client.UseSandbox = true;
         }
 
+        /// <summary>
+        /// Generiert aus einem String einen Stream
+        /// </summary>
+        /// <param name="s">String</param>
+        /// <returns>Stream</returns>
         private Stream generateStringStream(String s)
         {
             MemoryStream stream = new MemoryStream();
@@ -61,6 +69,9 @@ namespace WritersToolbox.views
             return stream;
         }
 
+        /// <summary>
+        /// Stellt in dem GUI Accountinformationen dar.
+        /// </summary>
         private void displayAccountInformation()
         {
             _client.AccountInfoAsync((accountInfo) =>
@@ -73,12 +84,16 @@ namespace WritersToolbox.views
             });
         }
 
+        /// <summary>
+        /// Prueft ob eine authentifizierung mit dropbox stattgefunden hat.
+        /// wenn ja kann eine dropbox client instanz ordnungsgemaess aufgebaut werden
+        /// der entsprechende state wird entfernt
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            // prueft ob eine authentifizierung mit dropbox stattgefunden hat.
-            // wenn ja kann eine dropbox client instanz ordnungsgemaess aufgebaut werden
-            // der entsprechende state wird entfernt
+
             if (PhoneApplicationService.Current.State.ContainsKey("dropboxAuth"))
             {
                 PhoneApplicationService.Current.State.Remove("dropboxAuth");
@@ -102,6 +117,11 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Navigiert bei Klick zu einer Seite mit der Rechte für WritersToolbox eingefordert werden.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void connectToDropbox(object sender, System.Windows.Input.GestureEventArgs e)
         {
 
@@ -120,6 +140,11 @@ namespace WritersToolbox.views
             );
         }
 
+        /// <summary>
+        /// Exportiert bei Klick alle App-Daten in eine XML.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void exportBackup(object sender, System.Windows.Input.GestureEventArgs e)
         {
             MemoryStream ms = new MemoryStream();
@@ -356,6 +381,10 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Läd - falls vorhanden - ein gespeichertes Usertoken aus dem IsolatedStorage
+        /// </summary>
+        /// <returns>String, der UserToken und UserSecret enthält</returns>
         private String loadUserCredentials()
         {
             String ret = "";
@@ -373,12 +402,21 @@ namespace WritersToolbox.views
             return ret;
         }
 
+        /// <summary>
+        /// Gibt die Exportdaten aus dem Viewmodel aufbereitet zurück.
+        /// </summary>
+        /// <returns>Dictionary: Keys als String, IEnumerator als Liste von Entities</returns>
         private Dictionary<String, IEnumerator> getExportData()
         {
             ExportViewModel evm = new ExportViewModel();
             return evm.exportData;
         }
 
+        /// <summary>
+        /// Gibt den SHA-1 Hash eines Strings zurück.
+        /// </summary>
+        /// <param name="plain">Plaintext</param>
+        /// <returns>Hash</returns>
         private String getSHA1(String plain)
         {
             var sha = new SHA1Managed();
@@ -392,6 +430,9 @@ namespace WritersToolbox.views
             return ret;
         }
 
+        /// <summary>
+        /// Läd alle Bilder aus der Liste imagePaths in die Dropbox hoch.
+        /// </summary>
         private void backupImages()
         {
             var keys = this.imagePaths.Keys.GetEnumerator();
@@ -447,6 +488,11 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Wird aufgerufen wenn der Import-Backup-Button gedrückt wurde und startet eine Sicherheitsabfrage.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void importBackupButton_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (MessageBox.Show("Wenn du jetzt ein Backup importierst, werden alle deine alten Daten gelöscht! Klicke OK um fortzufahren", "Warnung", MessageBoxButton.OKCancel)
@@ -456,6 +502,9 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Importiert das Backup aus der Dropbox.
+        /// </summary>
         private void importBackup()
         {
             ExportViewModel evm = new ExportViewModel();
@@ -524,6 +573,10 @@ namespace WritersToolbox.views
                         });
         }
 
+        /// <summary>
+        /// Speichert alle Bilder, die im Viewmodel zu finden sind auf dem Phone.
+        /// </summary>
+        /// <param name="evm">Viewmodel</param>
         private void saveImagesToPhone(ExportViewModel evm)
         {
             MediaLibrary library = new MediaLibrary();
@@ -548,6 +601,10 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Speichert alle Audiodateien, die im Viewmodel zu finden sind im Isolated Storage.
+        /// </summary>
+        /// <param name="evm">Viewmodel</param>
         private void saveAudiosToISOStore(ExportViewModel evm) {
             IEnumerator<string> audios = evm.getAudioNames().GetEnumerator();
             while (audios.MoveNext())

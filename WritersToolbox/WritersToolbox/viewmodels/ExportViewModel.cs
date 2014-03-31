@@ -30,6 +30,9 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+        /// <summary>
+        /// Läd alle Entities aus allen Tabellen in öffentlich zugängliche Listen.
+        /// </summary>
         public void LoadData() {
             this.exportData = new Dictionary<string, IEnumerator>();
             
@@ -187,7 +190,11 @@ namespace WritersToolbox.viewmodels
             this.exportData.Add("eventTypeObjects", allETOs.GetEnumerator());
         }
         public event PropertyChangedEventHandler PropertyChanged;
-        // Used to notify the app that a property has changed.
+        /// <summary>
+        /// Used to notify the app that a property has changed.
+        /// </summary>
+        /// <param name="propertyName">Property Name</param>
+
         private void NotifyPropertyChanged(string propertyName)
         {
             if (PropertyChanged != null)
@@ -196,6 +203,12 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+        /// <summary>
+        /// Fügt ein Entity vom Typ MemoryNote mit den gegebenen Attributen hinzu.
+        /// Das Entity wird nicht direkt persistiert, weil die Beziehungen zunächst
+        /// durch die Methode restoreDatabase wiederhergestellt werden müssen.
+        /// </summary>
+        /// <param name="attributes">Attribute des Entities</param>
         public void persistNote(Dictionary<string, string> attributes) {
             MemoryNote mn = new MemoryNote();
             mn.addedDate = DateTime.Parse(attributes["addedDate"]);
@@ -216,6 +229,12 @@ namespace WritersToolbox.viewmodels
             this.persistNotes.Add(mn);
         }
 
+        /// <summary>
+        /// Fügt ein Entity vom Typ Type mit den gegebenen Attributen hinzu.
+        /// Das Entity wird nicht direkt persistiert, weil die Beziehungen zunächst
+        /// durch die Methode restoreDatabase wiederhergestellt werden müssen.
+        /// </summary>
+        /// <param name="attributes">Attribute des Entities</param>
         public void persistType(Dictionary<string, string> attributes) { 
             models.Type t = new models.Type();
             t.color = attributes["color"];
@@ -227,6 +246,12 @@ namespace WritersToolbox.viewmodels
             this.persistTypes.Add(t);
         }
 
+        /// <summary>
+        /// Fügt ein Entity vom Typ TypeObject mit den gegebenen Attributen hinzu.
+        /// Das Entity wird nicht direkt persistiert, weil die Beziehungen zunächst
+        /// durch die Methode restoreDatabase wiederhergestellt werden müssen.
+        /// </summary>
+        /// <param name="attributes">Attribute des Entities</param>
         public void persistTypeObject(Dictionary<string, string> attributes) {
             TypeObject to = new TypeObject();
             to.color = attributes["color"];
@@ -239,6 +264,13 @@ namespace WritersToolbox.viewmodels
             Debug.WriteLine("Typobjekt speichern: " + attributes.ToString());
             persistTypeObjects.Add(to);
         }
+
+        /// <summary>
+        /// Fügt ein Entity vom Typ Event mit den gegebenen Attributen hinzu.
+        /// Das Entity wird nicht direkt persistiert, weil die Beziehungen zunächst
+        /// durch die Methode restoreDatabase wiederhergestellt werden müssen.
+        /// </summary>
+        /// <param name="attributes">Attribute des Entities</param>
         public void persistEvent(Dictionary<string, string> attributes)
         {
             Event e = new Event();
@@ -251,6 +283,12 @@ namespace WritersToolbox.viewmodels
             persistEvents.Add(e);
         }
 
+        /// <summary>
+        /// Fügt ein Entity vom Typ Chapter mit den gegebenen Attributen hinzu.
+        /// Das Entity wird nicht direkt persistiert, weil die Beziehungen zunächst
+        /// durch die Methode restoreDatabase wiederhergestellt werden müssen.
+        /// </summary>
+        /// <param name="attributes">Attribute des Entities</param>
         public void persistChapter(Dictionary<string, string> attributes)
         {
             Chapter c = new Chapter();
@@ -264,6 +302,12 @@ namespace WritersToolbox.viewmodels
             persistChapters.Add(c);
         }
 
+        /// <summary>
+        /// Fügt ein Entity vom Typ Tome mit den gegebenen Attributen hinzu.
+        /// Das Entity wird nicht direkt persistiert, weil die Beziehungen zunächst
+        /// durch die Methode restoreDatabase wiederhergestellt werden müssen.
+        /// </summary>
+        /// <param name="attributes">Attribute des Entities</param>
         public void persistTome(Dictionary<string, string> attributes) {
             Tome t = new Tome();
             t.addedDate = DateTime.Parse(attributes["addedDate"]);
@@ -276,6 +320,13 @@ namespace WritersToolbox.viewmodels
             t.obj_book = new Book() { bookID = Int32.Parse(attributes["bookID"]) };
             persistTomes.Add(t);
         }
+
+        /// <summary>
+        /// Fügt ein Entity vom Typ Book mit den gegebenen Attributen hinzu.
+        /// Das Entity wird nicht direkt persistiert, weil die Beziehungen zunächst
+        /// durch die Methode restoreDatabase wiederhergestellt werden müssen.
+        /// </summary>
+        /// <param name="attributes">Attribute des Entities</param>
         public void persistBook(Dictionary<string, string> attributes)
         {
             Book b = new Book();
@@ -287,6 +338,13 @@ namespace WritersToolbox.viewmodels
             b.obj_bookType = new BookType() { bookTypeID = Int32.Parse(attributes["bookTypeID"]) };
             persistBooks.Add(b);
         }
+
+        /// <summary>
+        /// Fügt ein Entity vom Typ BookType mit den gegebenen Attributen hinzu.
+        /// Das Entity wird nicht direkt persistiert, weil die Beziehungen zunächst
+        /// durch die Methode restoreDatabase wiederhergestellt werden müssen.
+        /// </summary>
+        /// <param name="attributes">Attribute des Entities</param>
         public void persistBookType(Dictionary<string, string> attributes)
         {
             BookType bt = new BookType();
@@ -299,6 +357,12 @@ namespace WritersToolbox.viewmodels
             persistBookTypes.Add(bt);
         }
 
+        /// <summary>
+        /// Fügt ein Entity vom Typ EventTypeObject (N:M Zwischentabelle) mit den gegebenen Attributen hinzu.
+        /// Das Entity wird nicht direkt persistiert, weil die Beziehungen zunächst
+        /// durch die Methode restoreDatabase wiederhergestellt werden müssen.
+        /// </summary>
+        /// <param name="attributes">Attribute des Entities</param>
         public void persistEventTypeObject(Dictionary<string, string> attributes) {
             EventTypeObjects eto = new EventTypeObjects();
             eto.fk_eventID = Int32.Parse(attributes["eventID"]);
@@ -306,6 +370,11 @@ namespace WritersToolbox.viewmodels
             this.persistEventTypeObjects.Add(eto);
         }
 
+        /// <summary>
+        /// Gibt die Namen der Bilder aus den relevanten Spalten aller Entities zurück,
+        /// damit diese importiert werden können.
+        /// </summary>
+        /// <returns>Liste von Dateinamen</returns>
         public List<string> getImageNames() {
             List<string> ret = new List<string>();
             IEnumerator e = this.persistNotes.GetEnumerator();
@@ -329,6 +398,10 @@ namespace WritersToolbox.viewmodels
             return ret.Distinct().ToList();
         }
 
+        /// <summary>
+        /// Gibt die Namen aller Audiodateien aus den Spalten aller Entities zurück.
+        /// </summary>
+        /// <returns>Liste von Dateinamen</returns>
         public List<string> getAudioNames() {
             List<string> ret = new List<string>();
             IEnumerator e = this.persistNotes.GetEnumerator();
@@ -343,6 +416,10 @@ namespace WritersToolbox.viewmodels
             return ret.Distinct().ToList();
         }
 
+        /// <summary>
+        /// Updatet die Dateinamen in den Entities nachdem die zugehörigen Dateien importiert wurden.
+        /// Dateiname -> Absoluter Pfad
+        /// </summary>
         public void updateFilePaths() {
             IEnumerator e = this.persistNotes.GetEnumerator();
             while (e.MoveNext()) {
@@ -365,6 +442,10 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+        /// <summary>
+        /// Regeneriert zunächst die Beziehungen zwischen den Entities und persistiert diese
+        /// anschließend.
+        /// </summary>
         public void restoreDatabase() {
             IEnumerator<BookType> enumBookType = this.persistBookTypes.GetEnumerator();
             while (enumBookType.MoveNext()) {
@@ -436,12 +517,20 @@ namespace WritersToolbox.viewmodels
             this.wtb.SubmitChanges();
         } 
 
+        /// <summary>
+        /// Löscht die Datenbank und erstellt danach eine neue.
+        /// </summary>
         public void deleteOldDB() {
             this.wtb.DeleteDatabase();
             this.wtb = WritersToolboxDatebase.forceNewInstance();
             this.wtb.CreateDatabase();
         }
 
+        /// <summary>
+        /// Gibt den absoluten Pfad eines Bildes anhand des Dateinamens zurück.
+        /// </summary>
+        /// <param name="filename">Dateiname</param>
+        /// <returns>Absoluter Pfad zur Datei</returns>
         public String getPathFromFilename(String filename) {
             String path = "";
             MediaLibrary ml = new MediaLibrary();
