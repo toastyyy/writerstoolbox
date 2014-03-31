@@ -13,7 +13,7 @@ using System.Collections.ObjectModel;
 namespace WritersToolbox.models
 {
     [Table(Name = "TypeObjects")]
-    public class TypeObject : INotifyPropertyChanging, INotifyPropertyChanged
+    public class TypeObject : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
         public TypeObject()
         {
@@ -267,6 +267,31 @@ namespace WritersToolbox.models
                 this._typeObject_typeObjects.Assign(value);
                 sendPropertyChanged("events");
             }
+        }
+
+        public string getTitle()
+        {
+            return this.name;
+        }
+
+        public string getSubtitle()
+        {
+            return this.obj_Type.title;
+        }
+
+        public Uri getUri()
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Windows.Media.Imaging.BitmapImage getImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool matchesQuery(string query)
+        {
+            return this.name.Contains(query);
         }
     }
 }

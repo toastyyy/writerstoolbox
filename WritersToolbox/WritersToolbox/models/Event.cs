@@ -13,7 +13,7 @@ namespace WritersToolbox.models
 {
 
     [Table(Name = "Events")]
-    public class Event : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Event : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
 
         public Event() 
@@ -223,6 +223,31 @@ namespace WritersToolbox.models
                 this._event_typeObjects.Assign(value);
                 sendPropertyChanged("typeObjects");
             }
+        }
+
+        public string getTitle()
+        {
+            return this.title;
+        }
+
+        public string getSubtitle()
+        {
+            return "Kapitel " + this.obj_Chapter.title;
+        }
+
+        public Uri getUri()
+        {
+            return new Uri("");
+        }
+
+        public System.Windows.Media.Imaging.BitmapImage getImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool matchesQuery(string query)
+        {
+            return this.title.Contains(query) || this.finaltext.Contains(query);
         }
     }
 }

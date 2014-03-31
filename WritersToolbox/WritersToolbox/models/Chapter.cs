@@ -14,7 +14,7 @@ namespace WritersToolbox.models
 {
 
     [Table(Name = "Chapters")]
-    public class Chapter : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Chapter : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
 
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
@@ -209,6 +209,31 @@ namespace WritersToolbox.models
                 updatedDate = _chapter.updatedDate
             };
             return tempChapter;
+        }
+
+        public string getTitle()
+        {
+            return this.title;
+        }
+
+        public string getSubtitle()
+        {
+            return this.obj_tome.title;
+        }
+
+        public Uri getUri()
+        {
+            return new Uri("/views/TomeDetails.xaml");
+        }
+
+        public System.Windows.Media.Imaging.BitmapImage getImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool matchesQuery(string query)
+        {
+            return this.title.Contains(query);
         }
     }
 }

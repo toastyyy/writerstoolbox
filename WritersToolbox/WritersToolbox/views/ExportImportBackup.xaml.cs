@@ -516,6 +516,7 @@ namespace WritersToolbox.views
                 evm.deleteOldDB();
                 // Assoziationen wiederherstellen
                 evm.restoreDatabase();
+                MessageBox.Show("Das Backup wurde eingespielt.");
             },
                         (error) =>
                         {

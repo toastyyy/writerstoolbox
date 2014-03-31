@@ -12,7 +12,7 @@ using System.ComponentModel;
 namespace WritersToolbox.models
 {
     [Table(Name = "Types")]
-    public class Type : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Type : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
         public Type()
         {
@@ -187,5 +187,30 @@ namespace WritersToolbox.models
 
         //    return temptypeObjekt;
         //}
+
+        public string getTitle()
+        {
+            return this.title;
+        }
+
+        public string getSubtitle()
+        {
+            return this.typeObjects.Count + " Objekt(e)";
+        }
+
+        public Uri getUri()
+        {
+            throw new NotImplementedException();
+        }
+
+        public System.Windows.Media.Imaging.BitmapImage getImage()
+        {
+            throw new NotImplementedException();
+        }
+
+        public bool matchesQuery(string query)
+        {
+            return this.title.Contains(query);
+        }
     }
 }
