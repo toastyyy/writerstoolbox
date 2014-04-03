@@ -116,6 +116,7 @@
                     SelectionChanged="list_SelectionChanged">
                 </phone:LongListSelector>
             </Grid>
+        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">

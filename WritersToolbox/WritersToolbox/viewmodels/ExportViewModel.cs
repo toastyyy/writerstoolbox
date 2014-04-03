@@ -449,7 +449,6 @@ namespace WritersToolbox.viewmodels
         public void restoreDatabase() {
             IEnumerator<BookType> enumBookType = this.persistBookTypes.GetEnumerator();
             while (enumBookType.MoveNext()) {
-                Debug.WriteLine(enumBookType.Current.bookTypeID);
                 this.wtb.GetTable<BookType>().InsertOnSubmit(enumBookType.Current);
             }
 

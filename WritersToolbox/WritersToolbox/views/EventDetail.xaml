@@ -190,7 +190,7 @@
                     </Grid>
                     
                     <ScrollViewer>
-                        <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="tFinalText" Foreground="Black" Background="{x:Null}" Tap="tFinalText_Tap" Width="476" VerticalContentAlignment="Top">
+                        <RichTextBox ScrollViewer.VerticalScrollBarVisibility="Auto" x:Name="tFinalText" Foreground="Black" Background="{x:Null}" Tap="tFinalText_Tap" Width="454" VerticalContentAlignment="Top">
                         <Paragraph>
                                 
                         </Paragraph>
@@ -277,6 +277,7 @@
             </phone:PivotItem>
         </phone:Pivot>
         <Button x:Name="WorkaroundButton"  Content="" HorizontalAlignment="Left" Margin="380,10,0,0" VerticalAlignment="Top" Height="40" Width="40" BorderThickness="0"/>
+        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">

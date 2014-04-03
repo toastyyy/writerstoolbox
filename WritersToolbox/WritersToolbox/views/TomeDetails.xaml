@@ -98,7 +98,7 @@
             <!--HeadImage-->
             <Image Margin="0,0,0,511" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
             <!--BookTitle-->
-            <TextBlock x:Name="bookTitle" Text="Harry Potter" FontFamily="Segoe WP Light" TextWrapping="Wrap"  Foreground="White" FontSize="55" TextAlignment="Center" HorizontalAlignment="Left" Margin="22,34,0,0" VerticalAlignment="Top" Height="128" Width="431" LineHeight="48" />
+            <TextBlock x:Name="bookTitle" Text="Harry Potter" FontFamily="Segoe WP Light" TextWrapping="Wrap"  Foreground="White" FontSize="55" TextAlignment="Center" HorizontalAlignment="Left" Margin="22,65,0,0" VerticalAlignment="Top" Height="128" Width="431" LineHeight="48" />
 
             <!--Steuerelement-->
             <Grid x:Name="steuerelement" Margin="0,184,0,441">
@@ -245,7 +245,7 @@
 
 
             </Grid>
-
+            <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png"/>
         </Grid>
 
 
