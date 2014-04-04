@@ -13,22 +13,22 @@ namespace WritersToolbox.models
         /// Gibt den Titel für ein Suchergebnis zurück.
         /// </summary>
         /// <returns>Titel des Suchergebnisses</returns>
-        String getTitle();
+        String Title
+        {
+            get;
+            set;
+        }
         /// <summary>
         /// Gibt weitere Informationen für die Darstellung in den Suchergebnissen zurück.
         /// </summary>
         /// <returns>Untertitel des Suchergebnisses</returns>
-        String getSubtitle();
+        String Subtitle
+        { get; set; }
         /// <summary>
         /// Gibt die Uri zurück, die bei einer Aktion mit dem Suchergebnis ausgeführt werden soll.
         /// </summary>
         /// <returns>Uri der Aktion als Pfad zu einer Xaml-Datei.</returns>
-        Uri getUri();
-        /// <summary>
-        /// Gibt ein Miniaturbild zurück, dass im Suchergebnis verwendet werden kann.
-        /// </summary>
-        /// <returns>Miniaturbild</returns>
-        BitmapImage getImage();
+        Uri Link {get;set;}
         /// <summary>
         /// Gibt zurück, ob ein Objekt ein bestimmtes Suchkriterium erfüllt.
         /// </summary>

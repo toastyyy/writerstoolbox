@@ -286,31 +286,45 @@ namespace WritersToolbox.models
             }
         }
 
-
-
-        public string getTitle()
-        {
-            return this.title;
-        }
-
-        public string getSubtitle()
-        {
-            return this.contentText.Substring(0, 30) + " ...";
-        }
-
-        public Uri getUri()
-        {
-            return new Uri("/views/AddNote.xaml", UriKind.RelativeOrAbsolute);
-        }
-
-        public System.Windows.Media.Imaging.BitmapImage getImage()
-        {
-            return new System.Windows.Media.Imaging.BitmapImage(new Uri("/icons/notiz_round_icon.png"));
-        }
-
         public bool matchesQuery(string query)
         {
             return this.title.Contains(query) || this.contentText.Contains(query);
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Subtitle
+        {
+            get
+            {
+                return this.contentText.Substring(0, 50) + "...";
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Uri Link
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

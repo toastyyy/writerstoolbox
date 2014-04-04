@@ -565,11 +565,12 @@ namespace WritersToolbox.views
                 evm.deleteOldDB();
                 // Assoziationen wiederherstellen
                 evm.restoreDatabase();
+                WritersToolbox.views.Types.types_VM = new TypesViewModel(); // fix für das statische viewmodel...
                 MessageBox.Show("Das Backup wurde eingespielt.");
             },
                         (error) =>
                         {
-                            //Do something on error
+                            MessageBox.Show("Beim Einspielen des Backups ist ein Fehler aufgetreten. Entweder ist die Internetverbindung abgebrochen, oder es existiert kein Backup in deiner Dropbox.");
                         });
         }
 

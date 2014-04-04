@@ -161,6 +161,7 @@
     <Compile Include="viewmodels\BooksViewModel.cs" />
     <Compile Include="viewmodels\EventDetailViewModel.cs" />
     <Compile Include="viewmodels\ExportViewModel.cs" />
+    <Compile Include="viewmodels\SearchViewModel.cs" />
     <Compile Include="viewmodels\TomeDetailsViewModel.cs" />
     <Compile Include="viewmodels\TomeDetailViewModel.cs" />
     <Compile Include="viewmodels\TrashbinViewModel.cs" />
@@ -182,6 +183,9 @@
     </Compile>
     <Compile Include="views\ExportText.xaml.cs">
       <DependentUpon>ExportText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Search.xaml.cs">
+      <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -269,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\ExportText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Search.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>

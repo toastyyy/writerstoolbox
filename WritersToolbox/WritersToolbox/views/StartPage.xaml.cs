@@ -136,6 +136,11 @@ namespace WritersToolbox.gui
         {
             PhoneApplicationService.Current.State.Remove("assignNote");
             NavigationService.GoBack();
+        }
+
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
         }      
     }
 }

@@ -174,29 +174,45 @@ namespace WritersToolbox.models
             }
         }
 
-        public string getTitle()
-        {
-            return this.getTitle();
-        }
-
-        public string getSubtitle()
-        {
-            return this._tomes.Count + " Bände";
-        }
-
-        public Uri getUri()
-        {
-            return new Uri("/views/Books.xaml", UriKind.RelativeOrAbsolute);
-        }
-
-        public System.Windows.Media.Imaging.BitmapImage getImage()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool matchesQuery(string query)
         {
             return this.name.Contains(query);
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Subtitle
+        {
+            get
+            {
+                return this.obj_bookType.name;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Uri Link
+        {
+            get
+            {
+                return new Uri("");
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

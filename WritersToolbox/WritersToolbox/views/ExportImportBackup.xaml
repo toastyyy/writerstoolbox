@@ -24,7 +24,7 @@
         <Image Margin="0,-6,0,0" Source="/headImage_rot_smal.png" Stretch="Fill" Height="156" VerticalAlignment="Top"/>
 
         <StackPanel Grid.Row="0" Margin="23,75,22,0">
-            <TextBlock Text="Exportieren" Margin="9,-7,0,0" FontSize="50" FontFamily="Segoe UI Light" />
+            <TextBlock Text="Backup verwalten" Margin="9,-7,0,0" FontSize="50" FontFamily="Segoe UI Light" />
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->

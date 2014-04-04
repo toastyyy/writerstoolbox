@@ -269,29 +269,45 @@ namespace WritersToolbox.models
             }
         }
 
-        public string getTitle()
-        {
-            return this.name;
-        }
-
-        public string getSubtitle()
-        {
-            return this.obj_Type.title;
-        }
-
-        public Uri getUri()
-        {
-            throw new NotImplementedException();
-        }
-
-        public System.Windows.Media.Imaging.BitmapImage getImage()
-        {
-            throw new NotImplementedException();
-        }
-
         public bool matchesQuery(string query)
         {
             return this.name.Contains(query);
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Subtitle
+        {
+            get
+            {
+                return this.obj_Type.title;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Uri Link
+        {
+            get
+            {
+                throw new NotImplementedException();
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }
