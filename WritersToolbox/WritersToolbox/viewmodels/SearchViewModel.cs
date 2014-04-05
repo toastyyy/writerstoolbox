@@ -12,9 +12,11 @@ namespace WritersToolbox.viewmodels
     {
         private WritersToolboxDatebase wtb = null;
         public ObservableCollection<ISearchable> ResultList { get; set; }
+        public int ResultCount { get; set; }
         public SearchViewModel() {
             wtb = WritersToolboxDatebase.getInstance();
             ResultList = new ObservableCollection<ISearchable>();
+            ResultCount = 0;
         }
 
         public void loadByQuery(String query) {
@@ -58,6 +60,8 @@ namespace WritersToolbox.viewmodels
                 if (e.matchesQuery(query)) { ResultList.Add(e); }
             }
             this.NotifyPropertyChanged("ResultList");
+            ResultCount = ResultList.Count;
+            this.NotifyPropertyChanged("ResultCount");
         }
 
         public event PropertyChangedEventHandler PropertyChanged;

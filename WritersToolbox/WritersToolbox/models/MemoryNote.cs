@@ -307,7 +307,14 @@ namespace WritersToolbox.models
         {
             get
             {
-                return this.contentText.Substring(0, 50) + "...";
+                if (this.contentText.Length > 50)
+                {
+                    return this.contentText.Substring(0, 50) + "...";
+                }
+                else {
+                    return this.contentText;
+                }
+               
             }
             set
             {
