@@ -258,7 +258,7 @@ namespace WritersToolbox.models
         {
             get
             {
-                throw new NotImplementedException();
+                return new Uri("/views/EventDetail.xaml?eventID=" + this.eventID, UriKind.RelativeOrAbsolute);
             }
             set
             {

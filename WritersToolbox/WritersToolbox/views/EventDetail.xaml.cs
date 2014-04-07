@@ -512,5 +512,10 @@ namespace WritersToolbox.views
             NavigationContext.QueryString.Clear();
         }
 
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
+        }
+
     }
 }

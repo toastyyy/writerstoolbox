@@ -72,7 +72,7 @@
                     LayoutMode="Grid"
                     GridCellSize="450, 80"
                     x:Name="LongList"
-                    ItemTemplate="{StaticResource searchItem}">
+                    ItemTemplate="{StaticResource searchItem}" SelectionChanged="LongList_SelectionChanged">
             </phone:LongListSelector>
             <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Anzahl Treffer:" VerticalAlignment="Top" Foreground="#FF2B2B2B" FontWeight="Bold"/>
             <TextBlock HorizontalAlignment="Left" Margin="159,0,0,0" TextWrapping="Wrap" Text="{Binding ResultCount}" VerticalAlignment="Top" Width="104" Foreground="#FF2B2B2B" FontWeight="Bold"/>

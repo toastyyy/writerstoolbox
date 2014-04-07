@@ -221,7 +221,7 @@ namespace WritersToolbox.models
         {
             get
             {
-                throw new NotImplementedException();
+                return new Uri("/views/Types.xaml?typeID=" + this.typeID, UriKind.RelativeOrAbsolute);
             }
             set
             {

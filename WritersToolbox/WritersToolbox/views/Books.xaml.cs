@@ -399,5 +399,10 @@ namespace WritersToolbox.views
                 lp.SelectedIndex = b.bookType.bookTypeID -1;
             }
         }
+
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
+        }
     }
 }

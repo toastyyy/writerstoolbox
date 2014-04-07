@@ -81,7 +81,7 @@
                 </toolkit:LongListMultiSelector.ItemTemplate>
             </toolkit:LongListMultiSelector>
         </Grid>
-        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png"/>
+        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false">

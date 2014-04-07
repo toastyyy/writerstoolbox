@@ -8,6 +8,7 @@ using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.viewmodels;
+using WritersToolbox.models;
 
 namespace WritersToolbox.views
 {
@@ -29,6 +30,18 @@ namespace WritersToolbox.views
             base.OnNavigatedTo(e);
             svm = new SearchViewModel();
             this.DataContext = svm;
+        }
+
+        private void LongList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            ISearchable clicked = (ISearchable)e.AddedItems[0];
+            NavigationService.Navigate(clicked.Link);
+        }
+
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            NavigationService.RemoveBackEntry();
         }
     }
 }

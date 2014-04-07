@@ -9,6 +9,7 @@ using Microsoft.Phone.Data.Linq.Mapping;
 using System.Windows.Media;
 using System.ComponentModel;
 using System.Collections;
+using Microsoft.Phone.Shell;
 
 namespace WritersToolbox.models
 {
@@ -326,7 +327,9 @@ namespace WritersToolbox.models
         {
             get
             {
-                throw new NotImplementedException();
+                PhoneApplicationService.Current.State["memoryNoteID"] = "" + this.memoryNoteID;
+                PhoneApplicationService.Current.State["edit"] = "true";
+                return new Uri("/views/AddNote.xaml", UriKind.Relative);
             }
             set
             {

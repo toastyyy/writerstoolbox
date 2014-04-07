@@ -1226,6 +1226,11 @@ namespace WritersToolbox.views
             this.llstructure.ItemsSource = this.tome_VM.structur;
         }
 
+        private void Image_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
+        }
+
         
 
     }

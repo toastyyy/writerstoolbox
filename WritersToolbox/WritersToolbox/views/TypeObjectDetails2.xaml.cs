@@ -180,5 +180,10 @@ namespace WritersToolbox.views
             Grid g = (Grid)c.Parent;
             llms.SelectedItems.Add(((datawrapper.MemoryNote)g.DataContext));
         }
+
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
+        }
     }
 }

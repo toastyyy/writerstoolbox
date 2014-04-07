@@ -207,7 +207,7 @@ namespace WritersToolbox.models
         {
             get
             {
-                return new Uri("");
+                return new Uri("/views/Books.xaml?item=" + this.bookID, UriKind.RelativeOrAbsolute);
             }
             set
             {

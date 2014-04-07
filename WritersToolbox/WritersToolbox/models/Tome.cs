@@ -243,7 +243,7 @@ namespace WritersToolbox.models
         {
             get
             {
-                throw new NotImplementedException();
+                return new Uri("/views/TomeDetails.xaml?tomeID=" + this.tomeID, UriKind.RelativeOrAbsolute);
             }
             set
             {

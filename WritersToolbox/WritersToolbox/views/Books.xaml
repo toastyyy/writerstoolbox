@@ -256,7 +256,7 @@
                 <TextBlock Margin="9,0,0,0" Text="{Binding Path=LocalizedResources.BooksPageTitle, Source={StaticResource LocalizedStrings}}" FontSize="22" FontFamily="Segoe WP Light"/>
             </phone:Pivot.Title>
         </phone:Pivot>
-        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png"/>
+        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
