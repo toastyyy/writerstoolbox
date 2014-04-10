@@ -289,7 +289,7 @@ namespace WritersToolbox.models
 
         public bool matchesQuery(string query)
         {
-            return this.title.Contains(query) || this.contentText.Contains(query);
+            return this.title.ToLower().Contains(query.ToLower()) || this.contentText.ToLower().Contains(query.ToLower());
         }
 
         public string Title

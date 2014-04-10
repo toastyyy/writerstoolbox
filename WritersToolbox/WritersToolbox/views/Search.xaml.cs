@@ -22,7 +22,9 @@ namespace WritersToolbox.views
 
         private void searchQuery_TextChanged(object sender, TextChangedEventArgs e)
         {
-            svm.loadByQuery(searchQuery.Text);
+            if (!searchQuery.Text.Equals("")) {
+                svm.loadByQuery(searchQuery.Text);
+            }
         }
 
         protected override void OnNavigatedTo(NavigationEventArgs e)
