@@ -275,6 +275,7 @@ namespace WritersToolbox.viewmodels
 
         }
 
+
         public event PropertyChangedEventHandler PropertyChanged;
         // Used to notify the app that a property has changed.
         private void NotifyPropertyChanged(string propertyName)

@@ -20,6 +20,7 @@ namespace WritersToolbox.views
     {
         private EventDetailViewModel edvm = null;
         private bool newEvent = false;
+        private bool unattach = false;
         public EventDetail()
         {
             InitializeComponent();
@@ -315,21 +316,26 @@ namespace WritersToolbox.views
 
         private void TypeObjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (TypeObjectList.SelectedItems.Count > 0)
+            if (!unattach)
             {
-                this.edvm.removeAddTypeObject();
+                if (TypeObjectList.SelectedItems.Count > 0)
+                {
+                    this.edvm.removeAddTypeObject();
+                }
+                else
+                {
+                    this.edvm.addAddTypeObject();
+                }
             }
-            else {
-                this.edvm.addAddTypeObject();
-            }
-
-            this.selectAllCheckBox2.Unchecked -= selectAllCheckBox_Unchecked;
-            this.selectAllCheckBox2.Checked -= selectAllCheckBox_Checked;
-            this.selectAllCheckBox2.IsChecked = TypeObjectList.SelectedItems.Count == TypeObjectList.ItemsSource.Count;
-            this.TypeObjectList.EnforceIsSelectionEnabled = TypeObjectList.SelectedItems.Count > 0;
-            this.eventPivot.IsLocked = TypeObjectList.SelectedItems.Count > 0;
-            this.selectAllCheckBox2.Unchecked += selectAllCheckBox_Unchecked;
-            this.selectAllCheckBox2.Checked += selectAllCheckBox_Checked;
+                this.selectAllCheckBox2.Unchecked -= selectAllCheckBox_Unchecked;
+                this.selectAllCheckBox2.Checked -= selectAllCheckBox_Checked;
+                this.selectAllCheckBox2.IsChecked = TypeObjectList.SelectedItems.Count == this.edvm.Event.typeObjects.Count;
+                this.TypeObjectList.EnforceIsSelectionEnabled = TypeObjectList.SelectedItems.Count > 0;
+                this.eventPivot.IsLocked = TypeObjectList.SelectedItems.Count > 0;
+                this.selectAllCheckBox2.Unchecked += selectAllCheckBox_Unchecked;
+                this.selectAllCheckBox2.Checked += selectAllCheckBox_Checked;
+            
+            
         }
 
         private void SelectTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
@@ -433,7 +439,9 @@ namespace WritersToolbox.views
             {
                 this.edvm.unassignTypeObject(to.typeObjectID);
             }
+            unattach = true;
             this.DataContext = null;
+            unattach = false;
             this.DataContext = this.edvm.Event;
         }
 
