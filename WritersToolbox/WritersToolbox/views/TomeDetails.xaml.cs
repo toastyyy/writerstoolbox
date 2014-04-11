@@ -1092,7 +1092,7 @@ namespace WritersToolbox.views
             {
 
                 datawrapper.Event _event = (sender as TextBlock).DataContext as datawrapper.Event;
-                NavigationService.Navigate(new Uri("/views/EventDetail.xaml?eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
+                NavigationService.Navigate(new Uri("/views/EventDetail.xaml?chapterID=" + _event.chapter.chapterID +  "&eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
                 var lastPage = NavigationService.BackStack.FirstOrDefault();
                 if (lastPage != null && lastPage.Source.ToString().Equals("/views/TomeDetails.xaml?tomeID=" + tomeID))
                 {

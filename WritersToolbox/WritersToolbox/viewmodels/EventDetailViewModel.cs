@@ -266,6 +266,11 @@ namespace WritersToolbox.viewmodels
             e.title = title;
             e.obj_Chapter = c;
             e.finaltext = "";
+            int highestID = (from ev in tableEvents
+                             where ev.fk_chapterID == chapterID
+                             orderby ev.orderInChapter descending
+                             select ev.orderInChapter).First() + 1;
+            e.orderInChapter = highestID;
             this.tableEvents.InsertOnSubmit(e);
             this.wtb.SubmitChanges();
             Event nE = (from ev in this.tableEvents

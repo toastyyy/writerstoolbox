@@ -21,6 +21,7 @@ namespace WritersToolbox.views
         private EventDetailViewModel edvm = null;
         private bool newEvent = false;
         private bool unattach = false;
+        private int chapterID = 0;
         public EventDetail()
         {
             InitializeComponent();
@@ -47,10 +48,12 @@ namespace WritersToolbox.views
             if (NavigationContext.QueryString.ContainsKey("eventID"))
             {
                 int eID = int.Parse(NavigationContext.QueryString["eventID"]);
+
                 if (eID == 0)
                 {
+                    this.chapterID = int.Parse(NavigationContext.QueryString["chapterID"]);
                     newEvent = true;
-                this.edvm = new EventDetailViewModel(eID);
+                    this.edvm = new EventDetailViewModel(eID);
                 }
                 else
                 {
@@ -509,7 +512,7 @@ namespace WritersToolbox.views
 
         private void saveNewEvent(object sender, EventArgs e)
         {
-            this.edvm.newEvent(newEventTextbox.Text, 1);
+            this.edvm.newEvent(newEventTextbox.Text, this.chapterID);
             this.edvm.LoadData();
             this.DataContext = null;
             this.DataContext = this.edvm.Event;

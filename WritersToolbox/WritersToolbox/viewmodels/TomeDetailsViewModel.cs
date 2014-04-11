@@ -289,7 +289,8 @@ namespace WritersToolbox.viewmodels
                 datawrapper.Event _e = new datawrapper.Event()
                 {
                     title = "Ereignis hinzufügen",
-                    eventID = 0
+                    eventID = 0,
+                    chapter = new datawrapper.Chapter() { chapterID = item.chapterID }
 
                 };
                 _events.Add(_e);
