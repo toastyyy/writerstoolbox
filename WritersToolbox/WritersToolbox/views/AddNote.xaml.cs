@@ -69,6 +69,8 @@ namespace WritersToolbox.views
         private Grid lastMemo;
         //ManagementBarButtons.
         private ApplicationBarIconButton saveAs, save, cancel;
+        //onRecord
+        private bool onRecord;
         //MediaBatButtons.
         private ApplicationBarIconButton pp, reward, forward, stop;
         // 1 = Management, 2 = Media. Um ManagementBatButtons zu kontrollieren.
@@ -244,6 +246,7 @@ namespace WritersToolbox.views
             ApplicationBar.Buttons.Remove(forward);
             ApplicationBar.Buttons.Remove(reward);
             ApplicationBar.Buttons.Remove(stop);
+           
         }
 
         /// <summary>
@@ -1028,7 +1031,11 @@ namespace WritersToolbox.views
         {
             //Hilfsvariable, um zu prüfen, ob etwas geändert wurde.
             bool isfully = false;
-
+            //Schauen ob gerade aufgenommen wird, wenn ja dann stoppe die Aufnahme.
+            if (onRecord)
+            {
+                recorder.Stop();
+            }
             MessageBoxResult result = MessageBoxResult.Cancel;
 
             //Hier wird geprüft, ob die Notiz, von anderem Screen geöffnet ist,
@@ -1096,6 +1103,9 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void RecordAudioChecked(object sender, RoutedEventArgs e)
         {
+            onRecord = true;
+            ApplicationBar.Buttons.Remove(save);
+            ApplicationBar.Buttons.Remove(saveAs);
             //Die Größe der List anpassen.
             llms_records.Margin = new Thickness(27, 84, 0, 17);
             //AudioPlayer stopen, wenn er noch am laufen ist.
@@ -1123,7 +1133,7 @@ namespace WritersToolbox.views
             {
                 addManagementApplicationBarButton();
             }
-
+            
             EndTimer.Visibility = Visibility.Collapsed;
             progressbar_background.Visibility = Visibility.Collapsed;
             progressbar.Visibility = Visibility.Collapsed;
@@ -1137,6 +1147,11 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void RecordAudioUnchecked(object sender, RoutedEventArgs e)
         {
+            onRecord = false;
+            ApplicationBar.Buttons.Remove(cancel);
+            ApplicationBar.Buttons.Add(saveAs);
+            ApplicationBar.Buttons.Add(save);         
+            ApplicationBar.Buttons.Add(cancel);
             //Aufnahme stopen.
             recorder.Stop();
             //DauerTimer zerstören.

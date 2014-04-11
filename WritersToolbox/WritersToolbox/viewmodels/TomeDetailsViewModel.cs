@@ -18,7 +18,8 @@ namespace WritersToolbox.viewmodels
         private WritersToolboxDatebase wtb;
         //Chapter als Entity object
         private models.Chapter obj_chapter;
-
+        //test
+        datawrapper.Book bo;
         //TypeObjecte, um die beteiligte Objekte zu zeigen.-Tabelle
         private Table<TypeObject> tableTypeObject;
         //Event-Tabelle
@@ -27,6 +28,8 @@ namespace WritersToolbox.viewmodels
         private Table<Chapter> tableChapter;
         //Tome-Tabelle
         private Table<Tome> tableTome;
+        //Book-Tabelle
+        private Table<Book> tableBook;
         //Band
         private Tome tome;
         //List der beteiligten Typeobjekte, die mit dem View verbunden wird.
@@ -56,6 +59,7 @@ namespace WritersToolbox.viewmodels
                 tableChapter = wtb.GetTable<Chapter>(); ;
                 tableEvent = wtb.GetTable<Event>(); ;
                 tableTome = wtb.GetTable<Tome>();
+                tableBook = wtb.GetTable<Book>();
                 _typeObjects = getAssociatedTypeObjects(tomeID);
                 //Aktualles Band.
                 tome = tableTome.Single(t => t.tomeID == tomeID);
@@ -95,6 +99,22 @@ namespace WritersToolbox.viewmodels
             return tableEvent.Count(e => e.obj_Chapter.obj_tome.tomeID == tome.tomeID);
         }
 
+        public String getBookTitle()
+        {
+            
+            var sqlBook = from b in tableBook
+                       where b.bookID == tome.obj_book.bookID
+                       select b;
+             foreach (var book in sqlBook)
+            {
+                bo = new datawrapper.Book()
+                {
+                    name = book.name
+                };
+                
+            }
+             return bo.name;
+        }
         /// <summary>
         /// liefert Anzahl Typeobjekte durch abfrage in der Datenbank zurück.
         /// </summary>

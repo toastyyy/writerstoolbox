@@ -65,12 +65,14 @@ namespace WritersToolbox.views
 
             if (NavigationContext.QueryString.ContainsKey("tomeID"))
             {
+                
                 tomeID = int.Parse(NavigationContext.QueryString["tomeID"]);
                 tome_VM = new TomeDetailsViewModel(tomeID);
                 DataContext = tome_VM;
                 //ist das hier richtig? funktionieren tuts
                 informationSlide();
                 int code = tome_VM.getInformation();
+                bookTitle.Text = tome_VM.getBookTitle();
                 //switch (code)
                 //{
                 //    case 1:
