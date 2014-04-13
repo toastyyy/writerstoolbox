@@ -72,7 +72,7 @@ namespace WritersToolbox.views
                 //ist das hier richtig? funktionieren tuts
                 informationSlide();
                 int code = tome_VM.getInformation();
-                bookTitle.Text = tome_VM.getBookTitle();
+
                 //switch (code)
                 //{
                 //    case 1:
@@ -1233,7 +1233,17 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
         }
 
-        
+        private void TextBox_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
+            this.bookTitle.Background = _s;
+        }
+
+        private void bookTitle_LostFocus(object sender, RoutedEventArgs e)
+        {
+            this.tome_VM.changeTitle(bookTitle.Text);
+        }
+
 
     }
 }

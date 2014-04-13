@@ -31,7 +31,7 @@ namespace WritersToolbox.viewmodels
         //Book-Tabelle
         private Table<Book> tableBook;
         //Band
-        private Tome tome;
+        public Tome tome {get;set;}
         //List der beteiligten Typeobjekte, die mit dem View verbunden wird.
         private ObservableCollection<datawrapper.TypeObject> _typeObjects;
         public ObservableCollection<datawrapper.TypeObject> typeObjects { get { return _typeObjects; } }
@@ -41,7 +41,6 @@ namespace WritersToolbox.viewmodels
         //Structur
         private ObservableCollection<datawrapper.Chapter> _structur;
         public ObservableCollection<datawrapper.Chapter> structur { get { return _structur; } }
-
 
         /// <summary>
         /// Defaultkonstruktor
@@ -682,6 +681,11 @@ namespace WritersToolbox.viewmodels
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public void changeTitle(String newTitle) {
+            this.tome.title = newTitle;
+            this.wtb.SubmitChanges();
         }
     }
 }
