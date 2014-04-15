@@ -310,7 +310,7 @@
     <value>New Book</value>
   </data>
   <data name="NewType" xml:space="preserve">
-    <value>Create new Type</value>
+    <value>New Type</value>
   </data>
   <data name="NewTypeColorText" xml:space="preserve">
     <value>Color</value>
@@ -482,5 +482,17 @@
   </data>
   <data name="TrashbinDeleteQuestion" xml:space="preserve">
     <value>All selected and hierarchically  associated Data will be deleted permantently.</value>
+  </data>
+  <data name="SettingsBackupButton" xml:space="preserve">
+    <value>Organize backups</value>
+  </data>
+  <data name="SettingsBackupText" xml:space="preserve">
+    <value>Backup:</value>
+  </data>
+  <data name="SettingsExportButton" xml:space="preserve">
+    <value>Export book</value>
+  </data>
+  <data name="SettingsExportText" xml:space="preserve">
+    <value>Export:</value>
   </data>
 </root>

@@ -14,7 +14,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="PageLoaded">
 
     <phone:PhoneApplicationPage.Resources>
         <converter:NoteShortContentConverter x:Key="NoteShortContentConverter" />
@@ -80,7 +80,7 @@
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/character_round_icon.png"/>
+                <Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/HD156_Pro_Typen_round_Icon.png"/>
                 <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="29" />
@@ -183,8 +183,23 @@
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="224" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>
-            <CheckBox x:Name="filterMemoryNotes" Style="{StaticResource CheckBoxStyleBlack}" Content="Filter" HorizontalAlignment="Right" Margin="0,-7,0,0" VerticalAlignment="Top" Width="224" Checked="filter_Checked" Unchecked="filter_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>
-
+            <!--<CheckBox x:Name="filterMemoryNotes" Style="{StaticResource CheckBoxStyleBlack}" Content="Filter" HorizontalAlignment="Right" Margin="0,-7,81,0" VerticalAlignment="Top" Width="224" Checked="filter_Checked" Unchecked="filter_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>-->
+            <toolkit:ListPicker
+                                HorizontalAlignment="Left" 
+                                Width="180"
+                                Foreground="Black"
+                                BorderBrush="Black"
+                                BorderThickness="1"
+                                SelectionChanged="FilterChanged"
+                                x:Name="FilterPicker"
+                                Margin="266,0,0,-50">
+                <toolkit:ListPickerItem Content="MemoryNotes"/>
+                <toolkit:ListPickerItem Content="Books"/>
+                <toolkit:ListPickerItem Content="Tomes"/>
+                <toolkit:ListPickerItem Content="Typs"/>
+                <toolkit:ListPickerItem Content="TypsObjects"/>
+                <!--<toolkit:ListPickerItem Content="Events"/>-->
+            </toolkit:ListPicker>
             <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="trash_selectionChanged" 

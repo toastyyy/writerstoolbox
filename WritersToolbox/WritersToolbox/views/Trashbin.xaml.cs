@@ -11,11 +11,14 @@ using System.Collections.ObjectModel;
 using WritersToolbox.viewmodels;
 using WritersToolbox.Resources;
 using System.Collections;
+using System.Threading;
 
 namespace WritersToolbox.views
 {
     public partial class Trashbin : PhoneApplicationPage
     {
+        private bool loaded = false;
+        private int filterIndex;
         private TrashbinViewModel trash;
         private bool isselected;
         public Trashbin()
@@ -28,7 +31,7 @@ namespace WritersToolbox.views
             if (this.llms_trash.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsEnabled = false;
-                filterMemoryNotes.IsEnabled = false;
+                //filterMemoryNotes.IsEnabled = false;
             }
            
         }
@@ -90,8 +93,8 @@ namespace WritersToolbox.views
             {
                 selectAllCheckBox.IsChecked = false;
                 selectAllCheckBox.IsEnabled = false;
-                filterMemoryNotes.IsChecked = false;
-                filterMemoryNotes.IsEnabled = false;
+                //filterMemoryNotes.IsChecked = false;
+                //filterMemoryNotes.IsEnabled = false;
             }
             deletePopup.IsOpen = false;
         }
@@ -104,8 +107,8 @@ namespace WritersToolbox.views
             {
                 selectAllCheckBox.IsChecked = false;
                 selectAllCheckBox.IsEnabled = false;
-                filterMemoryNotes.IsChecked = false;
-                filterMemoryNotes.IsEnabled = false;
+                //filterMemoryNotes.IsChecked = false;
+                //filterMemoryNotes.IsEnabled = false;
             }
 
         }
@@ -120,12 +123,12 @@ namespace WritersToolbox.views
             btn1.Text = AppResources.AppBarDelete;
             btn2.Text = AppResources.AppBarBack;
             btn3.Text = AppResources.AppBarRestore;
-          
+            //filterIndex = 0;
             trash.loadData();
             if (this.llms_trash.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsEnabled = false;
-                filterMemoryNotes.IsEnabled = false;
+                //filterMemoryNotes.IsEnabled = false;
             }
             //llms_trash.ItemsSource = trash.getObservableColletion();
         }
@@ -197,5 +200,64 @@ namespace WritersToolbox.views
         {
             deletePopup.IsOpen = true;
         }
+
+        private void FilterChanged(object sender, SelectionChangedEventArgs e)
+        {
+
+            ListPicker lP = sender as ListPicker;
+            //lP.SelectedIndex = 0;
+            if (trash != null)
+            {
+                if (lP.SelectedIndex == 0)
+                {
+                    this.trash.deleteList();
+                    this.trash.loadData();
+                    //NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+                    //NavigationService.RemoveBackEntry();
+                }
+                else if (lP.SelectedIndex == 1)
+                {
+                    this.trash.deleteList();
+                    this.trash.loadDeletedMemoryNotes();
+                    NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+                    NavigationService.RemoveBackEntry();
+                }
+                else if (lP.SelectedIndex == 2)
+                {
+                    this.trash.deleteList();
+                    this.trash.loadDeletedBooks();
+                    NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+                    NavigationService.RemoveBackEntry();
+                }
+                else if (lP.SelectedIndex == 3)
+                {
+                    this.trash.deleteList();
+                    this.trash.loadDeletedTomes();
+                    NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+                    NavigationService.RemoveBackEntry();
+                }
+                else if (lP.SelectedIndex == 4)
+                {
+                    this.trash.deleteList();
+                    this.trash.loadDeletedTypes();
+                }
+                else if (lP.SelectedIndex == 5)
+                {
+                    this.trash.deleteList();
+                    this.trash.loadDeletedTypeObjects();
+                }
+                else if (lP.SelectedIndex == 6)
+                {
+                    this.trash.deleteList();
+                    this.trash.loadDeletedEvents();
+                }
+            }
+        }
+        private void PageLoaded(object sender, RoutedEventArgs e)
+        {
+            loaded = true;
+            //FilterPicker.SelectedIndex = filterIndex;
+        }
+       
     }
 }
