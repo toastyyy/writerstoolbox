@@ -183,8 +183,8 @@
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="224" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>
-            <CheckBox x:Name="filterMemoryNotes" Style="{StaticResource CheckBoxStyleBlack}" Content="Filter" HorizontalAlignment="Right" Margin="0,-7,81,0" VerticalAlignment="Top" Width="224" Checked="filter_Checked" Unchecked="filter_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>
-            <!--<toolkit:ListPicker
+            <!--<CheckBox x:Name="filterMemoryNotes" Style="{StaticResource CheckBoxStyleBlack}" Content="Filter" HorizontalAlignment="Right" Margin="0,-7,81,0" VerticalAlignment="Top" Width="224" Checked="filter_Checked" Unchecked="filter_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>-->
+            <toolkit:ListPicker
                                 HorizontalAlignment="Left" 
                                 Width="180"
                                 Foreground="Black"
@@ -192,14 +192,14 @@
                                 BorderThickness="1"
                                 SelectionChanged="FilterChanged"
                                 x:Name="FilterPicker"
-                                Margin="260,-7,0,0">
-                <toolkit:ListPickerItem Content="ghjfgjj"/>
+                                Margin="266,0,0,-50">
                 <toolkit:ListPickerItem Content="MemoryNotes"/>
                 <toolkit:ListPickerItem Content="Books"/>
                 <toolkit:ListPickerItem Content="Tomes"/>
                 <toolkit:ListPickerItem Content="Typs"/>
                 <toolkit:ListPickerItem Content="TypsObjects"/>
-                <toolkit:ListPickerItem Content="Events"/>-->
+                <!--<toolkit:ListPickerItem Content="Events"/>-->
+            </toolkit:ListPicker>
             <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="trash_selectionChanged" 

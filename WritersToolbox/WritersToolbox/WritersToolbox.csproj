@@ -403,7 +403,6 @@
     </Content>
     <Content Include="Assets\WritersToolboxstartseiteWT.png" />
     <Content Include="headImage_rot_smal.png" />
-    <Content Include="icons\add1.png" />
     <Content Include="icons\bold.png" />
     <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\edit.png" />
