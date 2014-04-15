@@ -566,6 +566,9 @@ namespace WritersToolbox.views
                 // Assoziationen wiederherstellen
                 evm.restoreDatabase();
                 WritersToolbox.views.Types.types_VM = new TypesViewModel(); // fix für das statische viewmodel...
+                WritersToolbox.views.Books.books_VM = new BooksViewModel(); // fix für das statische viewmodel...
+                WritersToolbox.views.Books.books_VM.loadBookTypes();
+                WritersToolbox.views.Books.books_VM.loadData();
                 MessageBox.Show("Das Backup wurde eingespielt.");
             },
                         (error) =>
