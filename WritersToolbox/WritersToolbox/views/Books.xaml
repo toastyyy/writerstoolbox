@@ -141,7 +141,7 @@
 
         <!--Template für LongListSelector-item neuen Band-->
         <DataTemplate x:Name="newTome" >
-            <Grid Width="450" Height="Auto" Margin="0,20,0,0">
+            <Grid Width="450" Height="Auto" Margin="0,10,0,20">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115"/>
                     <ColumnDefinition Width="*"/>
@@ -154,17 +154,14 @@
                                        Source="../icons/add.png" 
                                        Margin="20,0,0,0"/>
 
-                <Grid Grid.Column="1" Margin="10,0,-10,0">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="30" />
-                    </Grid.RowDefinitions>
-                    <TextBlock Grid.Row="0" 
-                                               Foreground="#FF414141" 
-                                               Text="{Binding Path=LocalizedResources.NewTomeTemplate, Source={StaticResource LocalizedStrings}}" 
-                                               FontSize="30"
-                                               Margin="0,-10,0,0"
-                                               FontFamily="Segoe WP SemiLight"
-                                               TextWrapping="Wrap"/>
+                <Grid Grid.Column="1" Margin="10,0,10,0">
+                    <TextBlock 
+                                Foreground="#FF414141" 
+                                Text="{Binding Path=LocalizedResources.NewTomeTemplate, Source={StaticResource LocalizedStrings}}" 
+                                FontSize="30"
+                                Margin="0,20,0,0"
+                                FontFamily="Segoe WP SemiLight"
+                                TextWrapping="Wrap"/>
 
                 </Grid>
                 <!--<Border Margin="0,0,0,-20" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />-->

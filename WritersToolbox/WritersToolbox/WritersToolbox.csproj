@@ -376,6 +376,7 @@
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten.png" />
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten_2.png" />
     <Content Include="Assets\hintergrund_trashbin_white.png" />
+    <Content Include="icons\add.png" />
     <Content Include="icons\dropbox-logo.png" />
     <Content Include="icons\finden.png" />
     <Content Include="icons\move-down.png" />
@@ -401,7 +402,7 @@
     </Content>
     <Content Include="Assets\WritersToolboxstartseiteWT.png" />
     <Content Include="headImage_rot_smal.png" />
-    <Content Include="icons\add.png" />
+    <Content Include="icons\add1.png" />
     <Content Include="icons\bold.png" />
     <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\edit.png" />
