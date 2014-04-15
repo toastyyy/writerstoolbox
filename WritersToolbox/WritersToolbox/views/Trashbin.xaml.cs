@@ -31,7 +31,7 @@ namespace WritersToolbox.views
             if (this.llms_trash.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsEnabled = false;
-                filterMemoryNotes.IsEnabled = false;
+                //filterMemoryNotes.IsEnabled = false;
             }
            
         }
@@ -93,8 +93,8 @@ namespace WritersToolbox.views
             {
                 selectAllCheckBox.IsChecked = false;
                 selectAllCheckBox.IsEnabled = false;
-                filterMemoryNotes.IsChecked = false;
-                filterMemoryNotes.IsEnabled = false;
+                //filterMemoryNotes.IsChecked = false;
+                //filterMemoryNotes.IsEnabled = false;
             }
             deletePopup.IsOpen = false;
         }
@@ -107,8 +107,8 @@ namespace WritersToolbox.views
             {
                 selectAllCheckBox.IsChecked = false;
                 selectAllCheckBox.IsEnabled = false;
-                filterMemoryNotes.IsChecked = false;
-                filterMemoryNotes.IsEnabled = false;
+                //filterMemoryNotes.IsChecked = false;
+                //filterMemoryNotes.IsEnabled = false;
             }
 
         }
@@ -123,12 +123,12 @@ namespace WritersToolbox.views
             btn1.Text = AppResources.AppBarDelete;
             btn2.Text = AppResources.AppBarBack;
             btn3.Text = AppResources.AppBarRestore;
-            filterIndex = 0;
+            //filterIndex = 0;
             trash.loadData();
             if (this.llms_trash.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsEnabled = false;
-                filterMemoryNotes.IsEnabled = false;
+                //filterMemoryNotes.IsEnabled = false;
             }
             //llms_trash.ItemsSource = trash.getObservableColletion();
         }
@@ -205,15 +205,15 @@ namespace WritersToolbox.views
         {
 
             ListPicker lP = sender as ListPicker;
-            lP.SelectedIndex = 1;
-            if (true)
+            //lP.SelectedIndex = 0;
+            if (trash != null)
             {
                 if (lP.SelectedIndex == 0)
                 {
                     this.trash.deleteList();
                     this.trash.loadData();
-                    NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
-                    NavigationService.RemoveBackEntry();
+                    //NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+                    //NavigationService.RemoveBackEntry();
                 }
                 else if (lP.SelectedIndex == 1)
                 {
@@ -241,16 +241,16 @@ namespace WritersToolbox.views
                     this.trash.deleteList();
                     this.trash.loadDeletedTypes();
                 }
-                //else if (lP.SelectedIndex == 5)
-                //{
-                //    this.trash.deleteList();
-                //    this.trash.loadDeletedTypeObjects();
-                //}
-                //else if (lP.SelectedIndex == 6)
-                //{
-                //    this.trash.deleteList();
-                //    this.trash.loadDeletedEvents();
-                //}
+                else if (lP.SelectedIndex == 5)
+                {
+                    this.trash.deleteList();
+                    this.trash.loadDeletedTypeObjects();
+                }
+                else if (lP.SelectedIndex == 6)
+                {
+                    this.trash.deleteList();
+                    this.trash.loadDeletedEvents();
+                }
             }
         }
         private void PageLoaded(object sender, RoutedEventArgs e)
