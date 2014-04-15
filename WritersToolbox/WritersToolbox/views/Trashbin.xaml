@@ -80,7 +80,7 @@
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/character_round_icon.png"/>
+                <Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/HD156_Pro_Typen_round_Icon.png"/>
                 <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="29" />

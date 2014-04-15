@@ -379,6 +379,7 @@
     <Content Include="icons\add.png" />
     <Content Include="icons\dropbox-logo.png" />
     <Content Include="icons\finden.png" />
+    <Content Include="icons\HD156_Pro_Typen_round_Icon.png" />
     <Content Include="icons\move-down.png" />
     <Content Include="icons\move-up.png" />
     <Content Include="Assets\start_background.png" />
