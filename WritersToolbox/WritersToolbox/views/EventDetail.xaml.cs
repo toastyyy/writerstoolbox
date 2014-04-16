@@ -18,7 +18,10 @@ namespace WritersToolbox.views
 {
     public partial class EventDetail : PhoneApplicationPage
     {
+        //Viewmodel für Eventdetails
         private EventDetailViewModel edvm = null;
+
+        //Flag, ob ein neues Event erstellt wird
         private bool newEvent = false;
         private bool unattach = false;
         private int chapterID = 0;
@@ -27,6 +30,10 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Beim Wegnavigieren werden gerade eingegebene Daten gesichert.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
@@ -42,15 +49,25 @@ namespace WritersToolbox.views
 
         }
 
+
+        /// <summary>
+        /// Beim Hernavigieren wird folgendes Überprüft: um welches Event es sich handelt, wenn ein exisiterendes Event, dann welchem Chapter zugehörig,
+        /// ob dem Event gerade ein Typobjekt angehängt wurde,
+        /// oder ob die App gerade erwacht ist und die gespeicherten Daten wiederhergestellt werden sollen.
+        /// 
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
+            //welches Event
             if (NavigationContext.QueryString.ContainsKey("eventID"))
             {
                 int eID = int.Parse(NavigationContext.QueryString["eventID"]);
-
+                //neues Event
                 if (eID == 0)
                 {
+                    //welchem Chapter angehörig
                     this.chapterID = int.Parse(NavigationContext.QueryString["chapterID"]);
                     newEvent = true;
                     this.edvm = new EventDetailViewModel(eID);
@@ -71,6 +88,7 @@ namespace WritersToolbox.views
                 }
                 
             }
+            //Event wurde gerade Typobjekt angehängt
             if (PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
              {
                 if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
@@ -88,6 +106,7 @@ namespace WritersToolbox.views
                  }
                  
              }
+            //App erwacht gerade, gesichert Daten werden wiederhergestellt
             if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
             {
                 if (PhoneApplicationService.Current.State.ContainsKey("RestoreData"))
@@ -114,6 +133,12 @@ namespace WritersToolbox.views
             }
         }
 
+
+        /// <summary>
+        /// Das Pivotitem wird geändert und die Appbar angepasst.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Pivot_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!newEvent)
@@ -153,7 +178,11 @@ namespace WritersToolbox.views
             
         }
 
-        
+        /// <summary>
+        /// Finaltext soll bearbeitet werden
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void tFinalText_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (!newEvent)
@@ -170,6 +199,11 @@ namespace WritersToolbox.views
             
         }
 
+        /// <summary>
+        /// Methode zum Einfügen des Bold-Tags
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void insertBold(object sender, System.EventArgs e)
         {
             int selStart = this.textBoxFinalText.SelectionStart;
@@ -193,6 +227,11 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Methode zum Einfügen des Italic-Tags
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void insertItalic(object sender, System.EventArgs e)
         {
             int selStart = this.textBoxFinalText.SelectionStart;
@@ -217,6 +256,11 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Methode zum Einfügen des Underline-Tags
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void insertUnderline(object sender, System.EventArgs e) {
             int selStart = this.textBoxFinalText.SelectionStart;
             int selLength = this.textBoxFinalText.SelectionLength;
@@ -240,36 +284,48 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Die Appbar zum bearbeiten des Finaltextes mit allen Buttons wird geladen
+        /// </summary>
         private void createTextEditApplicationBar() {
             ApplicationBar.Buttons.Clear();
             ApplicationBarIconButton boldButton = new ApplicationBarIconButton(new Uri("/icons/bold.png", UriKind.RelativeOrAbsolute));
-            boldButton.Text = "fett";
+            boldButton.Text = AppResources.AppBarBold;
             boldButton.Click += insertBold;
             ApplicationBar.Buttons.Add(boldButton);
             ApplicationBarIconButton italicButton = new ApplicationBarIconButton(new Uri("/icons/italic.png", UriKind.RelativeOrAbsolute));
-            italicButton.Text = "kursiv";
+            italicButton.Text = AppResources.AppBarItalic;
             italicButton.Click += insertItalic;
             ApplicationBar.Buttons.Add(italicButton);
             ApplicationBarIconButton underlineButton = new ApplicationBarIconButton(new Uri("/icons/underline.png", UriKind.RelativeOrAbsolute));
-            underlineButton.Text = "unterstrichen";
+            underlineButton.Text = AppResources.AppBarUnderline;
             underlineButton.Click += insertUnderline;
             ApplicationBar.Buttons.Add(underlineButton);
             ApplicationBarIconButton saveButton = new ApplicationBarIconButton(new Uri("/icons/save.png", UriKind.RelativeOrAbsolute));
-            saveButton.Text = "speichern";
+            saveButton.Text = AppResources.AppBarSave;
             saveButton.Click += saveFinaltextChanges;
             ApplicationBar.Buttons.Add(saveButton);
         }
 
+        /// <summary>
+        /// Die Standard Appbar wird wiederhergestellt.
+        /// </summary>
         private void restoreStandardApplicationBar() {
             ApplicationBar.Buttons.Clear();
             ApplicationBarIconButton saveButton = new ApplicationBarIconButton(new Uri("/icons/save.png", UriKind.RelativeOrAbsolute));
-            saveButton.Text = "speichern";
+            saveButton.Text = AppResources.AppBarSave;
             ApplicationBar.Buttons.Add(saveButton);
             ApplicationBarIconButton cancelButton = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.RelativeOrAbsolute));
-            cancelButton.Text = "abbrechen";
+            cancelButton.Text = AppResources.AppBarCancel;
             ApplicationBar.Buttons.Add(cancelButton);
         }
 
+
+        /// <summary>
+        /// Die Änderungen des Finaltextes werden gespeichert. Der Text der Textbox wird in Richtext geparst.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveFinaltextChanges(object sender, System.EventArgs e)
         {
             this.restoreStandardApplicationBar();
@@ -288,6 +344,13 @@ namespace WritersToolbox.views
             }
         }
 
+
+        /// <summary>
+        /// Text mit Tags wird in Richtext geparst um eine Darstellung in einer Richtext-Box zu ermöglichen.
+        /// Damit sind einfache Formatierungen möglich.
+        /// </summary>
+        /// <param name="plain"></param>
+        /// <returns></returns>
         private String parseRichTextFormat(String plain) {
 
             String retXaml = "";
@@ -304,6 +367,11 @@ namespace WritersToolbox.views
             return retXaml;
         }
 
+        /// <summary>
+        /// Richttext kann nicht korrekt geparst werden, weil Tags fehelrhaft sind.
+        /// </summary>
+        /// <param name="xaml"></param>
+        /// <returns></returns>
         private String parsePlainText(String xaml) {
             String ret = xaml.Replace("<", "&lt;").Replace(">", "&gt;");
             ret = ret.Replace("\n", "</Paragraph><Paragraph>");
@@ -312,11 +380,12 @@ namespace WritersToolbox.views
                 "</Section>";
         }
 
-        private void Notes_SelectionChanged(object sender, SelectionChangedEventArgs e)
-        {
 
-        }
-
+        /// <summary>
+        /// Ein Typobjekt wurde ausgewählt und die Möglichkeit, ein neues zuzufügen verschwindet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TypeObjects_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             if (!unattach)
@@ -341,6 +410,11 @@ namespace WritersToolbox.views
             
         }
 
+        /// <summary>
+        /// Wurde auf ein Typobjekt geklickt, wird zu diesem navigiert oder es wird ein neues angehängt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectTypeObject(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Grid g = sender as Grid;
@@ -360,7 +434,11 @@ namespace WritersToolbox.views
             }
         }
             
-
+        /// <summary>
+        /// Wird eine Notiz angeklickt, wird zu ihr navigiert zum bearbeiten.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void SelectNote(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Grid g = sender as Grid;
@@ -382,6 +460,11 @@ namespace WritersToolbox.views
             //NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=1", UriKind.RelativeOrAbsolute));
         }
 
+        /// <summary>
+        /// Beim selektiern der Checkbox "Select All" werden alle Typobjekte markiert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             this.TypeObjectList.SelectionChanged -= TypeObjects_SelectionChanged;
@@ -412,6 +495,12 @@ namespace WritersToolbox.views
 
         }
 
+
+        /// <summary>
+        /// Beim Deselektieren der Checkbox "Select All" werden alle Typobjekte deselektiert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             this.TypeObjectList.SelectionChanged -= TypeObjects_SelectionChanged;
@@ -436,6 +525,11 @@ namespace WritersToolbox.views
             this.TypeObjectList.SelectionChanged += TypeObjects_SelectionChanged;
         }
 
+        /// <summary>
+        /// Die Zuordnung zu einem Typobjekt wird aufgelöst.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void unattachTypeObjects(object sender, EventArgs e)
         {
             foreach (datawrapper.TypeObject to in TypeObjectList.SelectedItems)
@@ -448,6 +542,11 @@ namespace WritersToolbox.views
             this.DataContext = this.edvm.Event;
         }
 
+        /// <summary>
+        /// Die Zuordnung einer Notiz wird aufgelöst.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void unattachNotes(object sender, EventArgs e)
         {
             foreach (datawrapper.MemoryNote n in NoteList.SelectedItems)
@@ -458,6 +557,11 @@ namespace WritersToolbox.views
             this.DataContext = this.edvm.Event;
         }
 
+        /// <summary>
+        /// Eine Notiz wird gelöscht.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteNotes(object sender, EventArgs e)
         {
             foreach (datawrapper.MemoryNote n in NoteList.SelectedItems)
@@ -486,6 +590,12 @@ namespace WritersToolbox.views
             llms.SelectedItems.Add(((datawrapper.MemoryNote)g.DataContext));
         }
 
+
+        /// <summary>
+        /// Nach dem Laden der Seite wird überprüft, ob ein neues Event erstellt wird oder nicht und die Appbar angepasst.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
             if (newEvent)
@@ -505,11 +615,22 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Das erstellen eines neuen Events wird abgebrochen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelNewEvent(object sender, EventArgs e)
         {
             NavigationService.GoBack();
         }
 
+
+        /// <summary>
+        /// Ein neues event wird gespeichert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void saveNewEvent(object sender, EventArgs e)
         {
             this.edvm.newEvent(newEventTextbox.Text, this.chapterID);
@@ -523,6 +644,12 @@ namespace WritersToolbox.views
             NavigationContext.QueryString.Clear();
         }
 
+
+        /// <summary>
+        /// Die Searchview wird geladen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));

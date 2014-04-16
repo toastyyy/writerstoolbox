@@ -18,15 +18,24 @@ namespace WritersToolbox.views
     {
         public static BooksViewModel books_VM; // = null;
 
+
+        //Name für ein neues Werk
         private TextBox bookname;
 
+
+        //Werk, welches gerade im Pivot angezeigt wird
         private datawrapper.Book b;
 
+        //Buchtyp für neues Werk
         private datawrapper.BookType BT;
 
+        //Listpicker für den Buchtyp
         private ListPicker picker;
 
+        //Textblock mit Infos über den ausgewählten Buchtyp
         private TextBlock BookTypeInfo;
+
+        //Flag für ändern der BUttons in der Appbar
         private bool hasEventHandler = false;
 
         /// <summary>
@@ -80,6 +89,11 @@ namespace WritersToolbox.views
 
         }
 
+        /// <summary>
+        /// In diesem Fall wird, falls die App unterbrochen wird und gerade ein neues Werk angelegt wurde,
+        /// die bisherigen Eingaben zwischengespeichert.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
@@ -97,8 +111,8 @@ namespace WritersToolbox.views
         }
 
         /// <summary>
-        /// Wird auf diese Page naviert, überprüft die Methode, ob zu einem gewünschten Pivotitem
-        /// navigiert werden soll.
+        /// Wird auf diese Page naviert, überprüft die Methode folgendes: ob gerade eine Notiz zugewiesen wird,
+        /// ob zu einem gewünschten Pivotitem navigiert werden soll oder ob die App von tombstoned wieder erwacht.
         /// </summary>
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
@@ -122,6 +136,7 @@ namespace WritersToolbox.views
                 } else 
                     PivotMain.SelectedIndex = indexParsed - 1;
             }
+            //schon eingegebene Daten werden wiederhergestellt
             if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
             {
                 if (PhoneApplicationService.Current.State.ContainsKey("RestoreData"))
@@ -244,6 +259,10 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Die Appbar mit den passenden Buttons für ein neues Werk wird geladen.
+        /// Wenn gerade eine Notiz zugewiesen wird, wird diese Appbar geladen.
+        /// </summary>
         private void loadNewBookAppBar()
         {
             if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
@@ -269,6 +288,10 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Die Appbar für ein existierendes Werk wird geladen.
+        /// Wenn gerade eine Notiz zugewiesen wird, wird diese Appbar geladen.
+        /// </summary>
         private void loadBookAppBar()
         {
             if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
@@ -303,7 +326,8 @@ namespace WritersToolbox.views
         private void SaveBook(object sender, EventArgs e)
         {
             Books_VM.addBook(bookname.Text, BT);
-            PivotMain.SelectedIndex = PivotMain.Items.Count - 2; // wird auf das neue Werk navigiert, wird ein falsches Werk als selectedItem angegeben
+            PivotMain.SelectedIndex = PivotMain.Items.Count - 2; 
+            //Workaround, damit der Content des Pivot aktualisiert wird.
             PivotMain.SelectedIndex++;
             PivotMain.SelectedIndex--;
             bookname.Text = "";
@@ -321,7 +345,8 @@ namespace WritersToolbox.views
         }
 
         /// <summary>
-        /// Die Methode navigiert zur Detailansicht eines Bandes. Es wird die TomeID übergeben
+        /// Die Methode navigiert zur Detailansicht eines Bandes. Es wird die TomeID übergeben.
+        /// Soll ein neuer Band erstellt haben, ist die TomeID -1:
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -358,7 +383,11 @@ namespace WritersToolbox.views
         
 
        
-
+        /// <summary>
+        /// Beim Ändern der Auswahl im Listpicker für den Buchtyp, wird der Infotext angepasst.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BookTypeSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListPicker lp = sender as ListPicker;
@@ -370,18 +399,34 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Wenn die Textbox für den Infotext geladen hat, wird der passende Infotext übergeben.
+        /// Dieses Vorgehen ist notwendig, weil es sich um ein Template handelt.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BookTypeInfoLoaded(object sender, RoutedEventArgs e)
         {
             BookTypeInfo = sender as TextBlock;
             BookTypeInfo.Text = AppResources.BooksBookTypeInfoText + BT.numberOfChapter.ToString();
         }
 
+        /// <summary>
+        /// Das Zuordnen einer Notiz wird beendet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelAssignment(object sender, EventArgs e)
         {
             PhoneApplicationService.Current.State["cancelAssignment"] = true;
             NavigationService.GoBack();
         }
 
+        /// <summary>
+        /// Der Werkname wird in der aktuellen Werkvariable gespeichert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void BooknameLoaded(object sender, RoutedEventArgs e)
         {
             bookname = sender as TextBox;
@@ -391,6 +436,11 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Der passende Buchtyp der Werkvariable wird dem Picker übergeben.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PickerLoaded(object sender, RoutedEventArgs e)
         {
             ListPicker lp = sender as ListPicker;
@@ -400,6 +450,12 @@ namespace WritersToolbox.views
             }
         }
 
+
+        /// <summary>
+        /// Die Searchview wird aufgerufen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));

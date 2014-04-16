@@ -206,6 +206,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die fett ähnelt.
+        /// </summary>
+        public static string AppBarBold {
+            get {
+                return ResourceManager.GetString("AppBarBold", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die abbrechen ähnelt.
         /// </summary>
         public static string AppBarCancel {
@@ -242,6 +251,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die kursiv ähnelt.
+        /// </summary>
+        public static string AppBarItalic {
+            get {
+                return ResourceManager.GetString("AppBarItalic", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die wiederherstellen ähnelt.
         /// </summary>
         public static string AppBarRestore {
@@ -265,6 +283,15 @@ namespace WritersToolbox.Resources {
         public static string AppBarUnattached {
             get {
                 return ResourceManager.GetString("AppBarUnattached", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die unterstrichen ähnelt.
+        /// </summary>
+        public static string AppBarUnderline {
+            get {
+                return ResourceManager.GetString("AppBarUnderline", resourceCulture);
             }
         }
         

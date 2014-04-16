@@ -14,14 +14,14 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    Style="{StaticResource TransitionPageStyle}" Loaded="pageLoaded">
+    Style="{StaticResource TransitionPageStyle}">
 
     <phone:PhoneApplicationPage.Resources>
         <!--Template für LongListSelector-item bereits exisiterendes Werk-->
         <DataTemplate x:Key="existingBook">
             <Grid Margin="10,10,10,10" 
-                  Background="{x:Null}"
-                  Hold="TryDeleteBook">
+                  Background="{x:Null}">
+                  <!--Hold="TryDeleteBook">-->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>

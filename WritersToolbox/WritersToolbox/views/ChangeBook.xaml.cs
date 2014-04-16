@@ -16,6 +16,7 @@ namespace WritersToolbox.views
 {
     public partial class ChangeBook : PhoneApplicationPage
     {
+        //Variable des übergebenen Werks
         private Book book;
 
 

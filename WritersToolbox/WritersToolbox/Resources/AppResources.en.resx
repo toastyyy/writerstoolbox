@@ -495,4 +495,13 @@
   <data name="SettingsExportText" xml:space="preserve">
     <value>Export:</value>
   </data>
+  <data name="AppBarBold" xml:space="preserve">
+    <value>bold</value>
+  </data>
+  <data name="AppBarItalic" xml:space="preserve">
+    <value>italic</value>
+  </data>
+  <data name="AppBarUnderline" xml:space="preserve">
+    <value>underlined</value>
+  </data>
 </root>

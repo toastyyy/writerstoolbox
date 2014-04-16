@@ -379,7 +379,7 @@
     <Content Include="icons\add.png" />
     <Content Include="icons\dropbox-logo.png" />
     <Content Include="icons\finden.png" />
-    <Content Include="icons\HD156_Pro_Typen_round_Icon.png" />
+    <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\move-down.png" />
     <Content Include="icons\move-up.png" />
     <Content Include="Assets\start_background.png" />
@@ -404,7 +404,6 @@
     <Content Include="Assets\WritersToolboxstartseiteWT.png" />
     <Content Include="headImage_rot_smal.png" />
     <Content Include="icons\bold.png" />
-    <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\edit.png" />
     <Content Include="icons\edit_picture.png" />
     <Content Include="icons\info_checked.png" />
