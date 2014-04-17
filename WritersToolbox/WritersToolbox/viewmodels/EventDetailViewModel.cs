@@ -14,6 +14,7 @@ namespace WritersToolbox.viewmodels
     {
         private WritersToolboxDatebase wtb = null;
         private Table<Event> tableEvents = null;
+        private Table<Tome> tableTome = null;
         private Table<Chapter> tableChapter = null;
         private Table<MemoryNote> tableNotes = null;
         private Table<TypeObject> tableTypeObjects = null;
@@ -26,6 +27,7 @@ namespace WritersToolbox.viewmodels
             this.tableEvents = this.wtb.GetTable<Event>();
             this.tableChapter = this.wtb.GetTable<Chapter>();
             this.tableNotes = this.wtb.GetTable<MemoryNote>();
+            this.tableTome = this.wtb.GetTable<Tome>();
             this.tableTypeObjects = this.wtb.GetTable<TypeObject>();
             tableMemoryNote = wtb.GetTable<MemoryNote>();
             if (event_id > 0)
@@ -53,6 +55,8 @@ namespace WritersToolbox.viewmodels
                     finaltext = sqlEvent.finaltext
                 };
 
+                
+
                 // kapitel besorgen
                 var sqlChapter = (from c in this.tableChapter
                                   where c.chapterID == sqlEvent.fk_chapterID
@@ -62,11 +66,22 @@ namespace WritersToolbox.viewmodels
                 {
                     addedDate = sqlChapter.addedDate,
                     chapterID = sqlChapter.chapterID,
+                    
                     chapterNumber = sqlChapter.chapterNumber,
                     deleted = sqlChapter.deleted,
                     title = sqlChapter.title,
                     tome = null,
                     updatedDate = sqlChapter.updatedDate
+                };
+
+                //Tom besorgen
+                var sqlTom = (from t in this.tableTome
+                              where t.tomeID == sqlChapter.obj_tome.tomeID
+                              select t).Single();
+
+                this.Event.chapter.tome = new datawrapper.Tome()
+                {
+                    tomeID = sqlTom.tomeID,
                 };
 
                 // typobjekte holen

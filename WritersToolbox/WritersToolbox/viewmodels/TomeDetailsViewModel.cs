@@ -18,7 +18,7 @@ namespace WritersToolbox.viewmodels
         private WritersToolboxDatebase wtb;
         //Chapter als Entity object
         private models.Chapter obj_chapter;
-
+        private models.Event obj_event;
         //TypeObjecte, um die beteiligte Objekte zu zeigen.-Tabelle
         private Table<TypeObject> tableTypeObject;
         //Event-Tabelle
@@ -83,7 +83,7 @@ namespace WritersToolbox.viewmodels
         /// <returns>liefert Anzahl Kapitel zurück</returns>
         public int getNumberOfChapters()
         {
-            return tableChapter.Count(c => c.obj_tome.tomeID == tome.tomeID);
+            return tableChapter.Count(c => (c.obj_tome.tomeID == tome.tomeID && !c.deleted));
         }
 
         /// <summary>
@@ -92,7 +92,7 @@ namespace WritersToolbox.viewmodels
         /// <returns>liefert Anzahl Ereignisse zurück</returns>
         public int getNumberOfEvents()
         {
-            return tableEvent.Count(e => e.obj_Chapter.obj_tome.tomeID == tome.tomeID);
+            return tableEvent.Count(e => (e.obj_Chapter.obj_tome.tomeID == tome.tomeID && !e.deleted));
         }
 
         /// <summary>
@@ -101,7 +101,15 @@ namespace WritersToolbox.viewmodels
         /// <returns>liefert Anzahl Typeobjekte zurück</returns>
         public int getNumberOfTypeObjects()
         {
-            return 0; //tableTypeObject.Count(to => to.obj_Event.obj_Chapter.obj_tome.tomeID == tome.tomeID);
+            //List<models.Event> events = (from _event in tableEvent
+            //                                 where _event.obj_Chapter.obj_tome.tomeID == tome.tomeID && _event.deleted == false
+            //                                 select _event).ToList();
+            //foreach (models.Event item in events)
+            //{
+                
+            //}
+            //return tableTypeObject.Count(to => to.obj_tome.tomeID == tome.tomeID);
+            return 0;
         }
 
         private int numberOfSigns;
@@ -361,9 +369,6 @@ namespace WritersToolbox.viewmodels
         {
             try
             {
-               
-
-
                 ObservableCollection<datawrapper.Event> _events = new ObservableCollection<datawrapper.Event>();
                 //"neues Ereignis" einfügen
                 datawrapper.Event _e = new datawrapper.Event()
@@ -400,13 +405,6 @@ namespace WritersToolbox.viewmodels
                     chapterID = 0 // TODO: ÄNDERN AUF -1
                 };
                 _structur.Add(_newC);
-
-
-               
-                
-
-
-
             }
             catch (Exception ex)
             {
@@ -415,18 +413,41 @@ namespace WritersToolbox.viewmodels
 
         }
 
-        public void deleteChapter(List<Chapter> ChapterList) { 
-            
+        public void deleteChapter(ObservableCollection<datawrapper.Chapter> ChapterList) {
+            foreach (datawrapper.Chapter item in ChapterList)
+            {
+                List<models.Event> events = wtb.GetTable<models.Event>().Where(_event => _event.obj_Chapter.chapterID == item.chapterID).ToList();
+                foreach (models.Event _e in events)
+                {
+                    _e.deleted = true;
+                }
+                obj_chapter = wtb.GetTable<models.Chapter>().Single(chapter => chapter.chapterID == item.chapterID);
+                obj_chapter.deleted = true;
+                
+            }
+            wtb.SubmitChanges();
+            this._structur = this.getStructure();
         }
 
+        public void deleteEvent(ObservableCollection<datawrapper.Event> EventList)
+        {
+            foreach (datawrapper.Event item in EventList)
+            {
+                obj_event = wtb.GetTable<models.Event>().Single(_e => _e.eventID == item.eventID);
+                obj_event.deleted = true;
+            }
+            wtb.SubmitChanges();
+            this._structur = this.getStructure();
+        }
         public void removeNewChapterEntry() {
-            if (this._structur.Last().chapterID == 0) {
+            if (this.structur.Count == 0 || this._structur.Last().chapterID == 0)
+            {
                 this._structur.RemoveAt(this._structur.Count - 1);
             }
         }
 
         public void addNewChapterEntry() {
-            if (this._structur.Last().chapterID != 0)
+            if (this.structur.Count == 0 || this._structur.Last().chapterID != 0)
             {
                 this._structur.Add(new datawrapper.Chapter()
                 {
@@ -443,22 +464,23 @@ namespace WritersToolbox.viewmodels
                     enumerator.Current.events.RemoveAt(enumerator.Current.events.Count - 1);
                 }
             }
+
         }
 
         public void addNewEventEntry() {
-            IEnumerator<datawrapper.Chapter> enumerator = this._structur.GetEnumerator();
-            while (enumerator.MoveNext())
+
+            foreach (datawrapper.Chapter item in _structur)
             {
-                if (enumerator.Current.chapterID != 0 && enumerator.Current.events.Last().eventID != 0)
+                if (item.events.Count == 0 || (item.chapterID != 0 && item.events.Last().eventID != 0))
                 {
-                    enumerator.Current.events.Add(new datawrapper.Event()
+                    item.events.Add(new datawrapper.Event()
                     {
                         title = "Ereignis hinzufügen",
                         eventID = 0
-
                     });
                 }
             }
+
         }
 
         public void moveChapterDown(datawrapper.Chapter chapter) {

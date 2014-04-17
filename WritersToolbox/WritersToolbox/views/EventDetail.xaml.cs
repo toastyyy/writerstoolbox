@@ -39,6 +39,7 @@ namespace WritersToolbox.views
                 else
                 {
                     this.edvm = new EventDetailViewModel(eID);
+                    
                 this.edvm.LoadData();
                 this.DataContext = this.edvm.Event;
                     try
@@ -330,8 +331,16 @@ namespace WritersToolbox.views
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            NavigationService.GoBack();
-            //NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=1", UriKind.RelativeOrAbsolute));
+            //NavigationService.GoBack();
+
+            NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=" + this.edvm.Event.chapter.tome.tomeID , UriKind.RelativeOrAbsolute));
+
+            var lastPage = NavigationService.BackStack.FirstOrDefault();
+            if (lastPage != null && lastPage.Source.ToString().Substring(0,23).Equals("/views/EventDetail.xaml"))
+            {
+                NavigationService.RemoveBackEntry();
+            }
+
         }
 
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
