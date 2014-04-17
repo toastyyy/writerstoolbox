@@ -18,6 +18,8 @@ namespace WritersToolbox.viewmodels
         private WritersToolboxDatebase wtb;
         //Chapter als Entity object
         private models.Chapter obj_chapter;
+        //test
+        datawrapper.Book bo;
         private models.Event obj_event;
         //TypeObjecte, um die beteiligte Objekte zu zeigen.-Tabelle
         private Table<TypeObject> tableTypeObject;
@@ -27,8 +29,10 @@ namespace WritersToolbox.viewmodels
         private Table<Chapter> tableChapter;
         //Tome-Tabelle
         private Table<Tome> tableTome;
+        //Book-Tabelle
+        private Table<Book> tableBook;
         //Band
-        private Tome tome;
+        public Tome tome {get;set;}
         //List der beteiligten Typeobjekte, die mit dem View verbunden wird.
         private ObservableCollection<datawrapper.TypeObject> _typeObjects;
         public ObservableCollection<datawrapper.TypeObject> typeObjects { get { return _typeObjects; } }
@@ -38,7 +42,6 @@ namespace WritersToolbox.viewmodels
         //Structur
         private ObservableCollection<datawrapper.Chapter> _structur;
         public ObservableCollection<datawrapper.Chapter> structur { get { return _structur; } }
-
 
         /// <summary>
         /// Defaultkonstruktor
@@ -56,6 +59,7 @@ namespace WritersToolbox.viewmodels
                 tableChapter = wtb.GetTable<Chapter>(); ;
                 tableEvent = wtb.GetTable<Event>(); ;
                 tableTome = wtb.GetTable<Tome>();
+                tableBook = wtb.GetTable<Book>();
                 _typeObjects = getAssociatedTypeObjects(tomeID);
                 //Aktualles Band.
                 tome = tableTome.Single(t => t.tomeID == tomeID);
@@ -95,6 +99,22 @@ namespace WritersToolbox.viewmodels
             return tableEvent.Count(e => (e.obj_Chapter.obj_tome.tomeID == tome.tomeID && !e.deleted));
         }
 
+        public String getBookTitle()
+        {
+            
+            var sqlBook = from b in tableBook
+                       where b.bookID == tome.obj_book.bookID
+                       select b;
+             foreach (var book in sqlBook)
+            {
+                bo = new datawrapper.Book()
+                {
+                    name = book.name
+                };
+                
+            }
+             return bo.name;
+        }
         /// <summary>
         /// liefert Anzahl Typeobjekte durch abfrage in der Datenbank zurück.
         /// </summary>
@@ -123,7 +143,7 @@ namespace WritersToolbox.viewmodels
         {
             //FRAGE: kann ich "countFinaltext()" zentraler i.wo einmal aufrufen?? quasi immer nur wenn sich die infos überhaupt ändern?
             //noch eine FRAGE: "countFinaltext()" ist fast das gleich wie "getstrucutur" (zugriff auf die datenbank, foreach Durchlauf etc), ich gehe halt nurnoch auf die finaltexte ein, sollte man das in einem machen?
-            countFinaltext();
+            //countFinaltext();
             return numberOfSigns;
         }
 
@@ -135,51 +155,10 @@ namespace WritersToolbox.viewmodels
         {
             //FRAGE: kann ich "countFinaltext()" zentraler i.wo einmal aufrufen?? quasi immer nur wenn sich die infos überhaupt ändern?
             //noch eine FRAGE: "countFinaltext()" ist fast das gleich wie "getstrucutur" (zugriff auf die datenbank, foreach Durchlauf etc), ich gehe halt nurnoch auf die finaltexte ein, sollte man das in einem machen?
-            countFinaltext();
+            //countFinaltext();
             return numberOfTokens;
         }
-
-        /// <summary>
-        /// alles infos sammeln die wir für Info-Details brauchen 
-        /// Anzahl der Zeichen der Finaltexte 
-        /// Anzahl der Wörter der Finaltexte
-        /// </summary>
-        public void countFinaltext() {
-            numberOfSigns = 0;
-            numberOfTokens = 0;
-
-            //Alle Kapitel des Bandes von Datenbank holen.
-            List<models.Chapter> chapters = (from chapter in tableChapter
-                                             where chapter.obj_tome.tomeID == tome.tomeID && chapter.deleted == false
-                                             orderby chapter.chapterNumber
-                                             select chapter).ToList();
-            //Alle geholten Kapitel durchlaufen.
-            foreach (models.Chapter item in chapters)
-            {
-                //Konvertierung eines Kapitels von models zu datawrapper 
-                datawrapper.Chapter _chapter = (datawrapper.Chapter)item;
-
-                //Alle events des Kapitels von Datenbank holen.
-                List<models.Event> events = (from _event in tableEvent
-                                             where _event.obj_Chapter.chapterID == item.chapterID && _event.deleted == false
-                                             orderby _event.orderInChapter
-                                             select _event).ToList();
-
-                ObservableCollection<datawrapper.Event> _events = new ObservableCollection<datawrapper.Event>();
-
-                //alle geholten Events durchlaufen.
-                foreach (models.Event item2 in events)
-                {
-                    numberOfSigns += item2.finaltext.Length;
-                    string finaltext = item2.finaltext;
-                    string[] tokens = finaltext.Split(default(char[]), StringSplitOptions.RemoveEmptyEntries);
-                    numberOfTokens += tokens.Count();
-                    //System.Diagnostics.Debug.WriteLine(NumberOfTokens);
-                }
-            }
-        }
         
-
 
         /// <summary>
         /// Kode der Information eines Bands in Datenbank aktualisieren.
@@ -280,6 +259,8 @@ namespace WritersToolbox.viewmodels
             ObservableCollection<datawrapper.Chapter> _tempChapterList =
                 new ObservableCollection<datawrapper.Chapter>();
 
+            numberOfSigns = 0;
+            numberOfTokens = 0;
             
 ////deleted geändert
             //Alle Kapitel des Bandes von Datenbank holen.
@@ -305,6 +286,10 @@ namespace WritersToolbox.viewmodels
                 {
                     //Casten des Eregnis von models zu Datawrapper, und in ObservableCollection Speichern.
                     _events.Add((datawrapper.Event)item2);
+                    numberOfSigns += item2.finaltext.Length;
+                    string finaltext = item2.finaltext;
+                    string[] tokens = finaltext.Split(default(char[]), StringSplitOptions.RemoveEmptyEntries);
+                    numberOfTokens += tokens.Count();
                 }
 
 
@@ -312,7 +297,8 @@ namespace WritersToolbox.viewmodels
                 datawrapper.Event _e = new datawrapper.Event()
                 {
                     title = "Ereignis hinzufügen",
-                    eventID = 0
+                    eventID = 0,
+                    chapter = new datawrapper.Chapter() { chapterID = item.chapterID }
 
                 };
                 _events.Add(_e);
@@ -423,8 +409,8 @@ namespace WritersToolbox.viewmodels
                 }
                 obj_chapter = wtb.GetTable<models.Chapter>().Single(chapter => chapter.chapterID == item.chapterID);
                 obj_chapter.deleted = true;
-                
-            }
+            
+        }
             wtb.SubmitChanges();
             this._structur = this.getStructure();
         }
@@ -718,6 +704,11 @@ namespace WritersToolbox.viewmodels
             {
                 PropertyChanged(this, new PropertyChangedEventArgs(propertyName));
             }
+        }
+
+        public void changeTitle(String newTitle) {
+            this.tome.title = newTitle;
+            this.wtb.SubmitChanges();
         }
     }
 }

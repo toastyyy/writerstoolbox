@@ -9,6 +9,7 @@ using Microsoft.Phone.Data.Linq.Mapping;
 using System.Windows.Media;
 using System.ComponentModel;
 using System.Collections;
+using Microsoft.Phone.Shell;
 
 namespace WritersToolbox.models
 {
@@ -286,31 +287,54 @@ namespace WritersToolbox.models
             }
         }
 
-
-
-        public string getTitle()
-        {
-            return this.title;
-        }
-
-        public string getSubtitle()
-        {
-            return this.contentText.Substring(0, 30) + " ...";
-        }
-
-        public Uri getUri()
-        {
-            return new Uri("/views/AddNote.xaml", UriKind.RelativeOrAbsolute);
-        }
-
-        public System.Windows.Media.Imaging.BitmapImage getImage()
-        {
-            return new System.Windows.Media.Imaging.BitmapImage(new Uri("/icons/notiz_round_icon.png"));
-        }
-
         public bool matchesQuery(string query)
         {
-            return this.title.Contains(query) || this.contentText.Contains(query);
+            return this.title.ToLower().Contains(query.ToLower()) || this.contentText.ToLower().Contains(query.ToLower());
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Subtitle
+        {
+            get
+            {
+                if (this.contentText.Length > 50)
+                {
+                    return this.contentText.Substring(0, 50) + "...";
+                }
+                else {
+                    return this.contentText;
+                }
+               
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Uri Link
+        {
+            get
+            {
+                PhoneApplicationService.Current.State["memoryNoteID"] = "" + this.memoryNoteID;
+                PhoneApplicationService.Current.State["edit"] = "true";
+                return new Uri("/views/AddNote.xaml", UriKind.Relative);
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
         }
     }
 }

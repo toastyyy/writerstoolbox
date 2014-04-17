@@ -13,7 +13,7 @@ namespace WritersToolbox.models
 {
 
     [Table(Name = "Events")]
-    public class Event : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Event : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
 
         public Event() 
@@ -222,6 +222,47 @@ namespace WritersToolbox.models
                 sendPropertyChanging("typeObjects");
                 this._event_typeObjects.Assign(value);
                 sendPropertyChanged("typeObjects");
+            }
+        }
+
+        public bool matchesQuery(string query)
+        {
+            return this.title.ToLower().Contains(query.ToLower()) || this.finaltext.ToLower().Contains(query.ToLower());
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Subtitle
+        {
+            get
+            {
+                return "Kapitel " + this.obj_Chapter.title;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Uri Link
+        {
+            get
+            {
+                return new Uri("/views/EventDetail.xaml?eventID=" + this.eventID, UriKind.RelativeOrAbsolute);
+            }
+            set
+            {
+                throw new NotImplementedException();
             }
         }
     }

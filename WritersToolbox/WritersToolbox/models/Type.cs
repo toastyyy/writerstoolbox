@@ -12,7 +12,7 @@ using System.ComponentModel;
 namespace WritersToolbox.models
 {
     [Table(Name = "Types")]
-    public class Type : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Type : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
         public Type()
         {
@@ -187,5 +187,46 @@ namespace WritersToolbox.models
 
         //    return temptypeObjekt;
         //}
+
+        public bool matchesQuery(string query)
+        {
+            return this.title.ToLower().Contains(query.ToLower());
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Subtitle
+        {
+            get
+            {
+                return "Anzahl: " + this.typeObjects.Count;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Uri Link
+        {
+            get
+            {
+                return new Uri("/views/Types.xaml?typeID=" + this.typeID, UriKind.RelativeOrAbsolute);
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

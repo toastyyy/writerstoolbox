@@ -201,5 +201,10 @@ namespace WritersToolbox.views
         {
             llms_unsortedNote.EnforceIsSelectionEnabled = false;
         }
+
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
+        }
     }
 }

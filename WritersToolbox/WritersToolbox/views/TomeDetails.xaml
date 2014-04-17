@@ -99,7 +99,7 @@
             <!--HeadImage-->
             <Image Margin="0,0,0,511" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
             <!--BookTitle-->
-            <TextBlock x:Name="bookTitle" Text="Harry Potter" FontFamily="Segoe WP Light" TextWrapping="Wrap"  Foreground="White" FontSize="55" TextAlignment="Center" HorizontalAlignment="Left" Margin="22,34,0,0" VerticalAlignment="Top" Height="128" Width="431" LineHeight="48" />
+            <TextBox x:Name="bookTitle" HorizontalAlignment="Left" Height="102" Margin="14,49,0,0" TextWrapping="Wrap" Text="{Binding tome.Title}" VerticalAlignment="Top" Width="456" TextAlignment="Center" Background="{x:Null}" BorderThickness="0" Foreground="White" FontSize="55" FontFamily="Segoe WP Light" GotFocus="TextBox_GotFocus" LostFocus="bookTitle_LostFocus"/>
 
             <!--Steuerelement-->
             <Grid x:Name="steuerelement" Margin="0,184,0,441">
@@ -246,7 +246,7 @@
 
 
             </Grid>
-
+            <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap_1"/>
         </Grid>
 
 

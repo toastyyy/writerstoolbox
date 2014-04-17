@@ -24,14 +24,14 @@
         <Image Margin="0,-6,0,0" Source="/headImage_rot_smal.png" Stretch="Fill" Height="156" VerticalAlignment="Top"/>
 
         <StackPanel Grid.Row="0" Margin="23,75,22,0">
-            <TextBlock Text="Exportieren" Margin="9,-7,0,0" FontSize="50" FontFamily="Segoe UI Light" />
+            <TextBlock Text="Backup verwalten" Margin="9,-7,0,0" FontSize="50" FontFamily="Segoe UI Light" />
         </StackPanel>
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="10,10,14,-10">
             <Button x:Name="btnConnectDropbox" Foreground="Black" Content="Verbinde ..." HorizontalAlignment="Left" Margin="-5,156,0,0" VerticalAlignment="Top" Width="176" BorderBrush="Black" Tap="connectToDropbox"/>
             <Button x:Name="exportBackupButton" Foreground="Black" Content="Backup exportieren ..." HorizontalAlignment="Left" Margin="-5,331,0,0" VerticalAlignment="Top" Width="458" BorderBrush="Black" Tap="exportBackup" Visibility="Collapsed"/>
-            <Button x:Name="importBackupButton" Foreground="Black" Content="Backup importieren ..." HorizontalAlignment="Left" Margin="-5,259,0,0" VerticalAlignment="Top" Width="458" BorderBrush="Black" Visibility="Collapsed"/>
+            <Button x:Name="importBackupButton" Foreground="Black" Content="Backup importieren ..." HorizontalAlignment="Left" Margin="-5,259,0,0" VerticalAlignment="Top" Width="458" BorderBrush="Black" Visibility="Collapsed" Tap="importBackupButton_Tap"/>
             <TextBlock x:Name="tInfo" HorizontalAlignment="Left" Margin="176,10,0,0" TextWrapping="Wrap" Text="Du kannst deine Daten auf Dropbox exportieren, damit diese bei einem Datenverlust oder bei einem neuen Smartphone nicht verloren gehen! Du musst diese Funktion erst durch einen Login bei Dropbox aktivieren." VerticalAlignment="Top" Height="218" Width="280" Foreground="Black" />
             <Image HorizontalAlignment="Left" Height="152" Margin="5,10,0,0" VerticalAlignment="Top" Width="159" Source="/icons/dropbox-logo.png"/>
         </Grid>

@@ -281,6 +281,12 @@ namespace WritersToolbox.viewmodels
             e.title = title;
             e.obj_Chapter = c;
             e.finaltext = "";
+            var indices = (from ev in tableEvents
+                           where ev.fk_chapterID == chapterID
+                           orderby ev.orderInChapter descending
+                           select ev.orderInChapter);
+            int highestID = (indices.Count() > 0) ? indices.First() + 1 : 1;
+            e.orderInChapter = highestID;
             this.tableEvents.InsertOnSubmit(e);
             this.wtb.SubmitChanges();
             Event nE = (from ev in this.tableEvents
@@ -289,6 +295,7 @@ namespace WritersToolbox.viewmodels
             this.event_id = nE.eventID;
 
         }
+
 
         public event PropertyChangedEventHandler PropertyChanged;
         // Used to notify the app that a property has changed.

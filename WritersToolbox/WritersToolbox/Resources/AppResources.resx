@@ -214,7 +214,7 @@
     <value>Alle Bände erhalten</value>
   </data>
   <data name="NewTomeTemplate" xml:space="preserve">
-    <value>Neuen Band erstellen</value>
+    <value>Neuer Band erstellen</value>
   </data>
   <data name="SettingsTitle" xml:space="preserve">
     <value>Einstellungen</value>
@@ -307,7 +307,7 @@
     <value>Neues Werk</value>
   </data>
   <data name="NewType" xml:space="preserve">
-    <value>Neuen Typ anlegen</value>
+    <value>Neuer Typ</value>
   </data>
   <data name="NewTypeColorText" xml:space="preserve">
     <value>Farbe</value>
@@ -476,5 +476,32 @@
   </data>
   <data name="TypesHeadlineSetting" xml:space="preserve">
     <value>Schauplatz</value>
+  </data>
+  <data name="NewTomeTitleText" xml:space="preserve">
+    <value>Titel</value>
+  </data>
+  <data name="TrashbinDeleteQuestion" xml:space="preserve">
+    <value>Es werden alle markierten und dazugehörigen, hierarchisch untergeordnete Daten permanent gelöscht. </value>
+  </data>
+  <data name="SettingsBackupButton" xml:space="preserve">
+    <value>Backups verwalten</value>
+  </data>
+  <data name="SettingsBackupText" xml:space="preserve">
+    <value>Sicherung:</value>
+  </data>
+  <data name="SettingsExportButton" xml:space="preserve">
+    <value>Buch exportieren</value>
+  </data>
+  <data name="SettingsExportText" xml:space="preserve">
+    <value>Export:</value>
+  </data>
+  <data name="AppBarBold" xml:space="preserve">
+    <value>fett</value>
+  </data>
+  <data name="AppBarItalic" xml:space="preserve">
+    <value>kursiv</value>
+  </data>
+  <data name="AppBarUnderline" xml:space="preserve">
+    <value>unterstrichen</value>
   </data>
 </root>

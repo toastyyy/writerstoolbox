@@ -17,6 +17,7 @@ namespace WritersToolbox.views
 {
     public partial class BooksOverview : PhoneApplicationPage
     {
+        //Variable für das ausgewählte Werk
         private datawrapper.Book selectedBook;
 
         public BooksOverview()
@@ -62,13 +63,11 @@ namespace WritersToolbox.views
                 return;
              // dem Navigationspfad wird angehängt, welches item geklickt wurde und zu welchem Pivotitem naviert werden soll
             NavigationService.Navigate(new Uri("/views/Books.xaml?item=" + b.bookID, UriKind.Relative));
+            NavigationService.RemoveBackEntry();
             selector.SelectedItem = null;
         }
 
-        private void pageLoaded(object sender, RoutedEventArgs e)
-        {
-        }
-
+        
 
         /// <summary>
         /// Die Methode wird bei einem Hold-Event auf einen Typ aufgerufen, ermittelt die 
@@ -98,6 +97,27 @@ namespace WritersToolbox.views
             deleteBookPopup.IsOpen = false;
         }
 
+
+        /// <summary>
+        /// Beim Wegnavigieren wird der Eintrag in der Navi-History gelöscht um ein passendes User-Erlebnis zu gewährleisten.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            NavigationService.RemoveBackEntry();
+        }
+
+
+        /// <summary>
+        /// Es wird zur Searchview navigiert.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
+        }
 
     }
 }

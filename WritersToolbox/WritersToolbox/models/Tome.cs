@@ -12,7 +12,7 @@ using System.ComponentModel;
 namespace WritersToolbox.models
 {
     [Table(Name = "Tomes")]
-    public class Tome : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Tome : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
 
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
@@ -210,5 +210,45 @@ namespace WritersToolbox.models
             }
         }
 
+        public bool matchesQuery(string query)
+        {
+            return this.title.ToLower().Contains(query.ToLower());
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.title;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Subtitle
+        {
+            get
+            {
+                return this.obj_book.name;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Uri Link
+        {
+            get
+            {
+                return new Uri("/views/TomeDetails.xaml?tomeID=" + this.tomeID, UriKind.RelativeOrAbsolute);
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
     }
 }

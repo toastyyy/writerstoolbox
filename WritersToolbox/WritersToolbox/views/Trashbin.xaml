@@ -14,7 +14,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True">
+    shell:SystemTray.IsVisible="True" Loaded="PageLoaded">
 
     <phone:PhoneApplicationPage.Resources>
         <converter:NoteShortContentConverter x:Key="NoteShortContentConverter" />
@@ -45,7 +45,7 @@
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-            <Image Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Books_round_Icon.png"/>
+                <Image Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Werke_round_Icon.png"/>
                 <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="29" />
@@ -152,9 +152,54 @@
             <TextBlock Text="{Binding Path=LocalizedResources.TrashbinHeadline, Source={StaticResource LocalizedStrings}}" Margin="9,-7,0,0" FontSize="50" FontFamily="Segoe UI Light" />
         </StackPanel>
 
+        <Popup x:Name="deletePopup" Grid.RowSpan="2" Height="350" VerticalAlignment="Top" Margin="0,-5,0,0">
+            <Grid Background="Black" Height="300" Width="480" HorizontalAlignment="Stretch">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="200"/>
+                    <RowDefinition Height="*"/>
+                </Grid.RowDefinitions>
+                <StackPanel>
+                    <TextBlock x:Name="BookDeleteQuestion" 
+                               Text="{Binding Path=LocalizedResources.TrashbinDeleteQuestion, Source={StaticResource LocalizedStrings}}" 
+                               Margin="30,50,20,0" 
+                               FontSize="22" 
+                               TextWrapping="Wrap"/>
+                </StackPanel>
+                <Button Grid.Row="1"
+                        Width="230" 
+                        HorizontalAlignment="Left" 
+                        Content="{Binding Path=LocalizedResources.TextDelete, Source={StaticResource LocalizedStrings}}" 
+                        Margin="5,0,0,10" 
+                        Click="deleteButton_Click"/>
+                <Button Grid.Row="1" 
+                        Width="230" 
+                        HorizontalAlignment="Right" 
+                        Content="{Binding Path=LocalizedResources.TextCancel, Source={StaticResource LocalizedStrings}}" 
+                        Margin="0,0,5,10" 
+                        Click="DoNotDelete"/>
+            </Grid>
+        </Popup>
+
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="224" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>
+            <!--<CheckBox x:Name="filterMemoryNotes" Style="{StaticResource CheckBoxStyleBlack}" Content="Filter" HorizontalAlignment="Right" Margin="0,-7,81,0" VerticalAlignment="Top" Width="224" Checked="filter_Checked" Unchecked="filter_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>-->
+            <toolkit:ListPicker
+                                HorizontalAlignment="Left" 
+                                Width="180"
+                                Foreground="Black"
+                                BorderBrush="Black"
+                                BorderThickness="1"
+                                SelectionChanged="FilterChanged"
+                                x:Name="FilterPicker"
+                                Margin="266,0,0,-50">
+                <toolkit:ListPickerItem Content="MemoryNotes"/>
+                <toolkit:ListPickerItem Content="Books"/>
+                <toolkit:ListPickerItem Content="Tomes"/>
+                <toolkit:ListPickerItem Content="Typs"/>
+                <toolkit:ListPickerItem Content="TypsObjects"/>
+                <!--<toolkit:ListPickerItem Content="Events"/>-->
+            </toolkit:ListPicker>
             <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="trash_selectionChanged" 
@@ -172,8 +217,8 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false" BackgroundColor="#15135C">
-            <shell:ApplicationBarIconButton x:Name="deleteButton" IconUri="/icons/delete.png" Text="löschen" Click="deleteButton_Click" />
+        <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false" BackgroundColor="#FF252525">
+            <shell:ApplicationBarIconButton x:Name="deleteButton" IconUri="/icons/delete.png" Text="löschen" Click="deletePopupClick" />
             <shell:ApplicationBarIconButton x:Name="zurueckButton" IconUri="/icons/cancel.png" Text="zurück" Click="zurueckButton_Click" />
             <shell:ApplicationBarIconButton x:Name="restoreButton" IconUri="/icons/zurueck.png" Text="wiederherstellen" Click="restoreButton_Click" />
         </shell:ApplicationBar>

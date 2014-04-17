@@ -140,7 +140,7 @@
                     <StackPanel x:Name="listItems_Schlagwoerter">
                         <TextBox x:Name="schlagwoerterTextBox" Height="300" TextWrapping="Wrap" Width="432" AcceptsReturn="True" TextChanged="schlagwoerterTextBox_TextChanged" BorderBrush="#33636161" SelectionBackground="#663C3C3C" Foreground="#FF040404" GotFocus="schlagwoerterTextBox_GotFocus" LostFocus="schlagwoerterTextBox_LostFocus" BorderThickness="0,3" FontFamily="Segoe UI Light" FontSize="30"/>
                         <Image x:Name="micro3" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro3_Tap"/>
-                        <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.AddNoteTagsText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Height="64" Foreground="Black" FontSize="22" Width="312" />
+                        <TextBlock TextAlignment="Center" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.AddNoteTagsText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Foreground="Black" FontSize="22" Width="320" />
                     </StackPanel>
                 </ScrollViewer>
             </phone:PivotItem>

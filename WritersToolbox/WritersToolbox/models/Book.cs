@@ -12,7 +12,7 @@ using System.ComponentModel;
 namespace WritersToolbox.models
 {
     [Table(Name = "Books")]
-    public class Book : INotifyPropertyChanging, INotifyPropertyChanged
+    public class Book : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
         //um eine beschleunigte Ausführung der Datenänderung zu erreichen.
         [Column(IsVersion = true)]
@@ -171,6 +171,47 @@ namespace WritersToolbox.models
             if (handler != null)
             {
                 handler(this, new PropertyChangedEventArgs(propertyName));
+            }
+        }
+
+        public bool matchesQuery(string query)
+        {
+            return this.name.ToLower().Contains(query.ToLower());
+        }
+
+        public string Title
+        {
+            get
+            {
+                return this.name;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public string Subtitle
+        {
+            get
+            {
+                return this.obj_bookType.name;
+            }
+            set
+            {
+                throw new NotImplementedException();
+            }
+        }
+
+        public Uri Link
+        {
+            get
+            {
+                return new Uri("/views/Books.xaml?item=" + this.bookID, UriKind.RelativeOrAbsolute);
+            }
+            set
+            {
+                throw new NotImplementedException();
             }
         }
     }

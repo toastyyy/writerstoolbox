@@ -14,16 +14,14 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    Style="{StaticResource TransitionPageStyle}" Loaded="pageLoaded">
+    Style="{StaticResource TransitionPageStyle}">
 
     <phone:PhoneApplicationPage.Resources>
         <!--Template für LongListSelector-item bereits exisiterendes Werk-->
         <DataTemplate x:Key="existingBook">
-            <Grid Width="Auto" 
-                  Height="Auto" 
-                  Margin="10,10,10,10" 
-                  Background="{x:Null}"
-                  Hold="TryDeleteBook">
+            <Grid Margin="10,10,10,10" 
+                  Background="{x:Null}">
+                  <!--Hold="TryDeleteBook">-->
                 <Grid.RowDefinitions>
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
@@ -116,10 +114,11 @@
                     SelectionChanged="list_SelectionChanged">
                 </phone:LongListSelector>
             </Grid>
+        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton IconUri="/icons/zurueck.png" Text="Zurück"/>
+            <!--<shell:ApplicationBarIconButton IconUri="/icons/zurueck.png" Text="Zurück"/>-->
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 

@@ -45,11 +45,40 @@
                                 SelectionChanged="LanguageChanged"
                                 x:Name="langPicker"
                                 Margin="150,50,0,0">
-                <toolkit:ListPickerItem Content="{Binding Path=LocalizedResources.SettingsLangDE, Source={StaticResource LocalizedStrings}}"/>
-                <toolkit:ListPickerItem Content="{Binding Path=LocalizedResources.SettingsLangENG, Source={StaticResource LocalizedStrings}}"/>
+                <toolkit:ListPickerItem Margin="8,0,0,0" FontWeight="SemiBold" Content="{Binding Path=LocalizedResources.SettingsLangDE, Source={StaticResource LocalizedStrings}}"/>
+                <toolkit:ListPickerItem Margin="8,0,0,0" FontWeight="SemiBold" Content="{Binding Path=LocalizedResources.SettingsLangENG, Source={StaticResource LocalizedStrings}}"/>
             </toolkit:ListPicker>
-            <Button Content="Buch exportieren" Foreground="Black" HorizontalAlignment="Left" Margin="0,182,0,0" VerticalAlignment="Top" Width="456" Tap="Button_Tap" BorderBrush="#FF0A0A0A"/>
-            <Button Content="Backups verwalten" Foreground="Black" HorizontalAlignment="Left" Margin="0,280,0,0" VerticalAlignment="Top" Width="456" Tap="Button_Tap_1" BorderBrush="#FF0A0A0A"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.SettingsExportText, Source={StaticResource LocalizedStrings}}" 
+                       Foreground="Black"
+                       FontSize="25"
+                       Margin="20,180,0,0"
+                       FontFamily="Segoe WP Light"/>
+            <Button Content="{Binding Path=LocalizedResources.SettingsExportButton, Source={StaticResource LocalizedStrings}}" 
+                    Foreground="Black" 
+                    HorizontalAlignment="Left" 
+                    Margin="134,163,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="312" 
+                    Tap="Button_Tap" 
+                    BorderBrush="#FF0A0A0A"
+                    BorderThickness="1" 
+                    HorizontalContentAlignment="Left"
+                    Padding="20,5,10,6"/>
+            <TextBlock Text="{Binding Path=LocalizedResources.SettingsBackupText, Source={StaticResource LocalizedStrings}}" 
+                       Foreground="Black"
+                       FontSize="25"
+                       Margin="20,295,0,0"
+                       FontFamily="Segoe WP Light"/>
+            <Button Content="{Binding Path=LocalizedResources.SettingsBackupButton, Source={StaticResource LocalizedStrings}}" 
+                    Foreground="Black" 
+                    HorizontalAlignment="Left" 
+                    Margin="134,278,0,0" 
+                    VerticalAlignment="Top" 
+                    Width="312" 
+                    Tap="Button_Tap_1" 
+                    BorderBrush="#FF0A0A0A"
+                    BorderThickness="1"
+                    Padding="20,5,10,6" HorizontalContentAlignment="Left"/>
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>

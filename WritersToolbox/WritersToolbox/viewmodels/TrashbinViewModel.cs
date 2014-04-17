@@ -197,6 +197,11 @@ namespace WritersToolbox.viewmodels
 
         }
 
+        public void deleteList()
+        {
+            this.DeletedObjects.Clear();
+        }
+
         public void deleteTrash(IList list)
         {
             IEnumerator enumerator = list.GetEnumerator();
@@ -218,6 +223,9 @@ namespace WritersToolbox.viewmodels
                     var entries = (from b in this.tableBook
                                    where b.bookID == bk.bookID
                                    select b).Single();
+
+
+
                     this.tableBook.DeleteOnSubmit(entries);
                 }
 
@@ -244,8 +252,7 @@ namespace WritersToolbox.viewmodels
                                        select n).ToList();
                             foreach (var note in notes)
                             {
-                                
-                                this.tableMemoryNote.DeleteOnSubmit(note);
+                                note.obj_Event = null;
                             }
                             var eto = (from t in this.tableEventTypeObject
                                       where t.fk_eventID == eve.eventID

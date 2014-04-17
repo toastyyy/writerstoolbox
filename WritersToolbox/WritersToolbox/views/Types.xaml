@@ -70,28 +70,23 @@
         </DataTemplate>
         <DataTemplate x:Key="LongListTypeObjectAddTemplate">
             <Grid Width="450" Height="Auto" Margin="0,10,0,10" Tap="OpenTypeObjectDetail">
-                                <Grid.ColumnDefinitions>
-                                    <ColumnDefinition Width="115" />
-                                    <ColumnDefinition Width="*" />
-                                </Grid.ColumnDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="115" />
+                    <ColumnDefinition Width="*" />
+                </Grid.ColumnDefinitions>
 
-                                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/character_round_icon.png" Margin="20,0,0,0"/>
-                                <Grid Grid.Column="1" Margin="10,0,-10,0">
-                                    <Grid.RowDefinitions>
-                                        <RowDefinition Height="27" />
-                                        <RowDefinition Height="23" />
-                                        <RowDefinition Height="27" />
-                                    </Grid.RowDefinitions>
-                                    <TextBlock Grid.Row="0" Text="{Binding name}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
-                    <TextBlock Grid.Row="1" Text="" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
-                    <TextBlock Grid.Row="2" Text="" Foreground="#FF515151" FontSize="22" FontFamily="Segoe WP Light" Margin="0,-4,0,0" />
-
-                                </Grid>
-                                <Border Margin="0,0,0,-20" Grid.Column="0" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-                                <Border Margin="0,0,0,-20" Grid.Column="1" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
-
-                            </Grid>
-                        </DataTemplate>
+                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/add.png" Margin="20,0,0,0"/>
+                <Grid Grid.Column="1" Margin="10,0,10,0">
+                    
+                    <TextBlock Text="{Binding name}" 
+                               Foreground="#FF414141" 
+                               FontSize="30" 
+                               FontFamily="Segoe WP SemiLight" 
+                               Margin="0,15,0,0"/>
+                    
+                </Grid>   
+             </Grid>
+         </DataTemplate>
         <!--Template für PivotHeader-->
         <DataTemplate x:Key="PivotHeader">
             <TextBlock Text="{Binding title}" Margin="9,15,0,0" FontSize="58" FontFamily="Segoe UI Light"/>
@@ -128,7 +123,7 @@
         <DataTemplate x:Key="newType">
             <StackPanel VerticalAlignment="Top" Margin="0,-50,0,0">
                 <TextBlock HorizontalAlignment="Left" Foreground="Black" Margin="25,0,0,0" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTypeTitleText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Width="149" FontSize="25"/>
-                <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus"/>
+                <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus" Loaded="TitleLoaded"/>
                 <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTypeColorText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Width="149" FontSize="25"/>
                 <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
                     <ListBox Name="colorPicker" Loaded="ColorPickerPage_Loaded" SelectionChanged="ColorPicker_SelectionChanged" ItemContainerStyle="{StaticResource ColorPickerStyle}" toolkit:TiltEffect.IsTiltEnabled="True">
@@ -205,6 +200,7 @@
                 </phone:Pivot.Title>
             </phone:Pivot>
         </Grid>
+        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">

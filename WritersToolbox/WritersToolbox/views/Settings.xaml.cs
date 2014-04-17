@@ -15,8 +15,10 @@ namespace WritersToolbox.views
 {
     public partial class Settings : PhoneApplicationPage
     {
+        //Flag ob Seite geladen
         private bool loaded = false;
 
+        //Index der ausgewählten Sprache
         private int langIndex;
 
         public Settings()
@@ -24,6 +26,10 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
+        /// <summary>
+        /// Es wird überprüft, welche Sprache aktuell im Phone angestellt ist und der Index der Sprachbox angepasst.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
@@ -37,7 +43,11 @@ namespace WritersToolbox.views
             }
         }
 
-
+        /// <summary>
+        /// Die Sprache wurde verändert und die Seite wird mit neuer Spracheinstellung neu geladen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LanguageChanged(object sender, SelectionChangedEventArgs e)
         {
             ListPicker lp = sender as ListPicker;
@@ -66,23 +76,42 @@ namespace WritersToolbox.views
             }
         }
 
+        /// <summary>
+        /// Nach dem Laden der Seite wird der Flag verändert und die Index angepasst.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void PageLoaded(object sender, RoutedEventArgs e)
         {
             loaded = true;
             langPicker.SelectedIndex = langIndex;
         }
 
+        /// <summary>
+        /// Navi zur Text-Exportseite
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/ExportText.xaml", UriKind.RelativeOrAbsolute));
         }        
 
+        /// <summary>
+        /// Zurücknavigieren zur Startseite.
+        /// </summary>
+        /// <param name="e"></param>
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
 
             NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.RelativeOrAbsolute));
         }
 
+        /// <summary>
+        /// Navi zur Import-Exportseite
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Button_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/ExportImportBackup.xaml", UriKind.RelativeOrAbsolute));

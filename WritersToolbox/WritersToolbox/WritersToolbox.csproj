@@ -120,6 +120,7 @@
     <Compile Include="datawrapper\BookType.cs" />
     <Compile Include="datawrapper\Chapter.cs" />
     <Compile Include="datawrapper\Event.cs" />
+    <Compile Include="datawrapper\EventTypeObject.cs" />
     <Compile Include="datawrapper\KeyedList.cs" />
     <Compile Include="datawrapper\MemoryNote.cs" />
     <Compile Include="datawrapper\MyImage.cs" />
@@ -160,6 +161,7 @@
     <Compile Include="viewmodels\BooksViewModel.cs" />
     <Compile Include="viewmodels\EventDetailViewModel.cs" />
     <Compile Include="viewmodels\ExportViewModel.cs" />
+    <Compile Include="viewmodels\SearchViewModel.cs" />
     <Compile Include="viewmodels\TomeDetailsViewModel.cs" />
     <Compile Include="viewmodels\TomeDetailViewModel.cs" />
     <Compile Include="viewmodels\TrashbinViewModel.cs" />
@@ -181,6 +183,9 @@
     </Compile>
     <Compile Include="views\ExportText.xaml.cs">
       <DependentUpon>ExportText.xaml</DependentUpon>
+    </Compile>
+    <Compile Include="views\Search.xaml.cs">
+      <DependentUpon>Search.xaml</DependentUpon>
     </Compile>
     <Compile Include="views\Settings.xaml.cs">
       <DependentUpon>Settings.xaml</DependentUpon>
@@ -268,6 +273,10 @@
       <Generator>MSBuild:Compile</Generator>
     </Page>
     <Page Include="views\ExportText.xaml">
+      <SubType>Designer</SubType>
+      <Generator>MSBuild:Compile</Generator>
+    </Page>
+    <Page Include="views\Search.xaml">
       <SubType>Designer</SubType>
       <Generator>MSBuild:Compile</Generator>
     </Page>
@@ -367,7 +376,10 @@
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten.png" />
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten_2.png" />
     <Content Include="Assets\hintergrund_trashbin_white.png" />
+    <Content Include="icons\add.png" />
     <Content Include="icons\dropbox-logo.png" />
+    <Content Include="icons\finden.png" />
+    <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\move-down.png" />
     <Content Include="icons\move-up.png" />
     <Content Include="Assets\start_background.png" />
@@ -391,9 +403,7 @@
     </Content>
     <Content Include="Assets\WritersToolboxstartseiteWT.png" />
     <Content Include="headImage_rot_smal.png" />
-    <Content Include="icons\add.png" />
     <Content Include="icons\bold.png" />
-    <Content Include="icons\character_round_icon.png" />
     <Content Include="icons\edit.png" />
     <Content Include="icons\edit_picture.png" />
     <Content Include="icons\info_checked.png" />
@@ -413,6 +423,7 @@
     <Content Include="icons\Pro_Einstellungen_round_Icon.png" />
     <Content Include="icons\Pro_Trash_round_Icon.png" />
     <Content Include="icons\Pro_Typen_round_Icon.png" />
+    <Content Include="icons\Pro_Werke_round_Icon.png" />
     <Content Include="icons\speaker_reordButton.png" />
     <Content Include="charakter.png" />
     <Content Include="icons\typen.png" />
@@ -448,6 +459,9 @@
     <Content Include="icons\stop.png" />
     <Content Include="icons\zurueck.png" />
     <Content Include="images\headImage_rot_top.png" />
+    <Content Include="images\newTome.png" />
+    <Content Include="images\newTome2.png" />
+    <Content Include="images\newTome3.png" />
     <Content Include="images\titel_background.png" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
     <Content Include="README_FIRST.txt" />
@@ -497,7 +511,10 @@
       <HintPath>..\packages\WPtoolkit.4.2013.08.16\lib\wp8\Microsoft.Phone.Controls.Toolkit.dll</HintPath>
     </Reference>
     <Reference Include="RestSharp.WindowsPhone">
-      <HintPath>..\packages\RestSharp.104.1\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>
+      <HintPath>..\packages\RestSharp.104.4.0\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>
+    </Reference>
+    <Reference Include="System.Threading.Tasks.WP71">
+      <HintPath>..\packages\DropNet.1.9.6\lib\sl4-wp71\System.Threading.Tasks.WP71.dll</HintPath>
     </Reference>
     <Reference Include="WriteableBitmapExWinPhone">
       <HintPath>..\packages\WriteableBitmapEx.1.0.9.0\lib\WindowsPhone8\WriteableBitmapExWinPhone.dll</HintPath>

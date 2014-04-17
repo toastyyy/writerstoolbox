@@ -142,6 +142,7 @@ namespace WritersToolbox.views
             }
             tvm.updateTypeObject(tdvm.TypeObject.typeObjectID, name, color, fileName);
             changed = false;
+            NavigationService.RemoveBackEntry();
             NavigationService.Navigate(new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + this.tdvm.TypeObject.typeObjectID, UriKind.Relative));
         }
 
