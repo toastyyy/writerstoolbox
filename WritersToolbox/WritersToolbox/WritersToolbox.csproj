@@ -513,6 +513,9 @@
     <Reference Include="RestSharp.WindowsPhone">
       <HintPath>..\packages\RestSharp.104.4.0\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>
     </Reference>
+    <Reference Include="SemanticZoomLibrary">
+      <HintPath>..\..\..\..\..\Desktop\SemanticZoomIn\SemanticZoomLibrary\Bin\Debug\SemanticZoomLibrary.dll</HintPath>
+    </Reference>
     <Reference Include="System.Threading.Tasks.WP71">
       <HintPath>..\packages\DropNet.1.9.6\lib\sl4-wp71\System.Threading.Tasks.WP71.dll</HintPath>
     </Reference>

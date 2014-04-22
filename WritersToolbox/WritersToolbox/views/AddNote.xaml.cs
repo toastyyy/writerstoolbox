@@ -439,9 +439,13 @@ namespace WritersToolbox.views
             {
                 if (textBox == titleTextBox)
                 {
-                    double heightDifference = height - textBox.Height;
-                    detailsTextBox.Margin = new Thickness(detailsTextBox.Margin.Left, detailsTextBox.Margin.Top + heightDifference,
-                            detailsTextBox.Margin.Right, detailsTextBox.Margin.Bottom);
+                        double heightDifference = height - textBox.Height;
+                        int left = (int)detailsTextBox.Margin.Left;
+                        int top = (int) (detailsTextBox.Margin.Top + heightDifference);
+                        int right = (int) detailsTextBox.Margin.Right;
+                        int bottom = (int) detailsTextBox.Margin.Bottom;
+                        detailsTextBox.Margin = new Thickness(left, top, right,bottom);                       
+
                 }
                 textBox.Height = height;
 
@@ -654,7 +658,7 @@ namespace WritersToolbox.views
                     }
                     else if (textbox == titleTextBox)
                     {
-                        if (textbox.Text.ToString().Trim().ToUpper().Equals(AppResources.AddNoteTitleText))
+                        if (textbox.Text.ToString().Trim().ToUpper().Equals("TITEL"))
                         {
                             textbox.Text = "";
                         }
@@ -662,7 +666,7 @@ namespace WritersToolbox.views
                     }
                     else if (textbox == detailsTextBox)
                     {
-                        if (textbox.Text.ToString().ToUpper().Trim().Equals(AppResources.AddNoteDetailsText))
+                        if (textbox.Text.ToString().ToUpper().Trim().Equals("DETAILS"))
                         {
                             textbox.Text = "";
                         }

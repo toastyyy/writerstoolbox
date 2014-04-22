@@ -27,8 +27,6 @@ namespace WritersToolbox.views
         private TomeDetailsViewModel tome_VM;
         //Primäreschlüßel des bandes.
         private int tomeID;
-        //Ablage des InformationsCode.
-        private int informationCode;
         //Buttons zum speichern/abbrechen beim Bearbeiten eines Chapters
         private ApplicationBarIconButton save, cancel, delete, cancel_2;
         
@@ -59,8 +57,6 @@ namespace WritersToolbox.views
         private bool doubleTap = false;
 
         private bool newChapterMode = false;
-
-        private bool isOnlyEventSelected;
 
         private bool isChapterControlOpened;
         public bool chapterSelected = false;
@@ -222,8 +218,6 @@ namespace WritersToolbox.views
         protected override void OnNavigatedFrom(System.Windows.Navigation.NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            //Ausgewählte Information in der Datenbank aktualisieren.
-            tome_VM.updateInformation(informationCode);
             infoTimer.Stop();
             infoTimer = null;
         }
@@ -639,7 +633,6 @@ namespace WritersToolbox.views
         {
 
             llstructure.IsSelectionEnabled = false;
-            l.IsSelectionEnabled = false;
         }
 
         /// <summary>
@@ -1138,87 +1131,105 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void llstructure_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!newChapterMode)
+            if ((e.RemovedItems.Count > 0) || !((datawrapper.Chapter)e.AddedItems[0]).title.Equals("Neues Kapitel"))
             {
-                if (!isNewEventAndChapterButtonsRemoved)
+                if (!newChapterMode)
                 {
-                    RemovceNewChapterAndEventButton();
-        }
+                    if (!isNewEventAndChapterButtonsRemoved)
+                    {
+                        RemovceNewChapterAndEventButton();
+                    }
 
 
-                if (!isSectionOpened)
-        {
-                    addSelectionApplicationBarButton();
-        }
+                    if (!isSectionOpened)
+                    {
+                        addSelectionApplicationBarButton();
+                    }
 
 
-                if (e.AddedItems.Count > 0)
-                {
-                    if (!llstructure.SelectedItems.Contains((datawrapper.Chapter)e.AddedItems[0]))
-        {
-                        llstructure.SelectedItems.Add(((datawrapper.Chapter)e.AddedItems[0]));
-        }
-
-                    if (e.AddedItems[0].Equals(oldChapter))
-                    {                //Um alle events mitselektieren wenn die liste aufgeklappt ist.
-                        if (oldLlms != null && oldLlms.Visibility == Visibility.Visible)
+                    if (e.AddedItems.Count > 0)
+                    {
+                        if (!llstructure.SelectedItems.Contains((datawrapper.Chapter)e.AddedItems[0]))
                         {
-                            oldLlms.IsSelectionEnabled = true;
-                            ObservableCollection<datawrapper.Event> l = new ObservableCollection<datawrapper.Event>(
-                                (ObservableCollection<datawrapper.Event>)oldLlms.ItemsSource);
-                            foreach (datawrapper.Event item in l)
+                            llstructure.SelectedItems.Add(((datawrapper.Chapter)e.AddedItems[0]));
+                        }
+
+                        if (e.AddedItems[0].Equals(oldChapter))
+                        {                //Um alle events mitselektieren wenn die liste aufgeklappt ist.
+                            if (oldLlms != null && oldLlms.Visibility == Visibility.Visible)
                             {
-                                if (!oldLlms.SelectedItems.Contains(item))
+                                oldLlms.IsSelectionEnabled = true;
+                                ObservableCollection<datawrapper.Event> l = new ObservableCollection<datawrapper.Event>(
+                                    (ObservableCollection<datawrapper.Event>)oldLlms.ItemsSource);
+                                foreach (datawrapper.Event item in l)
                                 {
-                                    oldLlms.SelectedItems.Add(item);
+                                    if (!oldLlms.SelectedItems.Contains(item))
+                                    {
+                                        oldLlms.SelectedItems.Add(item);
+                                    }
                                 }
                             }
                         }
                     }
-                }
-                if (e.RemovedItems.Count > 0)
-                {
-                    if (llstructure.SelectedItems.Contains((datawrapper.Chapter)e.RemovedItems[0]))
+
+                    if (e.RemovedItems.Count > 0)
                     {
-                        llstructure.SelectedItems.Remove(((datawrapper.Chapter)e.RemovedItems[0]));
-                    }
-                    if (e.RemovedItems[0].Equals(oldChapter))
-                    {
-                        //Um alle events mitselektieren wenn die liste aufgeklappt ist.
-                        if (oldLlms != null && oldLlms.Visibility == Visibility.Visible)
+                        if (llstructure.SelectedItems.Contains((datawrapper.Chapter)e.RemovedItems[0]))
                         {
-                            oldLlms.IsSelectionEnabled = false;
-                            ObservableCollection<datawrapper.Event> l = new ObservableCollection<datawrapper.Event>(
-                                (ObservableCollection<datawrapper.Event>)oldLlms.ItemsSource);
-                            foreach (datawrapper.Event item in l)
-        {
-                                if (oldLlms.SelectedItems.Contains(item))
-            {
-                                    oldLlms.SelectedItems.Remove(item);
+                            llstructure.SelectedItems.Remove(((datawrapper.Chapter)e.RemovedItems[0]));
+                        }
+                        if (e.RemovedItems[0].Equals(oldChapter))
+                        {
+                            //Um alle events mitselektieren wenn die liste aufgeklappt ist.
+                            if (oldLlms != null && oldLlms.Visibility == Visibility.Visible)
+                            {
+                                oldLlms.IsSelectionEnabled = false;
+                                ObservableCollection<datawrapper.Event> l = new ObservableCollection<datawrapper.Event>(
+                                    (ObservableCollection<datawrapper.Event>)oldLlms.ItemsSource);
+                                foreach (datawrapper.Event item in l)
+                                {
+                                    if (oldLlms.SelectedItems.Contains(item))
+                                    {
+                                        oldLlms.SelectedItems.Remove(item);
+                                    }
                                 }
                             }
-            }
-            }
-        }
-
-                isOnlyEventSelected = true;
-                if (llstructure.SelectedItems.Count == 0 || (oldLlms != null && oldLlms.SelectedItems.Count == 0))
-        {
-                    removeSelectionApplicationBarButton();
-                    if (isNewEventAndChapterButtonsRemoved)
-            {
-                        AddNewChapterAndEventButton();
+                        }
                     }
+
+                    if (oldLlms == null)
+                    {
+                        if (llstructure.SelectedItems.Count == 0)
+                        {
+                            removeSelectionApplicationBarButton();
+                            if (isNewEventAndChapterButtonsRemoved)
+                            {
+                                AddNewChapterAndEventButton();
+                            }
+                        }
+                    }
+                    else
+                    {
+                        if (llstructure.SelectedItems.Count == 0 && oldLlms.SelectedItems.Count == 0)
+                        {
+                            removeSelectionApplicationBarButton();
+                            if (isNewEventAndChapterButtonsRemoved)
+                            {
+                                AddNewChapterAndEventButton();
+                            }
+                        }
+                    }
+                    
                 }
             }
-
-            }
+            
+        }
 
         /// <summary>
         /// 
         /// </summary>
         private void AddNewChapterAndEventButton()
-            {
+         {
             isNewEventAndChapterButtonsRemoved = false;
                 this.tome_VM.addNewChapterEntry();
             if (oldLlms != null)
@@ -1319,49 +1330,65 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void llmsEvent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (!newChapterMode)
+            if ((e.RemovedItems.Count > 0) || !((datawrapper.Event)e.AddedItems[0]).title.Equals("Ereignis hinzufügen"))
             {
-                if (!isNewEventAndChapterButtonsRemoved)
+                if (!newChapterMode)
                 {
-                    RemovceNewChapterAndEventButton();
-                }
-
-                if (!isSectionOpened)
-                {
-                    addSelectionApplicationBarButton();
-                }
-
-                //TODO selektieren
-
-                if (oldLlms.Visibility == Visibility.Visible)
-                {
-                    if (e.AddedItems.Count > 0)
+                    if (!isNewEventAndChapterButtonsRemoved)
                     {
-                        if (!oldLlms.SelectedItems.Contains((datawrapper.Event)e.AddedItems[0]))
+                        RemovceNewChapterAndEventButton();
+                    }
+
+                    if (!isSectionOpened)
+                    {
+                        addSelectionApplicationBarButton();
+                    }
+
+                    //TODO selektieren
+
+                    if (oldLlms.Visibility == Visibility.Visible)
+                    {
+                        if (e.AddedItems.Count > 0)
                         {
-                            oldLlms.SelectedItems.Add(((datawrapper.Event)e.AddedItems[0]));
+                            if (!oldLlms.SelectedItems.Contains((datawrapper.Event)e.AddedItems[0]))
+                            {
+                                oldLlms.SelectedItems.Add(((datawrapper.Event)e.AddedItems[0]));
+                            }
+                        }
+                        if (e.RemovedItems.Count > 0)
+                        {
+                            if (oldLlms.SelectedItems.Contains((datawrapper.Event)e.RemovedItems[0]))
+                            {
+                                oldLlms.SelectedItems.Remove(((datawrapper.Event)e.RemovedItems[0]));
+                            }
                         }
                     }
-                    if (e.RemovedItems.Count > 0)
+
+                    if (oldLlms == null)
                     {
-                        if (oldLlms.SelectedItems.Contains((datawrapper.Event)e.RemovedItems[0]))
+                        if (llstructure.SelectedItems.Count == 0)
                         {
-                            oldLlms.SelectedItems.Remove(((datawrapper.Event)e.RemovedItems[0]));
+                            removeSelectionApplicationBarButton();
+                            if (isNewEventAndChapterButtonsRemoved)
+                            {
+                                AddNewChapterAndEventButton();
+                            }
                         }
                     }
-                }
-                isOnlyEventSelected = false;
-
-                if (oldLlms != null && oldLlms.SelectedItems.Count == 0)
-                {
-                    removeSelectionApplicationBarButton();
-                    if (isNewEventAndChapterButtonsRemoved)
+                    else
                     {
-                        AddNewChapterAndEventButton();
+                        if (llstructure.SelectedItems.Count == 0 && oldLlms.SelectedItems.Count == 0)
+                        {
+                            removeSelectionApplicationBarButton();
+                            if (isNewEventAndChapterButtonsRemoved)
+                            {
+                                AddNewChapterAndEventButton();
+                            }
+                        }
                     }
-                }
 
-            }
+                }
+            }        
         }
         private void Image_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
         {

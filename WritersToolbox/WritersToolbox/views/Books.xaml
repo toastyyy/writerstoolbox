@@ -9,6 +9,7 @@
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:converter="clr-namespace:WritersToolbox.converter"
     xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
+        xmlns:SemanticZoomLibrary="clr-namespace:SemanticZoomLibrary;assembly=SemanticZoomLibrary"
     mc:Ignorable="d"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -206,7 +207,7 @@
     </phone:PhoneApplicationPage.Resources>
 
     <!--LayoutRoot is the root grid where all page content is placed-->
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot" Background="White" ManipulationDelta="LayoutRoot_ManipulationDelta">
         <Image Margin="0,-6,0,549" Source="/headImage_rot_smal.png" Stretch="Fill"/>
 
         <!--Popup für Löschen des Werkes-->
@@ -240,7 +241,7 @@
         </Popup>
         <!--Pivot Control-->
 
-        <phone:Pivot ManipulationDelta="pinch_out" 
+                <phone:Pivot ManipulationDelta="pinch_out" 
                          HeaderTemplate="{StaticResource PivotHeader}" 
                          ItemTemplate="{StaticResource PivotContent}"
                          ItemsSource="{Binding Path=Books, Mode=OneWay}"
@@ -249,10 +250,11 @@
                          VerticalAlignment="Top"
                          VerticalContentAlignment="Top"
                          FontFamily="Segoe WP Light">
-            <phone:Pivot.Title>
-                <TextBlock Margin="9,0,0,0" Text="{Binding Path=LocalizedResources.BooksPageTitle, Source={StaticResource LocalizedStrings}}" FontSize="22" FontFamily="Segoe WP Light"/>
-            </phone:Pivot.Title>
-        </phone:Pivot>
+                    <phone:Pivot.Title>
+                        <TextBlock Margin="9,0,0,0" Text="{Binding Path=LocalizedResources.BooksPageTitle, Source={StaticResource LocalizedStrings}}" FontSize="22" FontFamily="Segoe WP Light"/>
+                    </phone:Pivot.Title>
+                </phone:Pivot>
+
         <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>

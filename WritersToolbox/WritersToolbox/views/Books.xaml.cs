@@ -11,6 +11,8 @@ using System.Collections.ObjectModel;
 using WritersToolbox.viewmodels;
 using WritersToolbox.Resources;
 using System.Windows.Media;
+using System.Diagnostics;
+using System.Windows.Input;
 
 namespace WritersToolbox.views
 {
@@ -60,7 +62,6 @@ namespace WritersToolbox.views
         public Books()
         {
             DataContext = Books_VM;
-            
             InitializeComponent();
         }
 
@@ -74,18 +75,19 @@ namespace WritersToolbox.views
         private void pinch_out(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
         {
 
-            if (e.PinchManipulation != null)
-            {
-                if (e.PinchManipulation.CumulativeScale > 1d)
-                {
-                    System.Diagnostics.Debug.WriteLine("Zoomout");
-                    NavigationService.Navigate(new Uri("/views/BooksOverview.xaml", UriKind.Relative));
-                }
-                else
-                    System.Diagnostics.Debug.WriteLine("Zoomin");
+            //if (e.PinchManipulation != null)
+            //{
+            //    if (e.PinchManipulation.CumulativeScale > 1d)
+            //    {
+            //        System.Diagnostics.Debug.WriteLine("Zoomout");
+            //        NavigationService.Navigate(new Uri("/views/BooksOverview.xaml", UriKind.Relative));
+            //    }
+            //    else
+            //        System.Diagnostics.Debug.WriteLine("Zoomin");
 
-            }
+            //}
 
+ 
 
         }
 
@@ -460,5 +462,13 @@ namespace WritersToolbox.views
         {
             NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
         }
+
+        private void LayoutRoot_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+        {
+                NavigationService.Navigate(new Uri("/views/BooksOverview.xaml", UriKind.Relative));
+                e.Handled = true;
+                e.Complete();
+        }
+
     }
 }

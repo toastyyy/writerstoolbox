@@ -13,6 +13,7 @@ using System.ComponentModel;
 using WritersToolbox.models;
 using System.Diagnostics;
 using WritersToolbox.Resources;
+using System.Windows.Media;
 namespace WritersToolbox.views
 {
     public partial class BooksOverview : PhoneApplicationPage
@@ -117,6 +118,28 @@ namespace WritersToolbox.views
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void list_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+        {
+            if (e.PinchManipulation != null)
+            {
+                var transform = (CompositeTransform)list.RenderTransform;
+
+                // Scale Manipulation
+                transform.ScaleX = e.PinchManipulation.CumulativeScale;
+                transform.ScaleY = e.PinchManipulation.CumulativeScale;
+
+                // Translate manipulation
+                var originalCenter = e.PinchManipulation.Original.Center;
+                var newCenter = e.PinchManipulation.Current.Center;
+                transform.TranslateX = newCenter.X - originalCenter.X;
+                transform.TranslateY = newCenter.Y - originalCenter.Y;
+                Debug.WriteLine("newCenter.X " + newCenter.X + "; originalCenter.X" + originalCenter.X + "; Summe" + (newCenter.X - originalCenter.X));
+                Debug.WriteLine("newCenter.Y " + newCenter.Y + ";originalCenter.Y" + originalCenter.Y + "; Summe" + (newCenter.Y - originalCenter.Y));
+                // end 
+                e.Handled = true;
+            }
         }
 
     }

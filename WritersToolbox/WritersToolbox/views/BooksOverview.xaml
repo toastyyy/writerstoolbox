@@ -111,7 +111,7 @@
                     Padding="20,10"
                     ItemTemplate="{StaticResource BooksOverviewTemplateSelector}"
                     x:Name="list"
-                    SelectionChanged="list_SelectionChanged">
+                    SelectionChanged="list_SelectionChanged" ManipulationDelta="list_ManipulationDelta">
                 </phone:LongListSelector>
             </Grid>
         <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
