@@ -37,14 +37,14 @@ namespace WritersToolbox.views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            
+
             PhoneApplicationService.Current.State["RestoreData"] =
             new datawrapper.Event()
             {
                 finaltext = textBoxFinalText.Text,
                 eventID = this.edvm.Event.eventID
             };
-           
+
 
 
         }
@@ -75,9 +75,9 @@ namespace WritersToolbox.views
                 else
                 {
                     this.edvm = new EventDetailViewModel(eID);
-                    
-                this.edvm.LoadData();
-                this.DataContext = this.edvm.Event;
+
+                    this.edvm.LoadData();
+                    this.DataContext = this.edvm.Event;
                     try
                     {
                         this.tFinalText.Xaml = this.parseRichTextFormat(this.edvm.Event.finaltext);
@@ -87,32 +87,32 @@ namespace WritersToolbox.views
                         this.tFinalText.Xaml = this.parsePlainText(this.edvm.Event.finaltext);
                     }
                 }
-                
+
             }
             //Event wurde gerade Typobjekt angehängt
             if (PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
-             {
+            {
                 if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
                 {
                     int toID = (int)PhoneApplicationService.Current.State["typeObjectID"];
                     PhoneApplicationService.Current.State.Remove("typeObjectID");
-                     PhoneApplicationService.Current.State.Remove("attachEvent");
-                     this.edvm.attachTypeObject(toID, this.edvm.Event.eventID);
-                     this.DataContext = null;
-                     this.DataContext = this.edvm.Event;
-                 }
-                 else
-                 {
-                     PhoneApplicationService.Current.State.Remove("attachEvent");
-                 }
-                 
-             }
+                    PhoneApplicationService.Current.State.Remove("attachEvent");
+                    this.edvm.attachTypeObject(toID, this.edvm.Event.eventID);
+                    this.DataContext = null;
+                    this.DataContext = this.edvm.Event;
+                }
+                else
+                {
+                    PhoneApplicationService.Current.State.Remove("attachEvent");
+                }
+
+            }
             //App erwacht gerade, gesichert Daten werden wiederhergestellt
             if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
             {
                 if (PhoneApplicationService.Current.State.ContainsKey("RestoreData"))
                 {
-                    
+
                     datawrapper.Event ev = (datawrapper.Event)PhoneApplicationService.Current.State["RestoreData"];
                     this.edvm = new EventDetailViewModel(ev.eventID);
                     this.edvm.LoadData();
@@ -153,7 +153,7 @@ namespace WritersToolbox.views
                 {
                     if (this.edvm.Event.notes.Count > 0)
                     {
-                        ApplicationBar.Buttons.Clear();
+                        /*ApplicationBar.Buttons.Clear();
                         ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
                         unattach.Text = AppResources.AppBarUnattached;
                         unattach.Click += unattachNotes;
@@ -161,22 +161,22 @@ namespace WritersToolbox.views
                         ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
                         delete.Text = AppResources.AppBarDelete;
                         delete.Click += deleteNotes;
-                        ApplicationBar.Buttons.Add(delete);
+                        ApplicationBar.Buttons.Add(delete);*/
                     }
                 }
                 else if (p.SelectedIndex == 2)
                 {
                     if (this.edvm.Event.typeObjects.Count > 1)
                     {
-                        ApplicationBar.Buttons.Clear();
+                        /*ApplicationBar.Buttons.Clear();
                         ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
                         unattach.Text = AppResources.AppBarUnattached;
                         unattach.Click += unattachTypeObjects;
-                        ApplicationBar.Buttons.Add(unattach);
+                        ApplicationBar.Buttons.Add(unattach);*/
                     }
                 }
             }
-            
+
         }
 
         /// <summary>
@@ -197,7 +197,7 @@ namespace WritersToolbox.views
                 this.textBoxFinalText.Focus();
                 this.createTextEditApplicationBar();
             }
-            
+
         }
 
         /// <summary>
@@ -218,13 +218,14 @@ namespace WritersToolbox.views
                 this.textBoxFinalText.Text = newText;
                 this.textBoxFinalText.SelectionStart = selStart + 3;
             }
-            else {
+            else
+            {
                 String newText = text.Substring(0, selStart)
                                 + "<b>" + text.Substring(selStart, selLength) + "</b>"
                                 + text.Substring(selStart + selLength);
                 this.textBoxFinalText.Text = newText;
                 this.textBoxFinalText.SelectionStart = selStart + 3;
-                this.textBoxFinalText.SelectionLength = selLength; 
+                this.textBoxFinalText.SelectionLength = selLength;
             }
         }
 
@@ -262,7 +263,8 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void insertUnderline(object sender, System.EventArgs e) {
+        private void insertUnderline(object sender, System.EventArgs e)
+        {
             int selStart = this.textBoxFinalText.SelectionStart;
             int selLength = this.textBoxFinalText.SelectionLength;
             String text = this.textBoxFinalText.Text;
@@ -288,7 +290,8 @@ namespace WritersToolbox.views
         /// <summary>
         /// Die Appbar zum bearbeiten des Finaltextes mit allen Buttons wird geladen
         /// </summary>
-        private void createTextEditApplicationBar() {
+        private void createTextEditApplicationBar()
+        {
             ApplicationBar.Buttons.Clear();
             ApplicationBarIconButton boldButton = new ApplicationBarIconButton(new Uri("/icons/bold.png", UriKind.RelativeOrAbsolute));
             boldButton.Text = AppResources.AppBarBold;
@@ -311,14 +314,15 @@ namespace WritersToolbox.views
         /// <summary>
         /// Die Standard Appbar wird wiederhergestellt.
         /// </summary>
-        private void restoreStandardApplicationBar() {
+        private void restoreStandardApplicationBar()
+        {
             ApplicationBar.Buttons.Clear();
-            ApplicationBarIconButton saveButton = new ApplicationBarIconButton(new Uri("/icons/save.png", UriKind.RelativeOrAbsolute));
+            /*ApplicationBarIconButton saveButton = new ApplicationBarIconButton(new Uri("/icons/save.png", UriKind.RelativeOrAbsolute));
             saveButton.Text = AppResources.AppBarSave;
             ApplicationBar.Buttons.Add(saveButton);
             ApplicationBarIconButton cancelButton = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.RelativeOrAbsolute));
             cancelButton.Text = AppResources.AppBarCancel;
-            ApplicationBar.Buttons.Add(cancelButton);
+            ApplicationBar.Buttons.Add(cancelButton);*/
         }
 
 
@@ -352,7 +356,8 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="plain"></param>
         /// <returns></returns>
-        private String parseRichTextFormat(String plain) {
+        private String parseRichTextFormat(String plain)
+        {
 
             String retXaml = "";
             String text = plain;
@@ -361,9 +366,9 @@ namespace WritersToolbox.views
             text = text.Replace("<u>", "<Underline>").Replace("</u>", "</Underline>");
 
             text = text.Replace(@"\n", "</Paragraph><Paragraph>");
-            retXaml = 
+            retXaml =
                 @"<Section xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">" +
-                @"<Paragraph TextAlignment=""Justify"">" + text + "</Paragraph>" + 
+                @"<Paragraph TextAlignment=""Justify"">" + text + "</Paragraph>" +
                 "</Section>";
             return retXaml;
         }
@@ -373,7 +378,8 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="xaml"></param>
         /// <returns></returns>
-        private String parsePlainText(String xaml) {
+        private String parsePlainText(String xaml)
+        {
             String ret = xaml.Replace("<", "&lt;").Replace(">", "&gt;");
             ret = ret.Replace("\n", "</Paragraph><Paragraph>");
             return @"<Section xmlns=""http://schemas.microsoft.com/winfx/2006/xaml/presentation"">" +
@@ -394,21 +400,23 @@ namespace WritersToolbox.views
                 if (TypeObjectList.SelectedItems.Count > 0)
                 {
                     this.edvm.removeAddTypeObject();
+                    this.addAppBarTypeObjects();
                 }
                 else
                 {
                     this.edvm.addAddTypeObject();
+                    this.removeAppBarTypeObjects();
                 }
             }
-                this.selectAllCheckBox2.Unchecked -= selectAllCheckBox_Unchecked;
-                this.selectAllCheckBox2.Checked -= selectAllCheckBox_Checked;
-                this.selectAllCheckBox2.IsChecked = TypeObjectList.SelectedItems.Count == this.edvm.Event.typeObjects.Count;
-                this.TypeObjectList.EnforceIsSelectionEnabled = TypeObjectList.SelectedItems.Count > 0;
-                this.eventPivot.IsLocked = TypeObjectList.SelectedItems.Count > 0;
-                this.selectAllCheckBox2.Unchecked += selectAllCheckBox_Unchecked;
-                this.selectAllCheckBox2.Checked += selectAllCheckBox_Checked;
-            
-            
+            this.selectAllCheckBox2.Unchecked -= selectAllCheckBox_Unchecked;
+            this.selectAllCheckBox2.Checked -= selectAllCheckBox_Checked;
+            this.selectAllCheckBox2.IsChecked = TypeObjectList.SelectedItems.Count == this.edvm.Event.typeObjects.Count;
+            this.TypeObjectList.EnforceIsSelectionEnabled = TypeObjectList.SelectedItems.Count > 0;
+            this.eventPivot.IsLocked = TypeObjectList.SelectedItems.Count > 0;
+            this.selectAllCheckBox2.Unchecked += selectAllCheckBox_Unchecked;
+            this.selectAllCheckBox2.Checked += selectAllCheckBox_Checked;
+
+
         }
 
         /// <summary>
@@ -434,7 +442,7 @@ namespace WritersToolbox.views
                 NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
             }
         }
-            
+
         /// <summary>
         /// Wird eine Notiz angeklickt, wird zu ihr navigiert zum bearbeiten.
         /// </summary>
@@ -459,10 +467,10 @@ namespace WritersToolbox.views
         {
             //NavigationService.GoBack();
 
-            NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=" + this.edvm.Event.chapter.tome.tomeID , UriKind.RelativeOrAbsolute));
+            NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=" + this.edvm.Event.chapter.tome.tomeID, UriKind.RelativeOrAbsolute));
 
             var lastPage = NavigationService.BackStack.FirstOrDefault();
-            if (lastPage != null && lastPage.Source.ToString().Substring(0,23).Equals("/views/EventDetail.xaml"))
+            if (lastPage != null && lastPage.Source.ToString().Substring(0, 23).Equals("/views/EventDetail.xaml"))
             {
                 NavigationService.RemoveBackEntry();
             }
@@ -549,6 +557,7 @@ namespace WritersToolbox.views
             this.DataContext = null;
             unattach = false;
             this.DataContext = this.edvm.Event;
+            this.removeAppBarTypeObjects();
         }
 
         /// <summary>
@@ -564,6 +573,7 @@ namespace WritersToolbox.views
             }
             this.DataContext = null;
             this.DataContext = this.edvm.Event;
+            this.removeAppBarNotes();
         }
 
         /// <summary>
@@ -664,5 +674,44 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
         }
 
+        private void addAppBarTypeObjects()
+        {
+            ApplicationBar.Buttons.Clear();
+            ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+            unattach.Text = AppResources.AppBarUnattached;
+            unattach.Click += unattachTypeObjects;
+            ApplicationBar.Buttons.Add(unattach);
+        }
+
+        private void removeAppBarTypeObjects()
+        {
+            ApplicationBar.Buttons.Clear();
+        }
+
+        private void addAppBarNotes()
+        {
+            ApplicationBar.Buttons.Clear();
+            ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+            unattach.Text = AppResources.AppBarUnattached;
+            unattach.Click += unattachNotes;
+            ApplicationBar.Buttons.Add(unattach);
+        }
+
+        private void removeAppBarNotes() 
+        {
+            ApplicationBar.Buttons.Clear();
+        }
+
+        private void NoteList_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            if (NoteList.SelectedItems.Count > 0)
+            {
+                this.addAppBarNotes();
+            }
+            else
+            {
+                this.removeAppBarNotes();
+            }
+        }
     }
 }

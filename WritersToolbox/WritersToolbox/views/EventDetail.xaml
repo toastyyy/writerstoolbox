@@ -236,7 +236,7 @@
                         BorderBrush="Black"
                         ItemsSource="{Binding notes}"
                         ItemTemplate="{StaticResource NotesTemplate}"
-                        Hold="NoteList_Hold"/>
+                        Hold="NoteList_Hold" SelectionChanged="NoteList_SelectionChanged"/>
                 </Grid>
             </phone:PivotItem>
             
