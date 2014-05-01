@@ -68,7 +68,6 @@
                     </Grid.RowDefinitions>
                     <StackPanel>
                         <TextBlock x:Name="TypeDeleteQuestion" Text="" Margin="20,40,0,0" FontSize="22" TextWrapping="Wrap"/>
-                        <CheckBox IsChecked="True" Content="{Binding Path=LocalizedResources.CheckboxKeepTypeObjects, Source={StaticResource LocalizedStrings}}" Margin="10,10,0,0"/>
                     </StackPanel>
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Left" Content="{Binding Path=LocalizedResources.AppBarDelete, Source={StaticResource LocalizedStrings}}" Margin="5,0,0,10" Click="DeleteType"/>
                     <Button Grid.Row="1" Width="230" HorizontalAlignment="Right" Content="{Binding Path=LocalizedResources.AppBarCancel, Source={StaticResource LocalizedStrings}}" Margin="0,0,5,10" Click="DoNotDeleteType"/>
