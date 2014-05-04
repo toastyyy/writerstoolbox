@@ -154,15 +154,15 @@ namespace WritersToolbox.views
         }
 
 
-        /// <summary>
-        /// Hilfsmethode solange man Zoom nicht testen kann.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            NavigationService.Navigate(new Uri("/views/BooksOverview.xaml", UriKind.Relative));
-        }
+        ///// <summary>
+        ///// Hilfsmethode solange man Zoom nicht testen kann.
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
+        //{
+        //    NavigationService.Navigate(new Uri("/views/BooksOverview.xaml", UriKind.Relative));
+        //}
 
 
         

@@ -90,17 +90,18 @@ namespace WritersToolbox.views
 
 
         }
-        /// <summary>
-        /// Hilfsmethode solange man Zoom nicht testen kann.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
-        {
-            if (!this.PivotMain.IsLocked) {
-                NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));            
-            }
-        }
+        ///// <summary>
+        ///// Hilfsmethode solange man Zoom nicht testen kann.
+        ///// </summary>
+        ///// <param name="sender"></param>
+        ///// <param name="e"></param>
+        //private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
+        //{
+        //    if (!this.PivotMain.IsLocked)
+        //    {
+        //        NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
+        //    }
+        //}
 
 
 

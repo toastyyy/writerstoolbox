@@ -96,7 +96,7 @@
             <templateselector:TypeObjectTemplateSelector
             Content="{Binding}"
             viewTypeObject="{StaticResource LongListTypeObjectTemplate}"
-            addTypeObject="{StaticResource LongListTypeObjectAddTemplate}"/>
+            addTypeObject="{StaticResource LongListTypeObjectAddTemplate}" VerticalAlignment="Top"/>
         </DataTemplate>
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
@@ -113,15 +113,17 @@
                     LayoutMode="Grid"
                     GridCellSize="450, 130"
                     x:Name="typeLongList"
-                    SelectionChanged="LongList_SelectionChanged" Hold="LongList_Hold">
+                    SelectionChanged="LongList_SelectionChanged" 
+                    Hold="LongList_Hold" 
+                    VerticalContentAlignment="Top" HorizontalAlignment="Stretch" BorderThickness="1" BorderBrush="Black">
                     <!--Template für LongListSelector-item-->
                 </toolkit:LongListMultiSelector>
-                <TextBlock x:Name="btnOverview" Text="klick" Foreground="White" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>
+                <!--<TextBlock x:Name="btnOverview" Text="klick" Foreground="White" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>-->
             </Grid>
         </DataTemplate>
         <!--Template für neuen Typ-->
         <DataTemplate x:Key="newType">
-            <StackPanel VerticalAlignment="Top" Margin="0,-50,0,0">
+            <StackPanel VerticalAlignment="Top" Margin="0,50,0,0">
                 <TextBlock HorizontalAlignment="Left" Foreground="Black" Margin="25,0,0,0" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTypeTitleText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Width="149" FontSize="25"/>
                 <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus" Loaded="TitleLoaded"/>
                 <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTypeColorText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Width="149" FontSize="25"/>
@@ -143,7 +145,7 @@
             <templateselector:PivotTypeTemplateSelector
                 Content="{Binding}"
                 viewTypes="{StaticResource PivotItem}"
-                addType="{StaticResource newType}" 
+                addType="{StaticResource newType}" VerticalAlignment="Top" 
                 />
 
         </DataTemplate>
