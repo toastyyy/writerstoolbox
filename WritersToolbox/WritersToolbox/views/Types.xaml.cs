@@ -638,5 +638,12 @@ namespace WritersToolbox.views
         {
             NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
         }
+
+        private void LayoutRoot_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
+        {
+            NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
+            e.Handled = true;
+            e.Complete();
+        }
     }
 }

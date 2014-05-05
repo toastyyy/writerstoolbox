@@ -152,7 +152,7 @@
 
 
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
-    <Grid x:Name="LayoutRoot" Background="White">
+    <Grid x:Name="LayoutRoot" Background="White" ManipulationDelta="LayoutRoot_ManipulationDelta" >
         <Grid x:Name="layoutContent" Background="White">
             <Image Margin="0,-6,0,549" Source="/headImage_rot_smal.png" Stretch="Fill"/>
             <!--Popup für Löschen des Typs-->

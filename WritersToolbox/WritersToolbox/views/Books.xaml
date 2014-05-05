@@ -9,7 +9,6 @@
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:converter="clr-namespace:WritersToolbox.converter"
     xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
-        xmlns:SemanticZoomLibrary="clr-namespace:SemanticZoomLibrary;assembly=SemanticZoomLibrary"
     mc:Ignorable="d"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"

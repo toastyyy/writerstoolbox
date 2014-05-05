@@ -406,11 +406,21 @@ namespace WritersToolbox.viewmodels
                 foreach (models.Event _e in events)
                 {
                     _e.deleted = true;
+                    _e.orderInChapter = -1;
                 }
                 obj_chapter = wtb.GetTable<models.Chapter>().Single(chapter => chapter.chapterID == item.chapterID);
                 obj_chapter.deleted = true;
+                int oldChapterNumber = obj_chapter.chapterNumber;
+                obj_chapter.chapterNumber = -1;
+                
+                //Alle untere Kapitel aktualisieren.
+                List<models.Chapter> chapters = wtb.GetTable<models.Chapter>().Where(chapter => chapter.chapterNumber > oldChapterNumber).ToList();
+                foreach (models.Chapter _c in chapters)
+                {
+                    _c.chapterNumber -= 1;
+                }
             
-        }
+            }
             wtb.SubmitChanges();
             this._structur = this.getStructure();
         }
@@ -421,10 +431,22 @@ namespace WritersToolbox.viewmodels
             {
                 obj_event = wtb.GetTable<models.Event>().Single(_e => _e.eventID == item.eventID);
                 obj_event.deleted = true;
+                int oldOrderInChapter = obj_event.orderInChapter;
+                obj_event.orderInChapter = -1;
+                List<models.Event> events = wtb.GetTable<models.Event>().Where(_e => _e.orderInChapter > oldOrderInChapter).ToList();
+                foreach (models.Event _e in events)
+                {
+                    _e.orderInChapter -= 1;
+                }
             }
+
+
+
             wtb.SubmitChanges();
             this._structur = this.getStructure();
         }
+
+
         public void removeNewChapterEntry() {
             if (this.structur.Count == 0 || this._structur.Last().chapterID == 0)
             {

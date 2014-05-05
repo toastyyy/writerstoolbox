@@ -375,6 +375,8 @@ namespace WritersToolbox.viewmodels
                     var entries = (from t in this.tableEvent
                                    where t.eventID == ev.eventID
                                    select t).Single();
+                    //int index = db.GetTable<models.Event>().Count(_e => _e.obj_Chapter.chapterID == ev.chapter.chapterID && !_e.deleted);
+                    //entries.orderInChapter = index + 1;
                     entries.deleted = false;
                 }
                 if (entry.GetType().IsAssignableFrom((new datawrapper.Book()).GetType()))
@@ -399,7 +401,10 @@ namespace WritersToolbox.viewmodels
                     var entries = (from c in this.tableChapter
                                    where c.chapterID == ca.chapterID
                                    select c).Single();
+                    //int index = db.GetTable<models.Chapter>().Count(_c => _c.obj_tome.tomeID == ca.tome.tomeID && !_c.deleted);
+                    //entries.chapterNumber = index + 1;
                     entries.deleted = false;
+                    
                 }
                 
             }

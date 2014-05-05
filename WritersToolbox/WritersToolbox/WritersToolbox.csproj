@@ -380,8 +380,6 @@
     <Content Include="icons\dropbox-logo.png" />
     <Content Include="icons\finden.png" />
     <Content Include="icons\character_round_icon.png" />
-    <Content Include="icons\move-down.png" />
-    <Content Include="icons\move-up.png" />
     <Content Include="Assets\start_background.png" />
     <Content Include="Assets\testbild.png" />
     <Content Include="Assets\test_strpage.png" />
@@ -410,6 +408,8 @@
     <Content Include="icons\info_unchecked.png" />
     <Content Include="icons\italic.png" />
     <Content Include="icons\micro.png" />
+    <Content Include="icons\move-down.png" />
+    <Content Include="icons\move-up.png" />
     <Content Include="icons\notizen.png" />
     <Content Include="icons\on.png" />
     <Content Include="icons\off.png" />
@@ -512,9 +512,6 @@
     </Reference>
     <Reference Include="RestSharp.WindowsPhone">
       <HintPath>..\packages\RestSharp.104.4.0\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>
-    </Reference>
-    <Reference Include="SemanticZoomLibrary">
-      <HintPath>..\..\..\..\..\Desktop\SemanticZoomIn\SemanticZoomLibrary\Bin\Debug\SemanticZoomLibrary.dll</HintPath>
     </Reference>
     <Reference Include="System.Threading.Tasks.WP71">
       <HintPath>..\packages\DropNet.1.9.6\lib\sl4-wp71\System.Threading.Tasks.WP71.dll</HintPath>
