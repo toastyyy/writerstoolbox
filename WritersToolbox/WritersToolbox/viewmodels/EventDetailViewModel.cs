@@ -185,6 +185,23 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("Event");
         }
 
+        public int getTomeIDForChapter(int chapterId) {
+            var chapter = (from c in tableChapter
+                          where c.chapterID == chapterId
+                           select c).Single();
+            return chapter.obj_tome.tomeID;
+        }
+
+        public void updateTitle(String newTitle)
+        {
+            var ev = (from e in tableEvents
+                      where e.eventID == this.event_id
+                      select e).Single();
+            ev.title = newTitle;
+            this.wtb.SubmitChanges();
+            this.NotifyPropertyChanged("Event");
+        }
+
         public void attachTypeObject(int toID, int eID)
         {
             Event ev = (from e in this.tableEvents

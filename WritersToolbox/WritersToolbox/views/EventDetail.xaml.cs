@@ -13,6 +13,7 @@ using System.Windows.Media.Imaging;
 using System.Text.RegularExpressions;
 using WritersToolbox.Resources;
 using System.Collections;
+using System.Windows.Media;
 
 namespace WritersToolbox.views
 {
@@ -38,12 +39,15 @@ namespace WritersToolbox.views
         {
             base.OnNavigatedFrom(e);
 
-            PhoneApplicationService.Current.State["RestoreData"] =
-            new datawrapper.Event()
-            {
-                finaltext = textBoxFinalText.Text,
-                eventID = this.edvm.Event.eventID
-            };
+            if (this.edvm.Event != null) { 
+                PhoneApplicationService.Current.State["RestoreData"] =
+                new datawrapper.Event()
+                {
+                    finaltext = textBoxFinalText.Text,
+                    eventID = this.edvm.Event.eventID
+                };
+            }
+
 
 
 
@@ -466,8 +470,15 @@ namespace WritersToolbox.views
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             //NavigationService.GoBack();
-
-            NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=" + this.edvm.Event.chapter.tome.tomeID, UriKind.RelativeOrAbsolute));
+            if (this.edvm.Event != null)
+            {
+                NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=" + this.edvm.Event.chapter.tome.tomeID, UriKind.RelativeOrAbsolute));
+            }
+            else
+            {
+                int tomeId = this.edvm.getTomeIDForChapter(this.chapterID);
+                NavigationService.Navigate(new Uri("/views/TomeDetails.xaml?tomeID=" + tomeId, UriKind.RelativeOrAbsolute));
+            }
 
             var lastPage = NavigationService.BackStack.FirstOrDefault();
             if (lastPage != null && lastPage.Source.ToString().Substring(0, 23).Equals("/views/EventDetail.xaml"))
@@ -652,6 +663,11 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void saveNewEvent(object sender, EventArgs e)
         {
+            if (newEventTextbox.Text.Equals("")) {
+                MessageBox.Show("Sie müssen einen Titel für das Ereignis angeben");
+                return;
+            }
+            this.newEventTextbox.LostFocus -= newEventTextbox_LostFocus;
             this.edvm.newEvent(newEventTextbox.Text, this.chapterID);
             this.edvm.LoadData();
             this.DataContext = null;
@@ -712,6 +728,25 @@ namespace WritersToolbox.views
             {
                 this.removeAppBarNotes();
             }
+        }
+
+        private void tTitle_GotFocus(object sender, RoutedEventArgs e)
+        {
+            SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
+            this.tTitle.Background = _s;
+        }
+
+        private void tTitle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (!tTitle.Text.Equals(""))
+            {
+                this.edvm.updateTitle(tTitle.Text);
+            }
+        }
+
+        private void newEventTextbox_LostFocus(object sender, RoutedEventArgs e)
+        {
+            this.newEventTextbox.Focus();
         }
     }
 }

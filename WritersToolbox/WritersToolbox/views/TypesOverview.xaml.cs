@@ -84,6 +84,11 @@ namespace WritersToolbox.views
                 return;
             if (selectedType.typeID == -1)
                 return;
+            if (selectedType.typeObjects
+                .Count() > 1) {
+                    MessageBox.Show("Du kannst nur Typen löschen, die keine Typobjekte enthalten");
+                    return;
+            }
             TypeDeleteQuestion.Text = AppResources.TypeDeleteQuestion1 + selectedType.title.ToString() + AppResources.TypeDeleteQuestion2;
             deleteTypePopup.IsOpen = true;
         }
@@ -104,6 +109,11 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
         }
 
-
+        protected override void OnNavigatedFrom(NavigationEventArgs e)
+        {
+            base.OnNavigatedFrom(e);
+            NavigationService.RemoveBackEntry();
+            NavigationService.RemoveBackEntry();
+        }
     }
 }

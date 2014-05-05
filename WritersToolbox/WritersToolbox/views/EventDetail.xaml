@@ -159,7 +159,7 @@
                      
                      >
             <phone:Pivot.Title>
-                <TextBlock Text="{Binding Path=LocalizedResources.EventDetailTitle, Source={StaticResource LocalizedStrings}}" Margin="9,0,0,0" FontSize="22" FontFamily="Segoe WP Light"/>
+                <TextBox Text="{Binding title}" x:Name="tTitle" FontSize="30" FontFamily="Segoe WP Light" BorderThickness="0" Padding="2" Margin="0,-20,0,0" Width="357" Background="{x:Null}" Foreground="White" GotFocus="tTitle_GotFocus" TextChanged="tTitle_TextChanged"/>
             </phone:Pivot.Title>
             
             <!--Finalnotiz-->
@@ -184,7 +184,7 @@
                              Background="Transparent" 
                              TextWrapping="Wrap" 
                              Text="" 
-                             BorderThickness="0,0,0,3" />
+                             BorderThickness="0,0,0,3" LostFocus="newEventTextbox_LostFocus" />
                         <TextBlock x:Name="newChapterTextTitle" HorizontalAlignment="Left" FontFamily="Segoe WP Light" Foreground="#FF353535" FontSize="30" Margin="50,0,0,0" TextWrapping="Wrap" Text="Titel:" VerticalAlignment="Top" Height="80" Width="116" Padding="0,18,0,0" />
 
                     </Grid>
