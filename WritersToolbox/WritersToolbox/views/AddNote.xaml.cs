@@ -1,4 +1,4 @@
-﻿using System;
+﻿﻿using System;
 using System.Diagnostics;
 using System.Resources;
 using System.Reflection;
@@ -730,12 +730,14 @@ namespace WritersToolbox.views
             //Wenn Anzahl der selektierte Bilder gleich 0 ist.
             if (llms_images.SelectedItems.Count == 0)
             {
+                this.pivoteName.IsLocked = true;
                 llms_images.EnforceIsSelectionEnabled = false;               
                 zurueckButton.Visibility = Visibility.Collapsed;
                 deleteButton.Visibility = Visibility.Collapsed;
             }
             else
             {
+                this.pivoteName.IsLocked = false;
                 zurueckButton.Visibility = Visibility.Visible;
                 deleteButton.Visibility = Visibility.Visible;
             } 
@@ -781,9 +783,11 @@ namespace WritersToolbox.views
                 selectAllRecordCheckBox.IsChecked = true;
 
             }
+            
             //Wenn Anzahl der selektierte Bilder gleich 0 ist.
             if (llms_records.SelectedItems.Count == 0)
             {
+                this.pivoteName.IsLocked = true;
                 llms_records.EnforceIsSelectionEnabled = false;
                 addRecordButton.IsEnabled = true;
                 zurueckRecordButton.Visibility = Visibility.Collapsed;
@@ -791,6 +795,7 @@ namespace WritersToolbox.views
             }
             else
             {
+                this.pivoteName.IsLocked = false;
                 zurueckRecordButton.Visibility = Visibility.Visible;
                 deleteRecordButton.Visibility = Visibility.Visible;
             }
@@ -1107,9 +1112,13 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void RecordAudioChecked(object sender, RoutedEventArgs e)
         {
+            this.pivoteName.IsLocked = true;
+
             onRecord = true;
-            ApplicationBar.Buttons.Remove(save);
-            ApplicationBar.Buttons.Remove(saveAs);
+            //ApplicationBar.Buttons.Remove(save);
+            //ApplicationBar.Buttons.Remove(saveAs);
+            //removeManagementApplicationBarButton();
+            ApplicationBar.IsVisible = false;
             //Die Größe der List anpassen.
             llms_records.Margin = new Thickness(27, 84, 0, 17);
             //AudioPlayer stopen, wenn er noch am laufen ist.
@@ -1152,10 +1161,12 @@ namespace WritersToolbox.views
         private void RecordAudioUnchecked(object sender, RoutedEventArgs e)
         {
             onRecord = false;
-            ApplicationBar.Buttons.Remove(cancel);
-            ApplicationBar.Buttons.Add(saveAs);
-            ApplicationBar.Buttons.Add(save);         
-            ApplicationBar.Buttons.Add(cancel);
+            //ApplicationBar.Buttons.Remove(cancel);
+            //ApplicationBar.Buttons.Add(saveAs);
+            //ApplicationBar.Buttons.Add(save);         
+            //ApplicationBar.Buttons.Add(cancel);
+            ApplicationBar.IsVisible = true;
+            //addManagementApplicationBarButton();
             //Aufnahme stopen.
             recorder.Stop();
             //DauerTimer zerstören.
@@ -1194,9 +1205,9 @@ namespace WritersToolbox.views
             using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
             {
                 //Filename generieren.
-                string[] fileNames = isoStore.GetFileNames("Record*");
+                string[] fileNames = isoStore.GetFileNames(AppResources.AddNoteHeadlineRecord + "*");
                 int lastindex = findlastFile(fileNames);
-                string filename = AppResources.AddNoteHeadlineRecord+ (lastindex + 1);
+                string filename = AppResources.AddNoteHeadlineRecord + (lastindex + 1);
                 //Name des Records durch aktuelles Datum erstellen.
                 string _tempFileName = string.Format("{0}.wav", filename);
                 

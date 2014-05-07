@@ -27,7 +27,7 @@
         <Image Margin="0,-6,0,567" Source="/headImage_rot_smal.png" Stretch="Fill"/>
         <!--Pivotsteuerelement-->
         <!--Neue Notiz anlegen-->
-        <phone:Pivot Margin="0,10,0,0" VerticalAlignment="Top" VerticalContentAlignment="Top" FontFamily="Segoe WP Light">
+        <phone:Pivot x:Name="pivoteName" Margin="0,10,0,0" VerticalAlignment="Top" VerticalContentAlignment="Top" FontFamily="Segoe WP Light">
             <phone:Pivot.HeaderTemplate>
                 <DataTemplate>
                     <ContentPresenter>
@@ -52,7 +52,7 @@
                                 </TextBox>
                                 <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro1_Tap"/>
                             </Canvas>
-                            <TextBox x:Name="detailsTextBox" Height="350" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.AddNoteDetailsText, Source={StaticResource LocalizedStrings}}" Width="432" Canvas.Top="58" Margin="0,0,0,40" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Foreground="Black" FontFamily="Segoe UI Light" FontSize="30"  SelectionForeground="White" SelectionBackground="#643C3C3C" BorderThickness="0" />
+                            <TextBox x:Name="detailsTextBox" Height="270" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.AddNoteDetailsText, Source={StaticResource LocalizedStrings}}" Width="432" Canvas.Top="58" Margin="0,0,0,40" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Foreground="Black" FontFamily="Segoe UI Light" FontSize="30"  SelectionForeground="White" SelectionBackground="#643C3C3C" BorderThickness="0" />
                             <Image x:Name="micro2" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro2_Tap"/>
                         </StackPanel>
                     </ScrollViewer>
@@ -79,7 +79,7 @@
                             <ImageBrush Stretch="Fill" ImageSource="/icons/zurueck.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
-                    <CheckBox x:Name="selectAllRecordCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="Alles auswählen" HorizontalAlignment="Left" Margin="24,5,0,0" VerticalAlignment="Top" Width="221" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" RenderTransformOrigin="0.5,0.5" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Visibility="Collapsed" />
+                    <CheckBox Visibility="Collapsed" x:Name="selectAllRecordCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="Alle auswählen" HorizontalAlignment="Left" Margin="24,5,0,0" VerticalAlignment="Top" Width="230" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" RenderTransformOrigin="0.5,0.5" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Visibility="Collapsed" />
                     <!--dynamische generierte List-->
                     <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
@@ -165,7 +165,7 @@
                             <ImageBrush Stretch="Fill" ImageSource="/icons/zurueck.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
-                    <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="24,5,0,0" VerticalAlignment="Top" Width="240" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" Height="77" Foreground="#FF353535" BorderBrush="#FF353535" Visibility="Collapsed"/>
+                    <CheckBox Visibility="Visible" x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="24,5,0,0" VerticalAlignment="Top" Width="240" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" Height="77" Foreground="#FF353535" BorderBrush="#FF353535" Visibility="Collapsed"/>
                     <!--dynamische generierte List-->
                     <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 

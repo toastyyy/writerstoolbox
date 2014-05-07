@@ -170,7 +170,7 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die TITLE ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die TITEL ähnelt.
         /// </summary>
         public static string AddNoteTitleTextUpper {
             get {

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using Microsoft.Phone.Controls;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -120,16 +121,8 @@ namespace WritersToolbox.viewmodels
         /// </summary>
         /// <returns>liefert Anzahl Typeobjekte zurück</returns>
         public int getNumberOfTypeObjects()
-        {
-            //List<models.Event> events = (from _event in tableEvent
-            //                                 where _event.obj_Chapter.obj_tome.tomeID == tome.tomeID && _event.deleted == false
-            //                                 select _event).ToList();
-            //foreach (models.Event item in events)
-            //{
-                
-            //}
-            //return tableTypeObject.Count(to => to.obj_tome.tomeID == tome.tomeID);
-            return 0;
+        {          
+            return typeObjects.Count;
         }
 
         private int numberOfSigns;
@@ -731,6 +724,20 @@ namespace WritersToolbox.viewmodels
         public void changeTitle(String newTitle) {
             this.tome.title = newTitle;
             this.wtb.SubmitChanges();
+        }
+
+        public bool isEventsInChapter(LongListMultiSelector l, int chapterID)
+        {
+            foreach (datawrapper.Event item in l.ItemsSource)
+            {
+                int y = (from x in tableEvent
+                         where x.eventID == item.eventID && x.obj_Chapter.chapterID == chapterID
+                         select x).Count();
+                if (y == 0)
+                    return false;
+            }
+            
+            return true;
         }
     }
 }

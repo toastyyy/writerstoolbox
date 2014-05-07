@@ -533,12 +533,15 @@ namespace WritersToolbox.views
 
                 llstructure.SelectedItems.Add(((Grid)sender).DataContext);
                 if (!isSectionOpened)
-        {
+                {
                     addSelectionApplicationBarButton();
-        }
-                //Um alle events mitselektieren wenn die liste aufgeklappt ist.
+                }
+                int ID = (((LongListMultiSelector)sender).DataContext as datawrapper.Chapter).chapterID;
+                if(tome_VM.isEventsInChapter(oldLlms, ID))
+                {
+                                    //Um alle events mitselektieren wenn die liste aufgeklappt ist.
                 if (oldLlms != null && oldLlms.Visibility == Visibility.Visible)
-        {
+                {
                     oldLlms.IsSelectionEnabled = true;
                     ObservableCollection<datawrapper.Event> l = new ObservableCollection<datawrapper.Event>(
                         (ObservableCollection<datawrapper.Event>)oldLlms.ItemsSource);
@@ -547,9 +550,11 @@ namespace WritersToolbox.views
                         if (!oldLlms.SelectedItems.Contains(item))
                         {
                             oldLlms.SelectedItems.Add(item);
-        }
+                        }
                     }
                 }
+                }
+
             }
 
         }
