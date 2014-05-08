@@ -10,7 +10,6 @@
     xmlns:toolkit="clr-namespace:Microsoft.Phone.Controls;assembly=Microsoft.Phone.Controls.Toolkit"
     xmlns:templateselector="clr-namespace:WritersToolbox.templateselector"
     mc:Ignorable="d"
-    d:DataContext="{d:DesignData ../sampleData/sampleDataTyp.xaml}"
     FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic"
     FontSize="{StaticResource PhoneFontSizeNormal}"
     Foreground="{StaticResource PhoneForegroundBrush}"
@@ -104,7 +103,7 @@
                 <CheckBox  IsEnabled="{Binding typeObjects, Converter={StaticResource CollectionHasElementsConverter}}" x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="0,-20,0,0" VerticalAlignment="Top" Width="224" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
                 <toolkit:LongListMultiSelector
                     Height="Auto" 
-                    IsSelectionEnabled="False"
+                    IsSelectionEnabled="False" 
                     Margin="20,30,10,0" 
                     Width="Auto" 
                     ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}"

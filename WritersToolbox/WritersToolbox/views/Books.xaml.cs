@@ -1,18 +1,13 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Navigation;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
-using System.Collections.ObjectModel;
 using WritersToolbox.viewmodels;
 using WritersToolbox.Resources;
-using System.Windows.Media;
-using System.Diagnostics;
-using System.Windows.Input;
+using System.Collections;
+using Coding4Fun.Toolkit.Controls;
 
 namespace WritersToolbox.views
 {
@@ -39,6 +34,8 @@ namespace WritersToolbox.views
 
         //Flag für ändern der BUttons in der Appbar
         private bool hasEventHandler = false;
+
+        private LongListMultiSelector currentSelectList = null;
 
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
@@ -352,13 +349,10 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void tomeSelected(object sender, SelectionChangedEventArgs e)
+        private void tomeSelected(object sender, System.Windows.Input.GestureEventArgs e)
         {
             datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
-            LongListSelector selector = sender as LongListSelector;
-            if (selector == null)
-                return;
-            datawrapper.Tome tome = selector.SelectedItem as datawrapper.Tome;
+            datawrapper.Tome tome = (sender as Grid).DataContext as datawrapper.Tome;
             if (tome == null)
                 return;
             if (tome.tomeID != -1)
@@ -369,7 +363,6 @@ namespace WritersToolbox.views
             {
                 NavigationService.Navigate(new Uri("/views/AddTome.xaml?bookID=" + b.bookID, UriKind.Relative));
             }
-            selector.SelectedItem = null;
         }
 
         /// <summary>
@@ -469,6 +462,118 @@ namespace WritersToolbox.views
                 e.Handled = true;
                 e.Complete();
         }
+
+        private void LongListSelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            LongListMultiSelector selector = sender as LongListMultiSelector;
+            Grid parent = selector.Parent as Grid;
+            if (selector == null)
+                return;
+            for (int i = 0; i < e.RemovedItems.Count; i++)
+            {
+                selector.SelectedItems.Remove(e.RemovedItems[i]);
+            }
+
+            if (selector.SelectedItems.Count == 0)
+            {
+                books_VM.addAddTome(PivotMain.SelectedItem as datawrapper.Book);
+                this.loadBookAppBar();
+                this.PivotMain.IsLocked = false;
+            }
+            else
+            {
+                this.PivotMain.IsLocked = true;
+            }
+
+            if (selector.SelectedItems.Count < selector.ItemsSource.Count)
+            {
+                ((CheckBox)parent.Children[0]).Unchecked -= selectAllCheckBox_Unchecked;
+                ((CheckBox)parent.Children[0]).IsChecked = false;
+                ((CheckBox)parent.Children[0]).Unchecked += selectAllCheckBox_Unchecked;
+            }
+            if (selector.SelectedItems.Count == selector.ItemsSource.Count)
+            {
+                ((CheckBox)parent.Children[0]).Unchecked -= selectAllCheckBox_Unchecked;
+                ((CheckBox)parent.Children[0]).IsChecked = true;
+                ((CheckBox)parent.Children[0]).Unchecked += selectAllCheckBox_Unchecked;
+            }
+        }
+
+        private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
+        {
+            this.PivotMain.IsLocked = false;
+            FrameworkElement c = (FrameworkElement)((FrameworkElement)sender).Parent;
+
+            IEnumerator enumeration = c.GetVisualChildren().GetEnumerator();
+            while (enumeration.MoveNext())
+            {
+                if (enumeration.Current.IsTypeOf(new LongListMultiSelector()))
+                {
+                    LongListMultiSelector tmp = ((LongListMultiSelector)enumeration.Current);
+                    tmp.SelectedItems.Clear();
+                }
+            }
+            this.loadBookAppBar();
+            books_VM.addAddTome(PivotMain.SelectedItem as datawrapper.Book);
+        }
+
+        private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
+        {
+            
+            books_VM.removeAddTome(PivotMain.SelectedItem as datawrapper.Book);
+            //books_VM.loadData();
+            //this.DataContext = null;
+            //this.DataContext = Books_VM;
+            //this.PivotMain.IsLocked = true;
+            Grid g = ((FrameworkElement)sender).Parent as Grid;
+
+            LongListMultiSelector tmp = g.Children[1] as LongListMultiSelector;
+            IEnumerator items = tmp.ItemsSource.GetEnumerator();
+            this.currentSelectList = tmp;
+            tmp.SelectionChanged -= LongListSelectionChanged;
+            tmp.SelectedItems.Clear();
+            while (items.MoveNext())
+            {
+                tmp.SelectedItems.Add(items.Current);
+            }
+            tmp.SelectionChanged += LongListSelectionChanged;
+            ApplicationBar.Buttons.Clear();
+
+            ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+            ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+            delete.Text = AppResources.AppBarDelete;
+            //delete.Click += deleteSelection;
+            cancel.Text = AppResources.AppBarCancel;
+            cancel.Click += cancelSelection;
+            ApplicationBar.Buttons.Add(delete);
+            ApplicationBar.Buttons.Add(cancel);
+        }
+
+        private void cancelSelection(object sender, EventArgs e)
+        {
+            if (currentSelectList != null)
+            {
+                currentSelectList.SelectedItems.Clear();
+                books_VM.addAddTome(PivotMain.SelectedItem as datawrapper.Book);
+                this.loadBookAppBar();
+            }
+        }
+
+        private void deleteSelection(object sender, EventArgs e)
+        {
+            if (currentSelectList != null)
+            {
+                this.PivotMain.IsLocked = false;
+                IEnumerator enumerator = currentSelectList.SelectedItems.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    books_VM.deleteTome(((datawrapper.Tome)enumerator.Current).tomeID);
+                }
+                books_VM.addAddTome(PivotMain.SelectedItem as datawrapper.Book);
+                this.loadBookAppBar();
+            }
+        }
+
 
     }
 }

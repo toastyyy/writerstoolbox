@@ -20,6 +20,7 @@
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <converter:DateConverter x:Key="dateCon"/>
         <converter:CollectionCountConverter x:Key="collectionCountCon"/>
+        <converter:CollectionHasElementsConverter x:Key="CollectionHasElementsConverter" />
 
         <!--Template für PivotHeader-->
         <DataTemplate x:Key="PivotHeader">
@@ -89,7 +90,7 @@
 
         <!--Template für LongListSelector-item bereits exisitierenden Band-->
         <DataTemplate x:Name="existingTome">
-            <Grid Width="450" Height="Auto" Margin="0,20,0,20" >
+            <Grid Width="450" Height="Auto" Margin="0,20,0,20" Tap="tomeSelected">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
@@ -141,7 +142,7 @@
 
         <!--Template für LongListSelector-item neuen Band-->
         <DataTemplate x:Name="newTome" >
-            <Grid Width="450" Height="Auto" Margin="0,10,0,20">
+            <Grid Width="450" Height="Auto" Margin="0,10,0,20" Tap="tomeSelected">
                 <Grid.ColumnDefinitions>
                     <ColumnDefinition Width="115"/>
                     <ColumnDefinition Width="*"/>
@@ -172,17 +173,20 @@
         <!--Template für Pivotitem-->
         <DataTemplate x:Key="PivotItem">
             <Grid Width="480">
-                <phone:LongListSelector 
+                <CheckBox  IsEnabled="{Binding tomes, Converter={StaticResource CollectionHasElementsConverter}}" x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="0,-20,0,0" VerticalAlignment="Top" Width="224" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked"/>
+                <toolkit:LongListMultiSelector
+                    IsSelectionEnabled="False"
                     Height="Auto" 
                     Margin="20,30,10,0" 
                     Width="Auto"
+                    ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}"
                     HorizontalAlignment="Stretch"
                     ItemsSource="{Binding tomes}"
                     LayoutMode="Grid"
                     GridCellSize="450, 130"
                     x:Name="LongList"
-                    SelectionChanged="tomeSelected">
-                    <phone:LongListSelector.ItemTemplate>
+                    SelectionChanged="LongListSelectionChanged">
+                    <toolkit:LongListMultiSelector.ItemTemplate>
                         <DataTemplate>
                             <!--TemplateSelector für LonglistInhalt-->
                             <templateselector:BooksLongListTemplateSelector 
@@ -190,8 +194,8 @@
                             newTome="{StaticResource newTome}"
                             existingTome="{StaticResource existingTome}"/>
                         </DataTemplate>
-                    </phone:LongListSelector.ItemTemplate>
-                </phone:LongListSelector>
+                    </toolkit:LongListMultiSelector.ItemTemplate>
+                </toolkit:LongListMultiSelector>
                 <!--<TextBlock Text="klick" Foreground="#ff353535" Margin="0,164,0,300" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="48" Tap="navUeberblick"/>-->
             </Grid>
         </DataTemplate>

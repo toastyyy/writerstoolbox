@@ -403,6 +403,42 @@ namespace WritersToolbox.viewmodels
                 
         }
 
+        public void removeAddTome(datawrapper.Book b)
+        {
+            int i = Books.IndexOf(b);
+            for (int j = 0; j < Books.ElementAt(i).tomes.Count; j++)
+            {
+                if (Books.ElementAt(i).tomes.ElementAt(j).tomeID == -1)
+                {
+                    Books.ElementAt(i).tomes.RemoveAt(j);
+                    
+                }
+            }
+            //this.loadData();
+            this.NotifyPropertyChanged("Tomes");
+        }
+
+        public void addAddTome(datawrapper.Book b)
+        {
+            int i = Books.IndexOf(b);
+            Boolean hasAdd = false;
+            for (int j = 0; j < Books.ElementAt(i).tomes.Count && !hasAdd; j++)
+            {
+                hasAdd = Books.ElementAt(i).tomes.ElementAt(j).tomeID == -1;
+            }
+            if (!hasAdd)
+            {
+                Books.ElementAt(i).tomes.Add(
+    new datawrapper.Tome()
+    {
+        title = AppResources.NewTomeTemplate,
+        book = new datawrapper.Book() { bookID = -1 }
+        
+    }
+    );
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Used to notify the app that a property has changed.
@@ -414,6 +450,11 @@ namespace WritersToolbox.viewmodels
             }
         }
 
-        
+
+
+        internal void deleteTome(int p)
+        {
+            throw new NotImplementedException();
+        }
     }
 }

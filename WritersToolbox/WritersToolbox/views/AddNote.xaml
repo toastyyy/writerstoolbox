@@ -79,7 +79,7 @@
                             <ImageBrush Stretch="Fill" ImageSource="/icons/zurueck.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
-                    <CheckBox Visibility="Collapsed" x:Name="selectAllRecordCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="Alle auswählen" HorizontalAlignment="Left" Margin="24,5,0,0" VerticalAlignment="Top" Width="230" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" RenderTransformOrigin="0.5,0.5" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Visibility="Collapsed" />
+                    <CheckBox Visibility="Collapsed" x:Name="selectAllRecordCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="Alle auswählen" HorizontalAlignment="Left" Margin="24,5,0,0" VerticalAlignment="Top" Width="230" Unchecked="selectAllRecordCheckBox_Unchecked" Checked="selectAllRecordCheckBox_Checked" RenderTransformOrigin="0.5,0.5" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535"/>
                     <!--dynamische generierte List-->
                     <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
@@ -165,7 +165,7 @@
                             <ImageBrush Stretch="Fill" ImageSource="/icons/zurueck.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
-                    <CheckBox Visibility="Visible" x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="24,5,0,0" VerticalAlignment="Top" Width="240" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" Height="77" Foreground="#FF353535" BorderBrush="#FF353535" Visibility="Collapsed"/>
+                    <CheckBox Visibility="Visible" x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="24,5,0,0" VerticalAlignment="Top" Width="240" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" Height="77" Foreground="#FF353535" BorderBrush="#FF353535" />
                     <!--dynamische generierte List-->
                     <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
