@@ -48,6 +48,7 @@ namespace WritersToolbox.viewmodels
         private Table<Tome> tableTome;
         private Table<Chapter> tableChapter;
         private Table<BookType> tableBookType;
+        private Table<Event> tableEvents = null;
         private Book obj_book;
 
         public BooksViewModel() {
@@ -57,7 +58,7 @@ namespace WritersToolbox.viewmodels
             tableTome = wtb.GetTable<Tome>();
             tableChapter = wtb.GetTable<Chapter>();
             tableBookType = wtb.GetTable<BookType>();
-
+            this.tableEvents = this.wtb.GetTable<Event>();
             
         }
 
@@ -321,23 +322,24 @@ namespace WritersToolbox.viewmodels
             {
                 List<datawrapper.Tome> tmpTomes = new List<datawrapper.Tome>();
                 var sqlTomes = from t in tableTome
-                               where t.obj_book.bookID == b.bookID
+                               where t.obj_book.bookID == b.bookID && t.deleted == false
                                select t;
 
                 foreach(var t in sqlTomes) 
                 {
-                    //var sqlChapters = from c in tableChapter
-                    //                  where c.obj_tome.tomeID == t.tomeID
-                    //                  select c;
+                    var sqlChapters = from c in tableChapter
+                                      where c.obj_tome.tomeID == t.tomeID && c.deleted == false
+                                      select c;
 
                     List<datawrapper.Chapter> listChapter = new List<datawrapper.Chapter>();
-                    //foreach (var c in sqlChapters) 
-                    //{
-                    //    datawrapper.Chapter chapter = new datawrapper.Chapter() { 
-                            
-                    //    };
-                    //    listChapter.Add(chapter);
-                    //}
+                    foreach (var c in sqlChapters)
+                    {
+                        datawrapper.Chapter chapter = new datawrapper.Chapter()
+                        {
+
+                        };
+                        listChapter.Add(chapter);
+                    }
                     datawrapper.Tome tome = new datawrapper.Tome() { 
                         addedDate = t.addedDate,
                         deleted = t.deleted,
@@ -454,7 +456,26 @@ namespace WritersToolbox.viewmodels
 
         internal void deleteTome(int p)
         {
-            throw new NotImplementedException();
+            var sqlTome = (from t in tableTome
+                           where t.tomeID == p
+                           select t).Single();
+            sqlTome.deleted = true;
+
+            var sqlChapters = from c in tableChapter
+                              where c.obj_tome.tomeID == sqlTome.tomeID
+                              select c;
+            foreach (var c in sqlChapters)
+            {
+                c.deleted = true;
+
+                Event sqlEvent = (from e in this.tableEvents
+                                  where e.fk_chapterID == c.chapterID
+                                  select e).Single();
+
+                sqlEvent.deleted = true;
+            }
+            this.wtb.SubmitChanges();
+            this.loadData();
         }
     }
 }

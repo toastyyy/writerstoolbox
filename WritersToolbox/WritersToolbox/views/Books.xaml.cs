@@ -49,7 +49,7 @@ namespace WritersToolbox.views
                     books_VM = new BooksViewModel();
                     if (!books_VM.isDataLoaded())
                         Books_VM.loadBookTypes();
-                        books_VM.loadData();
+                        Books_VM.loadData();
 
                 }
                 return books_VM;
@@ -297,7 +297,7 @@ namespace WritersToolbox.views
             {
                 ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
                 ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
-                btn1.IconUri = new Uri("/icons/saveAs.png", UriKind.Relative);
+                btn1.IconUri = new Uri("/icons/edit.png", UriKind.Relative);
                 btn1.Text = AppResources.AppBarEdit;
                 btn1.Click -= new EventHandler(SaveBook);
                 btn1.Click += new EventHandler(ChangeBook);
@@ -482,7 +482,11 @@ namespace WritersToolbox.views
             }
             else
             {
-                this.PivotMain.IsLocked = true;
+                books_VM.removeAddTome(PivotMain.SelectedItem as datawrapper.Book);
+                //this.DataContext = null;
+                //this.DataContext = Books_VM;
+                //books_VM.loadData();
+                //this.PivotMain.IsLocked = true;
             }
 
             if (selector.SelectedItems.Count < selector.ItemsSource.Count)
@@ -497,6 +501,7 @@ namespace WritersToolbox.views
                 ((CheckBox)parent.Children[0]).IsChecked = true;
                 ((CheckBox)parent.Children[0]).Unchecked += selectAllCheckBox_Unchecked;
             }
+            
         }
 
         private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
@@ -542,7 +547,7 @@ namespace WritersToolbox.views
             ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
             ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
             delete.Text = AppResources.AppBarDelete;
-            //delete.Click += deleteSelection;
+            delete.Click += deleteSelection;
             cancel.Text = AppResources.AppBarCancel;
             cancel.Click += cancelSelection;
             ApplicationBar.Buttons.Add(delete);

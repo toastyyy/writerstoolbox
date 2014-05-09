@@ -177,7 +177,7 @@
                 <toolkit:LongListMultiSelector
                     IsSelectionEnabled="False"
                     Height="Auto" 
-                    Margin="20,30,10,0" 
+                    Margin="0,50,10,0" 
                     Width="Auto"
                     ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}"
                     HorizontalAlignment="Stretch"
@@ -247,7 +247,7 @@
                 <phone:Pivot ManipulationDelta="pinch_out" 
                          HeaderTemplate="{StaticResource PivotHeader}" 
                          ItemTemplate="{StaticResource PivotContent}"
-                         ItemsSource="{Binding Path=Books, Mode=OneWay}"
+                         ItemsSource="{Binding Path=Books, Mode=TwoWay}"
                          x:Name="PivotMain"
                          SelectionChanged="PivotSelectionChanged"
                          VerticalAlignment="Top"
@@ -262,7 +262,7 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton IconUri="/icons/saveAs.png" Text="ändern"/>
+            <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="ändern"/>
             <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
