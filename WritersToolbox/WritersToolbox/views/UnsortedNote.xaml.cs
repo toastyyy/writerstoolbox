@@ -29,6 +29,24 @@ namespace WritersToolbox.views
             isAllUnsortedNoteSelected = false;
             unsrotedNotes = new UnsortedNoteViewModel();
             llms_unsortedNote.ItemsSource = unsrotedNotes.getUnsortedNotes();
+            if (llms_unsortedNote.ItemsSource.Count > 0)
+            {
+                selectAllCheckBox.Visibility = Visibility.Visible;
+            }
+        }
+
+        /// <summary>
+        /// Event der Zurückbutton des Handys überschreiben.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnBackKeyPress(e);
+            if (llms_unsortedNote.IsSelectionEnabled)
+            {
+                e.Cancel = true;
+                llms_unsortedNote.IsSelectionEnabled = false;
+            }
         }
 
         /// <summary>
@@ -113,6 +131,7 @@ namespace WritersToolbox.views
             if (llms_unsortedNote.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsChecked = false;
+                selectAllCheckBox.Visibility = Visibility.Collapsed;
             }
         }
         

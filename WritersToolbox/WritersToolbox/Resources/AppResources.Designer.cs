@@ -680,7 +680,34 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Sucht eine lokalisierte Zeichenfolge, die Eine Notiz mit diesem Name ist bereits im dem Ereignis ähnelt.
+        /// </summary>
+        public static string MeldungVorhandeneNotizinEvent1 {
+            get {
+                return ResourceManager.GetString("MeldungVorhandeneNotizinEvent1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vorhanden.  ähnelt.
+        /// </summary>
+        public static string MeldungVorhandeneNotizinEvent2 {
+            get {
+                return ResourceManager.GetString("MeldungVorhandeneNotizinEvent2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Möchten sie die Notiz überschreiben ? ähnelt.
+        /// </summary>
+        public static string MeldungVorhandeneNotizinEvent3 {
+            get {
+                return ResourceManager.GetString("MeldungVorhandeneNotizinEvent3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         public static byte[] micro {
             get {
@@ -859,7 +886,25 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Looks up a localized resource of type System.Byte[].
+        ///   Sucht eine lokalisierte Zeichenfolge, die Aufnahme ähnelt.
+        /// </summary>
+        public static string PivotHeaderAufnahme {
+            get {
+                return ResourceManager.GetString("PivotHeaderAufnahme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bilder ähnelt.
+        /// </summary>
+        public static string PivotHeaderBilder {
+            get {
+                return ResourceManager.GetString("PivotHeaderBilder", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         public static byte[] play {
             get {
