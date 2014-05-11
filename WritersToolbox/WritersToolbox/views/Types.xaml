@@ -104,7 +104,7 @@
                 <toolkit:LongListMultiSelector
                     Height="Auto" 
                     IsSelectionEnabled="False" 
-                    Margin="20,30,10,0" 
+                    Margin="0,50,10,0" 
                     Width="Auto" 
                     ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}"
                     ItemsSource="{Binding typeObjects}"
