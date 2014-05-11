@@ -540,4 +540,25 @@
   <data name="MessageError" xml:space="preserve">
     <value>Fehler</value>
   </data>
+  <data name="PivotHeaderAufnahme" xml:space="preserve">
+    <value>Aufnahme</value>
+  </data>
+  <data name="PivotHeaderBilder" xml:space="preserve">
+    <value>Bilder</value>
+  </data>
+  <data name="MeldungVorhandeneNotizinEvent1" xml:space="preserve">
+    <value>Eine Notiz mit diesem Name ist bereits im dem Ereignis</value>
+  </data>
+  <data name="MeldungVorhandeneNotizinEvent2" xml:space="preserve">
+    <value>Vorhanden. </value>
+  </data>
+  <data name="MeldungVorhandeneNotizinEvent3" xml:space="preserve">
+    <value>Möchten sie die Notiz überschreiben ?</value>
+  </data>
+  <data name="CheckboxKeepTypeObjectNotes" xml:space="preserve">
+    <value>Angehangene Notizen beibehalten (aussortieren)</value>
+  </data>
+  <data name="TypeObjectsDeleteQuestion" xml:space="preserve">
+    <value>Möchtest du die Typobjekte wirklich löschen?</value>
+  </data>
 </root>

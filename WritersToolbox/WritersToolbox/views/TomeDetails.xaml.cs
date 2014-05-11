@@ -18,6 +18,7 @@ using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Windows.Threading;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.views
 {
@@ -989,13 +990,45 @@ namespace WritersToolbox.views
         {
             if (!doubleTap && !newChapterMode)
             {
-
                 datawrapper.Event _event = (sender as TextBlock).DataContext as datawrapper.Event;
-                NavigationService.Navigate(new Uri("/views/EventDetail.xaml?chapterID=" + _event.chapter.chapterID +  "&eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
-                var lastPage = NavigationService.BackStack.FirstOrDefault();
-                if (lastPage != null && lastPage.Source.ToString().Equals("/views/TomeDetails.xaml?tomeID=" + tomeID))
+                if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
                 {
-                    NavigationService.RemoveBackEntry();
+                    if (tome_VM.isExistNoteInEvent(_event.eventID, (PhoneApplicationService.Current.State["memoryNoteTitle"] as String)))
+                    {
+                        //Meldung
+                        MessageBoxResult result = MessageBoxResult.OK;
+
+                        result = MessageBox.Show(AppResources.MeldungVorhandeneNotizinEvent1 + " " + _event.title + " " 
+                            + AppResources.MeldungVorhandeneNotizinEvent2 + System.Environment.NewLine + AppResources.MeldungVorhandeneNotizinEvent3,
+                        AppResources.AppBarClose, MessageBoxButton.OKCancel);
+
+                        if (result == MessageBoxResult.OK)
+                        {
+                            tome_VM.removeNote(_event.eventID, (PhoneApplicationService.Current.State["memoryNoteTitle"] as String));
+                            PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                        }
+                        else
+                        {
+                            PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                            return;
+                        }
+
+                    }
+                    PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                    //Event ID zurückgeben
+                    PhoneApplicationService.Current.State["eventID"] = _event.eventID;
+                    NavigationService.GoBack();
+                    return;
+                }
+                else
+                {
+                    
+                    NavigationService.Navigate(new Uri("/views/EventDetail.xaml?chapterID=" + _event.chapter.chapterID + "&eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
+                    var lastPage = NavigationService.BackStack.FirstOrDefault();
+                    if (lastPage != null && lastPage.Source.ToString().Equals("/views/TomeDetails.xaml?tomeID=" + tomeID))
+                    {
+                        NavigationService.RemoveBackEntry();
+                    }
                 }
             }
             else

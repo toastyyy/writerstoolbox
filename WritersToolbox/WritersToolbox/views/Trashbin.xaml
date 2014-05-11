@@ -14,7 +14,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True" Loaded="PageLoaded">
+    shell:SystemTray.IsVisible="True" >
 
     <phone:PhoneApplicationPage.Resources>
         <converter:NoteShortContentConverter x:Key="NoteShortContentConverter" />
@@ -24,7 +24,7 @@
                         <ColumnDefinition Width="115" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/notiz_round_icon.png"/>
+                <Image Grid.Column="0" HorizontalAlignment="Left" Tap="Image_Tap" VerticalAlignment="Center" Height="77" Width="77" Source="/icons/notiz_round_icon.png"/>
                     <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left" >
                         <Grid.RowDefinitions>
                             <RowDefinition Height="29" />
@@ -33,7 +33,7 @@
                         </Grid.RowDefinitions>
                     <TextBlock Grid.Row="0" HorizontalAlignment="Stretch" x:Name="titleNoteTextBlock" Text="{Binding title}" Foreground="#FF414141" FontSize="30" FontFamily="Segoe WP SemiLight" Margin="0,-10,0,0"/>
                     <TextBlock Grid.Row="1" HorizontalAlignment="Stretch" x:Name="shortDetailsNoteTextBlock" Text="{Binding contentText, Converter={StaticResource NoteShortContentConverter}}" FontSize="20" Foreground="#FFA6A6A6" FontFamily="Segoe WP SemiLight" Margin="5,0,0,0"/>
-                    <TextBlock Grid.Row="2" HorizontalAlignment="Stretch" x:Name="updatNoteTextBlock" Text="{Binding updatedDate}"  FontSize="20" Foreground="#FFA6A6A6" FontFamily="Segoe WP SemiLight" Margin="5,0,0,0"/>
+                    <TextBlock Grid.Row="2" HorizontalAlignment="Stretch" x:Name="updatNoteTextBlock" Text="{Binding addedDate, Converter={StaticResource DateConverter}, ConverterParameter=Erstellt-am}"  FontSize="20" Foreground="#FFA6A6A6" FontFamily="Segoe WP SemiLight" Margin="5,0,0,0"/>
                     </Grid>
                     <Border Margin="0,0,0,-20" Grid.ColumnSpan="2" BorderThickness="0,0,0,1" BorderBrush="LightGray" />
                 </Grid>
@@ -183,23 +183,7 @@
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="224" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>
-            <!--<CheckBox x:Name="filterMemoryNotes" Style="{StaticResource CheckBoxStyleBlack}" Content="Filter" HorizontalAlignment="Right" Margin="0,-7,81,0" VerticalAlignment="Top" Width="224" Checked="filter_Checked" Unchecked="filter_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>-->
-            <toolkit:ListPicker
-                                HorizontalAlignment="Left" 
-                                Width="180"
-                                Foreground="Black"
-                                BorderBrush="Black"
-                                BorderThickness="1"
-                                SelectionChanged="FilterChanged"
-                                x:Name="FilterPicker"
-                                Margin="266,0,0,-50">
-                <toolkit:ListPickerItem Content="MemoryNotes"/>
-                <toolkit:ListPickerItem Content="Books"/>
-                <toolkit:ListPickerItem Content="Tomes"/>
-                <toolkit:ListPickerItem Content="Typs"/>
-                <toolkit:ListPickerItem Content="TypsObjects"/>
-                <!--<toolkit:ListPickerItem Content="Events"/>-->
-            </toolkit:ListPicker>
+            
             <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="trash_selectionChanged" 
@@ -218,9 +202,9 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton x:Name="deleteButton" IconUri="/icons/delete.png" Text="löschen" Click="deletePopupClick" />
-            <shell:ApplicationBarIconButton x:Name="zurueckButton" IconUri="/icons/cancel.png" Text="zurück" Click="zurueckButton_Click" />
             <shell:ApplicationBarIconButton x:Name="restoreButton" IconUri="/icons/zurueck.png" Text="wiederherstellen" Click="restoreButton_Click" />
+            <shell:ApplicationBarIconButton x:Name="deleteButton" IconUri="/icons/delete.png" Text="löschen" Click="deletePopupClick" />
+            <shell:ApplicationBarIconButton x:Name="zurueckButton" IconUri="/icons/cancel.png" Text="zurück" Click="zurueckButton_Click" />           
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

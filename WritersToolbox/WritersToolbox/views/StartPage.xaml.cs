@@ -42,7 +42,6 @@ namespace WritersToolbox.gui
             if (!PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
                 Application.Current.Terminate();
-
                 e.Cancel = true;
             }
         }
@@ -60,6 +59,11 @@ namespace WritersToolbox.gui
                 NavigationService.GoBack();
                 return;
             }
+            if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
+            {
+                NavigationService.GoBack();
+                return;
+            }
             UnsortedNoteViewModel usnvm = new UnsortedNoteViewModel();
             TrashbinViewModel tbvm = new TrashbinViewModel();
             NumberUN.Text = usnvm.getNumberOfUnsortedNote() + "";
@@ -67,15 +71,15 @@ namespace WritersToolbox.gui
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
                 // GUI überarbeiten
-             //   this.btnNewNote.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
+                this.btnNewNote.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
                 this.btnNewNote.Click -= newNote;
-             //   this.btnSettings.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
+                this.btnSettings.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
                 this.btnSettings.Click -= navigateToSettings;
-                //   this.btnTrash.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
+                this.btnTrash.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
                 this.btnTrash.Click -= navigateToTrash;
-                //   this.btnUnsortedNotes.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
+                this.btnUnsortedNotes.Background = new SolidColorBrush(Color.FromArgb(155, 155, 155, 155));
                 this.btnUnsortedNotes.Click -= navigateToUnsortedNote;
-           //     this.tTitle.Text = "Zuordnen";
+                this.Title.Visibility = Visibility.Visible;
                 ApplicationBar.IsVisible = true;
             }
             else 

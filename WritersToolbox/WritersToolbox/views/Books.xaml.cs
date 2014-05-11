@@ -116,6 +116,11 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
+            {
+                NavigationService.GoBack();
+                return;
+            }
             base.OnNavigatedTo(e);
             Books_VM.loadData();
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))

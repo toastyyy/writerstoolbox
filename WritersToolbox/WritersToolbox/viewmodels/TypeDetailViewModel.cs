@@ -105,15 +105,17 @@ namespace WritersToolbox.viewmodels
                               select to).Single();
             if (keepNotes)
             {
-                foreach (var notes in typeObject.notes)
+                var notes = from n in this.tableMemoryNote
+                            where n.obj_TypeObject.Equals(typeObject)
+                            select n;
+                foreach (var note in notes)
                 {
-                    notes.associated = false;
-                    notes.obj_TypeObject = null;
+                    note.associated = false;
+                    note.obj_TypeObject = null;
                 }
             }
             typeObject.deleted = true;
             this.wtb.SubmitChanges();
-            //this.LoadData();
         }
 
         public void deleteNote(int noteID, bool unsortedNote)
