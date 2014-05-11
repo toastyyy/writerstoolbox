@@ -504,4 +504,10 @@
   <data name="AppBarUnderline" xml:space="preserve">
     <value>underlined</value>
   </data>
+  <data name="CheckboxKeepTypeObjectNotes" xml:space="preserve">
+    <value>Keep assigned notes (unsort)</value>
+  </data>
+  <data name="TypeObjectsDeleteQuestion" xml:space="preserve">
+    <value>Would you like to delete the TypeObject?</value>
+  </data>
 </root>

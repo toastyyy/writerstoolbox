@@ -326,6 +326,30 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+        public void deleteTypeObjectSoft(int typeObjectID)
+        {
+            var typeObject = (from to in tableTypeObject
+                              where to.typeObjectID == typeObjectID
+                              select to).Single();
+
+
+            var notes = from n in this.db.GetTable<MemoryNote>()
+                        where n.obj_TypeObject.Equals(typeObject)
+                        select n;
+
+            foreach (var note in notes)
+            {
+                note.associated = false;
+                note.obj_TypeObject = null;
+                note.obj_Event = null;
+            }
+
+            typeObject.deleted = true;
+            this.db.SubmitChanges();
+            this.LoadData();
+        }
+
+
         public int getTypeCount()
         {
             return Types.Count;

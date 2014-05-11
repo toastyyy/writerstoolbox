@@ -28,7 +28,7 @@ namespace WritersToolbox.views
     public partial class TypeObjectAdd : PhoneApplicationPage
     {
         //bei selectionChanged wird Farbe hier zwischengespeichert
-        private Color selectedColor;
+        private Color selectedColor = Color.FromArgb(255, 105, 12, 53);
 
         //Index einer bereits benutzten Farbe, wird zum Ändern gebraucht
         private String selectedColorIndex;
@@ -209,7 +209,8 @@ namespace WritersToolbox.views
 
         private void tTitle_TextChanged(object sender, TextChangedEventArgs e)
         {
-            if (!tTitle.Text.Equals("")) {
+            if (!tTitle.Text.Equals("") && !tTitle.Text.Equals(AppResources.TypeObjectAddTitleText))
+            {
                 changed = true;
             }
         }
@@ -223,13 +224,17 @@ namespace WritersToolbox.views
         {
             SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
             this.tTitle.Background = _s;
+            if (this.tTitle.Text.Equals(AppResources.TypeObjectAddTitleText))
+            {
+                this.tTitle.Text = "";
+            }
         }
 
         private void saveButton_Click(object sender, EventArgs e)
         {
             String name = tTitle.Text;
             String color = this.selectedColor.ToString();
-            if (name.Equals(""))
+            if (name.Equals("") || name.Equals(AppResources.TypeObjectAddTitleText))
             {
                 MessageBox.Show(AppResources.ErrorName, AppResources.ErrorSave, MessageBoxButton.OK);
                 return;
@@ -351,6 +356,13 @@ namespace WritersToolbox.views
             }
             
             NavigationService.RemoveBackEntry();
+        }
+
+        private void tTitle_LostFocus(object sender, RoutedEventArgs e)
+        {
+            if (this.tTitle.Text.Equals("")) {
+                this.tTitle.Text = AppResources.TypeObjectAddTitleText;
+            }
         }
     }
 }
