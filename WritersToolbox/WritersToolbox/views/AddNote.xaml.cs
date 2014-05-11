@@ -39,6 +39,7 @@ namespace WritersToolbox.views
         //Konstanten.         
         private const double JUMP_INTERVAL = 0.1;
         private const int MANAGEMENT = 1;
+        private const int DELETE = 3;
         private const int MEDIA = 2;
         private const int PLAY = 1;
         private const int PAUSE = 2;
@@ -160,8 +161,15 @@ namespace WritersToolbox.views
         /// </summary>
         private void addManagementApplicationBarButton()
         {
-            //Mediabuttons von ApplicationBarButton löschen.
-            removeMediaApplicationBarButton();
+                //Mediabuttons von ApplicationBarButton löschen.
+                removeMediaApplicationBarButton();
+
+
+            //ApplicationBarButton mit ManagmentButtons erfüllen.
+            
+            save = new ApplicationBarIconButton(new Uri("/icons/speichern.png", UriKind.Relative));
+            save.Text = AppResources.AppBarSave;
+            ApplicationBar.Buttons.Add(save);
             //Wenn die Notize schon zugewiesen ist, dann wird auf die Zuordnungsoption verzichtet.
             if (!PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
             {
@@ -170,13 +178,10 @@ namespace WritersToolbox.views
                 saveAs.Click += saveAsButton_Click;
                 ApplicationBar.Buttons.Add(saveAs);
             }
-            //ApplicationBarButton mit ManagmentButtons erfüllen.
-            
-            save = new ApplicationBarIconButton(new Uri("/icons/speichern.png", UriKind.Relative));
             cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
 
             
-            save.Text = AppResources.AppBarSave;
+            
             cancel.Text = AppResources.AppBarClose;
 
             //Events zu Buttons hinzufügen.
@@ -185,19 +190,21 @@ namespace WritersToolbox.views
             cancel.Click += cancelButton_Click;
             
             
-            ApplicationBar.Buttons.Add(save);
+            
             ApplicationBar.Buttons.Add(cancel);
             //ApplicationBarStatus aktualisieren.
             applicationBarButton_Modus = MANAGEMENT;
         }
+
 
         /// <summary>
         /// Hilfsmethode, um ApplicationBarButton mit MediaButtons(PP, Reward, Forwad und Stop) erfüllen.
         /// </summary>
         private void addMediaApplicationBarButton()
         {
-            //ManagmentButtons von ApplicationBarButtons löschen.
-            removeManagementApplicationBarButton();
+
+                //ManagmentButtons von ApplicationBarButtons löschen.
+                removeManagementApplicationBarButton();
 
             //ApplicationBarButton mit MediaButtons erfüllen.
             pp = new ApplicationBarIconButton(new Uri("/icons/pause.png", UriKind.Relative));
@@ -209,6 +216,8 @@ namespace WritersToolbox.views
             reward.Text = AppResources.MediaPlayerReward;
             forward.Text = AppResources.MediaPlayerForward;
             stop.Text = AppResources.MediaPlayerStop;
+
+
             //Events zu Buttons hinzufügen.
             pp.Click += play_pause_Click;
             reward.Click += soundbar_reward_button_Click;
@@ -221,7 +230,6 @@ namespace WritersToolbox.views
             ApplicationBar.Buttons.Add(stop);
             //ApplicationBarStatus aktualisieren.
             applicationBarButton_Modus = MEDIA;
-
         }
 
         /// <summary>
@@ -246,7 +254,7 @@ namespace WritersToolbox.views
             ApplicationBar.Buttons.Remove(forward);
             ApplicationBar.Buttons.Remove(reward);
             ApplicationBar.Buttons.Remove(stop);
-           
+
         }
 
         /// <summary>
@@ -255,7 +263,21 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            NoteDiscard();
+            base.OnBackKeyPress(e);
+            if (llms_images.IsSelectionEnabled)
+            {
+                e.Cancel = true;
+                llms_images.IsSelectionEnabled = false;
+            }
+            else if (llms_records.IsSelectionEnabled)
+            {
+                e.Cancel = true;
+                llms_records.IsSelectionEnabled = false;
+            }
+            else if (!NoteDiscard())
+            {
+                e.Cancel = true;
+            }
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
@@ -285,7 +307,7 @@ namespace WritersToolbox.views
             }
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
-                if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID") || PhoneApplicationService.Current.State.ContainsKey("eventID"))
                 {
                     //Wenn in Title nicht geändert wurde, dann wird automatisch der aktuelle Datum für Title gegeben.
                     string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleText))
@@ -296,10 +318,20 @@ namespace WritersToolbox.views
                         ? ""
                         : detailsTextBox.Text.Trim();
 
-                    //Notiz zuordnen.
-                    anvm.saveAsTypeObject(NoteID, DateTime.Now, title, details,
-                        Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now, 
-                        (int)PhoneApplicationService.Current.State["typeObjectID"]);
+                    if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                    {
+                        //Notiz zuordnen.
+                        anvm.saveAsTypeObject(NoteID, DateTime.Now, title, details,
+                            Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
+                            (int)PhoneApplicationService.Current.State["typeObjectID"]);
+                    }
+                    else if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
+                    {
+                        //Notiz zu Ereignis zu Ordnen.
+                        anvm.saveAsEvent(NoteID, DateTime.Now, title, details,
+                                Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
+                                (int)PhoneApplicationService.Current.State["eventID"]);
+                    }
 
                     //Hilfsvariable in ApplicationService löschen.
                     PhoneApplicationService.Current.State.Remove("deletedImages");
@@ -307,7 +339,10 @@ namespace WritersToolbox.views
                     PhoneApplicationService.Current.State.Remove("OppendImageView");
                     PhoneApplicationService.Current.State.Remove("memoryNoteID");
                     PhoneApplicationService.Current.State.Remove("assignNote");
-                    PhoneApplicationService.Current.State.Remove("typeObjectID");
+                    if(PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                        PhoneApplicationService.Current.State.Remove("typeObjectID");
+                    if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
+                    PhoneApplicationService.Current.State.Remove("eventID");
                     NavigationService.GoBack();
                     return;
                 }
@@ -730,14 +765,16 @@ namespace WritersToolbox.views
             //Wenn Anzahl der selektierte Bilder gleich 0 ist.
             if (llms_images.SelectedItems.Count == 0)
             {
-                this.pivoteName.IsLocked = true;
+                this.pivoteName.IsLocked = false;
                 llms_images.EnforceIsSelectionEnabled = false;               
                 zurueckButton.Visibility = Visibility.Collapsed;
                 deleteButton.Visibility = Visibility.Collapsed;
+                addButton.Visibility = Visibility.Visible;
             }
             else
             {
-                this.pivoteName.IsLocked = false;
+                this.pivoteName.IsLocked = true;
+                addButton.Visibility = Visibility.Collapsed;
                 zurueckButton.Visibility = Visibility.Visible;
                 deleteButton.Visibility = Visibility.Visible;
             } 
@@ -787,15 +824,18 @@ namespace WritersToolbox.views
             //Wenn Anzahl der selektierte Bilder gleich 0 ist.
             if (llms_records.SelectedItems.Count == 0)
             {
-                this.pivoteName.IsLocked = true;
+                this.pivoteName.IsLocked = false;
                 llms_records.EnforceIsSelectionEnabled = false;
                 addRecordButton.IsEnabled = true;
+                addRecordButton.Visibility = Visibility.Visible;
                 zurueckRecordButton.Visibility = Visibility.Collapsed;
                 deleteRecordButton.Visibility = Visibility.Collapsed;
+
             }
             else
             {
-                this.pivoteName.IsLocked = false;
+                this.pivoteName.IsLocked = true;
+                addRecordButton.Visibility = Visibility.Collapsed;
                 zurueckRecordButton.Visibility = Visibility.Visible;
                 deleteRecordButton.Visibility = Visibility.Visible;
             }
@@ -858,6 +898,13 @@ namespace WritersToolbox.views
                             Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
                             (int)PhoneApplicationService.Current.State["typeObjectID"]);
                     }
+                    else if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
+                    {
+                        //Änderung der zugeordneten Notiz speichern.
+                        anvm.saveAsEvent(NoteID, DateTime.Now, title, details,
+                            Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
+                            (int)PhoneApplicationService.Current.State["eventID"]);
+                    }
                 }
                 else
                 {
@@ -896,6 +943,9 @@ namespace WritersToolbox.views
             llms_images.SelectedItems.Add(((MyImage)image.DataContext));
             deleteButton.Visibility = Visibility.Visible;
             zurueckButton.Visibility = Visibility.Visible;
+
+            addButton.Visibility = Visibility.Collapsed;
+            this.pivoteName.IsLocked = true;
         }
 
         /// <summary>
@@ -1020,6 +1070,7 @@ namespace WritersToolbox.views
             if (llms_images.ItemsSource.Count == 0)
             {
                 selectAllCheckBox.IsChecked = false;
+                selectAllCheckBox.Visibility = Visibility.Collapsed;
             }
         }
 
@@ -1036,7 +1087,7 @@ namespace WritersToolbox.views
         /// <summary>
         /// Hilfsmethode um die Notiz nach schließen oder zurückkehren bei neuer Notiz anlegen wegzuwerfen.
         /// </summary>
-        private void NoteDiscard()
+        private bool NoteDiscard()
         {
             //Hilfsvariable, um zu prüfen, ob etwas geändert wurde.
             bool isfully = false;
@@ -1102,6 +1153,11 @@ namespace WritersToolbox.views
                 PhoneApplicationService.Current.State.Remove("typeObjectID");
                 PhoneApplicationService.Current.State.Remove("edit");
                 NavigationService.GoBack();
+                return true;
+            }
+            else
+            {
+                return false;
             }
         }
 
@@ -1117,8 +1173,9 @@ namespace WritersToolbox.views
             onRecord = true;
             //ApplicationBar.Buttons.Remove(save);
             //ApplicationBar.Buttons.Remove(saveAs);
-            //removeManagementApplicationBarButton();
-            ApplicationBar.IsVisible = false;
+            removeManagementApplicationBarButton();
+            deleteRecordButton.Visibility = Visibility.Collapsed;
+            ApplicationBar.IsMenuEnabled = false;
             //Die Größe der List anpassen.
             llms_records.Margin = new Thickness(27, 84, 0, 17);
             //AudioPlayer stopen, wenn er noch am laufen ist.
@@ -1144,7 +1201,7 @@ namespace WritersToolbox.views
             //Überprüfen ob ApplicationBarButton aus den MediaButtons besteht.
             if(applicationBarButton_Modus == MEDIA)
             {
-                addManagementApplicationBarButton();
+                removeMediaApplicationBarButton();
             }
             
             EndTimer.Visibility = Visibility.Collapsed;
@@ -1161,12 +1218,13 @@ namespace WritersToolbox.views
         private void RecordAudioUnchecked(object sender, RoutedEventArgs e)
         {
             onRecord = false;
+            this.pivoteName.IsLocked = false;
             //ApplicationBar.Buttons.Remove(cancel);
             //ApplicationBar.Buttons.Add(saveAs);
             //ApplicationBar.Buttons.Add(save);         
             //ApplicationBar.Buttons.Add(cancel);
-            ApplicationBar.IsVisible = true;
-            //addManagementApplicationBarButton();
+            ApplicationBar.IsMenuEnabled = true;
+            addManagementApplicationBarButton();
             //Aufnahme stopen.
             recorder.Stop();
             //DauerTimer zerstören.
@@ -1188,6 +1246,7 @@ namespace WritersToolbox.views
             ImageBrush brush = new ImageBrush();
             brush.ImageSource = new BitmapImage(new Uri("/icons/aufnahme.png", UriKind.Relative));
             addRecordButton.Background = brush;
+            this.selectAllRecordCheckBox.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -1249,15 +1308,37 @@ namespace WritersToolbox.views
             int lastFile = 0;
             if (ary.Length > 0)
             {
-                lastFile = int.Parse(ary[0].Substring(7, ary[0].Length - 11));
-                for (int i = 1; i < ary.Length; i++)
+                if (ary[0].ToCharArray(0, 1)[0] == 'R')
                 {
-                    if (lastFile
-                        < int.Parse(ary[i].Substring(7, ary[i].Length - 11)))
+                    string[] tempString = ary[0].Split('.');
+                    lastFile = int.Parse(tempString[0].Substring(6));
+                    for (int i = 1; i < ary.Length; i++)
                     {
-                        lastFile = int.Parse(ary[i].Substring(7, ary[i].Length - 11));
+                        tempString = ary[i].Split('.');
+                        if (lastFile
+                            < int.Parse(tempString[0].Substring(6)))
+                        {
+                            lastFile = int.Parse(tempString[0].Substring(6));
+                        }
                     }
                 }
+                else if (ary[0].ToCharArray(0, 1)[0] == 'A')
+                {
+
+                    string[] tempString = ary[0].Split('.');
+                    lastFile = int.Parse(tempString[0].Substring(8));
+                    for (int i = 1; i < ary.Length; i++)
+                    {
+                        tempString = ary[i].Split('.');
+                        if (lastFile
+                            < int.Parse(tempString[0].Substring(8)))
+                        {
+                            lastFile = int.Parse(tempString[0].Substring(8));
+                        }
+                    }
+                }
+                
+                
             }
             return lastFile;
         }
@@ -1429,6 +1510,7 @@ namespace WritersToolbox.views
         {
             TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)progressbar.Value);
             AudioPlayer.Position = _t;
+
         }
 
         /// <summary>
@@ -1448,6 +1530,7 @@ namespace WritersToolbox.views
                 timerGenerator();
                 //Timer starten.
                 playTimer.Start();
+                ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/speaker_reordButton.png", UriKind.Relative));
             }
             else if(playPauseButton_Modus == PAUSE) //Pause
             {
@@ -1639,6 +1722,7 @@ namespace WritersToolbox.views
                 if (llms_records.ItemsSource.Count == 0)
                 {
                     selectAllRecordCheckBox.IsChecked = false;
+                    selectAllRecordCheckBox.Visibility = Visibility.Collapsed;
                 }
 
                 deleteRecordButton.Visibility = Visibility.Collapsed;
@@ -1654,8 +1738,7 @@ namespace WritersToolbox.views
                 EndTimer.Visibility = Visibility.Collapsed;
                 CurrentTime.Visibility = Visibility.Collapsed;
                 progressbar_background.Visibility = Visibility.Collapsed;
-            }
-            
+            }           
         }
 
         /// <summary>
@@ -1735,6 +1818,7 @@ namespace WritersToolbox.views
         private void saveAsButton_Click(object sender, EventArgs e)
         {
             PhoneApplicationService.Current.State["assignNote"] = true;
+            PhoneApplicationService.Current.State["memoryNoteTitle"] = titleTextBox.Text.Trim();
             NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
 
             //Hilfsvariable für die Kontrolle der Änderungen.

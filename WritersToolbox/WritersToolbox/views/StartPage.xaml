@@ -89,9 +89,10 @@
 
         </Grid>
         <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
+        <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="52,42,0,0" TextWrapping="Wrap" Text="Zuordnen" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI Light" Height="52"  Width="224" FontSize="24" Visibility="Collapsed"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar >
-        <shell:ApplicationBar x:Name="cancelBar" IsVisible="False" IsMenuEnabled="false" BackgroundColor="#FF72A91C">
+        <shell:ApplicationBar x:Name="cancelBar" IsVisible="False" IsMenuEnabled="false" BackgroundColor="#FF690C35">
             <shell:ApplicationBarIconButton IconUri="icons/cancel.png" Text="Abbrechen" Click="ApplicationBarIconButton_Click" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

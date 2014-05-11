@@ -437,39 +437,39 @@ namespace WritersToolbox.viewmodels
         /// <param name="tags"></param>
         /// <param name="updatedDate"></param>
         /// <param name="eventID"></param>
-        public void saveAsEvent(int memoryNoteID, DateTime addedDate, string title, string contentText, List<Image> contentImages,
-             List<AudioTrack> contentAudios, string tags, DateTime updatedDate, int eventID)
+        public void saveAsEvent(int memoryNoteID, DateTime addedDate, string title, string contentText, ObservableCollection<MyImage> contentImages,
+            ObservableCollection<SoundData> contentAudios, string tags, DateTime updatedDate, int eventID)
         {
             try
             {
-                if (memoryNoteID == -1) //neue MemoryNote speichern.
+                if (memoryNoteID == 0) //neue MemoryNote speichern.
                 {
                     obj_memoryNote = new models.MemoryNote();
-                    obj_memoryNote.addedDate = addedDate;
+                    obj_memoryNote.addedDate = new DateTime(addedDate.Year, addedDate.Month, addedDate.Day);
                     obj_memoryNote.title = title;
                     obj_memoryNote.contentText = contentText;
 
                     string contentImagesPath = "";
-                    foreach (Image img in contentImages)
+                    foreach (MyImage img in contentImages)
                     {
-                        contentImagesPath += ((BitmapImage)img.Source).UriSource.ToString() + "|";
+                        contentImagesPath += img.path + "|";
                     }
                     obj_memoryNote.ContentImageString = contentImagesPath;
 
                     string contentAudiosPath = "";
-                    foreach (AudioTrack track in contentAudios)
+                    foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.Source.AbsoluteUri.ToString() + "|";
+                        contentAudiosPath += track.ToString() + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
                     obj_memoryNote.tags = tags;
 
-                    obj_memoryNote.updatedDate = updatedDate;
+                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
                     obj_memoryNote.associated = true;
 
                     //Foreign key speichern
-                    models.Event temp_event = db.GetTable<models.Event>().Single(_event => _event.eventID == eventID);
+                    models.Event temp_event = db.GetTable<models.Event>().Single(_e => _e.eventID == eventID);
                     obj_memoryNote.obj_Event = temp_event;
 
                     //obj_memoryNote in DataContext hinzufügen.
@@ -479,31 +479,30 @@ namespace WritersToolbox.viewmodels
                 {
                     obj_memoryNote = db.GetTable<models.MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
 
-                    obj_memoryNote.addedDate = addedDate;
                     obj_memoryNote.title = title;
                     obj_memoryNote.contentText = contentText;
 
                     string contentImagesPath = "";
-                    foreach (Image img in contentImages)
+                    foreach (MyImage img in contentImages)
                     {
-                        contentImagesPath += ((BitmapImage)img.Source).UriSource.ToString() + "|";
+                        contentImagesPath += img.path + "|";
                     }
                     obj_memoryNote.ContentImageString = contentImagesPath;
 
                     string contentAudiosPath = "";
-                    foreach (AudioTrack track in contentAudios)
+                    foreach (SoundData track in contentAudios)
                     {
-                        contentAudiosPath += track.Source.AbsoluteUri.ToString() + "|";
+                        contentAudiosPath += track.ToString() + "|";
                     }
                     obj_memoryNote.contentAudioString = contentAudiosPath;
 
                     obj_memoryNote.tags = tags;
 
-                    obj_memoryNote.updatedDate = updatedDate;
+                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
                     obj_memoryNote.associated = true;
 
                     //Foreign key speichern
-                    models.Event temp_event = db.GetTable<models.Event>().Single(_event => _event.eventID == eventID);
+                    models.Event temp_event = db.GetTable<models.Event>().Single(_e => _e.eventID == eventID);
                     obj_memoryNote.obj_Event = temp_event;
                 }
 
