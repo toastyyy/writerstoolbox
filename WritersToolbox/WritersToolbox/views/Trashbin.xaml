@@ -14,7 +14,7 @@
     Foreground="{StaticResource PhoneForegroundBrush}"
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
-    shell:SystemTray.IsVisible="True" Loaded="PageLoaded">
+    shell:SystemTray.IsVisible="True" >
 
     <phone:PhoneApplicationPage.Resources>
         <converter:NoteShortContentConverter x:Key="NoteShortContentConverter" />
@@ -183,23 +183,7 @@
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Margin="12,0,12,0">
             <CheckBox x:Name="selectAllCheckBox" Style="{StaticResource CheckBoxStyleBlack}" Content="{Binding Path=LocalizedResources.SelectAll, Source={StaticResource LocalizedStrings}}" HorizontalAlignment="Left" Margin="0,-7,0,0" VerticalAlignment="Top" Width="224" Checked="selectAllCheckBox_Checked" Unchecked="selectAllCheckBox_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>
-            <!--<CheckBox x:Name="filterMemoryNotes" Style="{StaticResource CheckBoxStyleBlack}" Content="Filter" HorizontalAlignment="Right" Margin="0,-7,81,0" VerticalAlignment="Top" Width="224" Checked="filter_Checked" Unchecked="filter_Unchecked" FontFamily="/WritersToolbox;component/Fonts.zip#Yu Gothic" Foreground="#FF353535" BorderBrush="#FF353535" Background="Transparent"/>-->
-            <toolkit:ListPicker
-                                HorizontalAlignment="Left" 
-                                Width="180"
-                                Foreground="Black"
-                                BorderBrush="Black"
-                                BorderThickness="1"
-                                SelectionChanged="FilterChanged"
-                                x:Name="FilterPicker"
-                                Margin="266,0,0,-50">
-                <toolkit:ListPickerItem Content="MemoryNotes"/>
-                <toolkit:ListPickerItem Content="Books"/>
-                <toolkit:ListPickerItem Content="Tomes"/>
-                <toolkit:ListPickerItem Content="Typs"/>
-                <toolkit:ListPickerItem Content="TypsObjects"/>
-                <!--<toolkit:ListPickerItem Content="Events"/>-->
-            </toolkit:ListPicker>
+            
             <toolkit:LongListMultiSelector 
                     EnforceIsSelectionEnabled="false" 
                     SelectionChanged="trash_selectionChanged" 
@@ -218,9 +202,9 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton x:Name="deleteButton" IconUri="/icons/delete.png" Text="löschen" Click="deletePopupClick" />
-            <shell:ApplicationBarIconButton x:Name="zurueckButton" IconUri="/icons/cancel.png" Text="zurück" Click="zurueckButton_Click" />
             <shell:ApplicationBarIconButton x:Name="restoreButton" IconUri="/icons/zurueck.png" Text="wiederherstellen" Click="restoreButton_Click" />
+            <shell:ApplicationBarIconButton x:Name="deleteButton" IconUri="/icons/delete.png" Text="löschen" Click="deletePopupClick" />
+            <shell:ApplicationBarIconButton x:Name="zurueckButton" IconUri="/icons/cancel.png" Text="zurück" Click="zurueckButton_Click" />           
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
