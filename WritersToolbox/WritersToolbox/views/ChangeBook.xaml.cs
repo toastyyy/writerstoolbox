@@ -41,7 +41,7 @@ namespace WritersToolbox.views
             }
             catch (ArgumentException ae)
             {
-                MessageBox.Show(ae.Message, "Fehler", MessageBoxButton.OK);
+                MessageBox.Show(ae.Message, AppResources.MessageError, MessageBoxButton.OK);
             }
         }
 

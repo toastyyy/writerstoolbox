@@ -120,7 +120,7 @@ namespace WritersToolbox.views
             Books_VM.loadData();
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
-                PivotMain.Title = new TextBlock() { Text = "Notiz zuweisen" };
+                PivotMain.Title = new TextBlock() { Text = AppResources.BooksHeadlineAssignNote };
                 ApplicationBar.Buttons.Clear();
                 hasEventHandler = false;
             }
@@ -183,7 +183,7 @@ namespace WritersToolbox.views
             }
             else
             {
-                MessageBox.Show("Es ist nur möglich ein Werk zu löschen, wenn keine Bände mehr existieren.", "Fehler", MessageBoxButton.OK);
+                MessageBox.Show(AppResources.MessageDeleteBook, AppResources.MessageError, MessageBoxButton.OK);
             }
         }
 
@@ -483,6 +483,9 @@ namespace WritersToolbox.views
             else
             {
                 books_VM.removeAddTome(PivotMain.SelectedItem as datawrapper.Book);
+                //selector.ItemsSource = null;
+                //selector.ItemsSource = (PivotMain.SelectedItem as datawrapper.Book).tomes;
+                
                 //this.DataContext = null;
                 //this.DataContext = Books_VM;
                 //books_VM.loadData();
@@ -526,6 +529,7 @@ namespace WritersToolbox.views
         {
             
             books_VM.removeAddTome(PivotMain.SelectedItem as datawrapper.Book);
+            
             //books_VM.loadData();
             //this.DataContext = null;
             //this.DataContext = Books_VM;
