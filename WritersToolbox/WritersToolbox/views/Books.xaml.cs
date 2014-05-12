@@ -130,7 +130,7 @@ namespace WritersToolbox.views
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
                 //PivotMain.Title = new TextBlock() { Text = "Notiz zuweisen" };
-                PivotMain.Title = "Notiz zuweisen";
+                PivotMain.Title = AppResources.BooksHeadlineAssignNote;
                 if (!ApplicationBar.Buttons.Contains(cancelBtn))
                 {
                 ApplicationBar.Buttons.Clear();
