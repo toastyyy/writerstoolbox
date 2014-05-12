@@ -107,6 +107,7 @@
     <Compile Include="converter\CollectionCountConverter.cs" />
     <Compile Include="converter\ColorToBrushConverter.cs" />
     <Compile Include="converter\CollectionHasElementsConverter.cs" />
+    <Compile Include="converter\StringToImageConverter.cs" />
     <Compile Include="converter\TypeImageConverter.cs" />
     <Compile Include="converter\DauerConverter.cs" />
     <Compile Include="converter\DefaultIfEmptyConverter.cs" />
@@ -379,7 +380,9 @@
     <Content Include="icons\add.png" />
     <Content Include="icons\dropbox-logo.png" />
     <Content Include="icons\finden.png" />
-    <Content Include="icons\character_round_icon.png" />
+    <Content Include="icons\character_round_icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="Assets\start_background.png" />
     <Content Include="Assets\testbild.png" />
     <Content Include="Assets\test_strpage.png" />
@@ -441,7 +444,9 @@
     <Content Include="images\headImage_gruen_top.png" />
     <Content Include="icons\aufnahme_aktiv.png" />
     <Content Include="icons\aufnahme.png" />
-    <Content Include="icons\book.png" />
+    <Content Include="icons\book.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\cancel.png" />
     <Content Include="icons\charakter_icon.png" />
     <Content Include="icons\delete.png" />

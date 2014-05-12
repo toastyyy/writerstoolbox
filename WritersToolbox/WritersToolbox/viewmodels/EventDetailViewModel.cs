@@ -102,9 +102,9 @@ namespace WritersToolbox.viewmodels
                         imageString = to.obj_Type.imageString,
                         title = to.obj_Type.title,
                     };
-                    var notes = from n in tableMemoryNote
+                    var notes = (from n in tableMemoryNote
                                 where n.obj_TypeObject.typeObjectID == to.typeObjectID
-                                select n;
+                                select n).OrderByDescending(x => x.addedDate);
                     ObservableCollection<datawrapper.MemoryNote> listNotes = new ObservableCollection<datawrapper.MemoryNote>();
                     foreach(var n in notes)
                     {

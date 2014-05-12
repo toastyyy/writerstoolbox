@@ -21,7 +21,7 @@ namespace WritersToolbox.views
     public partial class Types : PhoneApplicationPage
     {
         private TextBox newTypeTitle = new TextBox();
-        private ListBox colorPicker;
+        private ListBox iconPicker;
         private datawrapper.TypeObject holdTypeobject;
         public static TypesViewModel types_VM = null;
 
@@ -30,15 +30,13 @@ namespace WritersToolbox.views
         private LongListMultiSelector currentSelectList = null;
         private datawrapper.Type currentType = null;
         //bei selectionChanged wird Farbe hier zwischengespeichert
-        private Color selectedColor;
+        private String selectedImage;
 
         //Farben für Colorpicker
-        static string[] colors =
+        static string[] icons =
         { 
-	        "#FFFFE135","#FFFFFF66","#FF008A00","#FF32CD32","#FF00FF7F","#FF808000",
-            "#FFFF0000","#FFFF4500","#FFFF8C00", "#FFFF7F50","#FFDC143C","#FFFF1493",
-            "#FFB22222","#FFC71585","#FFDA70D6","#FF000080","#FF4B0082","#FF800080",
-            "#FFADD8E6","#FF20B2AA","#FF008080"
+	        "icons/Pro_Werke_round_Icon.png", "icons/Pro_Books_round_Icon.png", "icons/character_round_icon.png",
+            "icons/Pro_Typen_round_Icon.png", "icons/Pro_Einstellungen_round_Icon.png", "tests/images/img11.jpg"
         };
 
         private int currentApplicationbarId = 1; // Applicationbar Id; 1 = normal, 2 = selection
@@ -158,7 +156,7 @@ namespace WritersToolbox.views
                 new datawrapper.Type()
                 {
                     title = newTypeTitle.Text,
-                    color = selectedColor.ToString()
+                    imageString = selectedImage,
                 };
             
         }
@@ -189,16 +187,7 @@ namespace WritersToolbox.views
                 
             }
             else {
-                ApplicationBar.Buttons.Clear();
-
-                ApplicationBarIconButton edit = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
-                ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
-                delete.Text = AppResources.AppBarDelete;
-                edit.Text = AppResources.AppBarEdit;
-                edit.Click += ChangeType;
-                delete.Click += DeleteType;
-                ApplicationBar.Buttons.Add(edit);
-                ApplicationBar.Buttons.Add(delete);
+                this.setNormalApplicationBar();
                 this.PivotMain.Title = new TextBlock()
                 {
                     FontSize = 22,
@@ -293,15 +282,15 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void SaveType(object sender, EventArgs e)
         {
-            String r = selectedColor.R.ToString("X2");
+            /*String r = selectedColor.R.ToString("X2");
             String g = selectedColor.G.ToString("X2");
             String b = selectedColor.B.ToString("X2");
 
-            String color = "#" + r + g + b;
+            String color = "#" + r + g + b;*/
             String title = newTypeTitle.Text;
             try 
             { 
-                Types.types_VM.createType(title, color, "/icons/character.png");
+                Types.types_VM.createType(title, "", this.selectedImage);
                 //zum gerade erzeugten Typ navigieren
                 PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
                 PivotMain.SelectedIndex++;
@@ -319,20 +308,20 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ColorPickerPage_Loaded(object sender, RoutedEventArgs e)
+        private void IconPickerPage_Loaded(object sender, RoutedEventArgs e)
         {
             ListBox l = sender as ListBox;
-            colorPicker = l;
-            List<ColorItem> item = new List<ColorItem>();
-            for (int i = 0; i < colors.Length; i++)
+            iconPicker = l;
+            List<IconItem> item = new List<IconItem>();
+            for (int i = 0; i < icons.Length; i++)
             {
-                item.Add(new ColorItem() { Color = fromHexToColor(colors[i]) });
+                item.Add(new IconItem() { imagePath = icons[i] });
             };
 
             l.ItemsSource = item; //Fill ItemSource with all colors
             if (restoreType != null)
             {
-                colorPicker.SelectedIndex = Array.IndexOf(colors, restoreType.color);
+                iconPicker.SelectedIndex = Array.IndexOf(icons, restoreType.color);
                 restoreType = null;
             }
         }
@@ -358,9 +347,9 @@ namespace WritersToolbox.views
         /// <summary>
         /// Anonyme Klasse in der die Farbe gespeichert wird.
         /// </summary>
-        public class ColorItem
+        public class IconItem
         {
-            public Color Color { get; set; }
+            public String imagePath { get; set; }
         }
 
 
@@ -370,13 +359,13 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ColorPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void IconPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBox l = sender as ListBox;
             if (l.SelectedItem != null)
             {
-                ColorItem c = l.SelectedItem as ColorItem;
-                selectedColor = c.Color;
+                IconItem c = l.SelectedItem as IconItem;
+                this.selectedImage = c.imagePath;
             }
             
         }
@@ -611,8 +600,8 @@ namespace WritersToolbox.views
                 delete.Click += deleteSelection;
                 cancel.Text = AppResources.AppBarCancel;
                 cancel.Click += cancelSelection;
-                ApplicationBar.Buttons.Add(cancel);
                 ApplicationBar.Buttons.Add(delete);
+                ApplicationBar.Buttons.Add(cancel);
             }
         }
 
@@ -635,8 +624,8 @@ namespace WritersToolbox.views
                 btn2.Click += DeleteType;
 
                 ApplicationBar.Buttons.Clear();
-                ApplicationBar.Buttons.Add(btn1);
                 ApplicationBar.Buttons.Add(btn2);
+                ApplicationBar.Buttons.Add(btn1);
             }
         }
 

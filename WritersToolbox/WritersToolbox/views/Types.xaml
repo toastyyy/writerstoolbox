@@ -127,7 +127,7 @@
                 <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus" Loaded="TitleLoaded"/>
                 <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTypeColorText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Width="149" FontSize="25"/>
                 <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
-                    <ListBox Name="colorPicker" Loaded="ColorPickerPage_Loaded" SelectionChanged="ColorPicker_SelectionChanged" ItemContainerStyle="{StaticResource ColorPickerStyle}" toolkit:TiltEffect.IsTiltEnabled="True">
+                    <ListBox SelectionChanged="IconPicker_SelectionChanged" Loaded="IconPickerPage_Loaded" Name="iconPicker" ItemContainerStyle="{StaticResource IconPickerStyle}" toolkit:TiltEffect.IsTiltEnabled="True">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>
                                 <toolkit:WrapPanel/>
@@ -205,8 +205,9 @@
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="ändern" Click="ChangeType"/>
             <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="DeleteType"/>
+
+            <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="ändern" Click="ChangeType"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
