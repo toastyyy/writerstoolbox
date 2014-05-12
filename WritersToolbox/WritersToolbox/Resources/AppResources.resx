@@ -510,6 +510,36 @@
   <data name="move_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\move-up.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
   </data>
+  <data name="BooksHeadlineAssignNote" xml:space="preserve">
+    <value>Notiz zuweisen</value>
+  </data>
+  <data name="BooksPrestructuredTomeChapter1" xml:space="preserve">
+    <value>Kapitel 1</value>
+  </data>
+  <data name="BooksPrestructuredTomeEpilogue" xml:space="preserve">
+    <value>Nachwort</value>
+  </data>
+  <data name="BooksPrestructuredTomeIntroduction" xml:space="preserve">
+    <value>Einleitung</value>
+  </data>
+  <data name="BooksPrestructuredTomePoem1" xml:space="preserve">
+    <value>Gedicht 1</value>
+  </data>
+  <data name="BooksPrestructuredTomePoem2" xml:space="preserve">
+    <value>Gedicht 2</value>
+  </data>
+  <data name="BooksPrestructuredTomeShortstory1" xml:space="preserve">
+    <value>Geschichte 1</value>
+  </data>
+  <data name="BooksPrestructuredTomeVolume1" xml:space="preserve">
+    <value>Band 1</value>
+  </data>
+  <data name="MessageDeleteBook" xml:space="preserve">
+    <value>Es ist nur möglich ein Werk zu löschen, wenn keine Bände mehr existieren.</value>
+  </data>
+  <data name="MessageError" xml:space="preserve">
+    <value>Fehler</value>
+  </data>
   <data name="PivotHeaderAufnahme" xml:space="preserve">
     <value>Aufnahme</value>
   </data>
@@ -533,5 +563,11 @@
   </data>
   <data name="MeldungUeberschreibungNoteInTypeObject2" xml:space="preserve">
     <value>Möchtest du dieNotiz überschreiben ?</value>
+  </data>
+  <data name="CheckboxKeepTypeObjectNotes" xml:space="preserve">
+    <value>Angehangene Notizen beibehalten (aussortieren)</value>
+  </data>
+  <data name="TypeObjectsDeleteQuestion" xml:space="preserve">
+    <value>Möchtest du die Typobjekte wirklich löschen?</value>
   </data>
 </root>

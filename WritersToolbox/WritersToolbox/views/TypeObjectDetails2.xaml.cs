@@ -16,6 +16,7 @@ namespace WritersToolbox.views
     public partial class TypeObjectDetails2 : PhoneApplicationPage
     {
         TypeDetailViewModel tdvm = null;
+        private int currentApplicationBarId = 1;
         public TypeObjectDetails2()
         {
             InitializeComponent();
@@ -72,25 +73,31 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/TypeObjectEdit.xaml?typeObjectID=" + this.tdvm.TypeObject.typeObjectID, UriKind.Relative));
         }
 
-        //private void deleteTypeObject_Click(object sender, EventArgs e)
-        //{
-        //    MessageBoxResult mbr = MessageBox.Show("Möchtest du dieses Objekt wirklich löschen? Alle angehängten Notizen werden mitgelöscht. Du kannst das Objekt über den Papierkorb wiederherstellen.", "Löschen bestätigen", MessageBoxButton.OKCancel);
-        //    if(mbr.Equals(MessageBoxResult.OK)) {
-        //        TypesViewModel tvm = new TypesViewModel();
-        //        tvm.deleteTypeObject(this.tdvm.TypeObject.typeObjectID);
-        //        NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
-        //    }
-        //}
-
+        /// <summary>
+        /// Klick auf den Löschen-Button in der Application Bar. Es wird eine Sicherheitsabfrage geöffnet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TryDeleteTypeObject(object sender, EventArgs e)
         {
             TypeObjectDeleteQuestion.Text = AppResources.TypeObjectDeleteQuestion1 + tdvm.TypeObject.name.ToString() + AppResources.TypeObjectDeleteQuestion2;
             deleteTypeObjectPopup.IsOpen = true;
         }
 
+        /// <summary>
+        /// Die Sicherheitsabfrage wurde bestätigt und das TypObjekt wird gelöscht.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void DeleteTypeObject(object sender, EventArgs e)
         {
-            tdvm.deleteTypeObject(tdvm.TypeObject.typeObjectID, keepNotes.IsChecked.Value);
+            if ((bool)this.unsortedNotes.IsChecked)
+            {
+                tdvm.deleteTypeObject(tdvm.TypeObject.typeObjectID, keepNotes.IsChecked.Value);
+            }
+            else {
+                tdvm.deleteTypeObject(tdvm.TypeObject.typeObjectID, keepNotes.IsChecked.Value);
+            }
             deleteTypeObjectPopup.IsOpen = false;
             NavigationService.GoBack();
         }
@@ -131,15 +138,15 @@ namespace WritersToolbox.views
         {
             if (multiselector.SelectedItems.Count != 0)
             {
-                deleteButton.Visibility = Visibility.Visible;
+                this.setNoteSelectionApplicationBar();
             }
             else
             {
-                deleteButton.Visibility = Visibility.Collapsed;
+                this.setStandardApplicationBar();
             }
         }
 
-        private void TryDeleteAssociation(object sender, RoutedEventArgs e)
+        private void TryDeleteAssociation(object sender, EventArgs e)
         {
             NoteDeleteQuestion.Text = AppResources.NoteDeleteQuestionSingle;
             if (multiselector.SelectedItems.Count > 1)
@@ -156,10 +163,10 @@ namespace WritersToolbox.views
         {
             foreach (datawrapper.MemoryNote note in multiselector.SelectedItems)
             {
-                this.tdvm.deleteNote(note.memoryNoteID, true);
+                this.tdvm.deleteNote(note.memoryNoteID, (bool)this.unsortedNotes.IsChecked);
             }
             deleteNotesPopup.IsOpen = false;
-            deleteButton.Visibility = Visibility.Collapsed;
+            this.setStandardApplicationBar();
             this.tdvm.LoadData();
             if (this.tdvm.TypeObject.notes.Count == 0)
             {
@@ -184,6 +191,50 @@ namespace WritersToolbox.views
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
+        }
+
+        private void setNoteSelectionApplicationBar() {
+            if (currentApplicationBarId != 2) {
+                currentApplicationBarId = 2;
+                ApplicationBar.Buttons.Clear();
+                ApplicationBarIconButton cancel = new ApplicationBarIconButton();
+                ApplicationBarIconButton delete = new ApplicationBarIconButton();
+                cancel.Text = AppResources.TextCancel;
+                delete.Text = AppResources.TextDelete;
+                cancel.IconUri = new Uri("/icons/cancel.png", UriKind.RelativeOrAbsolute);
+                delete.IconUri = new Uri("/icons/delete.png", UriKind.RelativeOrAbsolute);
+
+                delete.Click += TryDeleteAssociation;
+                cancel.Click += CancelDeleteAssociation;
+                ApplicationBar.Buttons.Add(cancel);
+                ApplicationBar.Buttons.Add(delete);
+            }
+
+        }
+
+        public void CancelDeleteAssociation(object sender, EventArgs e) {
+            multiselector.SelectedItems.Clear();
+        }
+
+        private void setStandardApplicationBar() {
+            if (currentApplicationBarId != 1) {
+                currentApplicationBarId = 1;
+                ApplicationBarIconButton edit = new ApplicationBarIconButton();
+                ApplicationBarIconButton delete = new ApplicationBarIconButton();
+
+                edit.Text = AppResources.AppBarEdit;
+                delete.Text = AppResources.TextDelete;
+
+                edit.IconUri = new Uri("/icons/edit.png", UriKind.RelativeOrAbsolute);
+                delete.IconUri = new Uri("/icons/delete.png", UriKind.RelativeOrAbsolute);
+
+                edit.Click += editTypeObjectClick;
+                delete.Click += TryDeleteTypeObject;
+                ApplicationBar.Buttons.Clear();
+                ApplicationBar.Buttons.Add(edit);
+                ApplicationBar.Buttons.Add(delete);
+            }
+
         }
     }
 }

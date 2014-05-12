@@ -81,7 +81,7 @@ namespace WritersToolbox.viewmodels
 
             Tome t = new Tome()
                 {
-                    title = "Band 1",
+                    title = AppResources.BooksPrestructuredTomeVolume1,
                     addedDate = DateTime.Now,
                     updatedDate = DateTime.Now,
                     obj_book = b,
@@ -92,7 +92,7 @@ namespace WritersToolbox.viewmodels
                 case 1: Chapter c1 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Einleitung",
+                            title = AppResources.BooksPrestructuredTomeIntroduction,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -101,7 +101,7 @@ namespace WritersToolbox.viewmodels
                         Chapter c2 = new Chapter()
                         {
                             chapterNumber = 2,
-                            title = "Kapitel 1",
+                            title = AppResources.BooksPrestructuredTomeChapter1,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -110,7 +110,7 @@ namespace WritersToolbox.viewmodels
                         Chapter c3 = new Chapter()
                         {
                             chapterNumber = 3,
-                            title = "Nachwort",
+                            title = AppResources.BooksPrestructuredTomeEpilogue,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -120,7 +120,7 @@ namespace WritersToolbox.viewmodels
                 case 2: Chapter c4 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Gedicht 1",
+                            title = AppResources.BooksPrestructuredTomePoem1,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -129,7 +129,7 @@ namespace WritersToolbox.viewmodels
                         Chapter c5 = new Chapter()
                         {
                             chapterNumber = 2,
-                            title = "Gedicht 2",
+                            title = AppResources.BooksPrestructuredTomePoem2,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -139,7 +139,7 @@ namespace WritersToolbox.viewmodels
                 case 3: Chapter c6 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Einleitung",
+                            title = AppResources.BooksPrestructuredTomeIntroduction,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -148,7 +148,7 @@ namespace WritersToolbox.viewmodels
                         Chapter c7 = new Chapter()
                         {
                             chapterNumber = 2,
-                            title = "Geschichte 1",
+                            title = AppResources.BooksPrestructuredTomeShortstory1,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -238,7 +238,7 @@ namespace WritersToolbox.viewmodels
                 case 1: Chapter c1 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Einleitung",
+                            title = AppResources.BooksPrestructuredTomeIntroduction,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = to
@@ -247,7 +247,7 @@ namespace WritersToolbox.viewmodels
                     Chapter c2 = new Chapter()
                     {
                         chapterNumber = 2,
-                        title = "Kapitel 1",
+                        title = AppResources.BooksPrestructuredTomeChapter1,
                         addedDate = DateTime.Now,
                         updatedDate = DateTime.Now,
                         obj_tome = to
@@ -256,7 +256,7 @@ namespace WritersToolbox.viewmodels
                     Chapter c3 = new Chapter()
                     {
                         chapterNumber = 3,
-                        title = "Nachwort",
+                        title = AppResources.BooksPrestructuredTomeEpilogue,
                         addedDate = DateTime.Now,
                         updatedDate = DateTime.Now,
                         obj_tome = to
@@ -266,7 +266,7 @@ namespace WritersToolbox.viewmodels
                 case 2: Chapter c4 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Gedicht 1",
+                            title = AppResources.BooksPrestructuredTomePoem1,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = to
@@ -275,7 +275,7 @@ namespace WritersToolbox.viewmodels
                     Chapter c5 = new Chapter()
                     {
                         chapterNumber = 2,
-                        title = "Gedicht 2",
+                        title = AppResources.BooksPrestructuredTomePoem2,
                         addedDate = DateTime.Now,
                         updatedDate = DateTime.Now,
                         obj_tome = to
@@ -285,7 +285,7 @@ namespace WritersToolbox.viewmodels
                 case 3: Chapter c6 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Einleitung",
+                            title = AppResources.BooksPrestructuredTomeIntroduction,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = to
@@ -294,7 +294,7 @@ namespace WritersToolbox.viewmodels
                     Chapter c7 = new Chapter()
                     {
                         chapterNumber = 2,
-                        title = "Geschichte 1",
+                        title = AppResources.BooksPrestructuredTomeShortstory1,
                         addedDate = DateTime.Now,
                         updatedDate = DateTime.Now,
                         obj_tome = to
