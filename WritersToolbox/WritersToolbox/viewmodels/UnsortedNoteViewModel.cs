@@ -41,7 +41,8 @@ namespace WritersToolbox.viewmodels
         public ObservableCollection<datawrapper.UnsortedMemoryNote> getUnsortedNotes()
         {
             //Liste der Unsortierte Notizen und die Noch nicht gelöscht sind.
-            var notizen = memoryNote.Where(x => !x.associated && !x.deleted);
+            var notizen = memoryNote.Where(x => !x.associated && !x.deleted).OrderByDescending(x => x.addedDate);
+
             ObservableCollection<datawrapper.UnsortedMemoryNote> unsortedNote_List = new ObservableCollection<datawrapper.UnsortedMemoryNote>();
             foreach (var item in notizen)
             {

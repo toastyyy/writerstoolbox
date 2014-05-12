@@ -88,9 +88,6 @@ namespace WritersToolbox.viewmodels
 
         public bool isExistNoteInEvent(int eventID, string title)
         {
-            //string title = wtb.GetTable<models.MemoryNote>().Single(_m => _m.memoryNoteID == idMemory).ToString();
-            //var notes = from _m in tableMemoryNote
-            //            where _m.obj_Event.eventID
             return wtb.GetTable<models.MemoryNote>().Count(_m => _m.obj_Event.eventID == eventID && _m.title == title) == 1;
         }
 
@@ -100,20 +97,21 @@ namespace WritersToolbox.viewmodels
                                          where _n.obj_Event.eventID == eventid && _n.title == title
                                          select _n).First();
 
-            //models.MemoryNote _m = wtb.GetTable<models.MemoryNote>().Single(_mn => _mn.memoryNoteID == id);
-            string[] tokens = tempNote.contentAudioString.Split('|');
-
-            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            if (tempNote.contentAudioString != null)
             {
-                foreach (string item in tokens)
+                string[] tokens = tempNote.contentAudioString.Split('|');
+
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    if (isoStore.FileExists(item))
+                    foreach (string item in tokens)
                     {
-                        isoStore.DeleteFile(item);
+                        if (isoStore.FileExists(item))
+                        {
+                            isoStore.DeleteFile(item);
+                        }
                     }
                 }
             }
-
             tableMemoryNote.DeleteOnSubmit(tempNote);
             wtb.SubmitChanges();
         }

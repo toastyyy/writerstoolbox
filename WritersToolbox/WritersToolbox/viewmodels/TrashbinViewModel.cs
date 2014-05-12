@@ -10,6 +10,7 @@ using System.Diagnostics;
 using System.ComponentModel;
 using System.Collections;
 using WritersToolbox.views;
+using System.IO.IsolatedStorage;
 
 namespace WritersToolbox.viewmodels
 {
@@ -47,6 +48,11 @@ namespace WritersToolbox.viewmodels
             {
                 Console.WriteLine(ex.Message);
             }
+        }
+
+        public void MN_AlreadyExists()
+        {
+
         }
 
         public void loadDeletedMemoryNotes()
@@ -105,8 +111,8 @@ namespace WritersToolbox.viewmodels
             {
                 datawrapper.Tome t = new datawrapper.Tome()
                 {
-                    //     book = tome.book,
-                    //     chapters =  tome.chapters,
+                    // book = tome.book,
+                    // chapters =  tome.chapters,
                     tomeNumber = tome.tomeNumber,
                     updatedDate = tome.updatedDate,
                     tomeID = tome.tomeID,
@@ -130,7 +136,7 @@ namespace WritersToolbox.viewmodels
 
                     typeObjectID = typeObject.typeObjectID,
                     //type = typeObject.type,
-                    // notes = typeObject.notes,
+                    //notes = typeObject.notes,
                     color = typeObject.color,
                     used = typeObject.used,
                     name = typeObject.name,
@@ -210,10 +216,34 @@ namespace WritersToolbox.viewmodels
                 // loeschen start
                 if (entry.GetType().IsAssignableFrom((new datawrapper.MemoryNote()).GetType()))
                 {
+                    
                     datawrapper.MemoryNote mn = (datawrapper.MemoryNote)entry;
                     var entries = (from m in this.tableMemoryNote
                                    where m.memoryNoteID == mn.memoryNoteID
                                    select m).Single();
+                    Debug.WriteLine(mn.fk_eventID);
+                    Debug.WriteLine(mn.fk_typeObjectID);
+                    if ((mn.fk_eventID == 0) && (mn.fk_typeObjectID == 0))
+                    {
+                        Debug.WriteLine("Notiz war in unsortierte Notizen drin");
+                    }
+                    if(mn.contentAudioString != null)
+                    {
+                        //models.MemoryNote _m = wtb.GetTable<models.MemoryNote>().Single(_mn => _mn.memoryNoteID == id);
+                        string[] tokens = mn.contentAudioString.Split('|');
+
+                        using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                        {
+                            foreach (string item in tokens)
+                            {
+                                if (isoStore.FileExists(item))
+                                {
+                                    isoStore.DeleteFile(item);
+                                }
+                            }
+                        }
+                    }
+                    
                     this.tableMemoryNote.DeleteOnSubmit(entries);
                 }
 

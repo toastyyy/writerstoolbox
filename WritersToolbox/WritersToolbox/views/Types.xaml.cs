@@ -178,6 +178,7 @@ namespace WritersToolbox.views
                 cancel.Text = AppResources.AppBarCancel;
                 cancel.Click += CancelType;
                 ApplicationBar.Buttons.Add(cancel);
+                searchImage.Visibility = Visibility.Collapsed;
                 this.PivotMain.Title = new TextBlock() { 
                     FontSize = 22,
                     Margin = new Thickness(9,0,0,0),
@@ -237,6 +238,33 @@ namespace WritersToolbox.views
 
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote") || PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
             {
+                if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+                {
+                    if (types_VM.isExistNoteInEvent(holdTypeobject.typeObjectID, (PhoneApplicationService.Current.State["memoryNoteTitle"] as String)))
+                    {
+                        //Meldung
+                        MessageBoxResult result = MessageBoxResult.OK;
+                        string meldung = AppResources.MeldungUeberschreibungNoteInTypeObject1.Replace("µ1", holdTypeobject.name)
+                            + System.Environment.NewLine + AppResources.MeldungUeberschreibungNoteInTypeObject2;
+
+                        result = MessageBox.Show(meldung,
+                        AppResources.AppBarClose, MessageBoxButton.OKCancel);
+
+                        if (result == MessageBoxResult.OK)
+                        {
+                            types_VM.removeNote(holdTypeobject.typeObjectID, (PhoneApplicationService.Current.State["memoryNoteTitle"] as String));
+                            PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                        }
+                        else
+                        {
+                            PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                            return;
+                        }
+
+                    }
+                    PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                }
+                searchImage.Visibility = Visibility.Visible;
                 PhoneApplicationService.Current.State["typeObjectID"] = holdTypeobject.typeObjectID;
                 NavigationService.GoBack();
                 return;
@@ -377,6 +405,8 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void CancelType(object sender, EventArgs e)
         {
+            searchImage.Visibility = Visibility.Visible;
+            PhoneApplicationService.Current.State["cancelAssignment"] = true;
             NavigationService.GoBack();
         }
 

@@ -119,15 +119,15 @@
                                                TextWrapping="Wrap"/>
                     <TextBlock Grid.Row="1" 
                                                Foreground="#FF515151" 
-                                               Text="{Binding addedDate, Converter={StaticResource dateCon}, ConverterParameter=Erstellt-am}"
+                                               Text="{Binding addedDate, Converter={StaticResource dateCon}}"
                                                FontSize="20" 
                                                FontFamily="Segoe WP Light"
-                                              
+                                               Margin="0,-4,0,0"
                                                TextWrapping="Wrap"/>
                     <TextBlock Grid.Row="2" 
                                                Foreground="#FF515151" 
-                                               Text="{Binding chapters, Converter={StaticResource collectionCountCon}, ConverterParameter=Kapitelanzahl:}"
-                                               
+                                               Text="{Binding chapters, Converter={StaticResource collectionCountCon}}"
+                                               Margin="0,-4,0,0"
                                                TextWrapping="Wrap"
                                                FontSize="20" 
                                                FontFamily="Segoe WP Light"/>
@@ -205,7 +205,7 @@
             <templateselector:PivotContentTemplateSelector 
                 Content="{Binding}"
                 viewBook="{StaticResource PivotItem}"
-                addBook="{StaticResource PivotAddItem}" VerticalAlignment="Top"/>
+                addBook="{StaticResource PivotAddItem}" VerticalAlignment="Top" VerticalContentAlignment="Top"/>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
 
@@ -258,12 +258,12 @@
                     </phone:Pivot.Title>
                 </phone:Pivot>
 
-        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
+        <Image x:Name="searchImage" HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="ändern"/>
-            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
+            <shell:ApplicationBarIconButton x:Name="edit" IconUri="/icons/edit.png" Text="ändern"/>
+            <shell:ApplicationBarIconButton x:Name="delete"  IconUri="/icons/delete.png" Text="löschen"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

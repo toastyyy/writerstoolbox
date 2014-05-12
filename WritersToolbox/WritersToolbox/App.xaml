@@ -168,7 +168,7 @@
                                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" 
                                                                            Storyboard.TargetName="Presenter">
                                                             <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="24" EasingFunction="{StaticResource ExponentialEaseIn}"/>
-                                                            <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="86" EasingFunction="{StaticResource ExponentialEaseIn}"/>
+                                                            <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="60" EasingFunction="{StaticResource ExponentialEaseIn}"/>
                                                         </DoubleAnimationUsingKeyFrames>
                                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Opacity)" 
                                                                            Storyboard.TargetName="OuterHintPanel">
@@ -201,7 +201,7 @@
                                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" 
                                                                            Storyboard.TargetName="Presenter">
                                                             <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="24" EasingFunction="{StaticResource ExponentialEaseIn}"/>
-                                                            <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="86" EasingFunction="{StaticResource ExponentialEaseIn}"/>
+                                                            <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="60" EasingFunction="{StaticResource ExponentialEaseIn}"/>
                                                         </DoubleAnimationUsingKeyFrames>
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" 
                                                                            Storyboard.TargetName="SelectBox">
@@ -228,7 +228,7 @@
                                                         </DoubleAnimationUsingKeyFrames>
                                                         <DoubleAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" 
                                                                            Storyboard.TargetName="Presenter">
-                                                            <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="86" EasingFunction="{StaticResource ExponentialEaseIn}"/>
+                                                            <EasingDoubleKeyFrame KeyTime="0:0:0.0" Value="60" EasingFunction="{StaticResource ExponentialEaseIn}"/>
                                                             <EasingDoubleKeyFrame KeyTime="0:0:0.15" Value="24" EasingFunction="{StaticResource ExponentialEaseIn}"/>
                                                         </DoubleAnimationUsingKeyFrames>
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" 
@@ -254,7 +254,7 @@
                                                              Duration="0" To="0"/>
                                                         <DoubleAnimation Storyboard.TargetProperty="(UIElement.RenderTransform).(CompositeTransform.TranslateX)" 
                                                              Storyboard.TargetName="Presenter"
-                                                             Duration="0" To="86"/>
+                                                             Duration="0" To="60"/>
                                                         <ObjectAnimationUsingKeyFrames Storyboard.TargetProperty="(UIElement.Visibility)" 
                                                                            Storyboard.TargetName="SelectBox">
                                                             <DiscreteObjectKeyFrame KeyTime="0:0:0" Value="Visible"/>

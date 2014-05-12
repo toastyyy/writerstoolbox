@@ -14,6 +14,7 @@ using System.Diagnostics;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.Resources;
+using System.IO.IsolatedStorage;
 namespace WritersToolbox.viewmodels
 {
     public class TypesViewModel : INotifyPropertyChanged
@@ -99,6 +100,34 @@ namespace WritersToolbox.viewmodels
                          select t.typeObjectID;
 
             return result.ToArray();
+        }
+
+        public bool isExistNoteInEvent(int typeObjectID, string title)
+        {
+            return db.GetTable<models.MemoryNote>().Count(_m => _m.obj_TypeObject.typeObjectID == typeObjectID && _m.title == title) == 1;
+        }
+
+        public void removeNote(int typeObjectID, string title)
+        {
+            models.MemoryNote tempNote = db.GetTable<models.MemoryNote>().Where(_n => _n.obj_TypeObject.typeObjectID == typeObjectID && _n.title == title).First();
+
+            if (tempNote.contentAudioString != null)
+            {
+                string[] tokens = tempNote.contentAudioString.Split('|');
+
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    foreach (string item in tokens)
+                    {
+                        if (isoStore.FileExists(item))
+                        {
+                            isoStore.DeleteFile(item);
+                        }
+                    }
+                }
+            }
+            db.GetTable<models.MemoryNote>().DeleteOnSubmit(tempNote);
+            db.SubmitChanges();
         }
 
         /// <summary>

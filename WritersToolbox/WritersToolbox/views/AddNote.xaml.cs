@@ -84,6 +84,8 @@ namespace WritersToolbox.views
         private bool isPhotoChooserOpened;
         //
         TimeSpan dauer;
+
+        public static string meldung = null;
         /// <summary>
         /// Default Konstruktor.
         /// </summary>
@@ -292,7 +294,7 @@ namespace WritersToolbox.views
                 };
             
         }
-
+        
         /// <summary>
         /// Diese Methode wird ausgeführt, wenn es zu diesem Screen navigiert wird.
         /// </summary>
@@ -332,19 +334,28 @@ namespace WritersToolbox.views
                                 Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
                                 (int)PhoneApplicationService.Current.State["eventID"]);
                     }
-
+                    meldung = AppResources.MeldungZuordnungErfolgreich.Replace("µ1", titleTextBox.Text);
                     //Hilfsvariable in ApplicationService löschen.
                     PhoneApplicationService.Current.State.Remove("deletedImages");
                     PhoneApplicationService.Current.State.Remove("addedImages");
                     PhoneApplicationService.Current.State.Remove("OppendImageView");
                     PhoneApplicationService.Current.State.Remove("memoryNoteID");
                     PhoneApplicationService.Current.State.Remove("assignNote");
-                    if(PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                    if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                    {
+                        meldung = meldung.Replace("µ2", "Type " + "\"" + anvm.getTitleType((int)PhoneApplicationService.Current.State["typeObjectID"]) + "\"");
                         PhoneApplicationService.Current.State.Remove("typeObjectID");
+                    }
+
                     if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
-                    PhoneApplicationService.Current.State.Remove("eventID");
-                    NavigationService.GoBack();
-                    return;
+                    {
+                        meldung = meldung.Replace("µ2", "Event " + "\"" + anvm.getTitleEvent((int)PhoneApplicationService.Current.State["eventID"]) + "\"");
+                        PhoneApplicationService.Current.State.Remove("eventID");
+                    }
+
+                        NavigationService.GoBack();
+                        return;
+
                 }
             }
             //Überprüfen ob es von Imageview navigiert wurde.
@@ -891,19 +902,19 @@ namespace WritersToolbox.views
                     : detailsTextBox.Text.Trim();
                 if(PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
                 {
-                    if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
-                    {
-                        //Änderung der zugeordneten Notiz speichern.
-                        anvm.saveAsTypeObject(NoteID, DateTime.Now, title, details,
-                            Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
-                            (int)PhoneApplicationService.Current.State["typeObjectID"]);
-                    }
-                    else if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
+                    if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
                     {
                         //Änderung der zugeordneten Notiz speichern.
                         anvm.saveAsEvent(NoteID, DateTime.Now, title, details,
                             Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
                             (int)PhoneApplicationService.Current.State["eventID"]);
+                    }
+                    else if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                    {
+                            //Änderung der zugeordneten Notiz speichern.
+                            anvm.saveAsTypeObject(NoteID, DateTime.Now, title, details,
+                                Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
+                                (int)PhoneApplicationService.Current.State["typeObjectID"]);                  
                     }
                 }
                 else
@@ -921,6 +932,7 @@ namespace WritersToolbox.views
                 PhoneApplicationService.Current.State.Remove("assignedNote");
                 PhoneApplicationService.Current.State.Remove("assignNote");
                 PhoneApplicationService.Current.State.Remove("typeObjectID");
+                PhoneApplicationService.Current.State.Remove("eventID");
                 PhoneApplicationService.Current.State.Remove("edit");
                 NavigationService.GoBack();
             }
@@ -1151,6 +1163,7 @@ namespace WritersToolbox.views
                 PhoneApplicationService.Current.State.Remove("assignedNote");
                 PhoneApplicationService.Current.State.Remove("assignNote");
                 PhoneApplicationService.Current.State.Remove("typeObjectID");
+                PhoneApplicationService.Current.State.Remove("eventID");
                 PhoneApplicationService.Current.State.Remove("edit");
                 NavigationService.GoBack();
                 return true;
@@ -1292,7 +1305,8 @@ namespace WritersToolbox.views
                     erstellDatum = DateTime.Now,
                     dauer = this.dauer
                 };              
-                sound_Items.Add(mysound);
+                //sound_Items.Add(mysound);
+                sound_Items.Insert(0, mysound);
                 //LongListMultiSelector aktualisieren.
                 llms_records.ItemsSource = sound_Items;        
             }
@@ -1819,7 +1833,7 @@ namespace WritersToolbox.views
         {
             PhoneApplicationService.Current.State["assignNote"] = true;
             PhoneApplicationService.Current.State["memoryNoteTitle"] = titleTextBox.Text.Trim();
-            NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
+            //NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
 
             //Hilfsvariable für die Kontrolle der Änderungen.
             bool isChanged = false;
@@ -1855,6 +1869,7 @@ namespace WritersToolbox.views
             else
             {
                 PhoneApplicationService.Current.State["assignNote"] = true;
+                PhoneApplicationService.Current.State.Remove("cancelAssignment");
                 NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
             }
         }

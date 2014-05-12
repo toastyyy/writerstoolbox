@@ -29,7 +29,7 @@ namespace WritersToolbox.views
         //Primäreschlüßel des bandes.
         private int tomeID;
         //Buttons zum speichern/abbrechen beim Bearbeiten eines Chapters
-        private ApplicationBarIconButton save, cancel, delete, cancel_2;
+        private ApplicationBarIconButton save, cancel, delete, cancel_2, cancelAssign;
         
         //timer für den Slider der Infodetails
         private DispatcherTimer infoTimer;
@@ -71,6 +71,23 @@ namespace WritersToolbox.views
             InitializeComponent();
         }
 
+        public void addCancelAssignButton()
+        {
+            cancelAssign = new ApplicationBarIconButton();
+            cancelAssign.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+            cancelAssign.Text = AppResources.AppBarCancel;
+            cancelAssign.Click += new EventHandler(cancelAssignment);
+            ApplicationBar.Buttons.Add(cancelAssign);
+        }
+
+        private void cancelAssignment(object sender, EventArgs e)
+        {
+            ApplicationBar.Buttons.Remove(cancelAssign);
+            PhoneApplicationService.Current.State["cancelAssignment"] = true;
+            Title.Visibility = Visibility.Collapsed;
+            NavigationService.GoBack();
+        }
+
         /// <summary>
         /// Beim Navigieren zu dieser Seite wird das ausgewählte Objekt aus
         /// dem Navigationskontext herausgefiltert und die Details dazu mit dem
@@ -81,7 +98,16 @@ namespace WritersToolbox.views
         {
             
             base.OnNavigatedTo(e);
-
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                searchImage.Visibility = Visibility.Collapsed;
+                Title.Visibility = Visibility.Visible;
+                addCancelAssignButton();
+            }
+            else
+            {
+                searchImage.Visibility = Visibility.Visible;
+            }
             if (NavigationContext.QueryString.ContainsKey("tomeID"))
             {
                 
@@ -91,7 +117,7 @@ namespace WritersToolbox.views
                 //ist das hier richtig? funktionieren tuts
                 informationSlide();
                 int code = tome_VM.getInformation();
-                }
+            }
 
             llstructure.ItemsSource = tome_VM.structur;
         }
@@ -1015,6 +1041,7 @@ namespace WritersToolbox.views
 
                     }
                     PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                    Title.Visibility = Visibility.Collapsed;
                     //Event ID zurückgeben
                     PhoneApplicationService.Current.State["eventID"] = _event.eventID;
                     NavigationService.GoBack();

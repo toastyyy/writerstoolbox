@@ -169,10 +169,11 @@ namespace WritersToolbox.views
 
         private void Grid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //Grid selector = sender as Grid;
-            //PhoneApplicationService.Current.State["memoryNoteID"] = ((TrashbinViewModel)selector.DataContext).memoryNoteID + "";
-            //PhoneApplicationService.Current.State["edit"] = "true";
-            //NavigationService.Navigate(new Uri("/views/Trashbin.xaml", UriKind.Relative));
+            Grid g = (Grid)sender;
+
+            llms_trash.SelectedItems.Add((g.DataContext));
+
+            llms_trash.EnforceIsSelectionEnabled = true;
             
         }
 
@@ -253,6 +254,12 @@ namespace WritersToolbox.views
                     this.trash.loadDeletedEvents();
                 }
             }
+        }
+
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            
+
         }
         //private void PageLoaded(object sender, RoutedEventArgs e)
         //{

@@ -29,8 +29,6 @@ namespace WritersToolbox.viewmodels
         private Table<models.MemoryNote> memoryNote;
         //Notiz, als Entity object.
         private models.MemoryNote obj_memoryNote;
-        
-        
 
         /// <summary>
         /// Im Defaultkonstruktor wird die Verbindung zur Datenbank erstellt und
@@ -42,6 +40,7 @@ namespace WritersToolbox.viewmodels
             {
                 db = models.WritersToolboxDatebase.getInstance();
                 memoryNote = db.GetTable<models.MemoryNote>();
+
             }
             catch(Exception ex)
             {
@@ -78,6 +77,17 @@ namespace WritersToolbox.viewmodels
             return details == null ? "" : details;
         }
 
+        public string getTitleEvent(int eventID)
+        {
+            models.Event _e1 = db.GetTable<models.Event>().Where(_e => _e.eventID == eventID).FirstOrDefault();
+            return _e1.title;
+        }
+
+        public string getTitleType(int typeObjectID)
+        {
+            models.TypeObject _t1 = db.GetTable<models.TypeObject>().Where(_t => _t.typeObjectID == typeObjectID).FirstOrDefault();
+            return _t1.Title;
+        }
         /// <summary>
         /// liefert die Schlagwörter einer Notiz zurück.
         /// </summary>
@@ -270,7 +280,7 @@ namespace WritersToolbox.viewmodels
                 if (memoryNoteID == 0) //neue MemoryNote speichern.
                 {
                     obj_memoryNote = new models.MemoryNote();
-                    obj_memoryNote.addedDate = new DateTime(addedDate.Year, addedDate.Month, addedDate.Day);
+                    obj_memoryNote.addedDate = addedDate;
                     obj_memoryNote.title = title;
                     obj_memoryNote.contentText = contentText;
 
@@ -290,7 +300,7 @@ namespace WritersToolbox.viewmodels
 
                     obj_memoryNote.tags = tags;
 
-                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
+                    obj_memoryNote.updatedDate = updatedDate ;
                     obj_memoryNote.associated = false;
 
                     //obj_memoryNote in DataContext hinzufügen.
@@ -319,7 +329,7 @@ namespace WritersToolbox.viewmodels
 
                     obj_memoryNote.tags = tags;
 
-                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
+                    obj_memoryNote.updatedDate = updatedDate ;
                     obj_memoryNote.associated = false;
                 }
 
@@ -354,7 +364,7 @@ namespace WritersToolbox.viewmodels
                 if (memoryNoteID == 0) //neue MemoryNote speichern.
                 {
                     obj_memoryNote = new models.MemoryNote();
-                    obj_memoryNote.addedDate = new DateTime(addedDate.Year, addedDate.Month, addedDate.Day);
+                    obj_memoryNote.addedDate = addedDate;
                     obj_memoryNote.title = title;
                     obj_memoryNote.contentText = contentText;
 
@@ -374,7 +384,7 @@ namespace WritersToolbox.viewmodels
 
                     obj_memoryNote.tags = tags;
 
-                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
+                    obj_memoryNote.updatedDate = updatedDate ;
                     obj_memoryNote.associated = true;
 
                     //Foreign key speichern
@@ -407,7 +417,7 @@ namespace WritersToolbox.viewmodels
 
                     obj_memoryNote.tags = tags;
 
-                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
+                    obj_memoryNote.updatedDate =updatedDate ;
                     obj_memoryNote.associated = true;
 
                     //Foreign key speichern
@@ -445,7 +455,7 @@ namespace WritersToolbox.viewmodels
                 if (memoryNoteID == 0) //neue MemoryNote speichern.
                 {
                     obj_memoryNote = new models.MemoryNote();
-                    obj_memoryNote.addedDate = new DateTime(addedDate.Year, addedDate.Month, addedDate.Day);
+                    obj_memoryNote.addedDate = addedDate;
                     obj_memoryNote.title = title;
                     obj_memoryNote.contentText = contentText;
 
@@ -465,7 +475,7 @@ namespace WritersToolbox.viewmodels
 
                     obj_memoryNote.tags = tags;
 
-                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
+                    obj_memoryNote.updatedDate = updatedDate ;
                     obj_memoryNote.associated = true;
 
                     //Foreign key speichern
@@ -498,7 +508,7 @@ namespace WritersToolbox.viewmodels
 
                     obj_memoryNote.tags = tags;
 
-                    obj_memoryNote.updatedDate = new DateTime(updatedDate.Year, updatedDate.Month, updatedDate.Day); ;
+                    obj_memoryNote.updatedDate = updatedDate ;
                     obj_memoryNote.associated = true;
 
                     //Foreign key speichern
