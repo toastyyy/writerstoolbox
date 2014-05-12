@@ -205,7 +205,7 @@
             <templateselector:PivotContentTemplateSelector 
                 Content="{Binding}"
                 viewBook="{StaticResource PivotItem}"
-                addBook="{StaticResource PivotAddItem}" VerticalAlignment="Top"/>
+                addBook="{StaticResource PivotAddItem}" VerticalAlignment="Top" VerticalContentAlignment="Top"/>
         </DataTemplate>
     </phone:PhoneApplicationPage.Resources>
 

@@ -416,7 +416,6 @@ namespace WritersToolbox.viewmodels
                     
                 }
             }
-            //this.loadData();
             this.NotifyPropertyChanged("Tomes");
         }
 
@@ -434,7 +433,7 @@ namespace WritersToolbox.viewmodels
     new datawrapper.Tome()
     {
         title = AppResources.NewTomeTemplate,
-        book = new datawrapper.Book() { bookID = -1 }
+        tomeID = -1
         
     }
     );
@@ -461,18 +460,24 @@ namespace WritersToolbox.viewmodels
                            select t).Single();
             sqlTome.deleted = true;
 
-            var sqlChapters = from c in tableChapter
-                              where c.obj_tome.tomeID == sqlTome.tomeID
-                              select c;
-            foreach (var c in sqlChapters)
+            if (sqlTome.chapters.Count != 0)
             {
-                c.deleted = true;
+                var sqlChapters = from c in tableChapter
+                                  where c.obj_tome.tomeID == sqlTome.tomeID
+                                  select c;
+                foreach (var c in sqlChapters)
+                {
+                    c.deleted = true;
 
-                Event sqlEvent = (from e in this.tableEvents
-                                  where e.fk_chapterID == c.chapterID
-                                  select e).Single();
+                    if (c.events.Count != 0)
+                    {
+                        Event sqlEvent = (from e in this.tableEvents
+                                          where e.fk_chapterID == c.chapterID
+                                          select e).Single();
 
-                sqlEvent.deleted = true;
+                        sqlEvent.deleted = true;
+                    }
+                }
             }
             this.wtb.SubmitChanges();
             this.loadData();
