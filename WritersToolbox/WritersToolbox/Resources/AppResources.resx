@@ -325,7 +325,7 @@
     <value>" löschen?</value>
   </data>
   <data name="TypeObjectAssign" xml:space="preserve">
-    <value>ZU TYPOBJEKT ZUORDNEN</value>
+    <value>Notiz zuweisen</value>
   </data>
   <data name="TypesPageTitle" xml:space="preserve">
     <value>TYPEN</value>
@@ -523,6 +523,15 @@
     <value>Vorhanden. </value>
   </data>
   <data name="MeldungVorhandeneNotizinEvent3" xml:space="preserve">
-    <value>Möchten sie die Notiz überschreiben ?</value>
+    <value>Möchtest du die Notiz überschreiben ?</value>
+  </data>
+  <data name="MeldungZuordnungErfolgreich" xml:space="preserve">
+    <value>Die Zuordnung der Notiz µ1 wurde erfolgreich zu dem µ2 hinzugefügt</value>
+  </data>
+  <data name="MeldungUeberschreibungNoteInTypeObject1" xml:space="preserve">
+    <value>Eine Notiz mit diesem Name ist bereits in dem Typeobjekt µ1 Vorhanden.</value>
+  </data>
+  <data name="MeldungUeberschreibungNoteInTypeObject2" xml:space="preserve">
+    <value>Möchtest du dieNotiz überschreiben ?</value>
   </data>
 </root>

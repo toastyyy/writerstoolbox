@@ -671,6 +671,24 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Eine Notiz mit diesem Name ist bereits in dem Typeobjekt µ1 Vorhanden. ähnelt.
+        /// </summary>
+        public static string MeldungUeberschreibungNoteInTypeObject1 {
+            get {
+                return ResourceManager.GetString("MeldungUeberschreibungNoteInTypeObject1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Möchtest du dieNotiz überschreiben ? ähnelt.
+        /// </summary>
+        public static string MeldungUeberschreibungNoteInTypeObject2 {
+            get {
+                return ResourceManager.GetString("MeldungUeberschreibungNoteInTypeObject2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Eine Notiz mit diesem Name ist bereits im dem Ereignis ähnelt.
         /// </summary>
         public static string MeldungVorhandeneNotizinEvent1 {
@@ -689,11 +707,20 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Möchten sie die Notiz überschreiben ? ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Möchtest du die Notiz überschreiben ? ähnelt.
         /// </summary>
         public static string MeldungVorhandeneNotizinEvent3 {
             get {
                 return ResourceManager.GetString("MeldungVorhandeneNotizinEvent3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Zuordnung der Notiz µ1 wurde erfolgreich zu dem µ2 hinzugefügt ähnelt.
+        /// </summary>
+        public static string MeldungZuordnungErfolgreich {
+            get {
+                return ResourceManager.GetString("MeldungZuordnungErfolgreich", resourceCulture);
             }
         }
         
@@ -1219,7 +1246,7 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ZU TYPOBJEKT ZUORDNEN ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Notiz zuweisen ähnelt.
         /// </summary>
         public static string TypeObjectAssign {
             get {

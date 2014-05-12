@@ -258,12 +258,12 @@
                     </phone:Pivot.Title>
                 </phone:Pivot>
 
-        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
+        <Image x:Name="searchImage" HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
         <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
-            <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="ändern"/>
-            <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen"/>
+            <shell:ApplicationBarIconButton x:Name="edit" IconUri="/icons/edit.png" Text="ändern"/>
+            <shell:ApplicationBarIconButton x:Name="delete"  IconUri="/icons/delete.png" Text="löschen"/>
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

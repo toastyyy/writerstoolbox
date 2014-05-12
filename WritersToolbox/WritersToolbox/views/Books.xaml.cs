@@ -116,6 +116,10 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
+            if (PhoneApplicationService.Current.State.ContainsKey("cancelAssignment"))
+            {
+                NavigationService.GoBack();
+            }
             if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
             {
                 NavigationService.GoBack();
@@ -125,9 +129,18 @@ namespace WritersToolbox.views
             Books_VM.loadData();
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
             {
-                PivotMain.Title = new TextBlock() { Text = "Notiz zuweisen" };
-                ApplicationBar.Buttons.Clear();
+                //PivotMain.Title = new TextBlock() { Text = "Notiz zuweisen" };
+                PivotMain.Title = "Notiz zuweisen";
+                if (!ApplicationBar.Buttons.Contains(cancelBtn))
+                {
+                    ApplicationBar.Buttons.Clear();
+                }
                 hasEventHandler = false;
+                searchImage.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                searchImage.Visibility = Visibility.Visible;
             }
 
             if (NavigationContext.QueryString.ContainsKey("item"))
@@ -284,14 +297,14 @@ namespace WritersToolbox.views
             }
             else {
                 ApplicationBar.Buttons.Clear();
-                ApplicationBarIconButton btn = new ApplicationBarIconButton();
-                btn.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
-                btn.Text = AppResources.AppBarCancel;
-                btn.Click += new EventHandler(cancelAssignment);
-                ApplicationBar.Buttons.Add(btn);
+                cancelBtn = new ApplicationBarIconButton();
+                cancelBtn.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+                cancelBtn.Text = AppResources.AppBarCancel;
+                cancelBtn.Click += new EventHandler(cancelAssignment);
+                ApplicationBar.Buttons.Add(cancelBtn);
             }
         }
-
+        ApplicationBarIconButton cancelBtn;
         /// <summary>
         /// Die Appbar für ein existierendes Werk wird geladen.
         /// Wenn gerade eine Notiz zugewiesen wird, wird diese Appbar geladen.
@@ -314,11 +327,11 @@ namespace WritersToolbox.views
             else
             {
                 ApplicationBar.Buttons.Clear();
-                ApplicationBarIconButton btn = new ApplicationBarIconButton();
-                btn.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
-                btn.Text = AppResources.AppBarCancel;
-                btn.Click += new EventHandler(cancelAssignment);
-                ApplicationBar.Buttons.Add(btn);
+                cancelBtn = new ApplicationBarIconButton();
+                cancelBtn.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+                cancelBtn.Text = AppResources.AppBarCancel;
+                cancelBtn.Click += new EventHandler(cancelAssignment);
+                ApplicationBar.Buttons.Add(cancelBtn);
             }
         }
 
@@ -418,6 +431,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void cancelAssignment(object sender, EventArgs e)
         {
+            ApplicationBar.Buttons.Remove(cancelBtn);
             PhoneApplicationService.Current.State["cancelAssignment"] = true;
             NavigationService.GoBack();
         }

@@ -461,7 +461,7 @@ namespace WritersToolbox.views
             if (n == null)
                 return;
             PhoneApplicationService.Current.State["memoryNoteID"] = n.memoryNoteID.ToString();
-            PhoneApplicationService.Current.State["typeObjectID"] = n.fk_typeObjectID;
+            PhoneApplicationService.Current.State["eventID"] = n.fk_eventID;
             PhoneApplicationService.Current.State["edit"] = "true";
             PhoneApplicationService.Current.State["assignedNote"] = "true";
             NavigationService.Navigate(new Uri("/views/AddNote.xaml", UriKind.Relative));
