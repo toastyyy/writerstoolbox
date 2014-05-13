@@ -376,7 +376,9 @@
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten.png" />
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten_2.png" />
     <Content Include="Assets\hintergrund_trashbin_white.png" />
+    <Content Include="cancel_black.png" />
     <Content Include="icons\add.png" />
+    <Content Include="icons\cancel_black.png" />
     <Content Include="icons\dropbox-logo.png" />
     <Content Include="icons\finden.png" />
     <Content Include="icons\character_round_icon.png" />
@@ -484,7 +486,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>AppResources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>

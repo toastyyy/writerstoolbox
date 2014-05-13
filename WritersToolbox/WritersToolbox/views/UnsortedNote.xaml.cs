@@ -172,7 +172,7 @@ namespace WritersToolbox.views
             newTimer.Stop();
             newTimer = null;
             MessageBoxResult result = MessageBox.Show(views.addNote.meldung,
-                    AppResources.AppBarClose, MessageBoxButton.OK);
+                    AppResources.AppBarSuccessful, MessageBoxButton.OK);
             views.addNote.meldung = null;
 
         }

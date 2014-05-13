@@ -1023,10 +1023,11 @@ namespace WritersToolbox.views
                     {
                         //Meldung
                         MessageBoxResult result = MessageBoxResult.OK;
-
-                        result = MessageBox.Show(AppResources.MeldungVorhandeneNotizinEvent1 + " " + _event.title + " " 
-                            + AppResources.MeldungVorhandeneNotizinEvent2 + System.Environment.NewLine + AppResources.MeldungVorhandeneNotizinEvent3,
-                        AppResources.AppBarClose, MessageBoxButton.OKCancel);
+                        string meldung = AppResources.MeldungVorhandeneNotizinEvent1 + " \"" + _event.title + "\" " 
+                            + AppResources.MeldungVorhandeneNotizinEvent2 + System.Environment.NewLine + AppResources.MeldungVorhandeneNotizinEvent3;
+                        meldung = meldung.Replace("µ1", "\"" + (PhoneApplicationService.Current.State["memoryNoteTitle"] as String)  + "\"");
+                        result = MessageBox.Show(meldung,
+                        AppResources.AppBarOverwriting, MessageBoxButton.OKCancel);
 
                         if (result == MessageBoxResult.OK)
                         {

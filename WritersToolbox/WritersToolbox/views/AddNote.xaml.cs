@@ -334,7 +334,7 @@ namespace WritersToolbox.views
                                 Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
                                 (int)PhoneApplicationService.Current.State["eventID"]);
                     }
-                    meldung = AppResources.MeldungZuordnungErfolgreich.Replace("µ1", titleTextBox.Text);
+                    meldung = AppResources.MeldungZuordnungErfolgreich.Replace("µ1", "\""+titleTextBox.Text+"\"");
                     //Hilfsvariable in ApplicationService löschen.
                     PhoneApplicationService.Current.State.Remove("deletedImages");
                     PhoneApplicationService.Current.State.Remove("addedImages");
@@ -343,13 +343,13 @@ namespace WritersToolbox.views
                     PhoneApplicationService.Current.State.Remove("assignNote");
                     if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
                     {
-                        meldung = meldung.Replace("µ2", "Type " + "\"" + anvm.getTitleType((int)PhoneApplicationService.Current.State["typeObjectID"]) + "\"");
+                        meldung = meldung.Replace("µ2", " Type " + "\"" + anvm.getTitleType((int)PhoneApplicationService.Current.State["typeObjectID"]) + "\"");
                         PhoneApplicationService.Current.State.Remove("typeObjectID");
                     }
 
                     if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
                     {
-                        meldung = meldung.Replace("µ2", "Event " + "\"" + anvm.getTitleEvent((int)PhoneApplicationService.Current.State["eventID"]) + "\"");
+                        meldung = meldung.Replace("µ2", " Event " + "\"" + anvm.getTitleEvent((int)PhoneApplicationService.Current.State["eventID"]) + "\"");
                         PhoneApplicationService.Current.State.Remove("eventID");
                     }
 
@@ -777,7 +777,11 @@ namespace WritersToolbox.views
             if (llms_images.SelectedItems.Count == 0)
             {
                 this.pivoteName.IsLocked = false;
-                llms_images.EnforceIsSelectionEnabled = false;               
+                llms_images.EnforceIsSelectionEnabled = false;
+                if (!ApplicationBar.Buttons.Contains(save))
+                {
+                    addManagementApplicationBarButton();
+                } 
                 zurueckButton.Visibility = Visibility.Collapsed;
                 deleteButton.Visibility = Visibility.Collapsed;
                 addButton.Visibility = Visibility.Visible;
@@ -785,6 +789,10 @@ namespace WritersToolbox.views
             else
             {
                 this.pivoteName.IsLocked = true;
+                if (ApplicationBar.Buttons.Contains(save))
+                {
+                    removeManagementApplicationBarButton();
+                }              
                 addButton.Visibility = Visibility.Collapsed;
                 zurueckButton.Visibility = Visibility.Visible;
                 deleteButton.Visibility = Visibility.Visible;
@@ -836,6 +844,10 @@ namespace WritersToolbox.views
             if (llms_records.SelectedItems.Count == 0)
             {
                 this.pivoteName.IsLocked = false;
+                if (!ApplicationBar.Buttons.Contains(save))
+                {
+                    addManagementApplicationBarButton();
+                }                
                 llms_records.EnforceIsSelectionEnabled = false;
                 addRecordButton.IsEnabled = true;
                 addRecordButton.Visibility = Visibility.Visible;
@@ -846,6 +858,11 @@ namespace WritersToolbox.views
             else
             {
                 this.pivoteName.IsLocked = true;
+                if (ApplicationBar.Buttons.Contains(save))
+                {
+                    removeManagementApplicationBarButton();
+                }
+                
                 addRecordButton.Visibility = Visibility.Collapsed;
                 zurueckRecordButton.Visibility = Visibility.Visible;
                 deleteRecordButton.Visibility = Visibility.Visible;
@@ -955,7 +972,10 @@ namespace WritersToolbox.views
             llms_images.SelectedItems.Add(((MyImage)image.DataContext));
             deleteButton.Visibility = Visibility.Visible;
             zurueckButton.Visibility = Visibility.Visible;
-
+            if (ApplicationBar.Buttons.Contains(save))
+            {
+                removeManagementApplicationBarButton();
+            }          
             addButton.Visibility = Visibility.Collapsed;
             this.pivoteName.IsLocked = true;
         }
@@ -1822,6 +1842,10 @@ namespace WritersToolbox.views
             addRecordButton.IsEnabled = false;
             //Selektierung aktivieren.
             llms_records.EnforceIsSelectionEnabled = true;
+            if (ApplicationBar.Buttons.Contains(save))
+            {
+                removeManagementApplicationBarButton();
+            } 
             //Ausgewählte Memo selektieren.
             llms_records.SelectedItems.Add(((SoundData)g.DataContext));
             deleteRecordButton.Visibility = Visibility.Visible;
