@@ -10,14 +10,14 @@ using System.Windows.Data;
 
 namespace WritersToolbox.converter
 {
-    public class ChapterCutTitel: IValueConverter
+    public class EventCutTitel: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             String titel = (String) value;
-            if (titel.Length > 18)
+            if (titel.Length > 23)
             {
-                titel = titel.Substring(0,15);
+                titel = titel.Substring(0,20);
                 titel += "...";
             }
             return titel;

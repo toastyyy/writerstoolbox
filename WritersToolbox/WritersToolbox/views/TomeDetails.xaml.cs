@@ -18,6 +18,7 @@ using System.Windows.Data;
 using System.Collections.ObjectModel;
 using System.Threading;
 using System.Windows.Threading;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.views
 {
@@ -28,7 +29,7 @@ namespace WritersToolbox.views
         //Primäreschlüßel des bandes.
         private int tomeID;
         //Buttons zum speichern/abbrechen beim Bearbeiten eines Chapters
-        private ApplicationBarIconButton save, cancel, delete, cancel_2;
+        private ApplicationBarIconButton save, cancel, delete, cancel_2, edit, saveEdit, cancelEdit;
         
         //timer für den Slider der Infodetails
         private DispatcherTimer infoTimer;
@@ -37,10 +38,13 @@ namespace WritersToolbox.views
         // Nummer der im Slider angezeigten Info (Kapitel, Ereignisse, typobjekte, Seiten, Wörter)
         private int InfoStatus = 1;
 
+        private bool isDefaultAppBarVisible = false;
+
         //Textbox Chapter
         TextBox b = new TextBox();
         //Chapter
         private datawrapper.Chapter chapter;
+        private datawrapper.Event event_;
         private bool wasfocuslost;
 
         private bool isSectionOpened;
@@ -52,11 +56,13 @@ namespace WritersToolbox.views
 
         // false wenn doubleTap eintritt
         private bool singleTap;
+        private bool singleTap_e;
 
         // zustand ob d ich Chapter im "doubleTap" -> bearbeitungsmodus befindet
         private bool doubleTap = false;
+        private bool doubleTap_e = false;
 
-        private bool newChapterMode = false;
+        private bool newChapterOrEventMode = false;
 
         private bool isChapterControlOpened;
         public bool chapterSelected = false;
@@ -68,6 +74,12 @@ namespace WritersToolbox.views
         public TomeDetails()
         {
             InitializeComponent();
+            if (!isDefaultAppBarVisible)
+            {
+                addDefaultApplicationBar();
+                isDefaultAppBarVisible = true;
+            } 
+            
         }
 
         /// <summary>
@@ -126,7 +138,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void information_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!doubleTap && !newChapterMode)
+            if (!doubleTap && !newChapterOrEventMode)
             {
                 BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_checked.png", UriKind.RelativeOrAbsolute));
                 information.Source = _bitmapimage;
@@ -156,7 +168,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void structure_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!doubleTap && !newChapterMode)
+            if (!doubleTap && !newChapterOrEventMode)
             {
                 BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_unchecked.png", UriKind.RelativeOrAbsolute));
                 information.Source = _bitmapimage;
@@ -185,7 +197,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void typeObjekt_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!doubleTap && !newChapterMode)
+            if (!doubleTap && !newChapterOrEventMode)
             {
                 BitmapImage _bitmapimage = new BitmapImage(new Uri("/icons/info_unchecked.png", UriKind.RelativeOrAbsolute));
                 information.Source = _bitmapimage;
@@ -449,7 +461,7 @@ namespace WritersToolbox.views
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
 
-            if (!doubleTap && !newChapterMode)
+            if (!doubleTap && !newChapterOrEventMode)
             {
                 
                 Image img = sender as Image;
@@ -459,7 +471,7 @@ namespace WritersToolbox.views
                 TextBox textbox = border.Child as TextBox;
                 
                 
-                if (!textbox.Text.Equals("Neues Kapitel") && !newChapterMode)
+                if (!textbox.Text.Equals("Neues Kapitel") && !newChapterOrEventMode)
                 {
                     LongListMultiSelector llms = ((parent.Children[1]) as LongListMultiSelector);
                     
@@ -476,8 +488,10 @@ namespace WritersToolbox.views
                             oldLlms.IsSelectionEnabled = false;
                             oldLlms.EnforceIsSelectionEnabled = false;
                             oldLlms.Visibility = Visibility.Collapsed;
+                           
                     }
-                            
+                         oldImage = img;
+                            oldLlms = llms;    
                         oldChapter = parent.DataContext as datawrapper.Chapter;
                     }
                     else      //Ist die Ereignislist aufgeklappt,
@@ -492,11 +506,12 @@ namespace WritersToolbox.views
                             oldLlms.IsSelectionEnabled = false;
                             oldLlms.EnforceIsSelectionEnabled = false;
                             oldLlms.Visibility = Visibility.Collapsed;
+                            oldLlms = null;
+                            oldImage = null;
                     }
                 }
 
-                        oldImage = img;
-                        oldLlms = llms;
+                        
             }
                 if (isNewEventAndChapterButtonsRemoved)
                 {
@@ -527,17 +542,21 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void Chapter_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!newChapterMode)
+            String senderTitel = (((Grid)sender).DataContext as datawrapper.Chapter).title;
+            if (!newChapterOrEventMode && !senderTitel.Equals("Neues Kapitel"))
             {
-            llstructure.IsSelectionEnabled = true;
+                llstructure.IsSelectionEnabled = true;
 
                 llstructure.SelectedItems.Add(((Grid)sender).DataContext);
                 if (!isSectionOpened)
                 {
                     addSelectionApplicationBarButton();
                 }
-                int ID = (((LongListMultiSelector)sender).DataContext as datawrapper.Chapter).chapterID;
-                if(tome_VM.isEventsInChapter(oldLlms, ID))
+
+                
+                //int ID = (((LongListMultiSelector)sender).DataContext as datawrapper.Chapter).chapterID;
+                int ID = (((Grid)sender).DataContext as datawrapper.Chapter).chapterID;
+                if (oldLlms != null && tome_VM.isEventsInChapter(oldLlms, ID))
                 {
                                     //Um alle events mitselektieren wenn die liste aufgeklappt ist.
                 if (oldLlms != null && oldLlms.Visibility == Visibility.Visible)
@@ -559,6 +578,8 @@ namespace WritersToolbox.views
 
         }
 
+        
+
         /// <summary>
         /// 
         /// </summary>
@@ -567,7 +588,9 @@ namespace WritersToolbox.views
         private void llmsEvent_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
             //l = sender as LongListMultiSelector;
-            if (!newChapterMode)
+            //String senderTitel = (((LongListMultiSelector)sender).DataContext as datawrapper.Chapter);
+            String senderTitel = (((TextBlock)e.OriginalSource).DataContext as datawrapper.Event).title;
+            if (!newChapterOrEventMode && !senderTitel.Equals("Ereignis hinzufügen"))
             {
                 datawrapper.Event _e = ((TextBlock)e.OriginalSource).DataContext as datawrapper.Event;
 
@@ -592,17 +615,17 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ChapterTextBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private async void ChapterTextBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (isNewEventAndChapterButtonsRemoved)
-        {
+            {
                 AddNewChapterAndEventButton();
             }
             singleTap = true;
             // verzögerung um "tap" von "doubleTap" zu unterscheiden
             
-            Thread.Sleep(200);
-            //await Task.Delay(200);
+            //Thread.Sleep(400);
+                await Task.Delay(200);
 
             //abfrage ob gesingle- oder gedoubletaped wurde, abfrage ob sich chapter in "bearbeitung" befindet
             if (singleTap && !doubleTap)
@@ -611,14 +634,14 @@ namespace WritersToolbox.views
                 b = sender as TextBox;
                 Image img = ((b.Parent as Border).Parent as Grid).Children[0] as Image;
                 
-                if (!b.Text.Equals("Neues Kapitel") && !newChapterMode)
+                if (!b.Text.Equals("Neues Kapitel") && !newChapterOrEventMode)
                 {
                     Image_Tap(img, e);
 
                 }
                 else {
 
-                    b.DoubleTap -= ChapterTextBox_TapTap;
+                    b.DoubleTap -= Chapter_DoubleTap;
                     newChapterTextbox.IsEnabled = true;
                     newChapterTextbox.Visibility = Visibility.Visible;
                    
@@ -632,12 +655,12 @@ namespace WritersToolbox.views
                     newChapterTextTitle.Visibility = Visibility.Visible;
 
                     newChapterTextbox.Select(newChapterTextbox.Text.Length, 0);
-                    if (!newChapterMode)
+                    if (!newChapterOrEventMode)
                     {
                         addAddChapterApplicationBarButton();
                     }
 
-                    newChapterMode = true;
+                    newChapterOrEventMode = true;
                 }
 
 
@@ -646,21 +669,105 @@ namespace WritersToolbox.views
 
         }
 
-        
+        private void Event_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            b = sender as TextBox;
+
+            if (!newChapterOrEventMode && !b.Text.Equals("Neues Ereignis"))
+            {
+                singleTap_e = false;
+                doubleTap_e = true;
+
+                event_ = (sender as TextBox).DataContext as datawrapper.Event;
+                b.IsReadOnly = false;
+                //Workaround...
+                b.LostFocus -= Event_LostFocus;
+                WorkaroundButton.Focus();
+                wasfocuslost = false;
+                b.Focus();
+                //Debug.WriteLine("tapTap");
+                b.LostFocus += Event_LostFocus;
+                //Workaround ende...
+                structure.Tap -= structure_Tap;
+                information.Tap -= information_Tap;
+                typeObject.Tap -= typeObject_Tap;
+            }
+        }
+
+        private void Event_LostFocus(object sender, RoutedEventArgs e)
+        {
+            MessageBoxResult result = MessageBoxResult.Cancel;
+
+            //Debug.WriteLine("lostfocus");
+            if (doubleTap_e && !newChapterOrEventMode)
+            {
+                bool isExist = tome_VM.isEventNameDuplicate(b.Text);
+
+                //Abfrage "Neues Kapitel" auf Schreibweisen (Klein/Groß etc.) prüfen
+                if (b.Text.Trim().Equals("") || b.Text.Equals(event_.title) || b.Text.Equals("Neues Ereignis"))
+                {
+                    b.Text = event_.title;
+                    wasfocuslost = true;
+                    b.IsReadOnly = true;
+                    doubleTap_e = false;
+                    singleTap_e = false;
+                    structure.Tap += structure_Tap;
+                    information.Tap += information_Tap;
+                    typeObject.Tap += typeObject_Tap;
+                }
+                else if (isExist && !wasfocuslost)
+                {
+                    b.IsReadOnly = false;
+                    doubleTap_e = true;
+                    //Fehlermeldung              
+                    result = MessageBox.Show("Dieses Ereignis exisitiert schon. Bitte geben Sie einen anderen Titel an!",
+                            "Information", MessageBoxButton.OK);
+                    wasfocuslost = false;
+                    b.LostFocus -= Event_LostFocus;
+                    WorkaroundButton.Focus();
+                    b.Focus();
+                    b.LostFocus += Event_LostFocus;
+                }
+                else if (!isExist)
+                {
+                    //Änderung speichern
+                    event_.title = b.Text;
+                    tome_VM.updateEvent(event_);
+                    wasfocuslost = true;
+                    b.IsReadOnly = true;
+                    doubleTap_e = false;
+                    singleTap_e = true;
+
+
+                    structure.Tap += structure_Tap;
+                    information.Tap += information_Tap;
+                    typeObject.Tap += typeObject_Tap;
+
+
+                }
+                else
+                {
+                    wasfocuslost = false;
+                }
+
+
+            }
+        }
+
         /// <summary>
         /// doppelklick auf ein Chapter (Textbox)
         /// Content kann verändert werden
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ChapterTextBox_TapTap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void Chapter_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             b = (TextBox)sender;
             
-            if (!newChapterMode && !b.Text.Equals("Neues Kapitel"))
+            if (!newChapterOrEventMode && !b.Text.Equals("Neues Kapitel"))
             {
                 singleTap = false;
-            doubleTap = true;  
+                doubleTap = true;  
                               
                 chapter = (sender as TextBox).DataContext as datawrapper.Chapter;
                 b.IsReadOnly = false;
@@ -669,7 +776,7 @@ namespace WritersToolbox.views
                 WorkaroundButton.Focus();
                 wasfocuslost = false;
                 b.Focus();
-                Debug.WriteLine("tapTap");
+                //Debug.WriteLine("tapTap");
                 b.LostFocus += ChapterTextbox_LostFocus;
                 //Workaround ende...
                 structure.Tap -= structure_Tap;
@@ -692,7 +799,7 @@ namespace WritersToolbox.views
             MessageBoxResult result = MessageBoxResult.Cancel;
 
             Debug.WriteLine("lostfocus");
-            if (doubleTap && !newChapterMode)
+            if (doubleTap && !newChapterOrEventMode)
             {
                 bool isExist = tome_VM.isChapterNameDuplicate(b.Text);
 
@@ -758,7 +865,8 @@ namespace WritersToolbox.views
             //Default Buttons von ApplicationBarButton löschen.
             if (isChapterControlOpened)
             removeAddChapterApplicationBarButton();
-
+            removeDefaultApplicationBar();
+             
             //ApplicationBarButton mit ManagmentButtons erfüllen.
 
             delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
@@ -798,7 +906,7 @@ namespace WritersToolbox.views
             {
                 removeSelectionApplicationBarButton();
             }
-
+            
             AddNewChapterAndEventButton();
         }
 
@@ -810,6 +918,7 @@ namespace WritersToolbox.views
             isChapterControlOpened = false;
             ApplicationBar.Buttons.Remove(save);
             ApplicationBar.Buttons.Remove(cancel);
+            searchButton.Visibility = Visibility.Visible;
         }
 
         /// <summary>
@@ -822,6 +931,180 @@ namespace WritersToolbox.views
             ApplicationBar.Buttons.Remove(cancel_2);
         }
 
+        
+
+
+
+        private void addDefaultApplicationBar()
+        {
+            removeSelectionApplicationBarButton();
+            removeAddChapterApplicationBarButton();
+            edit = new ApplicationBarIconButton(new Uri("/icons/edit.png", UriKind.Relative));
+            edit.Text = AppResources.AppBarEdit;
+
+            edit.Click += editButton_Click;
+
+            ApplicationBar.Buttons.Add(edit);
+            
+        }
+
+        private void addEditModeApplicationBarButton()
+        {
+            removeDefaultApplicationBar();
+            saveEdit = new ApplicationBarIconButton(new Uri("/icons/save.png", UriKind.Relative));
+            cancelEdit = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+
+
+            saveEdit.Text = AppResources.AppBarSave;
+            cancelEdit.Text = AppResources.AppBarCancel;
+
+            saveEdit.Click += saveEditButton_Click;
+            cancelEdit.Click += cancelEditButton_Click;
+
+            ApplicationBar.Buttons.Add(saveEdit);
+            ApplicationBar.Buttons.Add(cancelEdit);
+        }
+
+        private void removeEditModeApplicationBarButton()
+        {
+            ApplicationBar.Buttons.Remove(saveEdit);
+            ApplicationBar.Buttons.Remove(cancelEdit);
+        }
+
+
+        private void editButton_Click(object sender, EventArgs e) {
+            removeDefaultApplicationBar();
+            addEditModeApplicationBarButton();
+            bookTitle.Visibility = Visibility.Collapsed;
+            bookTitle_edit.Visibility = Visibility.Visible;
+            searchButton.Visibility = Visibility.Collapsed;
+            
+            
+            //////////////////////////////////////////////////////////////////TODO///////////////////////////////////////
+            //entweder alles (Kapitel, Events etc ausbleden oder nicht bearbeitbar machen.
+            structureGrid.Visibility = Visibility.Collapsed;
+            steuerelement.Visibility = Visibility.Collapsed;
+            bookTitleBorder.Visibility = Visibility.Visible;
+            
+            
+        }
+
+        private void cancelEditButton_Click(object sender, EventArgs e)
+        {
+            String title = bookTitle_edit.Text;
+            MessageBoxResult result = MessageBoxResult.Cancel;
+            //var x = tome_VM.tome.title;
+            if (!title.Equals(tome_VM.tome.title))
+            {
+                //Änderung -> wirklich abbrechen?           
+                result = MessageBox.Show("Möchtest du deine Änderungen wirklich verwefen?",
+                        "Information", MessageBoxButton.OKCancel);
+                bookTitle_edit.SelectAll();
+                if (result == MessageBoxResult.OK)
+                {
+                    removeEditModeApplicationBarButton();
+                    if (!isDefaultAppBarVisible)
+                    {
+                        addDefaultApplicationBar();
+                        isDefaultAppBarVisible = true;
+                    }
+
+                    structureGrid.Visibility = Visibility.Visible;
+                    steuerelement.Visibility = Visibility.Visible;
+                    bookTitleBorder.Visibility = Visibility.Collapsed;
+                    bookTitle.Visibility = Visibility.Visible;
+                    bookTitle_edit.Visibility = Visibility.Collapsed;
+                    WorkaroundButton.Focus();
+                    searchButton.Visibility = Visibility.Visible;
+                }
+
+            }
+            else 
+            { //abbrechen
+                removeEditModeApplicationBarButton();
+                if (!isDefaultAppBarVisible)
+                {
+                    addDefaultApplicationBar();
+                    isDefaultAppBarVisible = true;
+                }
+
+                structureGrid.Visibility = Visibility.Visible;
+                steuerelement.Visibility = Visibility.Visible;
+                bookTitleBorder.Visibility = Visibility.Collapsed;
+                bookTitle.Visibility = Visibility.Visible;
+                bookTitle_edit.Visibility = Visibility.Collapsed;
+                WorkaroundButton.Focus();
+                searchButton.Visibility = Visibility.Visible;
+            }
+        }
+
+        private void saveEditButton_Click(object sender, EventArgs e) 
+        { 
+            //Abfragen ob Band mit diesem Namen in Band existiert
+            String title = bookTitle_edit.Text;
+            String titleLow = title.ToLower();
+            MessageBoxResult result = MessageBoxResult.Cancel;
+            String tomeBooktitel = tome_VM.tome.obj_book.Title;
+            
+            if(title.Equals(tome_VM.tome.title)){
+                removeEditModeApplicationBarButton();
+                if (!isDefaultAppBarVisible)
+                {
+                    addDefaultApplicationBar();
+                    isDefaultAppBarVisible = true;
+                }
+                this.tome_VM.changeTitle(bookTitle_edit.Text);
+               
+
+                structureGrid.Visibility = Visibility.Visible;
+                steuerelement.Visibility = Visibility.Visible;
+                bookTitleBorder.Visibility = Visibility.Collapsed;
+                bookTitle.Visibility = Visibility.Visible;
+                bookTitle_edit.Visibility = Visibility.Collapsed;
+                WorkaroundButton.Focus();
+                searchButton.Visibility = Visibility.Visible;
+            } else if (this.tome_VM.tomeTitleAlreadyExists(title)) 
+            {
+                //Fehlermeldung Tome mit Titel bereits vorhanden  
+                result = MessageBox.Show("Ein Band mit diesem Titel ist in " + tomeBooktitel + " bereits vorhanden. Bitte wähle einen anderen Namen aus!",
+                        "Information", MessageBoxButton.OK);
+                bookTitle_edit.SelectAll();
+            }
+            else if ((title.Trim()).Equals("") || titleLow.Equals(AppResources.TomeTitleNewTome.ToLower()))
+            {
+                //Fehlermeldung ungültig oder leer           
+                result = MessageBox.Show("Der Titel ist leer oder ungültig. Bitte geben Sie einen anderen Titel an!",
+                        "Information", MessageBoxButton.OK);
+                bookTitle_edit.SelectAll();
+            }
+            else
+            { //ales ok -> speichern
+                removeEditModeApplicationBarButton();
+                if (!isDefaultAppBarVisible)
+                {
+                    addDefaultApplicationBar();
+                    isDefaultAppBarVisible = true;
+                }
+                this.tome_VM.changeTitle(bookTitle_edit.Text);
+               
+
+                structureGrid.Visibility = Visibility.Visible;
+                steuerelement.Visibility = Visibility.Visible;
+                bookTitleBorder.Visibility = Visibility.Collapsed;
+                bookTitle.Visibility = Visibility.Visible;
+                bookTitle_edit.Visibility = Visibility.Collapsed;
+                WorkaroundButton.Focus();
+                searchButton.Visibility = Visibility.Visible;
+            }
+            
+        }
+
+        private void removeDefaultApplicationBar()
+        {
+            ApplicationBar.Buttons.Remove(edit);
+            isDefaultAppBarVisible = false;
+        }
+
         /// <summary>
         /// 
         /// </summary>
@@ -831,17 +1114,21 @@ namespace WritersToolbox.views
             //Default Buttons von ApplicationBarButton löschen.
             if (isSectionOpened)
             {
-            removeSelectionApplicationBarButton();
+                removeSelectionApplicationBarButton();
+            }
+            else {
+                removeDefaultApplicationBar();
             }
 
+            searchButton.Visibility = Visibility.Collapsed;
             //ApplicationBarButton mit Buttons zum Speichern/Abbrechen beim Anlegen eines Kapitels.
 
             save = new ApplicationBarIconButton(new Uri("/icons/save.png", UriKind.Relative));
             cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
 
 
-            save.Text = "Speichern";
-            cancel.Text = "Abbrechen";
+            save.Text = AppResources.AppBarSave;
+            cancel.Text = AppResources.AppBarCancel;
 
             //Events zu Buttons hinzufügen.
 
@@ -881,6 +1168,8 @@ namespace WritersToolbox.views
             }
 
             AddNewChapterAndEventButton();
+            //addDefaultApplicationBar();
+            
 
         }
 
@@ -913,6 +1202,11 @@ namespace WritersToolbox.views
             {
                 if(isChapterControlOpened)
                 removeAddChapterApplicationBarButton();
+                if (!isDefaultAppBarVisible)
+                {
+                    addDefaultApplicationBar();
+                    isDefaultAppBarVisible = true;
+                } 
                 datawrapper.Chapter _c = new datawrapper.Chapter()
                 {
                     addedDate = DateTime.Now,
@@ -922,7 +1216,7 @@ namespace WritersToolbox.views
                     updatedDate = DateTime.Now
                 };
                 tome_VM.saveChapter(_c);
-                newChapterMode = false;
+                newChapterOrEventMode = false;
 
                 //b.IsReadOnly = true;
                 
@@ -953,7 +1247,12 @@ namespace WritersToolbox.views
                 {
                     if(isChapterControlOpened)
                     removeAddChapterApplicationBarButton();
-                    newChapterMode = false;
+                    if (!isDefaultAppBarVisible)
+                    {
+                        addDefaultApplicationBar();
+                        isDefaultAppBarVisible = true;
+                    } 
+                    newChapterOrEventMode = false;
                     //b.IsReadOnly = true;
                     newChapterTextbox.IsEnabled = false;
                     newChapterTextbox.Visibility = Visibility.Collapsed;
@@ -964,7 +1263,12 @@ namespace WritersToolbox.views
             } else{
                 if (isChapterControlOpened)
                 removeAddChapterApplicationBarButton();
-                newChapterMode = false;
+                if (!isDefaultAppBarVisible)
+                {
+                    addDefaultApplicationBar();
+                    isDefaultAppBarVisible = true;
+                } 
+                newChapterOrEventMode = false;
                 //b.IsReadOnly = true;
                 newChapterTextbox.IsEnabled = false;
                 newChapterTextbox.Visibility = Visibility.Collapsed;
@@ -972,10 +1276,6 @@ namespace WritersToolbox.views
                 newChapterTextTitle.Visibility = Visibility.Collapsed;
                 newChapterTextbox.Text = "";
             }
-           
-
-
-            
         }
 
 
@@ -985,12 +1285,20 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Event_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private async void Event_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (!doubleTap && !newChapterMode)
+            singleTap_e = true;
+            // verzögerung um "tap" von "doubleTap" zu unterscheiden
+            
+            //Thread.Sleep(200);
+            await Task.Delay(200);
+
+            //abfrage ob gesingle- oder gedoubletaped wurde, abfrage ob sich chapter/event in "bearbeitung" befindet
+            
+            if (singleTap_e && !doubleTap_e && !newChapterOrEventMode)
             {
 
-                datawrapper.Event _event = (sender as TextBlock).DataContext as datawrapper.Event;
+                datawrapper.Event _event = (sender as TextBox).DataContext as datawrapper.Event;
                 NavigationService.Navigate(new Uri("/views/EventDetail.xaml?chapterID=" + _event.chapter.chapterID +  "&eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
                 var lastPage = NavigationService.BackStack.FirstOrDefault();
                 if (lastPage != null && lastPage.Source.ToString().Equals("/views/TomeDetails.xaml?tomeID=" + tomeID))
@@ -1023,7 +1331,7 @@ namespace WritersToolbox.views
         {
             if ((e.RemovedItems.Count > 0) || !((datawrapper.Chapter)e.AddedItems[0]).title.Equals("Neues Kapitel"))
             {
-                if (!newChapterMode)
+                if (!newChapterOrEventMode)
                 {
                     if (!isNewEventAndChapterButtonsRemoved)
                     {
@@ -1092,6 +1400,16 @@ namespace WritersToolbox.views
                         if (llstructure.SelectedItems.Count == 0)
                         {
                             removeSelectionApplicationBarButton();
+                            if (!isDefaultAppBarVisible) 
+                            {
+                                if (!isDefaultAppBarVisible)
+                                {
+                                    addDefaultApplicationBar();
+                                    isDefaultAppBarVisible = true;
+                                } 
+                                isDefaultAppBarVisible = true;
+                            } 
+                            
                             if (isNewEventAndChapterButtonsRemoved)
                             {
                                 AddNewChapterAndEventButton();
@@ -1103,6 +1421,15 @@ namespace WritersToolbox.views
                         if (llstructure.SelectedItems.Count == 0 && oldLlms.SelectedItems.Count == 0)
                         {
                             removeSelectionApplicationBarButton();
+                            if (!isDefaultAppBarVisible)
+                            {
+                                if (!isDefaultAppBarVisible)
+                                {
+                                    addDefaultApplicationBar();
+                                    isDefaultAppBarVisible = true;
+                                } 
+                                isDefaultAppBarVisible = true;
+                            } 
                             if (isNewEventAndChapterButtonsRemoved)
                             {
                                 AddNewChapterAndEventButton();
@@ -1222,8 +1549,8 @@ namespace WritersToolbox.views
         {
             if ((e.RemovedItems.Count > 0) || !((datawrapper.Event)e.AddedItems[0]).title.Equals("Ereignis hinzufügen"))
             {
-                if (!newChapterMode)
-                {
+                if (!newChapterOrEventMode)
+                {                    
                     if (!isNewEventAndChapterButtonsRemoved)
                     {
                         RemovceNewChapterAndEventButton();
@@ -1259,6 +1586,11 @@ namespace WritersToolbox.views
                         if (llstructure.SelectedItems.Count == 0)
                         {
                             removeSelectionApplicationBarButton();
+                            if (!isDefaultAppBarVisible)
+                            {
+                                addDefaultApplicationBar();
+                                isDefaultAppBarVisible = true;
+                            }
                             if (isNewEventAndChapterButtonsRemoved)
                             {
                                 AddNewChapterAndEventButton();
@@ -1270,6 +1602,11 @@ namespace WritersToolbox.views
                         if (llstructure.SelectedItems.Count == 0 && oldLlms.SelectedItems.Count == 0)
                         {
                             removeSelectionApplicationBarButton();
+                            if (!isDefaultAppBarVisible)
+                            {
+                                addDefaultApplicationBar();
+                                isDefaultAppBarVisible = true;
+                            }
                             if (isNewEventAndChapterButtonsRemoved)
                             {
                                 AddNewChapterAndEventButton();
@@ -1278,6 +1615,8 @@ namespace WritersToolbox.views
                     }
 
                 }
+                
+
             }        
         }
         private void Image_Tap_1(object sender, System.Windows.Input.GestureEventArgs e)
@@ -1288,13 +1627,17 @@ namespace WritersToolbox.views
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
             SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
-            this.bookTitle.Background = _s;
+            this.bookTitle_edit.Background = _s;
         }
 
-        private void bookTitle_LostFocus(object sender, RoutedEventArgs e)
-        {
-            this.tome_VM.changeTitle(bookTitle.Text);
-        }
+        
+
+        
+
+        //private void bookTitle_LostFocus(object sender, RoutedEventArgs e)
+        //{
+        //  
+        //}
         
 
     }

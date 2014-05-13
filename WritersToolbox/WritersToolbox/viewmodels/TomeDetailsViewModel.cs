@@ -324,6 +324,9 @@ namespace WritersToolbox.viewmodels
             return _c.Count != 0;
         }
 
+
+        
+
         public void updateChapter(datawrapper.Chapter _c) 
         {
             try
@@ -332,6 +335,25 @@ namespace WritersToolbox.viewmodels
             //obj_memoryNote = db.GetTable<models.MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
                 obj_chapter = wtb.GetTable<models.Chapter>().Single(chapter => chapter.chapterID == _c.chapterID);
                 obj_chapter.title = _c.title;
+                wtb.SubmitChanges();
+            }
+            catch (Exception ex)
+            {
+                Console.WriteLine(ex.Message);
+            }
+        }
+        /// <summary>
+        /// ///////////////
+        /// </summary>
+        /// <param name="_e"></param>
+        public void updateEvent(datawrapper.Event _e)
+        {
+            try
+            {
+                //Problem: übergibt bei Focuslost (-> klick auf anderes Event) evtl das falsche chapter (da tap auf anderes...)
+                //obj_memoryNote = db.GetTable<models.MemoryNote>().Single(memoryNote => memoryNote.memoryNoteID == memoryNoteID);
+                obj_event = wtb.GetTable<models.Event>().Single(event_ => event_.eventID == _e.eventID);
+                obj_event.title = _e.title;
                 wtb.SubmitChanges();
             }
             catch (Exception ex)
@@ -724,7 +746,22 @@ namespace WritersToolbox.viewmodels
         public void changeTitle(String newTitle) {
             this.tome.title = newTitle;
             this.wtb.SubmitChanges();
+            this.NotifyPropertyChanged("tome");
         }
+
+        //public bool isEventsInChapter(LongListMultiSelector l)
+        //{
+        //    foreach (datawrapper.Event item in l.ItemsSource)
+        //    {
+        //        int y = (from x in tableEvent
+        //                 where x.eventID == item.eventID
+        //                 select x).Count();
+        //        if (y == 0)
+        //            return false;
+        //    }
+
+        //    return true;
+        //}
 
         public bool isEventsInChapter(LongListMultiSelector l, int chapterID)
         {
@@ -736,8 +773,28 @@ namespace WritersToolbox.viewmodels
                 if (y == 0)
                     return false;
             }
-            
+
             return true;
         }
+
+
+        public bool tomeTitleAlreadyExists(String tomeTitel) 
+        {
+            return (from t in this.tableTome
+                         where t.title.Equals(tomeTitel)
+                         select t).Count() > 0;
+            
+        }
+
+        public bool isEventNameDuplicate(string eventName)
+        {
+            List<models.Event> _e = (from ev in tableEvent
+                                     where ev.obj_Chapter.obj_tome.tomeID == tome.tomeID
+                                     && ev.title.Equals(eventName)
+                                     select ev).ToList();
+
+            return _e.Count != 0;
+        }
+
     }
 }

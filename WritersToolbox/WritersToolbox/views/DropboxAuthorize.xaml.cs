@@ -22,6 +22,7 @@ namespace WritersToolbox.views
         {
             base.OnNavigatedTo(e);
             if (PhoneApplicationService.Current.State.ContainsKey("authURL")) {
+                Debug.WriteLine(PhoneApplicationService.Current.State["authURL"]);
                 var url = PhoneApplicationService.Current.State["authURL"];
                 PhoneApplicationService.Current.State.Remove("authURL");
                 webBrowser.IsScriptEnabled = true;

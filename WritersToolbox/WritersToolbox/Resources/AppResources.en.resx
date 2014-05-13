@@ -504,4 +504,7 @@
   <data name="AppBarUnderline" xml:space="preserve">
     <value>underlined</value>
   </data>
+  <data name="TomeTitleNewTome" xml:space="preserve">
+    <value>New Tome</value>
+  </data>
 </root>
