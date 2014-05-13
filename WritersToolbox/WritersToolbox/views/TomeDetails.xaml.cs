@@ -29,8 +29,7 @@ namespace WritersToolbox.views
         //Primäreschlüßel des bandes.
         private int tomeID;
         //Buttons zum speichern/abbrechen beim Bearbeiten eines Chapters
-        private ApplicationBarIconButton save, cancel, delete, cancel_2, edit, saveEdit, cancelEdit;
-        private ApplicationBarIconButton save, cancel, delete, cancel_2, cancelAssign;
+        private ApplicationBarIconButton save, cancel, delete, cancel_2, edit, saveEdit, cancelEdit, cancelAssign;
         
         //timer für den Slider der Infodetails
         private DispatcherTimer infoTimer;
