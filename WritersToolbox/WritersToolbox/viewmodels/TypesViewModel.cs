@@ -14,6 +14,7 @@ using System.Diagnostics;
 using Microsoft.Phone.Controls;
 using Microsoft.Phone.Shell;
 using WritersToolbox.Resources;
+using System.IO.IsolatedStorage;
 namespace WritersToolbox.viewmodels
 {
     public class TypesViewModel : INotifyPropertyChanged
@@ -99,6 +100,34 @@ namespace WritersToolbox.viewmodels
                          select t.typeObjectID;
 
             return result.ToArray();
+        }
+
+        public bool isExistNoteInEvent(int typeObjectID, string title)
+        {
+            return db.GetTable<models.MemoryNote>().Count(_m => _m.obj_TypeObject.typeObjectID == typeObjectID && _m.title == title) == 1;
+        }
+
+        public void removeNote(int typeObjectID, string title)
+        {
+            models.MemoryNote tempNote = db.GetTable<models.MemoryNote>().Where(_n => _n.obj_TypeObject.typeObjectID == typeObjectID && _n.title == title).First();
+
+            if (tempNote.contentAudioString != null)
+            {
+                string[] tokens = tempNote.contentAudioString.Split('|');
+
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    foreach (string item in tokens)
+                    {
+                        if (isoStore.FileExists(item))
+                        {
+                            isoStore.DeleteFile(item);
+                        }
+                    }
+                }
+            }
+            db.GetTable<models.MemoryNote>().DeleteOnSubmit(tempNote);
+            db.SubmitChanges();
         }
 
         /// <summary>
@@ -325,6 +354,30 @@ namespace WritersToolbox.viewmodels
             this.db.SubmitChanges();
             this.LoadData();
         }
+
+        public void deleteTypeObjectSoft(int typeObjectID)
+        {
+            var typeObject = (from to in tableTypeObject
+                              where to.typeObjectID == typeObjectID
+                              select to).Single();
+
+
+            var notes = from n in this.db.GetTable<MemoryNote>()
+                        where n.obj_TypeObject.Equals(typeObject)
+                        select n;
+
+            foreach (var note in notes)
+            {
+                note.associated = false;
+                note.obj_TypeObject = null;
+                note.obj_Event = null;
+            }
+
+            typeObject.deleted = true;
+            this.db.SubmitChanges();
+            this.LoadData();
+        }
+
 
         public int getTypeCount()
         {

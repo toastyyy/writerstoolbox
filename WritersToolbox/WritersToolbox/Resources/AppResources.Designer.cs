@@ -260,6 +260,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Überschreiben ähnelt.
+        /// </summary>
+        public static string AppBarOverwriting {
+            get {
+                return ResourceManager.GetString("AppBarOverwriting", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die wiederherstellen ähnelt.
         /// </summary>
         public static string AppBarRestore {
@@ -274,6 +283,15 @@ namespace WritersToolbox.Resources {
         public static string AppBarSave {
             get {
                 return ResourceManager.GetString("AppBarSave", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Erfolgreich ähnelt.
+        /// </summary>
+        public static string AppBarSuccessful {
+            get {
+                return ResourceManager.GetString("AppBarSuccessful", resourceCulture);
             }
         }
         
@@ -361,6 +379,15 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Notiz zuweisen ähnelt.
+        /// </summary>
+        public static string BooksHeadlineAssignNote {
+            get {
+                return ResourceManager.GetString("BooksHeadlineAssignNote", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Überblick ähnelt.
         /// </summary>
         public static string BooksHeadlineOverview {
@@ -375,6 +402,69 @@ namespace WritersToolbox.Resources {
         public static string BooksPageTitle {
             get {
                 return ResourceManager.GetString("BooksPageTitle", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Kapitel 1 ähnelt.
+        /// </summary>
+        public static string BooksPrestructuredTomeChapter1 {
+            get {
+                return ResourceManager.GetString("BooksPrestructuredTomeChapter1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Nachwort ähnelt.
+        /// </summary>
+        public static string BooksPrestructuredTomeEpilogue {
+            get {
+                return ResourceManager.GetString("BooksPrestructuredTomeEpilogue", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Einleitung ähnelt.
+        /// </summary>
+        public static string BooksPrestructuredTomeIntroduction {
+            get {
+                return ResourceManager.GetString("BooksPrestructuredTomeIntroduction", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gedicht 1 ähnelt.
+        /// </summary>
+        public static string BooksPrestructuredTomePoem1 {
+            get {
+                return ResourceManager.GetString("BooksPrestructuredTomePoem1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Gedicht 2 ähnelt.
+        /// </summary>
+        public static string BooksPrestructuredTomePoem2 {
+            get {
+                return ResourceManager.GetString("BooksPrestructuredTomePoem2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Geschichte 1 ähnelt.
+        /// </summary>
+        public static string BooksPrestructuredTomeShortstory1 {
+            get {
+                return ResourceManager.GetString("BooksPrestructuredTomeShortstory1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Band 1 ähnelt.
+        /// </summary>
+        public static string BooksPrestructuredTomeVolume1 {
+            get {
+                return ResourceManager.GetString("BooksPrestructuredTomeVolume1", resourceCulture);
             }
         }
         
@@ -416,6 +506,16 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
+        /// </summary>
+        public static byte[] cancel_black {
+            get {
+                object obj = ResourceManager.GetObject("cancel_black", resourceCulture);
+                return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Alle angehängten Notizen erhalten ähnelt.
         /// </summary>
         public static string CheckboxKeepNotes {
@@ -430,6 +530,15 @@ namespace WritersToolbox.Resources {
         public static string CheckboxKeepTomes {
             get {
                 return ResourceManager.GetString("CheckboxKeepTomes", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Angehangene Notizen beibehalten (aussortieren) ähnelt.
+        /// </summary>
+        public static string CheckboxKeepTypeObjectNotes {
+            get {
+                return ResourceManager.GetString("CheckboxKeepTypeObjectNotes", resourceCulture);
             }
         }
         
@@ -671,6 +780,78 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Eine Notiz mit diesem Name ist bereits in dem Typeobjekt µ1 Vorhanden. ähnelt.
+        /// </summary>
+        public static string MeldungUeberschreibungNoteInTypeObject1 {
+            get {
+                return ResourceManager.GetString("MeldungUeberschreibungNoteInTypeObject1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Möchtest du dieNotiz überschreiben ? ähnelt.
+        /// </summary>
+        public static string MeldungUeberschreibungNoteInTypeObject2 {
+            get {
+                return ResourceManager.GetString("MeldungUeberschreibungNoteInTypeObject2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Eine Notiz mit diesem Name ist bereits im dem Ereignis ähnelt.
+        /// </summary>
+        public static string MeldungVorhandeneNotizinEvent1 {
+            get {
+                return ResourceManager.GetString("MeldungVorhandeneNotizinEvent1", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Vorhanden.  ähnelt.
+        /// </summary>
+        public static string MeldungVorhandeneNotizinEvent2 {
+            get {
+                return ResourceManager.GetString("MeldungVorhandeneNotizinEvent2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Möchtest du die Notiz überschreiben ? ähnelt.
+        /// </summary>
+        public static string MeldungVorhandeneNotizinEvent3 {
+            get {
+                return ResourceManager.GetString("MeldungVorhandeneNotizinEvent3", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Die Zuordnung der Notiz µ1 wurde erfolgreich zu dem µ2 hinzugefügt ähnelt.
+        /// </summary>
+        public static string MeldungZuordnungErfolgreich {
+            get {
+                return ResourceManager.GetString("MeldungZuordnungErfolgreich", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Es ist nur möglich ein Werk zu löschen, wenn keine Bände mehr existieren. ähnelt.
+        /// </summary>
+        public static string MessageDeleteBook {
+            get {
+                return ResourceManager.GetString("MessageDeleteBook", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Fehler ähnelt.
+        /// </summary>
+        public static string MessageError {
+            get {
+                return ResourceManager.GetString("MessageError", resourceCulture);
+            }
+        }
+        
+        /// <summary>
         ///   Sucht eine lokalisierte Ressource vom Typ System.Byte[].
         /// </summary>
         public static byte[] micro {
@@ -826,6 +1007,24 @@ namespace WritersToolbox.Resources {
             get {
                 object obj = ResourceManager.GetObject("pause_reordButton", resourceCulture);
                 return ((byte[])(obj));
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Aufnahme ähnelt.
+        /// </summary>
+        public static string PivotHeaderAufnahme {
+            get {
+                return ResourceManager.GetString("PivotHeaderAufnahme", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bilder ähnelt.
+        /// </summary>
+        public static string PivotHeaderBilder {
+            get {
+                return ResourceManager.GetString("PivotHeaderBilder", resourceCulture);
             }
         }
         
@@ -1163,7 +1362,7 @@ namespace WritersToolbox.Resources {
         }
         
         /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die ZU TYPOBJEKT ZUORDNEN ähnelt.
+        ///   Sucht eine lokalisierte Zeichenfolge, die Notiz zuweisen ähnelt.
         /// </summary>
         public static string TypeObjectAssign {
             get {
@@ -1186,6 +1385,15 @@ namespace WritersToolbox.Resources {
         public static string TypeObjectDeleteQuestion2 {
             get {
                 return ResourceManager.GetString("TypeObjectDeleteQuestion2", resourceCulture);
+            }
+        }
+        
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Möchtest du die Typobjekte wirklich löschen? ähnelt.
+        /// </summary>
+        public static string TypeObjectsDeleteQuestion {
+            get {
+                return ResourceManager.GetString("TypeObjectsDeleteQuestion", resourceCulture);
             }
         }
         

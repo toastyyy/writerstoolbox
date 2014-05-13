@@ -97,6 +97,7 @@ namespace WritersToolbox.views
                 BooksViewModel bvm = new BooksViewModel();
                 Book b = bvm.getBookByID(this.bookID);
                 bvm.addTome(title, this.bookID, b.obj_bookType.bookTypeID);
+                PhoneApplicationService.Current.State["NewTome"] = true;
                 NavigationService.GoBack();
             }
         }

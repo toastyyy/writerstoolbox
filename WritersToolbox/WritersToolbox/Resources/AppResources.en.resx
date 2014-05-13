@@ -504,7 +504,40 @@
   <data name="AppBarUnderline" xml:space="preserve">
     <value>underlined</value>
   </data>
-  <data name="TomeTitleNewTome" xml:space="preserve">
-    <value>New Tome</value>
+  <data name="BooksHeadlineAssignNote" xml:space="preserve">
+    <value>Attach Note</value>
+  </data>
+  <data name="BooksPrestructuredTomeChapter1" xml:space="preserve">
+    <value>Chapter 1</value>
+  </data>
+  <data name="BooksPrestructuredTomeEpilogue" xml:space="preserve">
+    <value>Epilogue</value>
+  </data>
+  <data name="BooksPrestructuredTomeIntroduction" xml:space="preserve">
+    <value>Introduction</value>
+  </data>
+  <data name="BooksPrestructuredTomePoem1" xml:space="preserve">
+    <value>Poem 1</value>
+  </data>
+  <data name="BooksPrestructuredTomePoem2" xml:space="preserve">
+    <value>Poem 2</value>
+  </data>
+  <data name="BooksPrestructuredTomeShortstory1" xml:space="preserve">
+    <value>Shortstory 1</value>
+  </data>
+  <data name="BooksPrestructuredTomeVolume1" xml:space="preserve">
+    <value>Volume 1</value>
+  </data>
+  <data name="MessageDeleteBook" xml:space="preserve">
+    <value>To delete a book, remove all volumes first.</value>
+  </data>
+  <data name="MessageError" xml:space="preserve">
+    <value>Error</value>
+  </data>
+  <data name="CheckboxKeepTypeObjectNotes" xml:space="preserve">
+    <value>Keep assigned notes (unsort)</value>
+  </data>
+  <data name="TypeObjectsDeleteQuestion" xml:space="preserve">
+    <value>Would you like to delete the TypeObject?</value>
   </data>
 </root>

@@ -17,8 +17,8 @@ namespace WritersToolbox.views
 {
     public partial class Trashbin : PhoneApplicationPage
     {
-        private bool loaded = false;
-        private int filterIndex;
+        //private bool loaded = false;
+        //private int filterIndex;
         private TrashbinViewModel trash;
         private bool isselected;
         public Trashbin()
@@ -132,16 +132,16 @@ namespace WritersToolbox.views
             }
             //llms_trash.ItemsSource = trash.getObservableColletion();
         }
-        private void filter_Checked(object sender, RoutedEventArgs e)
-        {
-            this.trash.deleteList();
-            this.trash.loadDeletedTomes();
-        }
-        private void filter_Unchecked(object sender, RoutedEventArgs e)
-        {
-            this.trash.deleteList();
-            this.trash.loadData();
-        }
+        //private void filter_Checked(object sender, RoutedEventArgs e)
+        //{
+        //    this.trash.deleteList();
+        //    this.trash.loadDeletedTomes();
+        //}
+        //private void filter_Unchecked(object sender, RoutedEventArgs e)
+        //{
+        //    this.trash.deleteList();
+        //    this.trash.loadData();
+        //}
 
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
         {
@@ -169,10 +169,11 @@ namespace WritersToolbox.views
 
         private void Grid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //Grid selector = sender as Grid;
-            //PhoneApplicationService.Current.State["memoryNoteID"] = ((TrashbinViewModel)selector.DataContext).memoryNoteID + "";
-            //PhoneApplicationService.Current.State["edit"] = "true";
-            //NavigationService.Navigate(new Uri("/views/Trashbin.xaml", UriKind.Relative));
+            Grid g = (Grid)sender;
+
+            llms_trash.SelectedItems.Add((g.DataContext));
+
+            llms_trash.EnforceIsSelectionEnabled = true;
             
         }
 
@@ -189,6 +190,7 @@ namespace WritersToolbox.views
         private void zurueckButton_Click(object sender, EventArgs e)
         {
             llms_trash.EnforceIsSelectionEnabled = false;
+            llms_trash.SelectedItems.Clear();
         }
 
         private void DoNotDelete(object sender, RoutedEventArgs e)
@@ -253,11 +255,17 @@ namespace WritersToolbox.views
                 }
             }
         }
-        private void PageLoaded(object sender, RoutedEventArgs e)
+
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            loaded = true;
-            //FilterPicker.SelectedIndex = filterIndex;
+            
+
         }
+        //private void PageLoaded(object sender, RoutedEventArgs e)
+        //{
+        //    //loaded = true;
+        //    //FilterPicker.SelectedIndex = filterIndex;
+        //}
        
     }
 }

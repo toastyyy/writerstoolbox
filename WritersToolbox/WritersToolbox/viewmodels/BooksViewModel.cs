@@ -48,6 +48,7 @@ namespace WritersToolbox.viewmodels
         private Table<Tome> tableTome;
         private Table<Chapter> tableChapter;
         private Table<BookType> tableBookType;
+        private Table<Event> tableEvents = null;
         private Book obj_book;
 
         public BooksViewModel() {
@@ -57,7 +58,7 @@ namespace WritersToolbox.viewmodels
             tableTome = wtb.GetTable<Tome>();
             tableChapter = wtb.GetTable<Chapter>();
             tableBookType = wtb.GetTable<BookType>();
-
+            this.tableEvents = this.wtb.GetTable<Event>();
             
         }
 
@@ -80,7 +81,7 @@ namespace WritersToolbox.viewmodels
 
             Tome t = new Tome()
                 {
-                    title = "Band 1",
+                    title = AppResources.BooksPrestructuredTomeVolume1,
                     addedDate = DateTime.Now,
                     updatedDate = DateTime.Now,
                     obj_book = b,
@@ -91,7 +92,7 @@ namespace WritersToolbox.viewmodels
                 case 1: Chapter c1 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Einleitung",
+                            title = AppResources.BooksPrestructuredTomeIntroduction,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -100,7 +101,7 @@ namespace WritersToolbox.viewmodels
                         Chapter c2 = new Chapter()
                         {
                             chapterNumber = 2,
-                            title = "Kapitel 1",
+                            title = AppResources.BooksPrestructuredTomeChapter1,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -109,7 +110,7 @@ namespace WritersToolbox.viewmodels
                         Chapter c3 = new Chapter()
                         {
                             chapterNumber = 3,
-                            title = "Nachwort",
+                            title = AppResources.BooksPrestructuredTomeEpilogue,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -119,7 +120,7 @@ namespace WritersToolbox.viewmodels
                 case 2: Chapter c4 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Gedicht 1",
+                            title = AppResources.BooksPrestructuredTomePoem1,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -128,7 +129,7 @@ namespace WritersToolbox.viewmodels
                         Chapter c5 = new Chapter()
                         {
                             chapterNumber = 2,
-                            title = "Gedicht 2",
+                            title = AppResources.BooksPrestructuredTomePoem2,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -138,7 +139,7 @@ namespace WritersToolbox.viewmodels
                 case 3: Chapter c6 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Einleitung",
+                            title = AppResources.BooksPrestructuredTomeIntroduction,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -147,7 +148,7 @@ namespace WritersToolbox.viewmodels
                         Chapter c7 = new Chapter()
                         {
                             chapterNumber = 2,
-                            title = "Geschichte 1",
+                            title = AppResources.BooksPrestructuredTomeShortstory1,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = t
@@ -237,7 +238,7 @@ namespace WritersToolbox.viewmodels
                 case 1: Chapter c1 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Einleitung",
+                            title = AppResources.BooksPrestructuredTomeIntroduction,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = to
@@ -246,7 +247,7 @@ namespace WritersToolbox.viewmodels
                     Chapter c2 = new Chapter()
                     {
                         chapterNumber = 2,
-                        title = "Kapitel 1",
+                        title = AppResources.BooksPrestructuredTomeChapter1,
                         addedDate = DateTime.Now,
                         updatedDate = DateTime.Now,
                         obj_tome = to
@@ -255,7 +256,7 @@ namespace WritersToolbox.viewmodels
                     Chapter c3 = new Chapter()
                     {
                         chapterNumber = 3,
-                        title = "Nachwort",
+                        title = AppResources.BooksPrestructuredTomeEpilogue,
                         addedDate = DateTime.Now,
                         updatedDate = DateTime.Now,
                         obj_tome = to
@@ -265,7 +266,7 @@ namespace WritersToolbox.viewmodels
                 case 2: Chapter c4 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Gedicht 1",
+                            title = AppResources.BooksPrestructuredTomePoem1,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = to
@@ -274,7 +275,7 @@ namespace WritersToolbox.viewmodels
                     Chapter c5 = new Chapter()
                     {
                         chapterNumber = 2,
-                        title = "Gedicht 2",
+                        title = AppResources.BooksPrestructuredTomePoem2,
                         addedDate = DateTime.Now,
                         updatedDate = DateTime.Now,
                         obj_tome = to
@@ -284,7 +285,7 @@ namespace WritersToolbox.viewmodels
                 case 3: Chapter c6 = new Chapter()
                         {
                             chapterNumber = 1,
-                            title = "Einleitung",
+                            title = AppResources.BooksPrestructuredTomeIntroduction,
                             addedDate = DateTime.Now,
                             updatedDate = DateTime.Now,
                             obj_tome = to
@@ -293,7 +294,7 @@ namespace WritersToolbox.viewmodels
                     Chapter c7 = new Chapter()
                     {
                         chapterNumber = 2,
-                        title = "Geschichte 1",
+                        title = AppResources.BooksPrestructuredTomeShortstory1,
                         addedDate = DateTime.Now,
                         updatedDate = DateTime.Now,
                         obj_tome = to
@@ -321,23 +322,24 @@ namespace WritersToolbox.viewmodels
             {
                 List<datawrapper.Tome> tmpTomes = new List<datawrapper.Tome>();
                 var sqlTomes = from t in tableTome
-                               where t.obj_book.bookID == b.bookID
+                               where t.obj_book.bookID == b.bookID && t.deleted == false
                                select t;
 
                 foreach(var t in sqlTomes) 
                 {
-                    //var sqlChapters = from c in tableChapter
-                    //                  where c.obj_tome.tomeID == t.tomeID
-                    //                  select c;
+                    var sqlChapters = from c in tableChapter
+                                      where c.obj_tome.tomeID == t.tomeID && c.deleted == false
+                                      select c;
 
                     List<datawrapper.Chapter> listChapter = new List<datawrapper.Chapter>();
-                    //foreach (var c in sqlChapters) 
-                    //{
-                    //    datawrapper.Chapter chapter = new datawrapper.Chapter() { 
-                            
-                    //    };
-                    //    listChapter.Add(chapter);
-                    //}
+                    foreach (var c in sqlChapters)
+                    {
+                        datawrapper.Chapter chapter = new datawrapper.Chapter()
+                        {
+
+                        };
+                        listChapter.Add(chapter);
+                    }
                     datawrapper.Tome tome = new datawrapper.Tome() { 
                         addedDate = t.addedDate,
                         deleted = t.deleted,
@@ -403,6 +405,41 @@ namespace WritersToolbox.viewmodels
                 
         }
 
+        public void removeAddTome(datawrapper.Book b)
+        {
+            int i = Books.IndexOf(b);
+            for (int j = 0; j < Books.ElementAt(i).tomes.Count; j++)
+            {
+                if (Books.ElementAt(i).tomes.ElementAt(j).tomeID == -1)
+                {
+                    Books.ElementAt(i).tomes.RemoveAt(j);
+                    
+                }
+            }
+            this.NotifyPropertyChanged("Tomes");
+        }
+
+        public void addAddTome(datawrapper.Book b)
+        {
+            int i = Books.IndexOf(b);
+            Boolean hasAdd = false;
+            for (int j = 0; j < Books.ElementAt(i).tomes.Count && !hasAdd; j++)
+            {
+                hasAdd = Books.ElementAt(i).tomes.ElementAt(j).tomeID == -1;
+            }
+            if (!hasAdd)
+            {
+                Books.ElementAt(i).tomes.Add(
+    new datawrapper.Tome()
+    {
+        title = AppResources.NewTomeTemplate,
+        tomeID = -1
+        
+    }
+    );
+            }
+        }
+
         public event PropertyChangedEventHandler PropertyChanged;
 
         // Used to notify the app that a property has changed.
@@ -414,6 +451,36 @@ namespace WritersToolbox.viewmodels
             }
         }
 
-        
+
+
+        internal void deleteTome(int p)
+        {
+            var sqlTome = (from t in tableTome
+                           where t.tomeID == p
+                           select t).Single();
+            sqlTome.deleted = true;
+
+            if (sqlTome.chapters.Count != 0)
+            {
+                var sqlChapters = from c in tableChapter
+                                  where c.obj_tome.tomeID == sqlTome.tomeID
+                                  select c;
+                foreach (var c in sqlChapters)
+                {
+                    c.deleted = true;
+
+                    if (c.events.Count != 0)
+                    {
+                        Event sqlEvent = (from e in this.tableEvents
+                                          where e.fk_chapterID == c.chapterID
+                                          select e).Single();
+
+                        sqlEvent.deleted = true;
+                    }
+                }
+            }
+            this.wtb.SubmitChanges();
+            this.loadData();
+        }
     }
 }

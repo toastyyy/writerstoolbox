@@ -30,6 +30,7 @@ namespace WritersToolbox.views
         private int tomeID;
         //Buttons zum speichern/abbrechen beim Bearbeiten eines Chapters
         private ApplicationBarIconButton save, cancel, delete, cancel_2, edit, saveEdit, cancelEdit;
+        private ApplicationBarIconButton save, cancel, delete, cancel_2, cancelAssign;
         
         //timer für den Slider der Infodetails
         private DispatcherTimer infoTimer;
@@ -78,8 +79,23 @@ namespace WritersToolbox.views
             {
                 addDefaultApplicationBar();
                 isDefaultAppBarVisible = true;
-            } 
-            
+        }
+
+        public void addCancelAssignButton()
+        {
+            cancelAssign = new ApplicationBarIconButton();
+            cancelAssign.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+            cancelAssign.Text = AppResources.AppBarCancel;
+            cancelAssign.Click += new EventHandler(cancelAssignment);
+            ApplicationBar.Buttons.Add(cancelAssign);
+        }
+
+        private void cancelAssignment(object sender, EventArgs e)
+        {
+            ApplicationBar.Buttons.Remove(cancelAssign);
+            PhoneApplicationService.Current.State["cancelAssignment"] = true;
+            Title.Visibility = Visibility.Collapsed;
+            NavigationService.GoBack();
         }
 
         /// <summary>
@@ -92,7 +108,16 @@ namespace WritersToolbox.views
         {
             
             base.OnNavigatedTo(e);
-
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            {
+                searchImage.Visibility = Visibility.Collapsed;
+                Title.Visibility = Visibility.Visible;
+                addCancelAssignButton();
+            }
+            else
+            {
+                searchImage.Visibility = Visibility.Visible;
+            }
             if (NavigationContext.QueryString.ContainsKey("tomeID"))
             {
                 
@@ -488,7 +513,7 @@ namespace WritersToolbox.views
                             oldLlms.IsSelectionEnabled = false;
                             oldLlms.EnforceIsSelectionEnabled = false;
                             oldLlms.Visibility = Visibility.Collapsed;
-                           
+                            
                     }
                          oldImage = img;
                             oldLlms = llms;    
@@ -545,7 +570,7 @@ namespace WritersToolbox.views
             String senderTitel = (((Grid)sender).DataContext as datawrapper.Chapter).title;
             if (!newChapterOrEventMode && !senderTitel.Equals("Neues Kapitel"))
             {
-                llstructure.IsSelectionEnabled = true;
+            llstructure.IsSelectionEnabled = true;
 
                 llstructure.SelectedItems.Add(((Grid)sender).DataContext);
                 if (!isSectionOpened)
@@ -618,7 +643,7 @@ namespace WritersToolbox.views
         private async void ChapterTextBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (isNewEventAndChapterButtonsRemoved)
-            {
+        {
                 AddNewChapterAndEventButton();
             }
             singleTap = true;
@@ -692,7 +717,7 @@ namespace WritersToolbox.views
                 information.Tap -= information_Tap;
                 typeObject.Tap -= typeObject_Tap;
             }
-        }
+                }
 
         private void Event_LostFocus(object sender, RoutedEventArgs e)
         {
@@ -714,7 +739,7 @@ namespace WritersToolbox.views
                     structure.Tap += structure_Tap;
                     information.Tap += information_Tap;
                     typeObject.Tap += typeObject_Tap;
-                }
+            }
                 else if (isExist && !wasfocuslost)
                 {
                     b.IsReadOnly = false;
@@ -722,7 +747,7 @@ namespace WritersToolbox.views
                     //Fehlermeldung              
                     result = MessageBox.Show("Dieses Ereignis exisitiert schon. Bitte geben Sie einen anderen Titel an!",
                             "Information", MessageBoxButton.OK);
-                    wasfocuslost = false;
+            wasfocuslost = false;
                     b.LostFocus -= Event_LostFocus;
                     WorkaroundButton.Focus();
                     b.Focus();
@@ -744,7 +769,7 @@ namespace WritersToolbox.views
                     typeObject.Tap += typeObject_Tap;
 
 
-                }
+        }
                 else
                 {
                     wasfocuslost = false;
@@ -753,7 +778,7 @@ namespace WritersToolbox.views
 
             }
         }
-
+        
         /// <summary>
         /// doppelklick auf ein Chapter (Textbox)
         /// Content kann verändert werden
@@ -767,7 +792,7 @@ namespace WritersToolbox.views
             if (!newChapterOrEventMode && !b.Text.Equals("Neues Kapitel"))
             {
                 singleTap = false;
-                doubleTap = true;  
+            doubleTap = true;  
                               
                 chapter = (sender as TextBox).DataContext as datawrapper.Chapter;
                 b.IsReadOnly = false;
@@ -866,7 +891,7 @@ namespace WritersToolbox.views
             if (isChapterControlOpened)
             removeAddChapterApplicationBarButton();
             removeDefaultApplicationBar();
-             
+
             //ApplicationBarButton mit ManagmentButtons erfüllen.
 
             delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
@@ -906,7 +931,7 @@ namespace WritersToolbox.views
             {
                 removeSelectionApplicationBarButton();
             }
-            
+
             AddNewChapterAndEventButton();
         }
 
@@ -1114,7 +1139,7 @@ namespace WritersToolbox.views
             //Default Buttons von ApplicationBarButton löschen.
             if (isSectionOpened)
             {
-                removeSelectionApplicationBarButton();
+            removeSelectionApplicationBarButton();
             }
             else {
                 removeDefaultApplicationBar();
@@ -1297,14 +1322,50 @@ namespace WritersToolbox.views
             
             if (singleTap_e && !doubleTap_e && !newChapterOrEventMode)
             {
+                datawrapper.Event _event = (sender as TextBlock).DataContext as datawrapper.Event;
+                if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+                {
+                    if (tome_VM.isExistNoteInEvent(_event.eventID, (PhoneApplicationService.Current.State["memoryNoteTitle"] as String)))
+                    {
+                        //Meldung
+                        MessageBoxResult result = MessageBoxResult.OK;
+                        string meldung = AppResources.MeldungVorhandeneNotizinEvent1 + " \"" + _event.title + "\" " 
+                            + AppResources.MeldungVorhandeneNotizinEvent2 + System.Environment.NewLine + AppResources.MeldungVorhandeneNotizinEvent3;
+                        meldung = meldung.Replace("µ1", "\"" + (PhoneApplicationService.Current.State["memoryNoteTitle"] as String)  + "\"");
+                        result = MessageBox.Show(meldung,
+                        AppResources.AppBarOverwriting, MessageBoxButton.OKCancel);
+
+                        if (result == MessageBoxResult.OK)
+                        {
+                            tome_VM.removeNote(_event.eventID, (PhoneApplicationService.Current.State["memoryNoteTitle"] as String));
+                            PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                        }
+                        else
+                        {
+                            PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                            return;
+                        }
 
                 datawrapper.Event _event = (sender as TextBox).DataContext as datawrapper.Event;
                 NavigationService.Navigate(new Uri("/views/EventDetail.xaml?chapterID=" + _event.chapter.chapterID +  "&eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
+                    }
+                    PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                    Title.Visibility = Visibility.Collapsed;
+                    //Event ID zurückgeben
+                    PhoneApplicationService.Current.State["eventID"] = _event.eventID;
+                    NavigationService.GoBack();
+                    return;
+                }
+                else
+                {
+                    
+                    NavigationService.Navigate(new Uri("/views/EventDetail.xaml?chapterID=" + _event.chapter.chapterID + "&eventID=" + _event.eventID, UriKind.RelativeOrAbsolute));
                 var lastPage = NavigationService.BackStack.FirstOrDefault();
                 if (lastPage != null && lastPage.Source.ToString().Equals("/views/TomeDetails.xaml?tomeID=" + tomeID))
                 {
                     NavigationService.RemoveBackEntry();
                 }
+            }
             }
             else
             {
@@ -1550,7 +1611,7 @@ namespace WritersToolbox.views
             if ((e.RemovedItems.Count > 0) || !((datawrapper.Event)e.AddedItems[0]).title.Equals("Ereignis hinzufügen"))
             {
                 if (!newChapterOrEventMode)
-                {                    
+                {
                     if (!isNewEventAndChapterButtonsRemoved)
                     {
                         RemovceNewChapterAndEventButton();

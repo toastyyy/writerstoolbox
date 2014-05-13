@@ -98,7 +98,6 @@
 
         <!--ContentPanel - place additional content here-->
         <Grid x:Name="ContentPanel" Grid.Row="1" Background="White" RenderTransformOrigin="0.506,0.509" Grid.RowSpan="2">
-
             <Button x:Name="WorkaroundButton" HorizontalAlignment="Left" Margin="52,147,0,0" VerticalAlignment="Top"/>
             <!--HeadImage-->
             <Image Margin="0,0,0,511" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
@@ -261,7 +260,7 @@
             
         
         <TextBlock x:Name="newChapterTextTitle" HorizontalAlignment="Left" FontFamily="Segoe WP Light" Foreground="#FF353535" FontSize="30" Margin="50,339,0,0" Grid.Row="2" TextWrapping="Wrap" Text="Titel:" VerticalAlignment="Top" Height="80" Width="116" Padding="0,18,0,0" Visibility="Collapsed"/>
-        
+        <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="27,10,0,0" Grid.Row="1" TextWrapping="Wrap" Text="Notiz zuweisen" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI Light" FontSize="24" Height="52"  Width="224"  Visibility="Collapsed"/>
         
 
     </Grid>

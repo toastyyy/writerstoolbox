@@ -41,6 +41,8 @@ namespace WritersToolbox.views
             "#FFADD8E6","#FF20B2AA","#FF008080"
         };
 
+        private int currentApplicationbarId = 1; // Applicationbar Id; 1 = normal, 2 = selection
+
         /// <summary>
         /// ViewModel für Types und TypesOverview wird erstellt.
         /// </summary>
@@ -113,6 +115,7 @@ namespace WritersToolbox.views
         private void LongList_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LongListMultiSelector selector = sender as LongListMultiSelector;
+            this.currentSelectList = selector;
             Grid parent = selector.Parent as Grid;
             if (selector == null)
                 return;
@@ -121,23 +124,26 @@ namespace WritersToolbox.views
                 selector.SelectedItems.Remove(e.RemovedItems[i]);
             }
 
+            // wenn kein Item selektiert wurde erstelle "normale" Application Bar und entsperre Pivot.
+            // ansonsten sperre pivot und erstelle die entsprechende ApplicationBar.
             if (selector.SelectedItems.Count == 0)
             {
                 types_VM.addAddTypeObject(this.currentType);
-                this.restoreApplicationBar();
+                this.setNormalApplicationBar();
                 this.PivotMain.IsLocked = false;
             }
             else
             {
+                this.setSelectionApplicationBar();
                 this.PivotMain.IsLocked = true;
             }
 
+            // setze wert für "alle auswählen" checkbox
             if (selector.SelectedItems.Count < selector.ItemsSource.Count) {
                 ((CheckBox)parent.Children[0]).Unchecked -= selectAllCheckBox_Unchecked;
                 ((CheckBox)parent.Children[0]).IsChecked = false;
                 ((CheckBox)parent.Children[0]).Unchecked += selectAllCheckBox_Unchecked;
-            }
-            if (selector.SelectedItems.Count == selector.ItemsSource.Count) {
+            } else {
                 ((CheckBox)parent.Children[0]).Unchecked -= selectAllCheckBox_Unchecked;
                 ((CheckBox)parent.Children[0]).IsChecked = true;
                 ((CheckBox)parent.Children[0]).Unchecked += selectAllCheckBox_Unchecked;
@@ -174,6 +180,7 @@ namespace WritersToolbox.views
                 cancel.Text = AppResources.AppBarCancel;
                 cancel.Click += CancelType;
                 ApplicationBar.Buttons.Add(cancel);
+                searchImage.Visibility = Visibility.Collapsed;
                 this.PivotMain.Title = new TextBlock() { 
                     FontSize = 22,
                     Margin = new Thickness(9,0,0,0),
@@ -229,9 +236,8 @@ namespace WritersToolbox.views
         }
 
         /// <summary>
-        /// Die Methode wird bei einem Hold-Event auf ein TypObjekt aufgerufen, ermittelt die 
-        /// jeweilige TypObjektID und übergibt diese dem ViewModel zum Löschen des TypObjekts.
-        /// Vorher wird eine Abfrage erzeugt.
+        /// Die Methode wird bei einem Tap-Event auf ein TypObjekt aufgerufen, ermittelt die 
+        /// jeweilige TypObjektID und navigiert zum TypObjekt.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -243,6 +249,35 @@ namespace WritersToolbox.views
 
             if (PhoneApplicationService.Current.State.ContainsKey("assignNote") || PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
             {
+                if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+                {
+                    if (types_VM.isExistNoteInEvent(holdTypeobject.typeObjectID, (PhoneApplicationService.Current.State["memoryNoteTitle"] as String)))
+                    {
+                        //Meldung
+                        MessageBoxResult result = MessageBoxResult.OK;
+                        string meldung = AppResources.MeldungUeberschreibungNoteInTypeObject1.Replace("µ1", "\""+holdTypeobject.name+"\"")
+                            + System.Environment.NewLine + AppResources.MeldungUeberschreibungNoteInTypeObject2;
+
+                        meldung = meldung.Replace("µ2", "\"" + (PhoneApplicationService.Current.State["memoryNoteTitle"] as String) + "\"");
+
+                        result = MessageBox.Show(meldung,
+                        AppResources.AppBarOverwriting, MessageBoxButton.OKCancel);
+
+                        if (result == MessageBoxResult.OK)
+                        {
+                            types_VM.removeNote(holdTypeobject.typeObjectID, (PhoneApplicationService.Current.State["memoryNoteTitle"] as String));
+                            PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                        }
+                        else
+                        {
+                            PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                            return;
+                        }
+
+                    }
+                    PhoneApplicationService.Current.State.Remove("memoryNoteTitle");
+                }
+                searchImage.Visibility = Visibility.Visible;
                 PhoneApplicationService.Current.State["typeObjectID"] = holdTypeobject.typeObjectID;
                 NavigationService.GoBack();
                 return;
@@ -383,6 +418,8 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void CancelType(object sender, EventArgs e)
         {
+            searchImage.Visibility = Visibility.Visible;
+            PhoneApplicationService.Current.State["cancelAssignment"] = true;
             NavigationService.GoBack();
         }
 
@@ -412,7 +449,7 @@ namespace WritersToolbox.views
             if (t == null)
                 return;
             TypeDeleteQuestion.Text = AppResources.TypeDeleteQuestion1 + t.title.ToString() +  AppResources.TypeDeleteQuestion2;
-            deleteTypePopup.IsOpen = true;
+            //deleteTypePopup.IsOpen = true;
         }
 
 
@@ -436,7 +473,7 @@ namespace WritersToolbox.views
                 this.PivotMain.Items.Count -1 : 
                 this.PivotMain.SelectedIndex--;
 
-            deleteTypePopup.IsOpen = false;
+            //deleteTypePopup.IsOpen = false;
         }
 
 
@@ -447,7 +484,7 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void DoNotDeleteType(object sender, EventArgs e)
         {
-            deleteTypePopup.IsOpen = false;
+            //deleteTypePopup.IsOpen = false;
         }
 
 
@@ -475,40 +512,24 @@ namespace WritersToolbox.views
         {
             if (!(PhoneApplicationService.Current.State.ContainsKey("assignNote") ||
                 PhoneApplicationService.Current.State.ContainsKey("attachEvent")))
-            { 
-            Pivot p = sender as Pivot;
-            if (p == null)
-                return;
-            datawrapper.Type t = p.SelectedItem as datawrapper.Type;
-            if (t == null)
-                return;
-            this.currentType = t;
-            ApplicationBarIconButton btn1 = new ApplicationBarIconButton();
-            ApplicationBarIconButton btn2 = new ApplicationBarIconButton();
-            ApplicationBar.Buttons.Clear();
-            if (t.typeID == -1)
             {
-                btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
-                btn1.Text = AppResources.AppBarSave;
-                btn1.Click += SaveType;
-                btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
-                btn2.Text = AppResources.AppBarCancel;
-                btn2.Click += CancelType;
-                this.currentSelectList = null;
+                Pivot p = sender as Pivot;
+                if (p == null)
+                    return;
+                datawrapper.Type t = p.SelectedItem as datawrapper.Type;
+                if (t == null)
+                    return;
+                this.currentType = t;
+
+                if (t.typeID == -1)
+                {
+                    this.setAddTypeApplicationbar();
+                }
+                else
+                {
+                    this.setNormalApplicationBar();
+                }
             }
-            else
-            {
-                btn1.IconUri = new Uri("/icons/edit.png", UriKind.Relative);
-                btn1.Text = AppResources.AppBarEdit;
-                btn1.Click += ChangeType;
-                btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
-                btn2.Text = AppResources.AppBarDelete;
-                btn2.Click += DeleteType;
-            }
-            ApplicationBar.Buttons.Add(btn1);
-            ApplicationBar.Buttons.Add(btn2);
-            }
-            
         }
 
         private void layoutContent_ManipulationDelta(object sender, System.Windows.Input.ManipulationDeltaEventArgs e)
@@ -526,62 +547,28 @@ namespace WritersToolbox.views
             Types_VM.removeAddTypeObject(this.currentType);
 
             llms.SelectedItems.Add(((datawrapper.TypeObject)g.DataContext));
-
-            ApplicationBar.Buttons.Clear();
-
-            ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
-            ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
-            delete.Text = AppResources.AppBarDelete;
-            delete.Click += deleteSelection;
-            cancel.Text = AppResources.AppBarCancel;
-            cancel.Click += cancelSelection;
-            ApplicationBar.Buttons.Add(delete);
-            ApplicationBar.Buttons.Add(cancel);
         }
 
         private void cancelSelection(object sender, EventArgs e) {
             if (currentSelectList != null) { 
                 currentSelectList.SelectedItems.Clear();
                 types_VM.addAddTypeObject(this.currentType);
-                this.restoreApplicationBar();
+                this.setNormalApplicationBar();
             } 
         }
 
         private void deleteSelection(object sender, EventArgs e) {
             if (currentSelectList != null) {
-                this.PivotMain.IsLocked = false;
-                IEnumerator enumerator = currentSelectList.SelectedItems.GetEnumerator();
-                while (enumerator.MoveNext()) {
-                    types_VM.deleteTypeObject(((datawrapper.TypeObject)enumerator.Current).typeObjectID);
-                }
-                types_VM.addAddTypeObject(this.currentType);
-                this.restoreApplicationBar();
+                this.deleteTypeObjectPopup.IsOpen = true;
+                
             }
-        }
-
-        private void restoreApplicationBar() {
-            ApplicationBarIconButton btn1 = new ApplicationBarIconButton();
-            ApplicationBarIconButton btn2 = new ApplicationBarIconButton();
-
-            btn1.IconUri = new Uri("/icons/edit.png", UriKind.Relative);
-            btn1.Text = AppResources.AppBarEdit;
-            btn1.Click -= SaveType;
-            btn1.Click += ChangeType;
-            btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
-            btn2.Text = AppResources.AppBarDelete;
-            btn2.Click -= CancelType;
-            btn2.Click += DeleteType;
-
-            ApplicationBar.Buttons.Clear();
-            ApplicationBar.Buttons.Add(btn1);
-            ApplicationBar.Buttons.Add(btn2);
         }
 
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             this.PivotMain.IsLocked = true;
             types_VM.removeAddTypeObject(this.currentType);
-
+            this.setSelectionApplicationBar();
             Grid g = ((FrameworkElement) sender).Parent as Grid;
 
             LongListMultiSelector tmp = g.Children[1] as LongListMultiSelector;
@@ -593,18 +580,13 @@ namespace WritersToolbox.views
                 tmp.SelectedItems.Add(items.Current);
             }
             tmp.SelectionChanged += LongList_SelectionChanged;
-            ApplicationBar.Buttons.Clear();
-
-            ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
-            ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
-            delete.Text = AppResources.AppBarDelete;
-            delete.Click += deleteSelection;
-            cancel.Text = AppResources.AppBarCancel;
-            cancel.Click += cancelSelection;
-            ApplicationBar.Buttons.Add(delete);
-            ApplicationBar.Buttons.Add(cancel);
         }
 
+        /// <summary>
+        /// Alle Selektionen werden beim Klick auf die Checkbox aufgehoben.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             this.PivotMain.IsLocked = false;
@@ -619,7 +601,7 @@ namespace WritersToolbox.views
                     tmp.SelectedItems.Clear();
                 }
             }
-            this.restoreApplicationBar();
+            this.setNormalApplicationBar();
             types_VM.addAddTypeObject(this.currentType);
         }
 
@@ -645,6 +627,112 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
             e.Handled = true;
             e.Complete();
+        }
+
+        /// <summary>
+        /// Erstelle die Applicationbar für das Selektionsmenü (abbrechen und löschen)
+        /// </summary>
+        private void setSelectionApplicationBar() {
+            if (currentApplicationbarId != 2) {
+                currentApplicationbarId = 2;
+                ApplicationBar.Buttons.Clear();
+
+                ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
+                ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+                delete.Text = AppResources.AppBarDelete;
+                delete.Click += deleteSelection;
+                cancel.Text = AppResources.AppBarCancel;
+                cancel.Click += cancelSelection;
+                ApplicationBar.Buttons.Add(cancel);
+                ApplicationBar.Buttons.Add(delete);
+            }
+        }
+
+        /// <summary>
+        /// Erstelle die normale Applicationbar (Bearbeiten und löschen)
+        /// </summary>
+        private void setNormalApplicationBar() {
+            if (currentApplicationbarId != 1) {
+                currentApplicationbarId = 1;
+                ApplicationBarIconButton btn1 = new ApplicationBarIconButton();
+                ApplicationBarIconButton btn2 = new ApplicationBarIconButton();
+
+                btn1.IconUri = new Uri("/icons/edit.png", UriKind.Relative);
+                btn1.Text = AppResources.AppBarEdit;
+                btn1.Click -= SaveType;
+                btn1.Click += ChangeType;
+                btn2.IconUri = new Uri("/icons/delete.png", UriKind.Relative);
+                btn2.Text = AppResources.AppBarDelete;
+                btn2.Click -= CancelType;
+                btn2.Click += DeleteType;
+
+                ApplicationBar.Buttons.Clear();
+                ApplicationBar.Buttons.Add(btn1);
+                ApplicationBar.Buttons.Add(btn2);
+            }
+        }
+
+        private void setAddTypeApplicationbar() {
+            if (currentApplicationbarId != 3) {
+                currentApplicationbarId = 3;
+                ApplicationBar.Buttons.Clear();
+                ApplicationBarIconButton btn1 = new ApplicationBarIconButton();
+                ApplicationBarIconButton btn2 = new ApplicationBarIconButton();
+                btn1.IconUri = new Uri("/icons/save.png", UriKind.Relative);
+                btn1.Text = AppResources.AppBarSave;
+                btn1.Click += SaveType;
+                btn2.IconUri = new Uri("/icons/cancel.png", UriKind.Relative);
+                btn2.Text = AppResources.AppBarCancel;
+                btn2.Click += CancelType;
+                this.currentSelectList = null;
+                ApplicationBar.Buttons.Add(btn1);
+                ApplicationBar.Buttons.Add(btn2);
+            }
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnBackKeyPress(e);
+            if (currentSelectList != null && currentSelectList.SelectedItems.Count > 0 && currentSelectList.IsSelectionEnabled)
+            {
+                e.Cancel = true;
+                currentSelectList.IsSelectionEnabled = false;
+            }     
+        }
+
+        private void cancelDeleteSelection(object sender, RoutedEventArgs e)
+        {
+            this.deleteTypeObjectPopup.IsOpen = false;
+        }
+
+        private void confirmDeleteSelection(object sender, RoutedEventArgs e)
+        {
+            this.PivotMain.IsLocked = false;
+            types_VM.addAddTypeObject(this.currentType);
+            IEnumerator enumerator = currentSelectList.SelectedItems.GetEnumerator();
+            if ((bool)checkKeepNotes.IsChecked)
+            {
+                while (enumerator.MoveNext())
+                {
+                    types_VM.deleteTypeObjectSoft(((datawrapper.TypeObject)enumerator.Current).typeObjectID);
+                }
+            }
+            else {
+                while (enumerator.MoveNext())
+                {
+                    types_VM.deleteTypeObject(((datawrapper.TypeObject)enumerator.Current).typeObjectID);
+                }
+            }
+            this.deleteTypeObjectPopup.IsOpen = false;
+            this.currentSelectList = null;
+        }
+
+        private void selectAllCheckBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            if (PhoneApplicationService.Current.State.ContainsKey("assignNote") ||
+                PhoneApplicationService.Current.State.ContainsKey("attachEvent")) {
+                    ((CheckBox)sender).Visibility = Visibility.Collapsed;
+            }           
         }
     }
 }

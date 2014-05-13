@@ -6,6 +6,7 @@ using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.Data.Linq;
 using System.Diagnostics;
+using System.IO.IsolatedStorage;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -32,6 +33,8 @@ namespace WritersToolbox.viewmodels
         private Table<Tome> tableTome;
         //Book-Tabelle
         private Table<Book> tableBook;
+
+        private Table<MemoryNote> tableMemoryNote;
         //Band
         public Tome tome {get;set;}
         //List der beteiligten Typeobjekte, die mit dem View verbunden wird.
@@ -61,6 +64,7 @@ namespace WritersToolbox.viewmodels
                 tableEvent = wtb.GetTable<Event>(); ;
                 tableTome = wtb.GetTable<Tome>();
                 tableBook = wtb.GetTable<Book>();
+                tableMemoryNote = wtb.GetTable<MemoryNote>();
                 _typeObjects = getAssociatedTypeObjects(tomeID);
                 //Aktualles Band.
                 tome = tableTome.Single(t => t.tomeID == tomeID);
@@ -80,6 +84,36 @@ namespace WritersToolbox.viewmodels
         public int getInformation()
         {
             return tome.information;
+        }
+
+        public bool isExistNoteInEvent(int eventID, string title)
+        {
+            return wtb.GetTable<models.MemoryNote>().Count(_m => _m.obj_Event.eventID == eventID && _m.title == title) == 1;
+        }
+
+        public void removeNote(int eventid, string title)
+        {
+            models.MemoryNote tempNote = (from _n in tableMemoryNote
+                                         where _n.obj_Event.eventID == eventid && _n.title == title
+                                         select _n).First();
+
+            if (tempNote.contentAudioString != null)
+            {
+                string[] tokens = tempNote.contentAudioString.Split('|');
+
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                {
+                    foreach (string item in tokens)
+                    {
+                        if (isoStore.FileExists(item))
+                        {
+                            isoStore.DeleteFile(item);
+                        }
+                    }
+                }
+            }
+            tableMemoryNote.DeleteOnSubmit(tempNote);
+            wtb.SubmitChanges();
         }
 
         /// <summary>

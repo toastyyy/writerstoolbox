@@ -23,8 +23,8 @@
     <!--LayoutRoot is the root grid where all page content is placed-->
     <Grid x:Name="LayoutRoot">
 
-        <Image HorizontalAlignment="Left" Height="805" VerticalAlignment="Top" Width="526" Source="/images/titel_background.png" Margin="0,0,-46,-37"/>
-        <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="73" HorizontalAlignment="Center" Width="480" Margin="0,93,0,0" FontSize="48" Text="Writer's Toolbox" TextAlignment="Center" />
+        <Image x:Name="BackgroundImage" HorizontalAlignment="Left" Height="805" VerticalAlignment="Top" Width="526" Source="/images/titel_background.png" Margin="0,0,-46,-37"/>
+        <TextBlock x:Name="AppTitle" Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="73" HorizontalAlignment="Center" Width="480" Margin="0,93,0,0" FontSize="48" Text="Writer's Toolbox" TextAlignment="Center" />
         <!--<StackPanel Grid.Row="0" Margin="10,10,-10,58" Height="120">-->
         <!-- <TextBlock Text="Writers Toolbox" Margin="9,-7,0,0" Style="{StaticResource PhoneTextTitle1Style}" Foreground="Black" HorizontalAlignment="Center" FontSize="44"/>-->
         <!-- </StackPanel>-->
@@ -88,10 +88,11 @@
             </Button>
 
         </Grid>
-        <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
+        <Image x:Name="SearchImage" HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
+        <TextBlock x:Name="Title" HorizontalAlignment="Left" Margin="52,42,0,0" TextWrapping="Wrap" Text="Notiz zuweisen" VerticalAlignment="Top" Foreground="White" FontFamily="Segoe UI Light" FontSize="24" Height="52"  Width="224"  Visibility="Collapsed"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar >
-        <shell:ApplicationBar x:Name="cancelBar" IsVisible="False" IsMenuEnabled="false" BackgroundColor="#FF72A91C">
+        <shell:ApplicationBar x:Name="cancelBar" IsVisible="False" IsMenuEnabled="false" BackgroundColor="#FF690C35">
             <shell:ApplicationBarIconButton IconUri="icons/cancel.png" Text="Abbrechen" Click="ApplicationBarIconButton_Click" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

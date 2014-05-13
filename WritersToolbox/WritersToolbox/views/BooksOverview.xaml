@@ -14,7 +14,8 @@
     SupportedOrientations="Portrait" Orientation="Portrait"
     mc:Ignorable="d"
     shell:SystemTray.IsVisible="True"
-    Style="{StaticResource TransitionPageStyle}">
+    
+    >
 
     <phone:PhoneApplicationPage.Resources>
         <!--Template für LongListSelector-item bereits exisiterendes Werk-->
