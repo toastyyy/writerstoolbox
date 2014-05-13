@@ -141,6 +141,12 @@ namespace WritersToolbox.views
             else
             {
                 searchImage.Visibility = Visibility.Visible;
+                if (PhoneApplicationService.Current.State.ContainsKey("NewTome"))
+                {
+                    PivotMain.SelectedIndex++;
+                    PivotMain.SelectedIndex--;
+                    PhoneApplicationService.Current.State.Remove("NewTome");
+                }
             }
 
             if (NavigationContext.QueryString.ContainsKey("item"))
@@ -482,35 +488,60 @@ namespace WritersToolbox.views
                 e.Complete();
         }
 
+        /// <summary>
+        /// Es wurde eine Auswahl der Bände getätigt oder geändert. Passend dazu wird "neuer Band hinzufügen"
+        /// aus- oder eingeblendet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void LongListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LongListMultiSelector selector = sender as LongListMultiSelector;
             Grid parent = selector.Parent as Grid;
             if (selector == null)
                 return;
-            for (int i = 0; i < e.RemovedItems.Count; i++)
-            {
-                selector.SelectedItems.Remove(e.RemovedItems[i]);
-            }
+            //for (int i = 0; i < e.RemovedItems.Count; i++)
+            //{
+            //    selector.SelectedItems.Remove(e.RemovedItems[i]);
+            //}
 
             if (selector.SelectedItems.Count == 0)
             {
+                //Einblendworkaround
+                selector.SelectionChanged -= LongListSelectionChanged;
                 books_VM.addAddTome(PivotMain.SelectedItem as datawrapper.Book);
+                selector.ItemsSource = null;
+                selector.ItemsSource = (PivotMain.SelectedItem as datawrapper.Book).tomes;
+                selector.EnforceIsSelectionEnabled = false;
+                selector.SelectionChanged += LongListSelectionChanged;
                 this.loadBookAppBar();
                 this.PivotMain.IsLocked = false;
             }
             else
             {
+                //Ausblenderworkaround
+                LongListMultiSelector l = new LongListMultiSelector();
+                IEnumerator enume = selector.SelectedItems.GetEnumerator();
+                while (enume.MoveNext())
+                {
+                    l.SelectedItems.Add(enume.Current);
+                }
+                selector.SelectionChanged -= LongListSelectionChanged;
                 books_VM.removeAddTome(PivotMain.SelectedItem as datawrapper.Book);
-                //selector.ItemsSource = null;
-                //selector.ItemsSource = (PivotMain.SelectedItem as datawrapper.Book).tomes;
-                
-                //this.DataContext = null;
-                //this.DataContext = Books_VM;
-                //books_VM.loadData();
-                //this.PivotMain.IsLocked = true;
+                selector.ItemsSource = null;
+                selector.ItemsSource = (PivotMain.SelectedItem as datawrapper.Book).tomes;
+                selector.EnforceIsSelectionEnabled = true;
+                IEnumerator enumerator = l.SelectedItems.GetEnumerator();
+                while (enumerator.MoveNext())
+                {
+                    selector.SelectedItems.Add(enumerator.Current);
+                }
+                selector.SelectionChanged += LongListSelectionChanged;
+                this.PivotMain.IsLocked = true;
+                this.loadDeleteAppbar();
             }
 
+            //"Alles auswählen" markieren oder nicht
             if (selector.SelectedItems.Count < selector.ItemsSource.Count)
             {
                 ((CheckBox)parent.Children[0]).Unchecked -= selectAllCheckBox_Unchecked;
@@ -526,6 +557,11 @@ namespace WritersToolbox.views
             
         }
 
+        /// <summary>
+        /// Auswahl aller selektierten Bände soll aufgehoben werden.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             this.PivotMain.IsLocked = false;
@@ -544,16 +580,24 @@ namespace WritersToolbox.views
             books_VM.addAddTome(PivotMain.SelectedItem as datawrapper.Book);
         }
 
+
+        /// <summary>
+        /// Alle Bände sollen selektiert werden.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            
-            books_VM.removeAddTome(PivotMain.SelectedItem as datawrapper.Book);
-            
-            //books_VM.loadData();
-            //this.DataContext = null;
-            //this.DataContext = Books_VM;
-            //this.PivotMain.IsLocked = true;
             Grid g = ((FrameworkElement)sender).Parent as Grid;
+
+            LongListMultiSelector selector = g.Children[1] as LongListMultiSelector;
+            selector.SelectionChanged -= LongListSelectionChanged;
+            books_VM.removeAddTome(PivotMain.SelectedItem as datawrapper.Book);
+            selector.ItemsSource = null;
+            selector.ItemsSource = (PivotMain.SelectedItem as datawrapper.Book).tomes;
+            selector.EnforceIsSelectionEnabled = true;
+            selector.SelectionChanged += LongListSelectionChanged;
+            this.PivotMain.IsLocked = true;
 
             LongListMultiSelector tmp = g.Children[1] as LongListMultiSelector;
             IEnumerator items = tmp.ItemsSource.GetEnumerator();
@@ -565,8 +609,15 @@ namespace WritersToolbox.views
                 tmp.SelectedItems.Add(items.Current);
             }
             tmp.SelectionChanged += LongListSelectionChanged;
-            ApplicationBar.Buttons.Clear();
+            this.loadDeleteAppbar();
+        }
 
+        /// <summary>
+        /// Die passende Appbar zum Löschen von Bänden wird geladen.
+        /// </summary>
+        private void loadDeleteAppbar()
+        {
+            ApplicationBar.Buttons.Clear();
             ApplicationBarIconButton delete = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
             ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
             delete.Text = AppResources.AppBarDelete;
@@ -577,6 +628,11 @@ namespace WritersToolbox.views
             ApplicationBar.Buttons.Add(cancel);
         }
 
+        /// <summary>
+        /// Die Selektion zum Löschen von Bänden wird abgebrochen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void cancelSelection(object sender, EventArgs e)
         {
             if (currentSelectList != null)
@@ -587,6 +643,12 @@ namespace WritersToolbox.views
             }
         }
 
+
+        /// <summary>
+        /// Alle ausgewählten Bände werden gelöscht.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void deleteSelection(object sender, EventArgs e)
         {
             if (currentSelectList != null)
@@ -597,7 +659,7 @@ namespace WritersToolbox.views
                 {
                     books_VM.deleteTome(((datawrapper.Tome)enumerator.Current).tomeID);
                 }
-                books_VM.addAddTome(PivotMain.SelectedItem as datawrapper.Book);
+                //books_VM.addAddTome(PivotMain.SelectedItem as datawrapper.Book);
                 this.loadBookAppBar();
             }
         }
