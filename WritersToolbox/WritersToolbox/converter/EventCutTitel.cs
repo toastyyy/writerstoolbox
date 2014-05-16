@@ -15,9 +15,9 @@ namespace WritersToolbox.converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             String titel = (String) value;
-            if (titel.Length > 23)
+            if (titel.Length > 21)
             {
-                titel = titel.Substring(0,20);
+                titel = titel.Substring(0,19);
                 titel += "...";
             }
             return titel;

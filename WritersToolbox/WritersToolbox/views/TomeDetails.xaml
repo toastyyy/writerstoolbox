@@ -32,7 +32,7 @@
                     <Border Grid.Column="1"  Background="White" BorderThickness="0,0,0,1" BorderBrush="LightGray" Width="480"    
                     Height="55" Margin="0,0,0,0" HorizontalAlignment="Left">
                         <!--TextBox x:Name="titleText" Text="{Binding title, Converter={StaticResource EventCutTitel}}" Foreground="#FF353535"  FontSize="25" FontFamily="Segoe WP Light" Tap="Event_Tap" DoubleTap="Event_DoubleTap" LostFocus="Event_LostFocus" IsReadOnly="True"  /-->
-                        <TextBox x:Name="titleText" Height="110" Text="{Binding title, Converter={StaticResource EventCutTitel}}" Margin="0,20,0,0" Foreground="#FF353535" FontSize="25" Padding="6" DoubleTap="Event_DoubleTap" Tap="Event_Tap" 
+                        <TextBox x:Name="titleText" Height="100" Text="{Binding title, Converter={StaticResource EventCutTitel}}" Margin="0,0,0,0" Foreground="#FF353535" FontSize="25" Padding="6" DoubleTap="Event_DoubleTap" Tap="Event_Tap" 
                         FontFamily="Segoe WP Light" HorizontalAlignment="Left" VerticalAlignment="Center" FontWeight="Normal" IsReadOnly="True" LostFocus="Event_LostFocus" Background="{x:Null}" AcceptsReturn="False" />           
                     </Border>
                 </Border>

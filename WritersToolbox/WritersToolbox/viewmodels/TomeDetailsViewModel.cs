@@ -11,6 +11,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using WritersToolbox.models;
+using WritersToolbox.Resources;
 
 namespace WritersToolbox.viewmodels
 {
@@ -323,7 +324,7 @@ namespace WritersToolbox.viewmodels
                 //"neues Ereignis" einfügen
                 datawrapper.Event _e = new datawrapper.Event()
                 {
-                    title = "Ereignis hinzufügen",
+                    title = AppResources.TomeDetailsEvent + " " + AppResources.TomeDetailsAddOne,
                     eventID = 0,
                     chapter = new datawrapper.Chapter() { chapterID = item.chapterID }
 
@@ -340,7 +341,7 @@ namespace WritersToolbox.viewmodels
             //"neues Kapitel" einfügen
             datawrapper.Chapter _c = new datawrapper.Chapter()
             {
-                title = "Neues Kapitel",
+                title = AppResources.TomeDetailsNewOne + " " + AppResources.TomeDetailsChapter,
                 chapterID = 0
             };
             _tempChapterList.Add(_c);
@@ -408,7 +409,7 @@ namespace WritersToolbox.viewmodels
                 //"neues Ereignis" einfügen
                 datawrapper.Event _e = new datawrapper.Event()
                 {
-                    title = "Ereignis hinzufügen",
+                    title = AppResources.TomeDetailsEvent + " " + AppResources.TomeDetailsAddOne,
                     eventID = 0
 
                 };
@@ -436,7 +437,7 @@ namespace WritersToolbox.viewmodels
                 //"neues Kapitel" einfügen
                 datawrapper.Chapter _newC = new datawrapper.Chapter()
                 {
-                    title = "Neues Kapitel",
+                    title = AppResources.TomeDetailsNewOne + " " + AppResources.TomeDetailsChapter,
                     chapterID = 0 // TODO: ÄNDERN AUF -1
                 };
                 _structur.Add(_newC);
@@ -508,7 +509,7 @@ namespace WritersToolbox.viewmodels
             {
                 this._structur.Add(new datawrapper.Chapter()
                 {
-                    title = "Neues Kapitel",
+                    title = AppResources.TomeDetailsNewOne + " " + AppResources.TomeDetailsChapter,
                     chapterID = 0 // TODO: ÄNDERN AUF -1
                 });
             }
@@ -532,7 +533,7 @@ namespace WritersToolbox.viewmodels
                 {
                     item.events.Add(new datawrapper.Event()
                     {
-                        title = "Ereignis hinzufügen",
+                        title = AppResources.TomeDetailsEvent + " " + AppResources.TomeDetailsAddOne,
                         eventID = 0
                     });
                 }

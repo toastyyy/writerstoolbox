@@ -100,7 +100,7 @@ namespace WritersToolbox.Resources {
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Bilder ähnelt.
         /// </summary>
-        public static string AddNoteHeadlineImages {
+        public static string AddNoteHeadlineImages{ 
             get {
                 return ResourceManager.GetString("AddNoteHeadlineImages", resourceCulture);
             }
@@ -404,7 +404,140 @@ namespace WritersToolbox.Resources {
                 return ResourceManager.GetString("BooksPageTitle", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die hinzufügen ähnelt.
+        /// </summary>
+        public static string TomeDetailsAddOne
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsAddOne", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Kapitel ähnelt.
+        /// </summary>
+        public static string TomeDetailsChapter
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsChapter", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ereignis ähnelt.
+        /// </summary>
+        public static string TomeDetailsEvent
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsEvent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ereignisse ähnelt.
+        /// </summary>
+        public static string TomeDetailsEventMulti
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsEventMulti", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Neues ähnelt.
+        /// </summary>
+        public static string TomeDetailsNewOne
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsNewOne", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Seite ähnelt.
+        /// </summary>
+        public static string TomeDetailsPage
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsPage", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Seiten ähnelt.
+        /// </summary>
+        public static string TomeDetailsPageMulti
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsPageMulti", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Typ Objekt ähnelt.
+        /// </summary>
+        public static string TomeDetailsTypeObject
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsTypeObject", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Typ Objekte ähnelt.
+        /// </summary>
+        public static string TomeDetailsTypeObjectMulti
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsTypeObjectMulti", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wort ähnelt.
+        /// </summary>
+        public static string TomeDetailsWord
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsWord", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Wörter ähnelt.
+        /// </summary>
+        public static string TomeDetailsWordMulti
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsWordMulti", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Neuer Band ähnelt.
+        /// </summary>
+        public static string TomeTitleNewTome
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeTitleNewTome", resourceCulture);
+            }
+        }
+
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Kapitel 1 ähnelt.
         /// </summary>
@@ -1278,14 +1411,7 @@ namespace WritersToolbox.Resources {
             }
         }
         
-        /// <summary>
-        ///   Sucht eine lokalisierte Zeichenfolge, die Neuer Band ähnelt.
-        /// </summary>
-        public static string TomeTitleNewTome {
-            get {
-                return ResourceManager.GetString("TomeTitleNewTome", resourceCulture);
-            }
-        }
+      
         
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Es werden alle markierten und dazugehörigen, hierarchisch untergeordnete Daten permanent gelöscht.  ähnelt.

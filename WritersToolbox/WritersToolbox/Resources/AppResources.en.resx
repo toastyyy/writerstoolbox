@@ -540,4 +540,37 @@
   <data name="TypeObjectsDeleteQuestion" xml:space="preserve">
     <value>Would you like to delete the TypeObject?</value>
   </data>
+  <data name="TomeDetailsAddOne" xml:space="preserve">
+    <value>Add</value>
+  </data>
+  <data name="TomeDetailsChapter" xml:space="preserve">
+    <value>Chapter</value>
+  </data>
+  <data name="TomeDetailsEvent" xml:space="preserve">
+    <value>Event</value>
+  </data>
+  <data name="TomeDetailsEventMulti" xml:space="preserve">
+    <value>Events</value>
+  </data>
+  <data name="TomeDetailsNewOne" xml:space="preserve">
+    <value>New</value>
+  </data>
+  <data name="TomeDetailsPage" xml:space="preserve">
+    <value>Page</value>
+  </data>
+  <data name="TomeDetailsPageMulti" xml:space="preserve">
+    <value>Pages</value>
+  </data>
+  <data name="TomeDetailsTypeObject" xml:space="preserve">
+    <value>Type Object</value>
+  </data>
+  <data name="TomeDetailsTypeObjectMulti" xml:space="preserve">
+    <value>Type Objects</value>
+  </data>
+  <data name="TomeDetailsWord" xml:space="preserve">
+    <value>Word</value>
+  </data>
+  <data name="TomeDetailsWordMulti" xml:space="preserve">
+    <value>Words</value>
+  </data>
 </root>

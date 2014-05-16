@@ -576,4 +576,37 @@
   <data name="cancel_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
     <value>..\icons\cancel_black.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
   </data>
+  <data name="TomeDetailsAddOne" xml:space="preserve">
+    <value>hinzufügen</value>
+  </data>
+  <data name="TomeDetailsChapter" xml:space="preserve">
+    <value>Kapitel</value>
+  </data>
+  <data name="TomeDetailsEvent" xml:space="preserve">
+    <value>Ereignis</value>
+  </data>
+  <data name="TomeDetailsEventMulti" xml:space="preserve">
+    <value>Ereignisse</value>
+  </data>
+  <data name="TomeDetailsNewOne" xml:space="preserve">
+    <value>Neues</value>
+  </data>
+  <data name="TomeDetailsPage" xml:space="preserve">
+    <value>Seite</value>
+  </data>
+  <data name="TomeDetailsPageMulti" xml:space="preserve">
+    <value>Seiten</value>
+  </data>
+  <data name="TomeDetailsTypeObject" xml:space="preserve">
+    <value>Typ Objekt</value>
+  </data>
+  <data name="TomeDetailsTypeObjectMulti" xml:space="preserve">
+    <value>Typ Objekte</value>
+  </data>
+  <data name="TomeDetailsWord" xml:space="preserve">
+    <value>Wort</value>
+  </data>
+  <data name="TomeDetailsWordMulti" xml:space="preserve">
+    <value>Wörter</value>
+  </data>
 </root>
