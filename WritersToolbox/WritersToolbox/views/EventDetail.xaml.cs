@@ -91,8 +91,8 @@ namespace WritersToolbox.views
                         this.tFinalText.Xaml = this.parsePlainText(this.edvm.Event.finaltext);
                     }
                 }
-
             }
+
             //Event wurde gerade Typobjekt angehängt
             if (PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
             {

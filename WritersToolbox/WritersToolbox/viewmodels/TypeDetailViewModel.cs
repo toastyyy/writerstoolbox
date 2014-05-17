@@ -46,7 +46,7 @@ namespace WritersToolbox.viewmodels
             var o = v.Single();
 
             var notes = (from n in tableMemoryNote
-                        where n.obj_TypeObject.typeObjectID == this.typeObjectID
+                        where n.obj_TypeObject.typeObjectID == this.typeObjectID && n.deleted == false
                         select n).OrderByDescending(x => x.addedDate);
             ObservableCollection<datawrapper.MemoryNote> listNotes = new ObservableCollection<datawrapper.MemoryNote>();
 
@@ -131,8 +131,6 @@ namespace WritersToolbox.viewmodels
             else
             {
                 note.deleted = true;
-                note.associated = false;
-                note.obj_TypeObject = null;
             }
             
             this.wtb.SubmitChanges();

@@ -166,6 +166,7 @@ namespace WritersToolbox.views
                 this.tdvm.deleteNote(note.memoryNoteID, (bool)this.unsortedNotes.IsChecked);
             }
             deleteNotesPopup.IsOpen = false;
+            this.multiselector.SelectedItems.Clear();
             this.setStandardApplicationBar();
             this.tdvm.LoadData();
             if (this.tdvm.TypeObject.notes.Count == 0)

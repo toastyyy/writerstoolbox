@@ -18,10 +18,13 @@
     Style="{StaticResource TransitionPageStyle}" Margin="0,1,0,-1">
 
     <phone:PhoneApplicationPage.Resources>
-        <!--Converter von boolean zu Used-->
+        <!-- Converter für diese Oberfläche -->
         <converter:NoteCountConverter x:Key="noteCountConverter" />
         <converter:BoolToUsedConverter x:Key="boolToUsedCon"/>
         <converter:CollectionHasElementsConverter x:Key="CollectionHasElementsConverter" />
+        <converter:StringToImageConverter x:Key="StringToImageConverter" />
+        <converter:TypeObjectImageConverter x:Key="TypeObjectImageConverter" />
+
         <DataTemplate x:Key="LongListTypeObjectTemplate">
             <Grid Width="450" Height="Auto" Margin="0,20,0,20" Tap="OpenTypeObjectDetail">
                 <Grid.ColumnDefinitions>
@@ -29,13 +32,19 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" 
-                       HorizontalAlignment="Left" 
-                       Height="77" 
-                       VerticalAlignment="Top" 
-                       Width="77" 
-                       Source="/icons/character_round_icon.png" 
-                       Margin="20,0,0,0"/>
+                <Border Grid.Column="0" Background="White" Width="76" Height="76" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
+                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="{Binding ., Converter={StaticResource TypeObjectImageConverter}}">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                                    RadiusX="33"
+                                                    RadiusY="33"
+                                                    Center="33,33"
+                                                    >
+                            </EllipseGeometry>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+
                 <Grid Grid.Column="1" Margin="10,0,-10,0">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="27" />
@@ -74,7 +83,18 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
 
-                <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/add.png" Margin="20,0,0,0"/>
+                <Border Grid.Column="0" Background="White" Width="77" Height="77" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
+                    <Image Margin="-10" Stretch="Fill" Width="77" Height="77"  Source="/icons/add.png">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                                    RadiusX="39"
+                                                    RadiusY="39"
+                                                    Center="39,39"
+                                                    >
+                            </EllipseGeometry>
+                        </Image.Clip>
+                    </Image>
+                </Border>
                 <Grid Grid.Column="1" Margin="10,0,10,0">
                     
                     <TextBlock Text="{Binding name}" 
@@ -124,9 +144,9 @@
         <DataTemplate x:Key="newType">
             <StackPanel VerticalAlignment="Top" Margin="0,50,0,0">
                 <TextBlock HorizontalAlignment="Left" Foreground="Black" Margin="25,0,0,0" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTypeTitleText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Width="149" FontSize="25"/>
-                <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus" Loaded="TitleLoaded"/>
+                <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="14,0,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="442" BorderBrush="Gray" BorderThickness="1,1,1,1" GotFocus="TitleGotFocus" Loaded="TitleLoaded" TextChanged="tTitle_TextChanged" />
                 <TextBlock HorizontalAlignment="Left" Margin="25,20,0,0" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTypeColorText, Source={StaticResource LocalizedStrings}}" VerticalAlignment="Top" Width="149" FontSize="25"/>
-                <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
+                <Grid HorizontalAlignment="Left" Height="Auto" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
                     <ListBox SelectionChanged="IconPicker_SelectionChanged" Loaded="IconPickerPage_Loaded" Name="iconPicker" ItemContainerStyle="{StaticResource IconPickerStyle}" toolkit:TiltEffect.IsTiltEnabled="True">
                         <ListBox.ItemsPanel>
                             <ItemsPanelTemplate>

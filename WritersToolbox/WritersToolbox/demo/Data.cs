@@ -216,7 +216,8 @@ namespace WritersToolbox.demo
             WritersToolbox.models.Type type2 = new WritersToolbox.models.Type()
             {
                 title = AppResources.TypesHeadlineSetting,
-                color = "#FF32CD32"
+                color = "#FF32CD32",
+                imageString = "../icons/character_round_icon.png"
             };
 
             

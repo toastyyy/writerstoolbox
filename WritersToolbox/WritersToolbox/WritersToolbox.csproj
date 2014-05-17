@@ -422,11 +422,21 @@
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\play_reordButton.png" />
-    <Content Include="icons\Pro_Books_round_Icon.png" />
-    <Content Include="icons\Pro_Einstellungen_round_Icon.png" />
-    <Content Include="icons\Pro_Trash_round_Icon.png" />
-    <Content Include="icons\Pro_Typen_round_Icon.png" />
-    <Content Include="icons\Pro_Werke_round_Icon.png" />
+    <Content Include="icons\Pro_Books_round_Icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\Pro_Einstellungen_round_Icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\Pro_Trash_round_Icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\Pro_Typen_round_Icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\Pro_Werke_round_Icon.png">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\speaker_reordButton.png" />
     <Content Include="charakter.png" />
     <Content Include="icons\typen.png" />

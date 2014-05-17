@@ -17,5 +17,9 @@ namespace WritersToolbox.datawrapper
         public String imageString { get; set; }
         public Boolean used { get; set; }
         public ObservableCollection<MemoryNote> notes { get; set; }
+
+        public TypeObject() {
+            this.imageString = "";
+        }
     }
 }

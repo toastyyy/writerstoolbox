@@ -14,6 +14,8 @@ using System.Windows.Media;
 using Coding4Fun.Toolkit.Controls;
 using System.Collections;
 using WritersToolbox.Resources;
+using Microsoft.Phone.Tasks;
+using System.IO.IsolatedStorage;
 
 
 namespace WritersToolbox.views
@@ -32,12 +34,10 @@ namespace WritersToolbox.views
         //bei selectionChanged wird Farbe hier zwischengespeichert
         private String selectedImage;
 
+        private PhotoChooserTask photoChooserTask;
+
         //Farben für Colorpicker
-        static string[] icons =
-        { 
-	        "icons/Pro_Werke_round_Icon.png", "icons/Pro_Books_round_Icon.png", "icons/character_round_icon.png",
-            "icons/Pro_Typen_round_Icon.png", "icons/Pro_Einstellungen_round_Icon.png", "tests/images/img11.jpg"
-        };
+        static List<String> icons;
 
         private int currentApplicationbarId = 1; // Applicationbar Id; 1 = normal, 2 = selection
 
@@ -65,9 +65,35 @@ namespace WritersToolbox.views
             InitializeComponent();
             // ViewModel wird der View als DataContext zugewiesen
             DataContext = Types_VM;
+            // PhotochooserTask initialisieren (für neuen Typ)
+            photoChooserTask = new PhotoChooserTask();
+            photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+            icons = this.loadIconSettings();
         }
 
-
+        public void photoChooserTask_Completed(object sender, PhotoResult e)
+        {
+            if (e.TaskResult == TaskResult.OK)
+            {
+                if (icons.IndexOf(e.OriginalFileName) < 0) {
+                    this.selectedImage = e.OriginalFileName;
+                    icons.Add(icons.Last<String>());
+                    icons[icons.Count() - 2] = e.OriginalFileName;
+                    List<IconItem> iconList = (List<IconItem>)iconPicker.ItemsSource;
+                    IconItem newIcon = new IconItem() { imagePath = e.OriginalFileName };
+                    IconItem addIcon = iconList.Last();
+                    iconPicker.SelectionChanged -= IconPicker_SelectionChanged;
+                    iconPicker.ItemsSource = null;
+                    iconList.Remove(addIcon);
+                    iconList.Add(newIcon);
+                    iconList.Add(addIcon);
+                    iconPicker.ItemsSource = iconList;
+                    iconPicker.SelectedItem = newIcon;
+                    iconPicker.SelectionChanged += IconPicker_SelectionChanged;
+                    this.saveIconSettings();
+                }
+            }
+        }
 
         /// <summary>
         /// Die Methode erkennt die Zoomout-Geste und navigiert zu TypesOverview
@@ -169,46 +195,56 @@ namespace WritersToolbox.views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-            types_VM.LoadData();
-            if (PhoneApplicationService.Current.State.ContainsKey("assignNote") || 
-                PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
+            if (!PhoneApplicationService.Current.State.ContainsKey("chooseIcon"))
             {
-                ApplicationBar.Buttons.Clear();
-                ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
-                cancel.Text = AppResources.AppBarCancel;
-                cancel.Click += CancelType;
-                ApplicationBar.Buttons.Add(cancel);
-                searchImage.Visibility = Visibility.Collapsed;
-                this.PivotMain.Title = new TextBlock() { 
-                    FontSize = 22,
-                    Margin = new Thickness(9,0,0,0),
-                    Text = AppResources.TypeObjectAssign,
-                    FontFamily = new FontFamily("Segoe UI Light")
-                };
-                
+                types_VM.LoadData();
+                if (PhoneApplicationService.Current.State.ContainsKey("assignNote") ||
+                    PhoneApplicationService.Current.State.ContainsKey("attachEvent"))
+                {
+                    ApplicationBar.Buttons.Clear();
+                    ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+                    cancel.Text = AppResources.AppBarCancel;
+                    cancel.Click += CancelType;
+                    ApplicationBar.Buttons.Add(cancel);
+                    searchImage.Visibility = Visibility.Collapsed;
+                    this.PivotMain.Title = new TextBlock()
+                    {
+                        FontSize = 22,
+                        Margin = new Thickness(9, 0, 0, 0),
+                        Text = AppResources.TypeObjectAssign,
+                        FontFamily = new FontFamily("Segoe UI Light")
+                    };
+
+                }
+                else
+                {
+                    this.setNormalApplicationBar();
+                    this.PivotMain.Title = new TextBlock()
+                    {
+                        FontSize = 22,
+                        Margin = new Thickness(9, 0, 0, 0),
+                        Text = AppResources.TypesPageTitle,
+                        FontFamily = new FontFamily("Segoe UI Light")
+                    };
+                    if (NavigationContext.QueryString.ContainsKey("item"))
+                    {
+                        var item = NavigationContext.QueryString["item"];
+                        var indexParsed = int.Parse(item);
+                        if (indexParsed == -1)
+                        {
+                            //wurde ein neuer Typ erzeugt, wird dorthin navigiert
+                            PivotMain.SelectedIndex = Types_VM.getTypeCount() - 1;
+                        }
+                        else
+                            //es wird zum ausgewählten Typ navigiert
+                            PivotMain.SelectedIndex = indexParsed - 1;
+                    }
+                }
             }
             else {
-                this.setNormalApplicationBar();
-                this.PivotMain.Title = new TextBlock()
-                {
-                    FontSize = 22,
-                    Margin = new Thickness(9, 0, 0, 0),
-                    Text = AppResources.TypesPageTitle,
-                    FontFamily = new FontFamily("Segoe UI Light")
-                };
-            if (NavigationContext.QueryString.ContainsKey("item"))
-            {
-                var item = NavigationContext.QueryString["item"];
-                var indexParsed = int.Parse(item);
-                if (indexParsed == -1)
-                {
-                    //wurde ein neuer Typ erzeugt, wird dorthin navigiert
-                    PivotMain.SelectedIndex = Types_VM.getTypeCount() - 1;
-                } else 
-                    //es wird zum ausgewählten Typ navigiert
-                    PivotMain.SelectedIndex = indexParsed - 1;
+                PhoneApplicationService.Current.State.Remove("chooseIcon");
             }
-            }
+            
 
             if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
             {
@@ -316,13 +352,15 @@ namespace WritersToolbox.views
 
             String color = "#" + r + g + b;*/
             String title = newTypeTitle.Text;
+            newTypeTitle.Text = "";
+            
             try 
             { 
                 Types.types_VM.createType(title, "", this.selectedImage);
                 //zum gerade erzeugten Typ navigieren
                 PivotMain.SelectedIndex = PivotMain.Items.Count - 2;
-                PivotMain.SelectedIndex++;
                 PivotMain.SelectedIndex--;
+                this.iconPicker.SelectedItem = null;
             }
             catch (ArgumentException ae) 
             {
@@ -341,7 +379,7 @@ namespace WritersToolbox.views
             ListBox l = sender as ListBox;
             iconPicker = l;
             List<IconItem> item = new List<IconItem>();
-            for (int i = 0; i < icons.Length; i++)
+            for (int i = 0; i < icons.Count(); i++)
             {
                 item.Add(new IconItem() { imagePath = icons[i] });
             };
@@ -349,7 +387,7 @@ namespace WritersToolbox.views
             l.ItemsSource = item; //Fill ItemSource with all colors
             if (restoreType != null)
             {
-                iconPicker.SelectedIndex = Array.IndexOf(icons, restoreType.color);
+                iconPicker.SelectedIndex = icons.IndexOf(restoreType.color);
                 restoreType = null;
             }
         }
@@ -382,14 +420,21 @@ namespace WritersToolbox.views
 
 
         /// <summary>
-        /// Wird eine Farbe in der Listbox ausgewählt, wird diese unter 
-        /// selectedColor gespeichert.
+        /// Wird ein icon in der Listbox ausgewählt, wird diese unter 
+        /// selectedImage gespeichert.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void IconPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBox l = sender as ListBox;
+            if (l.SelectedIndex == l.Items.Count - 1) {
+                PhoneApplicationService.Current.State["chooseIcon"] = true;
+                l.SelectedItem = null;
+
+                photoChooserTask.Show();
+                return;
+            }
             if (l.SelectedItem != null)
             {
                 IconItem c = l.SelectedItem as IconItem;
@@ -600,7 +645,6 @@ namespace WritersToolbox.views
             {
                 newTypeTitle.Text = restoreType.title;
                 PivotMain.SelectedIndex = types_VM.getTypeCount() - 1;
-                
             }
         }
 
@@ -720,6 +764,42 @@ namespace WritersToolbox.views
                 PhoneApplicationService.Current.State.ContainsKey("attachEvent")) {
                     ((CheckBox)sender).Visibility = Visibility.Collapsed;
             }           
+        }
+
+        public List<String> loadIconSettings() {
+            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+            if (appSettings.Contains("icons"))
+            {
+                string val = (string)appSettings["icons"];
+                return val.Split('|').ToList();
+            }
+            else {
+                return (new String[] { 
+	                "icons/Pro_Werke_round_Icon.png", "icons/Pro_Books_round_Icon.png", "icons/character_round_icon.png",
+                    "icons/Pro_Typen_round_Icon.png", "icons/Pro_Einstellungen_round_Icon.png",
+                    "icons/add.png"
+                        }).ToList();
+            }
+
+        }
+
+        public void saveIconSettings() {
+            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+            appSettings.Remove("icons");
+            String toSave = "";
+
+            for(int i = 0; i < icons.Count(); i++) {
+                toSave += icons[i] + "|";
+            }
+
+            toSave = toSave.Substring(0, toSave.Count() - 1);
+            appSettings.Add("icons", toSave);
+        }
+
+        private void tTitle_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            if (restoreType == null) restoreType = new datawrapper.Type();
+            this.restoreType.title = this.newTypeTitle.Text;
         }
     }
 }

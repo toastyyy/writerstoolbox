@@ -17,7 +17,14 @@ namespace WritersToolbox.converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             datawrapper.TypeObject to = (datawrapper.TypeObject)value;
+            StringToImageConverter stic = new StringToImageConverter();
+            BitmapImage bmp = (BitmapImage) stic.Convert(to.imageString, targetType, parameter, culture);
+            if (bmp == null) {
+                bmp = (BitmapImage)stic.Convert(to.type.imageString, targetType, parameter, culture);
+            }
 
+            return bmp;
+            /*
             String imgPath = (to.imageString == null || to.imageString.Equals("")) ? to.type.imageString : to.imageString;
             if (imgPath != null && !imgPath.Equals(""))
             {
@@ -32,7 +39,7 @@ namespace WritersToolbox.converter
             }
             else {
                 return "";
-            }
+            }*/
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

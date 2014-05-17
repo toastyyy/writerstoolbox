@@ -6,6 +6,7 @@ using System.Data.Linq;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using WritersToolbox.models;
 using WritersToolbox.Resources;
 namespace WritersToolbox.viewmodels
@@ -212,6 +213,14 @@ namespace WritersToolbox.viewmodels
                               where to.typeObjectID == toID
                               select to).Single();
 
+            Boolean existsAssignment = (from evto in this.wtb.GetTable<models.EventTypeObjects>()
+                                        where evto.fk_eventID == ev.eventID && evto.fk_typeObjectID == TypeObject.typeObjectID
+                                        select evto).Count() > 0;
+
+            if (existsAssignment) {
+                MessageBox.Show("Dieses Objekt wurde dem Event bereits zugewiesen!", "Fehler bei der zuweisung", MessageBoxButton.OK);
+                return;
+            }
             EventTypeObjects eto = new EventTypeObjects() { fk_eventID = ev.eventID, fk_typeObjectID = TypeObject.typeObjectID };
             ev.typeObjects.Add(eto);
 

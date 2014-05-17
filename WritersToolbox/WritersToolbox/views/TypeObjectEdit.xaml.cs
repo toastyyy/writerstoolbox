@@ -106,7 +106,7 @@ namespace WritersToolbox.views
         {
             if (hex.StartsWith("#"))
                 hex = hex.Substring(1);
-            Byte a = Convert.ToByte(hex.Substring(0, 2), 16);
+            Byte a = (byte)255;
             Byte colorR = Convert.ToByte(hex.Substring(2, 2), 16);
             Byte colorG = Convert.ToByte(hex.Substring(4, 2), 16);
             Byte colorB = Convert.ToByte(hex.Substring(6, 2), 16);
@@ -142,8 +142,8 @@ namespace WritersToolbox.views
             }
             tvm.updateTypeObject(tdvm.TypeObject.typeObjectID, name, color, fileName);
             changed = false;
-            NavigationService.RemoveBackEntry();
             NavigationService.Navigate(new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + this.tdvm.TypeObject.typeObjectID, UriKind.Relative));
+            NavigationService.RemoveBackEntry();
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -175,9 +175,16 @@ namespace WritersToolbox.views
 
         private void colorPicker_Loaded(object sender, RoutedEventArgs e)
         {
-            // ermittle die aktuell verwendete farbe
+            // ermittle die aktuell verwendete farb
             ColorItem ci = new ColorItem() { Color = fromHexToColor(this.tdvm.TypeObject.color) };
             string s = ci.Color.ToString();
+            
+            colors = new String[] { 
+	            "#FFFFE135","#FFFFFF66","#FF008A00","#FF32CD32","#FF00FF7F","#FF808000",
+                "#FFFF0000","#FFFF4500","#FFFF8C00", "#FFFF7F50","#FFDC143C","#FFFF1493",
+                "#FFB22222","#FFC71585","#FFDA70D6","#FF000080","#FF4B0082","#FF800080",
+                "#FFADD8E6","#FF20B2AA","#FF008080"
+            };
             selectedColorIndex = Array.IndexOf(colors, s); 
 
             List<ColorItem> item = new List<ColorItem>();
@@ -254,7 +261,11 @@ namespace WritersToolbox.views
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
             base.OnNavigatedFrom(e);
-            NavigationService.RemoveBackEntry();
+            if (e.NavigationMode != NavigationMode.Back && !PhoneApplicationService.Current.State.ContainsKey("preventUpdate"))
+            { 
+                NavigationService.RemoveBackEntry();
+            }
+            
         }
     }
 }

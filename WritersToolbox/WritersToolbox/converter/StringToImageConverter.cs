@@ -17,6 +17,13 @@ namespace WritersToolbox.converter
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
             String path = (String)value;
+            if (path == null || path.Equals("")) return null;
+
+            if (path.StartsWith("../"))
+            {
+                path = path.Substring(3);
+            }
+
             BitmapImage bmp = this.loadImageFromStorage(path);
             if (bmp != null) return bmp;
             bmp = this.loadImageFromIsolatedStorage(path);
@@ -25,6 +32,7 @@ namespace WritersToolbox.converter
             var resource = App.GetResourceStream(new Uri(String.Format(@"{0}", path), UriKind.Relative));
             //var buffer = new byte[resource.Stream.Length];
             //resource.Stream.Read(buffer, 0, buffer.Length);
+            
             resource.Stream.Position = 0;
             bmp = new BitmapImage();
             bmp.SetSource(resource.Stream);
@@ -59,8 +67,15 @@ namespace WritersToolbox.converter
             BitmapImage bi = new BitmapImage();
             try
             {
-                Picture pic = ml.Pictures.Where(p => p.GetPath().Equals(path)).Single();
-                bi.SetSource(pic.GetThumbnail());
+                IEnumerable<Picture> pics = ml.Pictures.Where(p => p.GetPath().Equals(path));
+
+                if (pics.Count() != 0)
+                {
+                    bi.SetSource(pics.Single().GetThumbnail());
+                }
+                else {
+                    bi = null;
+                }
             }
             catch (InvalidOperationException e)
             {
