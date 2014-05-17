@@ -280,11 +280,13 @@ namespace WritersToolbox.views
                     {
                         //Meldung
                         MessageBoxResult result = MessageBoxResult.OK;
-                        string meldung = AppResources.MeldungUeberschreibungNoteInTypeObject1.Replace("µ1", holdTypeobject.name)
+                        string meldung = AppResources.MeldungUeberschreibungNoteInTypeObject1.Replace("µ1", "\""+holdTypeobject.name+"\"")
                             + System.Environment.NewLine + AppResources.MeldungUeberschreibungNoteInTypeObject2;
 
+                        meldung = meldung.Replace("µ2", "\"" + (PhoneApplicationService.Current.State["memoryNoteTitle"] as String) + "\"");
+
                         result = MessageBox.Show(meldung,
-                        AppResources.AppBarClose, MessageBoxButton.OKCancel);
+                        AppResources.AppBarOverwriting, MessageBoxButton.OKCancel);
 
                         if (result == MessageBoxResult.OK)
                         {
@@ -728,7 +730,7 @@ namespace WritersToolbox.views
             {
                 e.Cancel = true;
                 currentSelectList.IsSelectionEnabled = false;
-            }
+            }     
         }
 
         private void cancelDeleteSelection(object sender, RoutedEventArgs e)

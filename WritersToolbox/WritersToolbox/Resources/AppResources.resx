@@ -504,11 +504,8 @@
   <data name="AppBarUnderline" xml:space="preserve">
     <value>unterstrichen</value>
   </data>
-  <data name="move_down" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\icons\move-down.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
-  </data>
-  <data name="move_up" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\icons\move-up.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  <data name="TomeTitleNewTome" xml:space="preserve">
+    <value>Neuer Band</value>
   </data>
   <data name="BooksHeadlineAssignNote" xml:space="preserve">
     <value>Notiz zuweisen</value>
@@ -547,7 +544,7 @@
     <value>Bilder</value>
   </data>
   <data name="MeldungVorhandeneNotizinEvent1" xml:space="preserve">
-    <value>Eine Notiz mit diesem Name ist bereits im dem Ereignis</value>
+    <value>Eine Notiz ist mit dem Name µ2 bereits im dem Ereignis</value>
   </data>
   <data name="MeldungVorhandeneNotizinEvent2" xml:space="preserve">
     <value>Vorhanden. </value>
@@ -559,15 +556,57 @@
     <value>Die Zuordnung der Notiz µ1 wurde erfolgreich zu dem µ2 hinzugefügt</value>
   </data>
   <data name="MeldungUeberschreibungNoteInTypeObject1" xml:space="preserve">
-    <value>Eine Notiz mit diesem Name ist bereits in dem Typeobjekt µ1 Vorhanden.</value>
+    <value>Eine Notiz ist mit dm Name µ2 bereits in dem Typeobjekt µ1 Vorhanden.</value>
   </data>
   <data name="MeldungUeberschreibungNoteInTypeObject2" xml:space="preserve">
-    <value>Möchtest du dieNotiz überschreiben ?</value>
+    <value>Möchtest du die Notiz überschreiben ?</value>
   </data>
   <data name="CheckboxKeepTypeObjectNotes" xml:space="preserve">
     <value>Angehangene Notizen beibehalten (aussortieren)</value>
   </data>
   <data name="TypeObjectsDeleteQuestion" xml:space="preserve">
     <value>Möchtest du die Typobjekte wirklich löschen?</value>
+  </data>
+  <data name="AppBarOverwriting" xml:space="preserve">
+    <value>Überschreiben</value>
+  </data>
+  <data name="AppBarSuccessful" xml:space="preserve">
+    <value>Erfolgreich</value>
+  </data>
+  <data name="cancel_black" type="System.Resources.ResXFileRef, System.Windows.Forms">
+    <value>..\icons\cancel_black.png;System.Byte[], mscorlib, Version=2.0.5.0, Culture=neutral, PublicKeyToken=7cec85d7bea7798e</value>
+  </data>
+  <data name="TomeDetailsAddOne" xml:space="preserve">
+    <value>hinzufügen</value>
+  </data>
+  <data name="TomeDetailsChapter" xml:space="preserve">
+    <value>Kapitel</value>
+  </data>
+  <data name="TomeDetailsEvent" xml:space="preserve">
+    <value>Ereignis</value>
+  </data>
+  <data name="TomeDetailsEventMulti" xml:space="preserve">
+    <value>Ereignisse</value>
+  </data>
+  <data name="TomeDetailsNewOne" xml:space="preserve">
+    <value>Neues</value>
+  </data>
+  <data name="TomeDetailsPage" xml:space="preserve">
+    <value>Seite</value>
+  </data>
+  <data name="TomeDetailsPageMulti" xml:space="preserve">
+    <value>Seiten</value>
+  </data>
+  <data name="TomeDetailsTypeObject" xml:space="preserve">
+    <value>Typ Objekt</value>
+  </data>
+  <data name="TomeDetailsTypeObjectMulti" xml:space="preserve">
+    <value>Typ Objekte</value>
+  </data>
+  <data name="TomeDetailsWord" xml:space="preserve">
+    <value>Wort</value>
+  </data>
+  <data name="TomeDetailsWordMulti" xml:space="preserve">
+    <value>Wörter</value>
   </data>
 </root>

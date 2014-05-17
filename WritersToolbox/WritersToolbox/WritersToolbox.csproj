@@ -107,6 +107,8 @@
     <Compile Include="converter\CollectionCountConverter.cs" />
     <Compile Include="converter\ColorToBrushConverter.cs" />
     <Compile Include="converter\CollectionHasElementsConverter.cs" />
+    <Compile Include="converter\EventCutTitel.cs" />
+    <Compile Include="converter\TomeCutTitel.cs" />
     <Compile Include="converter\StringToImageConverter.cs" />
     <Compile Include="converter\TypeImageConverter.cs" />
     <Compile Include="converter\DauerConverter.cs" />
@@ -377,7 +379,9 @@
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten.png" />
     <Content Include="Assets\hintergrund_neueIdee_zettelUnten_2.png" />
     <Content Include="Assets\hintergrund_trashbin_white.png" />
+    <Content Include="cancel_black.png" />
     <Content Include="icons\add.png" />
+    <Content Include="icons\cancel_black.png" />
     <Content Include="icons\dropbox-logo.png" />
     <Content Include="icons\finden.png" />
     <Content Include="icons\character_round_icon.png">
@@ -480,6 +484,7 @@
     <Content Include="images\titel_background.png" />
     <Content Include="ReadMe.Coding4Fun.Toolkit.txt" />
     <Content Include="README_FIRST.txt" />
+    <None Include="Resources\test.png" />
     <Content Include="tests\images\img10.jpg" />
     <Content Include="tests\images\img11.jpg" />
     <Content Include="tests\images\img12.jpg" />
@@ -499,7 +504,7 @@
       <Generator>PublicResXFileCodeGenerator</Generator>
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
       <SubType>Designer</SubType>
-      <LastGenOutput>AppResources.Designer.cs</LastGenOutput>
+      <LastGenOutput>AppResources1.Designer.cs</LastGenOutput>
     </EmbeddedResource>
   </ItemGroup>
   <ItemGroup>
@@ -527,10 +532,6 @@
     </Reference>
     <Reference Include="RestSharp.WindowsPhone">
       <HintPath>..\packages\RestSharp.104.4.0\lib\sl4-wp71\RestSharp.WindowsPhone.dll</HintPath>
-    </Reference>
-    <Reference Include="System.Threading.Tasks.WP71">
-      <HintPath>..\packages\DropNet.1.9.6\lib\sl4-wp71\System.Threading.Tasks.WP71.dll</HintPath>
-      <Private>True</Private>
     </Reference>
     <Reference Include="WriteableBitmapExWinPhone">
       <HintPath>..\packages\WriteableBitmapEx.1.0.9.0\lib\WindowsPhone8\WriteableBitmapExWinPhone.dll</HintPath>

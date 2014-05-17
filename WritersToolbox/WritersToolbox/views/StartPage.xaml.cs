@@ -173,7 +173,7 @@ namespace WritersToolbox.gui
             newTimer.Stop();
             newTimer = null;
             MessageBoxResult result = MessageBox.Show(views.addNote.meldung,
-                    AppResources.AppBarClose, MessageBoxButton.OK);
+                    AppResources.AppBarSuccessful, MessageBoxButton.OK);
             views.addNote.meldung = null;
 
         }
@@ -188,14 +188,14 @@ namespace WritersToolbox.gui
             NavigationService.Navigate(new Uri("/views/Types.xaml", UriKind.Relative));
             //Um GoBack zu beschrenken, dass App nicht wieder zu StartPage navigiert,
             //wenn die Notiz zugeordnet ist.
-            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
-            {
-                var lastPage = NavigationService.BackStack.FirstOrDefault();
-                if (lastPage != null && lastPage.Source.ToString() == "/views/StartPage.xaml")
-                {
-                    NavigationService.RemoveBackEntry();
-                }
-            }
+            //if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+            //{
+            //    var lastPage = NavigationService.BackStack.FirstOrDefault();
+            //    if (lastPage != null && lastPage.Source.ToString() == "/views/StartPage.xaml")
+            //    {
+            //        NavigationService.RemoveBackEntry();
+            //    }
+            //}
         }
 
         private void navigateToUnsortedNote(object sender, RoutedEventArgs e)
