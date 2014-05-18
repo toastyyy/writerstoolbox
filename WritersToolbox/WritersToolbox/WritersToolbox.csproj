@@ -411,12 +411,21 @@
     <Content Include="icons\bold.png" />
     <Content Include="icons\edit.png" />
     <Content Include="icons\edit_picture.png" />
+    <Content Include="icons\game.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\info_checked.png" />
     <Content Include="icons\info_unchecked.png" />
     <Content Include="icons\italic.png" />
+    <Content Include="icons\katze.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\micro.png" />
     <Content Include="icons\move-down.png" />
     <Content Include="icons\move-up.png" />
+    <Content Include="icons\muffin.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\notizen.png" />
     <Content Include="icons\on.png" />
     <Content Include="icons\off.png" />
@@ -424,6 +433,12 @@
     <Content Include="icons\pause_reordButton.png" />
     <Content Include="icons\notiz_round_icon_sw.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\pflanzen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\planeten.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\play_reordButton.png" />
     <Content Include="icons\Pro_Books_round_Icon.png">
@@ -441,8 +456,15 @@
     <Content Include="icons\Pro_Werke_round_Icon.png">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\record.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\speaker_reordButton.png" />
     <Content Include="charakter.png" />
+    <Content Include="icons\sport.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
+    <Content Include="icons\tiere.png" />
     <Content Include="icons\typen.png" />
     <Content Include="icons\typen_checked.png" />
     <Content Include="icons\struktur_checked.png" />
