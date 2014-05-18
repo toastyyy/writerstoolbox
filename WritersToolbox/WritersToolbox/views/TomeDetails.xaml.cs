@@ -40,7 +40,7 @@ namespace WritersToolbox.views
         private readonly TimeSpan infoInterval = new TimeSpan(0, 0, 8);
         // Nummer der im Slider angezeigten Info (Kapitel, Ereignisse, typobjekte, Seiten, Wörter)
         private int InfoStatus = 1;
-
+        private bool isDownUpButtonBlind = false;
         private bool isDefaultAppBarVisible = false;
 
         //Textbox Chapter
@@ -83,6 +83,7 @@ namespace WritersToolbox.views
                 addDefaultApplicationBar();
                 isDefaultAppBarVisible = true;
             }
+            //blindUpDownInNewChapterOrEvent(llstructure, true);
         }
 
         public void addCancelAssignButton()
@@ -134,6 +135,8 @@ namespace WritersToolbox.views
                 }
 
             llstructure.ItemsSource = tome_VM.structur;
+
+            //blindUpDownInNewChapterOrEvent(llstructure, true);
         }
 
         /// <summary>
@@ -154,7 +157,20 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-
+            base.OnBackKeyPress(e);
+            if (llstructure.IsSelectionEnabled)
+            {
+                e.Cancel = true;
+                llstructure.IsSelectionEnabled = false;
+            }
+            else if (oldLlms != null)
+            {
+                if (oldLlms.IsSelectionEnabled)
+                {
+                    e.Cancel = true;
+                    oldLlms.IsSelectionEnabled = false;
+                }               
+            }
         }
 
 
@@ -181,6 +197,13 @@ namespace WritersToolbox.views
                 _bitmapimage = new BitmapImage(new Uri("/icons/typen_unchecked.png", UriKind.RelativeOrAbsolute));
                 typeObject.Source = _bitmapimage;
                 TypeObjectGrid.Visibility = Visibility.Collapsed;
+
+                llstructure.IsSelectionEnabled = false;
+                if (oldLlms != null)
+                {
+                    oldLlms.IsSelectionEnabled = false;
+                    //oldLlms = null;
+                }
             }
             else
             {
@@ -210,6 +233,8 @@ namespace WritersToolbox.views
                 _bitmapimage = new BitmapImage(new Uri("/icons/typen_unchecked.png", UriKind.RelativeOrAbsolute));
                 typeObject.Source = _bitmapimage;
                 TypeObjectGrid.Visibility = Visibility.Collapsed;
+
+
             }
             else
             {
@@ -239,6 +264,14 @@ namespace WritersToolbox.views
                 _bitmapimage = new BitmapImage(new Uri("/icons/typen_checked.png", UriKind.RelativeOrAbsolute));
                 typeObject.Source = _bitmapimage;
                 TypeObjectGrid.Visibility = Visibility.Visible;
+
+
+                llstructure.IsSelectionEnabled = false;
+                if (oldLlms != null)
+                {
+                    oldLlms.IsSelectionEnabled = false;
+                    //oldLlms = null;
+                }
             }
             else
             {
@@ -500,30 +533,22 @@ namespace WritersToolbox.views
 
         }
 
-        
-        /// <summary>
-        /// Ereignislist aufklappen bzw. zusammenklappen.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        private void img_tap(object sender)
         {
-
             if (!doubleTap && !newChapterOrEventMode)
             {
                 
                 Image img = sender as Image;
                 Grid parent = (img.Parent as Grid).Parent as Grid;
-                
+
                 Border border = (parent.Children[0] as Grid).Children[1] as Border;
                 TextBox textbox = border.Child as TextBox;
-                
-                
+
+
                 if (!textbox.Text.ToUpper().Equals((AppResources.TomeDetailsNewOne + " " + AppResources.TomeDetailsChapter).ToUpper()) && !newChapterOrEventMode)
-                //if (!textbox.Text.Equals("Neues Kapitel") && !newChapterOrEventMode)
                 {
                     LongListMultiSelector llms = ((parent.Children[1]) as LongListMultiSelector);
-                    
+
 
                     if (llms.Visibility == Visibility.Collapsed)    //Ist die Ereignislist zusammengeklappt, 
                     {                                               //dann wird sie aufgeklappt.
@@ -537,31 +562,22 @@ namespace WritersToolbox.views
                             oldLlms.IsSelectionEnabled = false;
                             oldLlms.EnforceIsSelectionEnabled = false;
                             oldLlms.Visibility = Visibility.Collapsed;
-                            
-                    }
-                         oldImage = img;
-                            oldLlms = llms;    
+
+                        }
+                        oldImage = img;
+                        oldLlms = llms;
                         oldChapter = parent.DataContext as datawrapper.Chapter;
                     }
                     else      //Ist die Ereignislist aufgeklappt,
                     {         //dann wird sie zusammenfeklappt.
                         img.Source = new BitmapImage(new Uri("/icons/off.png", UriKind.RelativeOrAbsolute));
                         llms.Visibility = Visibility.Collapsed;
-
-                        if (oldImage != null && !oldImage.Equals(img))
-                            oldImage.Source = new BitmapImage(new Uri("/icons/off.png", UriKind.RelativeOrAbsolute));
-                        if (oldLlms != null && !oldLlms.Equals(llms))
-                        {
-                            oldLlms.IsSelectionEnabled = false;
-                            oldLlms.EnforceIsSelectionEnabled = false;
-                            oldLlms.Visibility = Visibility.Collapsed;
-                            oldLlms = null;
-                            oldImage = null;
+                        oldLlms.IsSelectionEnabled = false;
+                        oldLlms = null;
                     }
-                }
 
-                        
-            }
+
+                }
                 if (isNewEventAndChapterButtonsRemoved)
                 {
                     AddNewChapterAndEventButton();
@@ -570,6 +586,20 @@ namespace WritersToolbox.views
             else
             {
                 wasfocuslost = false;
+            }
+        }
+        
+        /// <summary>
+        /// Ereignislist aufklappen bzw. zusammenklappen.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            img_tap(sender);
+            if (oldLlms != null)
+            {
+                //blindUpDownInNewChapterOrEvent(oldLlms, false);
             }
         }
 
@@ -592,6 +622,7 @@ namespace WritersToolbox.views
         private void Chapter_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
             String senderTitel = (((Grid)sender).DataContext as datawrapper.Chapter).title;
+            
             if (!newChapterOrEventMode && !senderTitel.ToUpper().Equals((AppResources.TomeDetailsNewOne + " " + AppResources.TomeDetailsChapter).ToUpper()))
             {
                 llstructure.IsSelectionEnabled = true;
@@ -607,7 +638,7 @@ namespace WritersToolbox.views
                 int ID = (((Grid)sender).DataContext as datawrapper.Chapter).chapterID;
                 if (oldLlms != null && tome_VM.isEventsInChapter(oldLlms, ID))
                 {
-                                    //Um alle events mitselektieren wenn die liste aufgeklappt ist.
+                    //Um alle events mitselektieren wenn die liste aufgeklappt ist.
                     if (oldLlms != null && oldLlms.Visibility == Visibility.Visible)
                     {
                         oldLlms.IsSelectionEnabled = true;
@@ -625,23 +656,13 @@ namespace WritersToolbox.views
             }
         }
 
-        
 
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void llmsEvent_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        private void event_hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //l = sender as LongListMultiSelector;
-            //String senderTitel = (((LongListMultiSelector)sender).DataContext as datawrapper.Chapter);
-            //String senderTitel = (((Grid)sender).DataContext as datawrapper.Chapter).title;
-            //String senderTitel = (((TextBox)e.OriginalSource).DataContext as datawrapper.Event).title;
-            String senderTitel = (((TextBox)e.OriginalSource).DataContext as datawrapper.Event).title;
+            String senderTitel = (((Grid)sender).DataContext as datawrapper.Event).title;
             if (!newChapterOrEventMode && !senderTitel.ToUpper().Equals((AppResources.TomeDetailsEvent + " " + AppResources.TomeDetailsAddOne).ToUpper()))
             {
-                datawrapper.Event _e = ((TextBox)e.OriginalSource).DataContext as datawrapper.Event;
+                datawrapper.Event _e = ((Grid)sender).DataContext as datawrapper.Event;
 
                 //if (llstructure.SelectedItems.Count == 0)
                 //{
@@ -653,8 +674,8 @@ namespace WritersToolbox.views
                 {
                     addSelectionApplicationBarButton();
                 }
-        }
-
+            }
+        
         }
 
 
@@ -667,14 +688,14 @@ namespace WritersToolbox.views
         private async void ChapterTextBox_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             if (isNewEventAndChapterButtonsRemoved)
-        {
+            {
                 AddNewChapterAndEventButton();
             }
             singleTap = true;
             // verzögerung um "tap" von "doubleTap" zu unterscheiden
-            
+
             //Thread.Sleep(400);
-                await Task.Delay(200);
+            await Task.Delay(200);
 
             //abfrage ob gesingle- oder gedoubletaped wurde, abfrage ob sich chapter in "bearbeitung" befindet
             if (singleTap && !doubleTap)
@@ -686,20 +707,20 @@ namespace WritersToolbox.views
                 if (!b.Text.ToUpper().Equals((AppResources.TomeDetailsNewOne + " " + AppResources.TomeDetailsChapter).ToUpper()) && !newChapterOrEventMode)
                 {
                     Image_Tap(img, e);
-
                 }
-                else {
+                else
+                {
 
                     b.DoubleTap -= Chapter_DoubleTap;
                     newChapterTextbox.IsEnabled = true;
                     newChapterTextbox.Visibility = Visibility.Visible;
-                   
+
                     //abfrage, da sonst bei jedem geklickten Kapitel die neues Chapter -> Titel -Textbox gefocust wird (irritierend)
                     if (b.Text.ToUpper().Equals((AppResources.TomeDetailsNewOne + " " + AppResources.TomeDetailsChapter).ToUpper()))
                     {
                         newChapterTextbox.Focus();
                     }
-                    
+
 
                     newChapterRectangle.Visibility = Visibility.Visible;
                     newChapterTextTitle.Visibility = Visibility.Visible;
@@ -716,7 +737,6 @@ namespace WritersToolbox.views
 
             }
             wasfocuslost = false;
-
         }
 
         private void Event_DoubleTap(object sender, System.Windows.Input.GestureEventArgs e)
@@ -1424,7 +1444,118 @@ namespace WritersToolbox.views
         private void loadLlmsEvent(object sender, RoutedEventArgs e)
         {
             llmsEventListe.Add((LongListMultiSelector)sender);
+        }
+
+
+        
+        public void blindUpDownButton()
+        {
+            searchImagesUpDown(llstructure, true);
+            if (oldLlms != null)
+            {
+                searchImagesUpDown(oldLlms, true);
             }
+            isDownUpButtonBlind = true;
+        }
+
+        public void showUpDownButton()
+        {
+            searchImagesUpDown(llstructure, false);
+            if (oldLlms != null)
+            {
+                searchImagesUpDown(oldLlms, false);
+            }
+            isDownUpButtonBlind = false;
+        }
+
+        private void searchImagesUpDown(DependencyObject targetElement, bool ausblinden)
+        {
+            var count = VisualTreeHelper.GetChildrenCount(targetElement);
+
+            if (count == 0)
+                return;
+
+            if (count > 0)
+            {
+                for (int i = 0; i < count; i++)
+                {
+                    var child = VisualTreeHelper.GetChild(targetElement, i);
+
+                    if (child is Image)
+                    {
+                        Image targetItem = (Image)child;
+                        
+                        if (targetItem.Name == "up" || targetItem.Name == "down")
+                        {
+                            if (ausblinden)
+                            {
+                                targetItem.Visibility = Visibility.Collapsed;
+                            }
+                            else
+                            {
+                                targetItem.Visibility = Visibility.Visible;
+                            }
+
+                        }
+                    }
+                    else
+                    {
+                        searchImagesUpDown(child, ausblinden);
+                    }
+                }
+            }
+            else
+            {
+                return;
+            }           
+        }
+
+
+
+        //private void blindUpDownInNewChapterOrEvent(DependencyObject targetElement, bool isChapter)
+        //{
+        //    var count = VisualTreeHelper.GetChildrenCount(targetElement);
+
+        //    if (count == 0)
+        //        return;
+
+        //    if (count > 0)
+        //    {
+        //        for (int i = 0; i < count; i++)
+        //        {
+        //            var child = VisualTreeHelper.GetChild(targetElement, i);
+
+        //            if (child is TextBox)
+        //            {
+        //                TextBox t = (TextBox)child;
+        //                if (t.Text.Equals(AppResources.NeuesKapitel) || t.Text.Equals(AppResources.EreignisHinzufuegen))
+        //                {
+        //                    Border b = t.Parent as Border;
+        //                    Grid g = b.Parent as Grid;
+        //                    if (isChapter)
+        //                    {
+        //                        g.Children[2].Visibility = Visibility.Collapsed;
+        //                        g.Children[3].Visibility = Visibility.Collapsed;
+        //                    }
+        //                    else
+        //                    {
+        //                        g.Children[1].Visibility = Visibility.Collapsed;
+        //                        g.Children[2].Visibility = Visibility.Collapsed;
+        //                    }
+
+        //                }
+        //            }
+        //            else
+        //            {
+        //                blindUpDownInNewChapterOrEvent(child, isChapter);
+        //            }
+        //        }
+        //    }
+        //    else
+        //    {
+        //        return;
+        //    }
+        //}
 
         /// <summary>
         /// 
@@ -1433,6 +1564,20 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void llstructure_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (!isDownUpButtonBlind)
+            {
+                blindUpDownButton();
+            }
+
+            if (e.AddedItems.Count > 0 && ((datawrapper.Chapter)e.AddedItems[0]).title.Equals(AppResources.NeuesKapitel))
+            {
+                llstructure.EnforceIsSelectionEnabled = false;
+                llstructure.SelectedItems.Remove(((datawrapper.Chapter)e.AddedItems[0]));
+                return;
+            }
+            if (oldLlms != null && oldLlms.ItemsSource.Count <= 1 && b != null)
+                img_tap(((b.Parent as Border).Parent as Grid).Children[0] as Image);
+
             if ((e.RemovedItems.Count > 0) || !((datawrapper.Chapter)e.AddedItems[0]).title.Equals(AppResources.TomeDetailsNewOne + " " + AppResources.TomeDetailsChapter))
             {
                 if (!newChapterOrEventMode)
@@ -1503,7 +1648,11 @@ namespace WritersToolbox.views
                     {
                         if (llstructure.SelectedItems.Count == 0)
                         {
-                            removeSelectionApplicationBarButton();
+                            removeSelectionApplicationBarButton();                 
+                            if (isDownUpButtonBlind)
+                            {
+                                showUpDownButton();
+                            }
                             if (!isDefaultAppBarVisible) 
                             {
                                 if (!isDefaultAppBarVisible)
@@ -1525,6 +1674,11 @@ namespace WritersToolbox.views
                         if (llstructure.SelectedItems.Count == 0 && oldLlms.SelectedItems.Count == 0)
                         {
                             removeSelectionApplicationBarButton();
+                           
+                            if (isDownUpButtonBlind)
+                            {
+                                showUpDownButton();
+                            }
                             if (!isDefaultAppBarVisible)
                             {
                                 if (!isDefaultAppBarVisible)
@@ -1651,6 +1805,11 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void llmsEvent_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
+
+            if (!isDownUpButtonBlind)
+            {
+                blindUpDownButton();
+            }
             if ((e.RemovedItems.Count > 0) || !((datawrapper.Event)e.AddedItems[0]).title.Equals(AppResources.TomeDetailsEvent + " " + AppResources.TomeDetailsAddOne))
             {
                 if (!newChapterOrEventMode)
@@ -1690,6 +1849,10 @@ namespace WritersToolbox.views
                         if (llstructure.SelectedItems.Count == 0)
                         {
                             removeSelectionApplicationBarButton();
+                            if (isDownUpButtonBlind)
+                            {
+                                showUpDownButton();
+                            }
                             if (!isDefaultAppBarVisible)
                             {
                                 addDefaultApplicationBar();
@@ -1706,6 +1869,10 @@ namespace WritersToolbox.views
                         if (llstructure.SelectedItems.Count == 0 && oldLlms.SelectedItems.Count == 0)
                         {
                             removeSelectionApplicationBarButton();
+                            if (isDownUpButtonBlind)
+                            {
+                                showUpDownButton();
+                            }
                             if (!isDefaultAppBarVisible)
                             {
                                 addDefaultApplicationBar();
@@ -1733,6 +1900,7 @@ namespace WritersToolbox.views
             SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
             this.bookTitle_edit.Background = _s;
         }
+
 
         
 

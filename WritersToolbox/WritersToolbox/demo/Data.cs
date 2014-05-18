@@ -62,7 +62,7 @@ namespace WritersToolbox.demo
                 updatedDate = DateTime.Now,
                 obj_book = b,
                 information = 1,
-                deleted = true
+                deleted = false
             };
 
             Tome t2 = new Tome()

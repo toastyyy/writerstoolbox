@@ -609,4 +609,10 @@
   <data name="TomeDetailsWordMulti" xml:space="preserve">
     <value>Wörter</value>
   </data>
+  <data name="EreignisHinzufuegen" xml:space="preserve">
+    <value>Ereignis hinzufügen</value>
+  </data>
+  <data name="NeuesKapitel" xml:space="preserve">
+    <value>Neues Kapitel</value>
+  </data>
 </root>
