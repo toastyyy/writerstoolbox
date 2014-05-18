@@ -116,19 +116,6 @@ namespace WritersToolbox.views
 
 
         }
-        ///// <summary>
-        ///// Hilfsmethode solange man Zoom nicht testen kann.
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
-        //{
-        //    if (!this.PivotMain.IsLocked)
-        //    {
-        //        NavigationService.Navigate(new Uri("/views/TypesOverview.xaml", UriKind.Relative));
-        //    }
-        //}
-
 
 
         /// <summary>
@@ -777,8 +764,9 @@ namespace WritersToolbox.views
             }
             else {
                 return (new String[] { 
-	                "icons/Pro_Werke_round_Icon.png", "icons/Pro_Books_round_Icon.png", "icons/character_round_icon.png",
-                    "icons/Pro_Typen_round_Icon.png", "icons/Pro_Einstellungen_round_Icon.png",
+	                "icons/pflanzen.png", "icons/muffin.png", "icons/tiere.png",
+                    "icons/sport.png", "icons/record.png", "icons/planeten.png",
+                    "icons/katze.png", "icons/game.png",
                     "icons/add.png"
                         }).ToList();
             }

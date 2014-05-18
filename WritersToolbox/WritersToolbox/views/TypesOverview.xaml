@@ -18,6 +18,7 @@
 
     <phone:PhoneApplicationPage.Resources>
         <converter:DefaultIfEmptyConverter x:Key="DefaultIfEmptyConverter" />
+        <converter:StringToImageConverter x:Key="StringToImageConverter" />
         <!--Template für LongListSelector-item-->
         <DataTemplate x:Key="TypesOverviewTemplate">
             <Grid Width="Auto" 
@@ -31,8 +32,18 @@
                             <RowDefinition Height="*"/>
                             <RowDefinition Height="40"/>
                         </Grid.RowDefinitions>
-                        <Image Source="{Binding imageString, Converter={StaticResource DefaultIfEmptyConverter}, ConverterParameter=/icons/no_image.png}" />
-
+                        <Border Grid.Row="0" Background="White" Width="126" Height="126" CornerRadius="63" Margin="0,0,0,0" BorderThickness="8" BorderBrush="#FF690C35">
+                            <Image Margin="-10" Stretch="Fill" Width="110" Height="110"  Source="{Binding imageString, Converter={StaticResource StringToImageConverter}}">
+                                <Image.Clip>
+                                    <EllipseGeometry
+                                                    RadiusX="55"
+                                                    RadiusY="55"
+                                                    Center="55,55"
+                                                    >
+                                    </EllipseGeometry>
+                                </Image.Clip>
+                            </Image>
+                        </Border>
                         <TextBlock Text="{Binding title}"
                                Foreground="Black"
                                TextWrapping="Wrap"  

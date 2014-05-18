@@ -12,6 +12,7 @@ using System.Windows.Media;
 using WritersToolbox.viewmodels;
 using System.Windows.Media.Imaging;
 using Microsoft.Phone.Tasks;
+using System.IO.IsolatedStorage;
 
 namespace WritersToolbox.views
 {
@@ -33,21 +34,15 @@ namespace WritersToolbox.views
         private String changedImage = "";
 
         private Boolean changed = false;
-        //Farben für Colorpicker
-        static string[] colors =
-        { 
-	        "#FFFFE135","#FFFFFF66","#FF008A00","#FF32CD32","#FF00FF7F","#FF808000",
-            "#FFFF0000","#FFFF4500","#FFFF8C00", "#FFFF7F50","#FFDC143C","#FFFF1493",
-            "#FFB22222","#FFC71585","#FFDA70D6","#FF000080","#FF4B0082","#FF800080",
-            "#FFADD8E6","#FF20B2AA","#FF008080"
-        };
 
+        static List<String> icons;
 
         public ChangeType()
         {
             InitializeComponent();
             photoChooserTask = new PhotoChooserTask();
             photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+            icons = this.loadIconSettings();
         }
         /// <summary>
         /// Ein neuer Typ wird erzeugt.
@@ -76,25 +71,22 @@ namespace WritersToolbox.views
 
         /// <summary>
         /// Nach dem die Seite geladen ist, werden alle angegebenen Farben in die Listbox geladen.
-        /// Wird die View zum Ändern benutzt, wird die benutzte Farbe selektiert
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ColorPickerPage_Loaded(object sender, RoutedEventArgs e)
+        private void IconPickerPage_Loaded(object sender, RoutedEventArgs e)
         {
-            List<ColorItem> item = new List<ColorItem>();
-            for (int i = 0; i < colors.Length; i++)
+            ListBox l = sender as ListBox;
+            iconPicker = l;
+            List<IconItem> item = new List<IconItem>();
+            for (int i = 0; i < icons.Count(); i++)
             {
-                item.Add(new ColorItem() { Color = fromHexToColor(colors[i]) });
+                item.Add(new IconItem() { imagePath = icons[i] });
             };
 
-            selectedColorIndex = Array.IndexOf(colors, this.tvm.Type.color.ToString()); 
-
-
-            colorPicker.ItemsSource = item; //Fill ItemSource with all colors
-            colorPicker.SelectedIndex = selectedColorIndex;
+            l.ItemsSource = item; //Fill ItemSource with all colors
+            iconPicker.SelectedIndex = icons.IndexOf(this.tvm.Type.imageString);
         }
-
         /// <summary>
         /// Umwandlung von hex schreibweise in Color.
         /// </summary>
@@ -116,9 +108,9 @@ namespace WritersToolbox.views
         /// <summary>
         /// Anonyme Klasse in der die Farbe gespeichert wird.
         /// </summary>
-        public class ColorItem
+        public class IconItem
         {
-            public Color Color { get; set; }
+            public String imagePath { get; set; }
         }
 
 
@@ -128,14 +120,22 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void ColorPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        private void IconPicker_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             ListBox l = sender as ListBox;
-            ColorItem c = l.SelectedItem as ColorItem;
-            selectedColor = c.Color;
-            WriteableBitmap wb = this.multiplicateImageWithColor("images/headImage_grayscale_top.jpg", selectedColor);
-            this.headerBackground.Source = wb;
-            this.changed = true;
+            if (l.SelectedIndex == l.Items.Count - 1)
+            {
+                PhoneApplicationService.Current.State["chooseIcon"] = true;
+                l.SelectedItem = null;
+
+                photoChooserTask.Show();
+                return;
+            }
+            if (l.SelectedItem != null)
+            {
+                IconItem c = l.SelectedItem as IconItem;
+                this.changedImage = c.imagePath;
+            }
         }
 
         /// <summary>
@@ -175,8 +175,6 @@ namespace WritersToolbox.views
                 this.tvm.loadData();
                 this.DataContext = this.tvm;
             }
-
-
         }
 
         /// <summary>
@@ -220,12 +218,24 @@ namespace WritersToolbox.views
         {
             if (e.TaskResult == TaskResult.OK)
             {
-                //Code to display the photo on the page in an image control named myImage.
-                BitmapImage bmp = new BitmapImage();
-                bmp.SetSource(e.ChosenPhoto);
-                this.imageButton.Source = bmp;
-                this.changedImage = e.OriginalFileName;
-                this.changed = true;
+                if (icons.IndexOf(e.OriginalFileName) < 0)
+                {
+                    this.changedImage = e.OriginalFileName;
+                    icons.Add(icons.Last<String>());
+                    icons[icons.Count() - 2] = e.OriginalFileName;
+                    List<IconItem> iconList = (List<IconItem>)iconPicker.ItemsSource;
+                    IconItem newIcon = new IconItem() { imagePath = e.OriginalFileName };
+                    IconItem addIcon = iconList.Last();
+                    iconPicker.SelectionChanged -= IconPicker_SelectionChanged;
+                    iconPicker.ItemsSource = null;
+                    iconList.Remove(addIcon);
+                    iconList.Add(newIcon);
+                    iconList.Add(addIcon);
+                    iconPicker.ItemsSource = iconList;
+                    iconPicker.SelectedItem = newIcon;
+                    iconPicker.SelectionChanged += IconPicker_SelectionChanged;
+                    this.saveIconSettings();
+                }
             }
         }
 
@@ -252,6 +262,41 @@ namespace WritersToolbox.views
         {
             base.OnNavigatedFrom(e);
             NavigationService.RemoveBackEntry();
+        }
+
+        public List<String> loadIconSettings()
+        {
+            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+            if (appSettings.Contains("icons"))
+            {
+                string val = (string)appSettings["icons"];
+                return val.Split('|').ToList();
+            }
+            else
+            {
+                return (new String[] { 
+	                "icons/pflanzen.png", "icons/muffin.png", "icons/tiere.png",
+                    "icons/sport.png", "icons/record.png", "icons/planeten.png",
+                    "icons/katze.png", "icons/game.png",
+                    "icons/add.png"
+                        }).ToList();
+            }
+
+        }
+
+        public void saveIconSettings()
+        {
+            IsolatedStorageSettings appSettings = IsolatedStorageSettings.ApplicationSettings;
+            appSettings.Remove("icons");
+            String toSave = "";
+
+            for (int i = 0; i < icons.Count(); i++)
+            {
+                toSave += icons[i] + "|";
+            }
+
+            toSave = toSave.Substring(0, toSave.Count() - 1);
+            appSettings.Add("icons", toSave);
         }
     }
 }

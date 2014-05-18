@@ -19,6 +19,7 @@
     <phone:PhoneApplicationPage.Resources>
         <converter:ImageMultiplyWithConverter x:Key="ImageMultiplyWithConverter" />
         <converter:TypeImageConverter x:Key="TypeImageConverter" />
+        <converter:StringToImageConverter x:Key="StringToImageConverter" />
     </phone:PhoneApplicationPage.Resources>
     <!--LayoutRoot ist das Stammraster, in dem alle anderen Seiteninhalte platziert werden-->
     <Grid x:Name="LayoutRoot" Background="White">
@@ -26,13 +27,13 @@
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="*"/>
         </Grid.RowDefinitions>
-        <Image x:Name="headerBackground" Margin="0,0,0,730" Source="{Binding Type.color, Converter={StaticResource ImageMultiplyWithConverter}, ConverterParameter={StaticResource TypeObjectHeaderBackgroundPath}}" Stretch="Fill"/>
+        <Image x:Name="headerBackground" Margin="0,0,0,730" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
 
         <!--ContentPanel - zusätzliche Inhalte hier platzieren-->
         <StackPanel VerticalAlignment="Top" Height="651" Margin="10,0,-10,0">
             <TextBlock Text="TYP BEARBEITEN" Margin="5,8,0,0" FontSize="22"/>
-            <Border Background="White" Width="130" Height="130" CornerRadius="75" Margin="175,15,175,0" BorderThickness="5" BorderBrush="#33000000" Tap="imageButton_Tap">
-                <Image x:Name="imageButton" Margin="-5" Stretch="Fill" Width="130" Height="130"  Source="{Binding Type, Converter={StaticResource TypeImageConverter}}" Tap="imageButton_Tap">
+            <Border Background="White" Width="130" Height="130" CornerRadius="75" Margin="175,15,175,0" BorderThickness="5" BorderBrush="#33000000">
+                <Image x:Name="imageButton" Margin="-5" Stretch="Fill" Width="130" Height="130"  Source="{Binding Type.imageString, Converter={StaticResource StringToImageConverter}}">
                     <Image.Clip>
                         <EllipseGeometry
             				RadiusX="61"
@@ -42,12 +43,10 @@
                     </Image.Clip>
                 </Image>
             </Border>
-                        <Image HorizontalAlignment="Left" Height="49" Margin="263,-130,0,0" VerticalAlignment="Top" Width="49" Source="/icons/edit_picture.png"/>
 
             <TextBox x:Name="tTitle" HorizontalAlignment="Left" Height="73" Margin="5,10,0,0" TextWrapping="Wrap" VerticalAlignment="Top" Width="451" BorderBrush="#FFE8E8E8" BorderThickness="0,0,0,1" Text="{Binding Type.title}" Background="{x:Null}" Foreground="White" FontSize="36" TextAlignment="Center" GotFocus="tTitle_GotFocus" TextChanged="tTitle_TextChanged"/>
-            <TextBlock HorizontalAlignment="Left" Margin="25,30,0,0" TextWrapping="Wrap" Text="Farbe" VerticalAlignment="Top" Width="149" FontSize="25" Foreground="Black"/>
             <Grid HorizontalAlignment="Left" Height="173" Margin="27,10,0,20" VerticalAlignment="Top" Width="414">
-                <ListBox x:Name="colorPicker" SelectionChanged="ColorPicker_SelectionChanged" ItemContainerStyle="{StaticResource ColorPickerStyle}" Loaded="ColorPickerPage_Loaded" toolkit:TiltEffect.IsTiltEnabled="True" BorderBrush="White">
+                <ListBox x:Name="iconPicker" SelectionChanged="IconPicker_SelectionChanged" ItemContainerStyle="{StaticResource IconPickerStyle}" Loaded="IconPickerPage_Loaded" toolkit:TiltEffect.IsTiltEnabled="True" BorderBrush="White">
                     <ListBox.ItemsPanel>
                         <ItemsPanelTemplate>
                             <toolkit:WrapPanel/>
