@@ -8,17 +8,36 @@ using System.Threading.Tasks;
 using WritersToolbox.models;
 namespace WritersToolbox.viewmodels
 {
+    /// <summary>
+    /// Die SearchViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten aus allen suchrelevanten Entities und ihre entsprechenden Eigenschaften bereitstellt.
+    /// </summary>
     class SearchViewModel : INotifyPropertyChanged
     {
         private WritersToolboxDatebase wtb = null;
+        /// <summary>
+        /// Enthält alle Suchtreffer, nachdem eine Suche ausgeführt wurde.
+        /// </summary>
         public ObservableCollection<ISearchable> ResultList { get; set; }
+        /// <summary>
+        /// Anzahl der Suchtreffer.
+        /// </summary>
         public int ResultCount { get; set; }
+
+        /// <summary>
+        /// Erzeugt eine neue Instanz der Präsentationslogik. Diese Klasse muss im Normalfall allerdings nur einmal
+        /// initialisiert werden.
+        /// </summary>
         public SearchViewModel() {
             wtb = WritersToolboxDatebase.getInstance();
             ResultList = new ObservableCollection<ISearchable>();
             ResultCount = 0;
         }
 
+        /// <summary>
+        /// Läd alle Treffer auf die angegebene Abfrage.
+        /// </summary>
+        /// <param name="query">Abfragestring</param>
         public void loadByQuery(String query) {
             ResultList = new ObservableCollection<ISearchable>();
             var sqlNotes = from n in this.wtb.GetTable<MemoryNote>()
