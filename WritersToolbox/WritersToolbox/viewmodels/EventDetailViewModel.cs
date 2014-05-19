@@ -11,6 +11,10 @@ using WritersToolbox.models;
 using WritersToolbox.Resources;
 namespace WritersToolbox.viewmodels
 {
+    /// <summary>
+    /// Die EventDetailViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten von Event und ihre entsprechenden Eigenschaften bereitstellt.
+    /// </summary>
     public class EventDetailViewModel : INotifyPropertyChanged
     {
         private WritersToolboxDatebase wtb = null;
@@ -22,7 +26,15 @@ namespace WritersToolbox.viewmodels
         private Table<MemoryNote> tableMemoryNote;
         private int event_id = -1;
 
+        /// <summary>
+        /// Enthält nach Initialisierung mit LoadData das geladene Event-Objekt.
+        /// </summary>
         public datawrapper.Event Event = null;
+
+        /// <summary>
+        /// Erstellt eine neue Instanz des ViewModels und läd die Daten des Events mit der angegebenen ID.
+        /// </summary>
+        /// <param name="event_id">ID des zu ladenden Events</param>
         public EventDetailViewModel(int event_id) {
             this.wtb = WritersToolboxDatebase.getInstance();
             this.tableEvents = this.wtb.GetTable<Event>();
@@ -37,6 +49,9 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+        /// <summary>
+        /// Läd die Daten des Events aus der Datenbankinstanz von WritersToolboxDatebase.
+        /// </summary>
         public void LoadData() {
             if (this.event_id == -1)
             {
@@ -172,6 +187,10 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("Event");
         }
 
+        /// <summary>
+        /// Aktualisiert den Finaltext des Events und übergibt die Daten an die Datenbank.
+        /// </summary>
+        /// <param name="newText">Neuer Finaltext</param>
         public void updateFinaltext(String newText)
         {
             if (this.Event != null)
@@ -187,6 +206,11 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("Event");
         }
 
+        /// <summary>
+        /// Gibt die Band-ID für das Kapitel mit der angegebenen ID zurück.
+        /// </summary>
+        /// <param name="chapterId">ID des Kapitels</param>
+        /// <returns>ID des zugehörigen Bandes</returns>
         public int getTomeIDForChapter(int chapterId) {
             var chapter = (from c in tableChapter
                           where c.chapterID == chapterId
@@ -194,6 +218,10 @@ namespace WritersToolbox.viewmodels
             return chapter.obj_tome.tomeID;
         }
 
+        /// <summary>
+        /// Aktualisiert den Titel des Events und überträgt die Änderungen in der Datenbank.
+        /// </summary>
+        /// <param name="newTitle">Neuer Titel</param>
         public void updateTitle(String newTitle)
         {
             var ev = (from e in tableEvents
@@ -204,6 +232,11 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("Event");
         }
 
+        /// <summary>
+        /// Fügt das TypeObject mit der angegebenen ID an das Event mit der angegebenen ID an.
+        /// </summary>
+        /// <param name="toID">TypeObject - ID</param>
+        /// <param name="eID">Event - ID</param>
         public void attachTypeObject(int toID, int eID)
         {
             Event ev = (from e in this.tableEvents
@@ -214,6 +247,7 @@ namespace WritersToolbox.viewmodels
                               where to.typeObjectID == toID
                               select to).Single();
 
+            // Prüfen ob bereits eine Zuweisung existiert, wenn ja gib Meldung aus und breche ab.
             Boolean existsAssignment = (from evto in this.wtb.GetTable<models.EventTypeObjects>()
                                         where evto.fk_eventID == ev.eventID && evto.fk_typeObjectID == TypeObject.typeObjectID
                                         select evto).Count() > 0;
@@ -222,6 +256,9 @@ namespace WritersToolbox.viewmodels
                 MessageBox.Show("Dieses Objekt wurde dem Event bereits zugewiesen!", "Fehler bei der zuweisung", MessageBoxButton.OK);
                 return;
             }
+
+            // assert: EventTypeObjects existiert mit der Primärschlüsselkombination noch nicht in der DB
+            // Erstellen einer neuen N:M Beziehung
             EventTypeObjects eto = new EventTypeObjects() { fk_eventID = ev.eventID, fk_typeObjectID = TypeObject.typeObjectID };
             ev.typeObjects.Add(eto);
 
@@ -232,6 +269,10 @@ namespace WritersToolbox.viewmodels
 
         }
 
+        /// <summary>
+        /// Entfernt das TypeObject von dem aktuellen Event.
+        /// </summary>
+        /// <param name="toID">ID des TypeObjects</param>
         public void unassignTypeObject(int toID)
         {
             try
@@ -255,6 +296,10 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+        /// <summary>
+        /// Entfernt die Beziehung einer Notiz anhand der ID von dem aktuellen Event.
+        /// </summary>
+        /// <param name="nID">MemoryNote - ID</param>
         public void unassignNote(int nID)
         {
             var note = (from n in tableMemoryNote
@@ -266,6 +311,10 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+        /// <summary>
+        /// Löscht die Notiz mit der angegebenen ID [nicht entgültig].
+        /// </summary>
+        /// <param name="nID">ID der Notiz</param>
         public void deleteNote(int nID)
         {
             var note = (from n in tableMemoryNote
@@ -278,6 +327,9 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+        /// <summary>
+        /// Entfernt den Eintrag, um ein neues TypeObject hinzuzufügen.
+        /// </summary>
         public void removeAddTypeObject()
         {
             if (this.Event.typeObjects.ElementAt(this.Event.typeObjects.Count - 1).typeObjectID == -1) { 
@@ -287,6 +339,9 @@ namespace WritersToolbox.viewmodels
 
         }
 
+        /// <summary>
+        /// Fügt den Eintrag, um ein neues TypeObject hinzuzufügen, hinzu
+        /// </summary>
         public void addAddTypeObject()
         {
             this.Event.typeObjects.Add(
@@ -299,6 +354,11 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("Event");
         }
 
+        /// <summary>
+        /// Erstellt ein neues Event im angegebenen Kapitel mit dem angegebenen Titel.
+        /// </summary>
+        /// <param name="title">Titel des Events</param>
+        /// <param name="chapterID">Kapitel, in dem das Event abgelegt werden soll</param>
         public void newEvent(string title, int chapterID)
         {
             models.Chapter c = (from chapter in tableChapter
