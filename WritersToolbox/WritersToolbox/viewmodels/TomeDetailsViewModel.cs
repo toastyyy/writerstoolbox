@@ -653,7 +653,10 @@ namespace WritersToolbox.viewmodels
                 if (chapterToChange != null) { 
                     // ein nachfolgekapitel wurde gefunden, verschiebe ereignis an den beginn des nächsten kapitels
                     int firstID = (chapterToChange.events.Count() > 0) ? chapterToChange.events.First().orderInChapter : 1;
-                    foreach (var t in chapterToChange.events) {
+                    var moveEvents = from e in this.tableEvent
+                                     where e.fk_chapterID == chapterToChange.chapterID
+                                     select e;
+                    foreach (var t in moveEvents) {
                         t.orderInChapter++;
                     }
                     this.wtb.SubmitChanges();
@@ -740,11 +743,12 @@ namespace WritersToolbox.viewmodels
                 if (chapterToChange != null)
                 {
                     // ein nachfolgekapitel wurde gefunden, verschiebe ereignis an das ende des vorherigen kapitels
-                    int lastID = (chapterToChange.events.Count() > 0) ? chapterToChange.events.First().orderInChapter : 1;
-                    foreach (var t in chapterToChange.events)
-                    {
-                        t.orderInChapter++;
-                    }
+                    var moveEvents = from e in this.tableEvent
+                                     where e.fk_chapterID == chapterToChange.chapterID
+                                     orderby e.orderInChapter
+                                     select e;
+                    int lastID = (moveEvents.Count() > 0) ? moveEvents.ToArray().Last().orderInChapter + 1 : 1;
+
                     Event curEvent = (from e in tableEvent
                                       where e.eventID == ev.eventID
                                       select e).Single();
