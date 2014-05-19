@@ -159,6 +159,7 @@ namespace WritersToolbox.viewmodels
                         location = mn.location,
                         tags = mn.tags,
                         title = mn.title,
+                        fk_eventID = sqlEvent.eventID,
                         updatedDate = mn.updatedDate,
                         memoryNoteID = mn.memoryNoteID
                     });

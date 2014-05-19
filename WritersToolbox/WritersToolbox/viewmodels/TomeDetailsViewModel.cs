@@ -406,15 +406,7 @@ namespace WritersToolbox.viewmodels
             try
             {
                 ObservableCollection<datawrapper.Event> _events = new ObservableCollection<datawrapper.Event>();
-                //"neues Ereignis" einfügen
-                datawrapper.Event _e = new datawrapper.Event()
-                {
-                    title = AppResources.TomeDetailsEvent + " " + AppResources.TomeDetailsAddOne,
-                    chapter = _c,
-                    eventID = 0
-
-                };
-                _events.Add(_e);
+                
 
                 obj_chapter = new models.Chapter()
                 {
@@ -428,6 +420,17 @@ namespace WritersToolbox.viewmodels
                 };
                 wtb.GetTable<models.Chapter>().InsertOnSubmit(obj_chapter);
                 wtb.SubmitChanges();    //Datenbank aktualisieren.
+
+                //"neues Ereignis" einfügen
+                datawrapper.Event _e = new datawrapper.Event()
+                {
+                    title = AppResources.TomeDetailsEvent + " " + AppResources.TomeDetailsAddOne,
+                    chapter = new datawrapper.Chapter() { chapterID = obj_chapter.chapterID },
+                    eventID = 0
+                };
+
+                _events.Add(_e);
+
                 _c.events = _events;
                 
 
@@ -653,6 +656,7 @@ namespace WritersToolbox.viewmodels
                     foreach (var t in chapterToChange.events) {
                         t.orderInChapter++;
                     }
+                    this.wtb.SubmitChanges();
                     Event curEvent = (from e in tableEvent
                                      where e.eventID == ev.eventID
                                      select e).Single();
