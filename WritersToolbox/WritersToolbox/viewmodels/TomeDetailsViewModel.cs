@@ -410,6 +410,7 @@ namespace WritersToolbox.viewmodels
                 datawrapper.Event _e = new datawrapper.Event()
                 {
                     title = AppResources.TomeDetailsEvent + " " + AppResources.TomeDetailsAddOne,
+                    chapter = _c,
                     eventID = 0
 
                 };

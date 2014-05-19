@@ -1056,7 +1056,28 @@ namespace WritersToolbox.Resources {
                 return ResourceManager.GetString("NewTypeObject", resourceCulture);
             }
         }
-        
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ereignis hinzufügen ähnelt.
+        /// </summary>
+        public static string EreignisHinzufuegen
+        {
+            get
+            {
+                return ResourceManager.GetString("EreignisHinzufuegen", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Neues Kapitel ähnelt.
+        /// </summary>
+        public static string NeuesKapitel
+        {
+            get
+            {
+                return ResourceManager.GetString("NeuesKapitel", resourceCulture);
+            }
+        }
+
         /// <summary>
         ///   Sucht eine lokalisierte Zeichenfolge, die Titel ähnelt.
         /// </summary>
