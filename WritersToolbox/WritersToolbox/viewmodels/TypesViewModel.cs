@@ -17,15 +17,16 @@ using WritersToolbox.Resources;
 using System.IO.IsolatedStorage;
 namespace WritersToolbox.viewmodels
 {
+    /// <summary>
+    /// Viewmodel für Types.xaml.
+    /// Stellt die Typen mit ihren jeweiligen Typobjekten im View bereit.
+    /// </summary>
     public class TypesViewModel : INotifyPropertyChanged
     {
-        private WritersToolboxDatebase db;
-        private Table<models.Type> tableType;
-        private Table<TypeObject> tableTypeObject;
-        /// <summary>
-        /// Alle vorhandenen Typen
-        /// </summary>
-        private ObservableCollection<datawrapper.Type> types;
+        private WritersToolboxDatebase db; // Datenbankinstanz
+        private Table<models.Type> tableType; // Tabelle für die Typen
+        private Table<TypeObject> tableTypeObject; // Tabelle für die Typobjekte
+        private ObservableCollection<datawrapper.Type> types; // Liste der Typen für den View
 
         /// <summary>
         /// Property für alle vorhandenen Typen.
@@ -40,13 +41,23 @@ namespace WritersToolbox.viewmodels
                 NotifyPropertyChanged("Types");
             }
         }
+
+        /// <summary>
+        /// Neue Instanz des Viewmodels erzeugen.
+        /// </summary>
         public TypesViewModel()
         {
+            // Datenbank und Tabellen laden
             this.db = WritersToolboxDatebase.getInstance();
             this.tableType = this.db.GetTable<models.Type>();
             this.tableTypeObject = this.db.GetTable<TypeObject>();
         }
 
+        /// <summary>
+        /// Entfernt den Eintrag zum hinzufügen eines Typobjektes zum angegebenen
+        /// Typen.
+        /// </summary>
+        /// <param name="t">Typ, bei dem der Eintrag entfernt werden soll</param>
         public void removeAddTypeObject(datawrapper.Type t) {
             int i = Types.IndexOf(t);
                 for (int j = 0; j < Types.ElementAt(i).typeObjects.Count; j++) {
@@ -58,6 +69,10 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("Types");
         }
 
+        /// <summary>
+        /// Fügt den Eintrag zum Hinzufügen eines Typobjektes zum angegebenen Typ hinzu.
+        /// </summary>
+        /// <param name="t">Typ, bei dem der Eintrag hinzugefügt werden soll.</param>
         public void addAddTypeObject(datawrapper.Type t)
         {
             int i = Types.IndexOf(t);
@@ -102,11 +117,22 @@ namespace WritersToolbox.viewmodels
             return result.ToArray();
         }
 
-        public bool isExistNoteInEvent(int typeObjectID, string title)
+        /// <summary>
+        /// Prüft, ob eine Notiz mit dem angegebenen Titel bereits dem angegebenen Typobjekt hinzugefügt wurde.
+        /// </summary>
+        /// <param name="typeObjectID">ID des Typobjektes</param>
+        /// <param name="title">Titel der Notiz</param>
+        /// <returns></returns>
+        public bool isExistNoteInTypeobject(int typeObjectID, string title)
         {
             return db.GetTable<models.MemoryNote>().Count(_m => _m.obj_TypeObject.typeObjectID == typeObjectID && _m.title == title) == 1;
         }
 
+        /// <summary>
+        /// Entfernt die Notiz mit dem angegebenen Titel von dem Typobjekt
+        /// </summary>
+        /// <param name="typeObjectID">ID des Typobjektes</param>
+        /// <param name="title">Titel der Notiz</param>
         public void removeNote(int typeObjectID, string title)
         {
             models.MemoryNote tempNote = db.GetTable<models.MemoryNote>().Where(_n => _n.obj_TypeObject.typeObjectID == typeObjectID && _n.title == title).First();
@@ -131,131 +157,11 @@ namespace WritersToolbox.viewmodels
         }
 
         /// <summary>
-        /// Gibt die Farbe eines Typs zurück.
-        /// </summary>
-        /// <param name="typeID">ID des vorgegebenen Typs</param>
-        /// <returns>Farbe (System.Windows.Media.Color)</returns>
-        public Color getColorForType(int typeID)
-        {
-            var result = from t in tableType
-                         where t.typeID == typeID
-                         select t.color;
-
-            return fromHexToColor(result.FirstOrDefault());
-        }
-
-        /// <summary>
-        /// Gibt den Titel eines Typs zurück.
-        /// </summary>
-        /// <param name="typeID">ID des vorgegebenen Typs</param>
-        /// <returns>Titel als String (z.B. "Charakter")</returns>
-        public string getTitleForType(int typeID)
-        {
-            var result = from t in tableType
-                         where t.typeID == typeID
-                         select t.title;
-
-
-
-            return result.First();
-        }
-
-        /// <summary>
-        /// Gibt das Bild eines Typs zurück.
-        /// </summary>
-        /// <param name="typeID">ID des vorgegebenen Typs</param>
-        /// <returns>Bild (System.Windows.Controls.Image) oder null wenn kein Bild vorhanden</returns>
-        public Image getImageForType(int typeID)
-        {
-            String imagePath = (from t in tableType
-                                where t.typeID == typeID
-                                select t.imageString).FirstOrDefault();
-
-            if (imagePath.Equals(""))
-            {
-                return null;
-            }
-            else
-            {
-                BitmapImage bi = new BitmapImage(new Uri(imagePath));
-                Image img = new Image();
-                img.Source = bi;
-                return img;
-            }
-
-        }
-
-        /// <summary>
-        /// Gibt den Namen eines Typ-Objektes zurück.
-        /// </summary>
-        /// <param name="typeObjectID">ID des vorgegebenen Typ-Objektes</param>
-        /// <returns>Name als String (z.B. "Harry Potter")</returns>
-        public String getNameForTypeObject(int typeObjectID)
-        {
-            return (from to in tableTypeObject
-                    where to.typeObjectID == typeObjectID
-                    select to.name).FirstOrDefault();
-        }
-
-        public Color getColorForTypeObject(int typeObjectID)
-        {
-            var result = from to in tableTypeObject
-                         where to.typeObjectID== typeObjectID
-                         select to.color;
-
-            return fromHexToColor(result.FirstOrDefault());
-        }
-
-        /// <summary>
-        /// Gibt die Datenbank-IDs aller zum Typ-Objekt gehörenden Notizen zurück.
-        /// </summary>
-        /// <param name="typeObjectID">ID des vorgegebenen Typ-Objektes</param>
-        /// <returns>int-Array mit den IDs der Notizen</returns>
-        public int[] getNoteIDsForTypeObject(int typeObjectID)
-        {
-            var result = (from to in tableTypeObject
-                          where to.typeObjectID == typeObjectID
-                          select to.notes).FirstOrDefault();
-
-            int[] retVar = new int[result.Count()];
-            int index = 0;
-            foreach (var row in result)
-            {
-                retVar[index] = ((MemoryNote)row).memoryNoteID;
-                index++;
-            }
-
-            return retVar;
-        }
-
-        /// <summary>
-        /// Gibt das dem Typ-Objekt zugeordnete Bild zurück.
-        /// </summary>
-        /// <param name="typeObjectID">ID des vorgegebenen Typ-Objektes</param>
-        /// <returns>ld (System.Windows.Controls.Image) oder null wenn kein Bild vorhanden</returns>
-        public String getImagePathForTypeObject(int typeObjectID)
-        {
-            String imagePath = (from to in tableTypeObject
-                                where to.typeObjectID == typeObjectID
-                                select to.imageString).FirstOrDefault();
-
-            if (imagePath.Equals(""))
-            {
-                return null;
-            }
-            else
-            {
-                
-                return imagePath;
-            }
-        }
-
-        /// <summary>
         /// Erstellt einen neuen Typ aus den vorgegebenen Werten.
         /// Ist ein Wert ungültig wird eine ArgumentException geworfen.
         /// </summary>
         /// <param name="title">Titel des Typs</param>
-        /// <param name="color">Farbe des Typs (z.B. "00ff00")</param>
+        /// <param name="color">Farbe des Typs (z.B. "00ff00") [aktuell nicht verwendet]</param>
         /// <param name="image">Pfad zum Bildspeicherort</param>
         public void createType(String title, String color, String image)
         {
@@ -276,6 +182,13 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+        /// <summary>
+        /// Aktualisiert den Typ mit der angegebenen ID mit den angegebenen Werten.
+        /// </summary>
+        /// <param name="typeID">ID des Typs</param>
+        /// <param name="title">Neuer Titel für den Typ</param>
+        /// <param name="color">Neue Farbe des Typs</param>
+        /// <param name="imageString">Neuer Bildpfad für den Typ</param>
         public void updateType(int typeID, String title, String color, String imageString) {            
             try
             {
@@ -291,6 +204,7 @@ namespace WritersToolbox.viewmodels
             catch (Exception e) { 
             }
         }
+
         /// <summary>
         /// Erstellt ein neues Typ-Objekt aus den angegebenen Werten.
         /// Wenn ein Wert ungültig ist, wird eine ArgumentException geworfen.
@@ -334,7 +248,10 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
-
+        /// <summary>
+        /// Löscht den angegebenen Typ.
+        /// </summary>
+        /// <param name="typeID">ID des Typs</param>
         public void deleteType(int typeID)
         {
             var type = (from t in tableType
@@ -345,6 +262,11 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+        /// <summary>
+        /// Löscht das angegebene Typobjekt zusammen mit allen angehangenen Notizen.
+        /// Löschvorgang nicht entgültig. Es wird nur ein Deleted-Flag gesetzt.
+        /// </summary>
+        /// <param name="typeObjectID">ID des Typobjekts</param>
         public void deleteTypeObject(int typeObjectID)
         {
             var typeObject = (from to in tableTypeObject
@@ -355,6 +277,11 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+        /// <summary>
+        /// Löscht das angegebene Typobjekt, aber entfernt vorher die Beziehung mit Notizen.
+        /// Löschvorgang nicht entgültig. Es wird nur ein Deleted-Flag gesetzt.
+        /// </summary>
+        /// <param name="typeObjectID">ID des Typobjektes</param>
         public void deleteTypeObjectSoft(int typeObjectID)
         {
             var typeObject = (from to in tableTypeObject
@@ -378,7 +305,10 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
-
+        /// <summary>
+        /// Gibt die Anzahl der geladenen Typen zurück. Erwartet, dass LoadData vorher ausgeführt wurde.
+        /// </summary>
+        /// <returns>Anzahl der Typen</returns>
         public int getTypeCount()
         {
             return Types.Count;
@@ -396,17 +326,18 @@ namespace WritersToolbox.viewmodels
             return Color.FromArgb(255, colorR, colorG, colorB);
         }
 
+        /// <summary>
+        /// Prüft, ob die Methode LoadData bereits ausgeführt wurde.
+        /// </summary>
         public bool IsDataLoaded { get; set; }
 
-        public void updateType(int typeID, String title, String color) { 
-            var type = (from t in tableType
-                         where t.typeID == typeID
-                         select t).Single();
-            type.title = title;
-            type.color = color;
-            this.db.SubmitChanges();
-        }
-
+        /// <summary>
+        /// Aktualisiert das angegebene Typobjekt mit den angegebenen Werten.
+        /// </summary>
+        /// <param name="typeObjectID">ID des TypObjektes</param>
+        /// <param name="name">Neuer Name für das Typobjekt</param>
+        /// <param name="color">Neue Farbe für das Typobjekt</param>
+        /// <param name="imageString">Neue Bildpfad für das Typobjekt</param>
         public void updateTypeObject(int typeObjectID, String name, String color, String imageString) {
             var t = (from to in tableTypeObject
                     where to.typeObjectID == typeObjectID
@@ -416,12 +347,16 @@ namespace WritersToolbox.viewmodels
             if (imageString == null)
             {
                 //default Image
-                imageString = "../icons/TypeObjects/character.png";
+                imageString = "icons/TypeObjects/character.png";
             }
             t.imageString = imageString;
            
             this.db.SubmitChanges();
         }
+
+        /// <summary>
+        /// Läd alle benötigten Daten aus der Datenbank. Muss vor dem Databinding ausgeführt werden!
+        /// </summary>
         public void LoadData()
         {
             this.db.Refresh(RefreshMode.KeepChanges);
