@@ -50,6 +50,7 @@
                                         <SolidColorBrush Color="#33636161"/>
                                     </TextBox.BorderBrush>
                                 </TextBox>
+                                
                                 <Image x:Name="micro1" Height="40" Width="46" Canvas.Left="377" Source="/icons/micro.png" Canvas.Top="16" Tap="micro1_Tap"/>
                             </Canvas>
                             <TextBox x:Name="detailsTextBox" Height="270" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.AddNoteDetailsText, Source={StaticResource LocalizedStrings}}" Width="432" Canvas.Top="58" Margin="0,0,0,40" TextChanged="TextBox_TextChanged" AcceptsReturn="True" GotFocus="detailsTextBox_GotFocus" LostFocus="detailsTextBox_LostFocus" Foreground="Black" FontFamily="Segoe UI Light" FontSize="30"  SelectionForeground="White" SelectionBackground="#643C3C3C" BorderThickness="0" />
@@ -100,6 +101,18 @@
                                             <ColumnDefinition Width="115" />
                                             <ColumnDefinition Width="*" />
                                         </Grid.ColumnDefinitions>
+                                    <!--<Border Grid.Column="0" Background="White" Width="76" Height="76" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
+                                        <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="/icons/play_reordButton.png">
+                                            <Image.Clip>
+                                                <EllipseGeometry
+                                                    RadiusX="33"
+                                                    RadiusY="33"
+                                                    Center="33,33"
+                                                    >
+                                                </EllipseGeometry>
+                                            </Image.Clip>
+                                        </Image>
+                                    </Border>-->
                                     <Image Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="/icons/play_reordButton.png" Margin="20,0,0,0"/>
                                         <Grid Grid.Column="1" Margin="10,0,-10,0">
                                             <Grid.RowDefinitions>
@@ -152,7 +165,7 @@
                     <!--Steuerelemente-->
                     <Coding4Fun:RoundButton  x:Name="deleteButton" Content="" HorizontalAlignment="Left" Margin="320,16,0,0" VerticalAlignment="Top" Height="53" Width="72" BorderThickness="1" Click="deleteButton_Click" BorderBrush="#FF353535" Visibility="Collapsed">
                         <Coding4Fun:RoundButton.Background>
-                            <ImageBrush Stretch="Fill" ImageSource="/icons/delete.png"/>
+                            <ImageBrush Stretch="Fill" ImageSource="/icons/delete2.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
                     <Coding4Fun:RoundButton x:Name="addButton" Content="" HorizontalAlignment="Right" Margin="0,16,18,0" Height="54" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="addButton_Click" BorderBrush="#FF353535">

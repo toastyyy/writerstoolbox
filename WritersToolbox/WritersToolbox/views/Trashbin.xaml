@@ -45,7 +45,19 @@
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Werke_round_Icon.png"/>
+                <Border Grid.Column="0" Background="White" Width="76" Height="76" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
+                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="../icons/Pro_Werke_round_Icon.png">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                                    RadiusX="33"
+                                                    RadiusY="33"
+                                                    Center="33,33"
+                                                    >
+                            </EllipseGeometry>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <!--<Image Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Werke_round_Icon.png"/>-->
                 <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="29" />
@@ -62,7 +74,19 @@
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Books_round_Icon.png"/>
+                <Border Grid.Column="0" Background="White" Width="76" Height="76" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
+                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="../icons/Pro_Books_round_Icon.png">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                                    RadiusX="33"
+                                                    RadiusY="33"
+                                                    Center="33,33"
+                                                    >
+                            </EllipseGeometry>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <!--<Image Grid.Column="0" HorizontalAlignment="Left" VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Books_round_Icon.png"/>-->
                 <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="29" />
@@ -80,7 +104,19 @@
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/character_round_icon.png"/>
+                <Border Grid.Column="0" Background="White" Width="76" Height="76" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
+                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="../icons/character_round_icon.png">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                                    RadiusX="33"
+                                                    RadiusY="33"
+                                                    Center="33,33"
+                                                    >
+                            </EllipseGeometry>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <!--<Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/character_round_icon.png"/>-->
                 <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="29" />
@@ -97,7 +133,19 @@
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Typen_round_Icon.png"/>
+                <Border Grid.Column="0" Background="White" Width="76" Height="76" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
+                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="../icons/Pro_Typen_round_Icon.png">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                                    RadiusX="33"
+                                                    RadiusY="33"
+                                                    Center="33,33"
+                                                    >
+                            </EllipseGeometry>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <!--<Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Typen_round_Icon.png"/>-->
                 <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="29" />
@@ -114,7 +162,19 @@
                     <ColumnDefinition Width="115" />
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
-                <Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Typen_round_Icon.png"/>
+                <Border Grid.Column="0" Background="White" Width="76" Height="76" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
+                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="../icons/Pro_Typen_round_Icon.png">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                                    RadiusX="33"
+                                                    RadiusY="33"
+                                                    Center="33,33"
+                                                    >
+                            </EllipseGeometry>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <!--<Image Grid.Column="0" HorizontalAlignment="Left"  VerticalAlignment="Center" Height="77" Width="77" Source="/icons/Pro_Typen_round_Icon.png"/>-->
                 <Grid Grid.Column="1" Margin="10,0,0,0" HorizontalAlignment="Left">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="29" />

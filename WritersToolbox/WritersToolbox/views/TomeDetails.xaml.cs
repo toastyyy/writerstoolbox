@@ -721,7 +721,7 @@ namespace WritersToolbox.views
                         newChapterTextbox.Focus();
                     }
 
-
+                    blindUpDownButton();
                     newChapterRectangle.Visibility = Visibility.Visible;
                     newChapterTextTitle.Visibility = Visibility.Visible;
 
@@ -762,6 +762,8 @@ namespace WritersToolbox.views
                 information.Tap -= information_Tap;
                 typeObject.Tap -= typeObject_Tap;
                 b.SelectAll();
+                blindUpDownButton();
+                newChapterOrEventMode = true;
             }
                 }
 
@@ -770,12 +772,13 @@ namespace WritersToolbox.views
             MessageBoxResult result = MessageBoxResult.Cancel;
 
             //Debug.WriteLine("lostfocus");
-            if (doubleTap_e && !newChapterOrEventMode)
+            if (doubleTap_e)
             {
                 bool isExist = tome_VM.isEventNameDuplicate(b.Text);
                 String tomeBooktitel = tome_VM.tome.obj_book.Title;
                 //String chapterTitle = this.chapter.title;
                 
+
 
 /////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                 
@@ -790,6 +793,8 @@ namespace WritersToolbox.views
                     information.Tap += information_Tap;
                     typeObject.Tap += typeObject_Tap;
                     addDefaultApplicationBar();
+                    newChapterOrEventMode = false;
+                    showUpDownButton();
                 }
                 else if (isExist && !wasfocuslost)
                 {
@@ -814,7 +819,7 @@ namespace WritersToolbox.views
                     b.IsReadOnly = true;
                     doubleTap_e = false;
                     singleTap_e = true;
-
+                    showUpDownButton();
                     addDefaultApplicationBar();
                     structure.Tap += structure_Tap;
                     information.Tap += information_Tap;
@@ -860,6 +865,8 @@ namespace WritersToolbox.views
                 information.Tap -= information_Tap;
                 typeObject.Tap -= typeObject_Tap;
                 b.SelectAll();
+                newChapterOrEventMode = true;
+                blindUpDownButton();
             }
 
 
@@ -877,7 +884,7 @@ namespace WritersToolbox.views
             MessageBoxResult result = MessageBoxResult.Cancel;
 
             Debug.WriteLine("lostfocus");
-            if (doubleTap && !newChapterOrEventMode)
+            if (doubleTap)
             {
                 bool isExist = tome_VM.isChapterNameDuplicate(b.Text);
 
@@ -893,6 +900,8 @@ namespace WritersToolbox.views
                     information.Tap += information_Tap;
                     typeObject.Tap += typeObject_Tap;
                     addDefaultApplicationBar();
+                    showUpDownButton();
+                    newChapterOrEventMode = false;
                 }
                 else if (isExist && !wasfocuslost)
                 {
@@ -918,7 +927,8 @@ namespace WritersToolbox.views
                     doubleTap = false;
                     singleTap = true;
                     addDefaultApplicationBar();
-
+                    showUpDownButton();
+                    newChapterOrEventMode = false;
                     structure.Tap += structure_Tap;
                     information.Tap += information_Tap;
                     typeObject.Tap += typeObject_Tap;
@@ -1288,6 +1298,7 @@ namespace WritersToolbox.views
             }
             else
             {
+                showUpDownButton();
                 if(isChapterControlOpened)
                 removeAddChapterApplicationBarButton();
                 if (!isDefaultAppBarVisible)

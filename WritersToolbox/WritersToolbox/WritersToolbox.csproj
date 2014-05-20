@@ -382,6 +382,8 @@
     <Content Include="cancel_black.png" />
     <Content Include="icons\add.png" />
     <Content Include="icons\cancel_black.png" />
+    <Content Include="icons\delete2.png" />
+    <Content Include="icons\delete_2.png" />
     <Content Include="icons\dropbox-logo.png" />
     <Content Include="icons\finden.png" />
     <Content Include="icons\character_round_icon.png">
