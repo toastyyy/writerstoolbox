@@ -18,11 +18,17 @@ using System.Windows;
 
 namespace WritersToolbox.viewmodels
 {
-
+    /// <summary>
+    /// Die BooksViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten von Book und ihre entsprechende Eigenschaften bereitstellt.
+    /// </summary>
     public class BooksViewModel: INotifyPropertyChanged
     {
         private ObservableCollection<datawrapper.Book> books;
 
+        /// <summary>
+        /// Enthält alle Werke, nachdem die Methode LoadData ausgeführt wurde.
+        /// </summary>
         public ObservableCollection<datawrapper.Book> Books
         {
             get { return books; }
@@ -34,6 +40,9 @@ namespace WritersToolbox.viewmodels
         }
         private ObservableCollection<datawrapper.BookType> booktypes;
 
+        /// <summary>
+        /// Enthält alle Buchtypen, nachdem die Methode LoadBookTypes ausgeführt wurde.
+        /// </summary>
         public ObservableCollection<datawrapper.BookType> BookTypes
         {
             get { return booktypes; }
@@ -52,6 +61,9 @@ namespace WritersToolbox.viewmodels
         private Table<Event> tableEvents = null;
         private Book obj_book;
 
+        /// <summary>
+        /// Erzeugt eine neue Instanz des Viewmodels und läd die Datenbanktabellen.
+        /// </summary>
         public BooksViewModel() {
             dataLoaded = false;
             wtb = WritersToolboxDatebase.getInstance();
@@ -63,16 +75,29 @@ namespace WritersToolbox.viewmodels
             
         }
 
+        /// <summary>
+        /// Prüft, ob die Methode LoadData bereits ausgeführt wurde.
+        /// </summary>
+        /// <returns>True, wenn LoadData ausgeführt wurde</returns>
         public Boolean isDataLoaded() 
         {
             return dataLoaded;
         }
 
+        /// <summary>
+        /// Gibt die Anzahl der Werke zurück.
+        /// </summary>
+        /// <returns>Anzahl der Werke</returns>
         public int getBookCount()
         {
             return this.Books.Count;
         }
 
+        /// <summary>
+        /// Fügt ein neues Werk mit den angegebenen Daten in die Datenbank ein.
+        /// </summary>
+        /// <param name="name">Name des neuen Werkes</param>
+        /// <param name="bookType">Buchtyp des Werkes</param>
         public void addBook(String name, datawrapper.BookType bookType) {
             if (name.Trim().Equals("")) {
                 throw new ArgumentException("Das Werk muss einen Titel haben.");
@@ -177,6 +202,12 @@ namespace WritersToolbox.viewmodels
             this.loadData();
         }
 
+        /// <summary>
+        /// Aktualisiert das Werk mit der übergebenen ID mit den angegebenen Werten.
+        /// </summary>
+        /// <param name="bookID">ID des Werkes</param>
+        /// <param name="name">Neuer Name des Werkes</param>
+        /// <param name="bookTypeID">Neuer Buchtyp des Werkes</param>
         public void updateBook(int bookID, String name, int bookTypeID) {
             Book book = (from b in tableBook where b.bookID == bookID select b).Single();
             book.name = name;
@@ -187,12 +218,20 @@ namespace WritersToolbox.viewmodels
             this.loadData();
         }
 
+        /// <summary>
+        /// Gibt das Werk mit der angegebenen ID zurück.
+        /// </summary>
+        /// <param name="bookID">ID des Werkes</param>
+        /// <returns>Werk Entity</returns>
         public Book getBookByID(int bookID)
         {
             Book book = (from b in tableBook where b.bookID == bookID select b).Single();
             return book;
         }
 
+        /// <summary>
+        /// Läd die Buchtypen aus der Datenbank.
+        /// </summary>
         public void loadBookTypes()
         {
             // buchtypen laden
@@ -328,7 +367,10 @@ namespace WritersToolbox.viewmodels
             
         }
 
-
+        /// <summary>
+        /// Läd alle Werke mit den zugehörigen Bänden aus der Datenbank und stellt diese
+        /// über Properties bereit.
+        /// </summary>
         public void loadData() 
         {
             
@@ -408,6 +450,12 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("Books");
         }
 
+        /// <summary>
+        /// Löscht das angegebene Werk.
+        /// Löschen ist noch nicht entgültig.
+        /// </summary>
+        /// <param name="item">Werk, das gelöscht werden soll</param>
+        /// <param name="keepTomes">Gibt an, ob die Bände innerhalb des Werkes mitgelöscht werden sollen oder nicht [derzeit nicht genutzt]</param>
         public void deleteBook( datawrapper.Book item, bool keepTomes)
         {
             if (keepTomes)
@@ -425,6 +473,10 @@ namespace WritersToolbox.viewmodels
                 
         }
 
+        /// <summary>
+        /// Entfernt den Eintrag zum hinzufügen eines neuen Bandes im angegebenen Werk.
+        /// </summary>
+        /// <param name="b">Werk</param>
         public void removeAddTome(datawrapper.Book b)
         {
             int i = Books.IndexOf(b);
@@ -439,6 +491,10 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("Tomes");
         }
 
+        /// <summary>
+        /// Fügt den Eintrag zum Hinzufügen eines neuen Bandes im angegebenen Werk hinzu.
+        /// </summary>
+        /// <param name="b">Werk</param>
         public void addAddTome(datawrapper.Book b)
         {
             int i = Books.IndexOf(b);
@@ -472,7 +528,11 @@ namespace WritersToolbox.viewmodels
         }
 
 
-
+        /// <summary>
+        /// Löscht den Band mit der angegebenen ID.
+        /// Löschen ist noch nicht entgültig.
+        /// </summary>
+        /// <param name="p">ID des Bandes</param>
         internal void deleteTome(int p)
         {
             var sqlTome = (from t in tableTome
