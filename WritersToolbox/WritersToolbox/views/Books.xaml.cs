@@ -348,12 +348,18 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void SaveBook(object sender, EventArgs e)
         {
-            Books_VM.addBook(bookname.Text, BT);
-            PivotMain.SelectedIndex = PivotMain.Items.Count - 2; 
-            //Workaround, damit der Content des Pivot aktualisiert wird.
-            PivotMain.SelectedIndex++;
-            PivotMain.SelectedIndex--;
-            bookname.Text = "";
+            try {
+                Books_VM.addBook(bookname.Text, BT);
+                PivotMain.SelectedIndex = PivotMain.Items.Count - 2; 
+                //Workaround, damit der Content des Pivot aktualisiert wird.
+                PivotMain.SelectedIndex++;
+                PivotMain.SelectedIndex--;
+                bookname.Text = "";
+            }
+            catch (ArgumentException ae) {
+                MessageBox.Show(ae.Message, "Fehler", MessageBoxButton.OK);
+            }
+            
         }
 
 
@@ -364,7 +370,8 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void CancelBook(object sender, EventArgs e)
         {
-            NavigationService.GoBack();
+            this.PivotMain.SelectedIndex = 0;
+            bookname.Text = "";
         }
 
         /// <summary>
