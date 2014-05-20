@@ -422,6 +422,7 @@
     <Content Include="icons\katze.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\kreatur.png" />
     <Content Include="icons\micro.png" />
     <Content Include="icons\move-down.png" />
     <Content Include="icons\move-up.png" />
@@ -461,6 +462,7 @@
     <Content Include="icons\record.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\schauplatz.png" />
     <Content Include="icons\speaker_reordButton.png" />
     <Content Include="charakter.png" />
     <Content Include="icons\sport.png">
