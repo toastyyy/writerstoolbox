@@ -18,6 +18,7 @@
 
     <phone:PhoneApplicationPage.Resources>
         <converter:NoteShortContentConverter x:Key="NoteShortContentConverter" />
+        <converter:StringToImageConverter x:Key="StringToImageConverter" />
             <DataTemplate x:Key="trashbinNoteTemplate">
                 <Grid Width="Auto" Height="Auto" Margin="20,20,0,20" Tap="Grid_Tap" Hold="Grid_Hold">
                     <Grid.ColumnDefinitions>
@@ -105,7 +106,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Background="White" Width="76" Height="76" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
-                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="../icons/character_round_icon.png">
+                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="{Binding ., Converter={StaticResource TypeObjectImageConverter}}">
                         <Image.Clip>
                             <EllipseGeometry
                                                     RadiusX="33"
@@ -134,7 +135,7 @@
                     <ColumnDefinition Width="*" />
                 </Grid.ColumnDefinitions>
                 <Border Grid.Column="0" Background="White" Width="76" Height="76" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
-                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="../icons/Pro_Typen_round_Icon.png">
+                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="{Binding imageString, Converter={StaticResource StringToImageConverter}}">
                         <Image.Clip>
                             <EllipseGeometry
                                                     RadiusX="33"
