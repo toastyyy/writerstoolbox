@@ -14,6 +14,7 @@ using System.Diagnostics;
 using Microsoft.Phone.Controls;
 using WritersToolbox.Resources;
 using Microsoft.Phone.Shell;
+using System.Windows;
 
 namespace WritersToolbox.viewmodels
 {
@@ -73,6 +74,14 @@ namespace WritersToolbox.viewmodels
         }
 
         public void addBook(String name, datawrapper.BookType bookType) {
+            Boolean existsBookWithName = (from bo in tableBook
+                                          where bo.name.Equals(name)
+                                          select bo).Count() > 0;
+
+            if (existsBookWithName) {
+                throw new ArgumentException("Ein Buch mit dem angegebenen Titel existiert bereits.");
+            } 
+
             Book b = new Book();
             b.name = name;
             b.addedDate = DateTime.Now;
@@ -219,13 +228,21 @@ namespace WritersToolbox.viewmodels
 
             if (title.Equals(""))
             {
-                throw new ArgumentException("Title muss angegeben werden", "title");
+                throw new ArgumentException("Ein Titel muss angegeben werden", "title");
             }
             if (book == null)
             {
-                throw new ArgumentException("Tome muss einem Book angehören", "book");
+                throw new ArgumentException("Ein Band muss einem Werk angehören", "book");
             }
 
+            Boolean tomeTitleExists = (from t in tableTome
+                                       where t.obj_book.bookID == bookID && t.title.Equals(title)
+                                       select t).Count() > 0;
+
+            if (tomeTitleExists) {
+                throw new ArgumentException("Ein Band mit dem angegebenen Namen existiert in diesem Werk bereits.");
+            }
+            
             Tome to = new Tome();
             to.title = title;
             to.obj_book = book;

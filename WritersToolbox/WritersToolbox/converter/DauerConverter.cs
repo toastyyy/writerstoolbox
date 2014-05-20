@@ -8,6 +8,9 @@ using WritersToolbox.Resources;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Konvertiert eine TimeSpan in einen darstellbaren String, der eine Dauer angibt (Minuten:Sekunden).
+    /// </summary>
     public class DauerConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

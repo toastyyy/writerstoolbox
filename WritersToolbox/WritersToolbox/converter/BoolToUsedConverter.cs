@@ -9,6 +9,9 @@ using WritersToolbox.Resources;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Konverter-Klasse, die den Boolean Wert für verwendete Notizen in einen kurzen Text konvertiert.
+    /// </summary>
     public class BoolToUsedConverter : IValueConverter
     {
         public object Convert(object value, Type targetType,

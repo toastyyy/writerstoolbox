@@ -56,7 +56,7 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF1D1D1D">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#353535">
             <shell:ApplicationBarIconButton x:Name="saveButton" IconUri="/icons/saveAs.png" Text="Exportieren" Click="saveButton_Click" />
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

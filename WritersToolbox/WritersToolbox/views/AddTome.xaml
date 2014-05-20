@@ -29,9 +29,9 @@
             <Image Margin="0,0,0,511" Source="/images/headImage_rot_top.png" Stretch="Fill"/>
             <!--BookTitle-->
             <TextBlock Margin="10,10,0,0" Text="{Binding Path=LocalizedResources.NewTomeTemplate, Source={StaticResource LocalizedStrings}}" FontSize="22" FontFamily="Segoe WP Light"/>
-            <TextBox  x:Name="titleTextBox" TextChanged="titleTextBox_TextChanged" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTomeTitleText ,Source={StaticResource LocalizedStrings}}" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Foreground="#FF020202" FontFamily="Segoe WP Light" FontSize="40" SelectionForeground="White" SelectionBackground="Transparent" BorderThickness="0,0,0,3" Margin="52,67,37,527" >
+            <TextBox  x:Name="titleTextBox" TextChanged="titleTextBox_TextChanged" TextWrapping="Wrap" Text="{Binding Path=LocalizedResources.NewTomeTitleText ,Source={StaticResource LocalizedStrings}}" GotFocus="titleTextBox_GotFocus" LostFocus="titleTextBox_LostFocus" Foreground="White" FontFamily="Segoe WP Light" FontSize="40" SelectionForeground="White" SelectionBackground="Transparent" BorderThickness="0,0,0,3" Margin="52,67,37,527" Background="{x:Null}" >
                 <TextBox.BorderBrush>
-                    <SolidColorBrush Color="#33636161"/>
+                    <SolidColorBrush Color="#33FFFFFF"/>
                 </TextBox.BorderBrush>
             </TextBox>
             <Image HorizontalAlignment="Left" Height="356" Margin="65,244,0,0" Source="/images/newTome3.png" VerticalAlignment="Top" Width="359"/>
@@ -43,7 +43,7 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="true" IsMenuEnabled="true" BackgroundColor="#FF252525">
+        <shell:ApplicationBar IsVisible="true" IsMenuEnabled="true" BackgroundColor="#353535">
             <shell:ApplicationBarIconButton x:Name="cancelButton" IconUri="/icons/cancel.png" Text="Abbrechen" Click="cancelButton_Click" />
             <shell:ApplicationBarIconButton x:Name="saveButton" IconUri="/icons/save.png" Text="Add" Click="saveButton_Click" />
         </shell:ApplicationBar>

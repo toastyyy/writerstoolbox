@@ -27,7 +27,20 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <Image Source="../icons/Pro_Books_round_Icon.png"/>
+                <Border Grid.Row="0" Background="White" Width="126" Height="126" CornerRadius="63" Margin="0,0,0,0" BorderThickness="8" BorderBrush="#FF690C35">
+                    <Image Margin="-10" Stretch="Fill" Width="110" Height="110"  Source="../icons/Pro_Werke_round_Icon.png">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                                    RadiusX="55"
+                                                    RadiusY="55"
+                                                    Center="55,55"
+                                                    >
+                            </EllipseGeometry>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+
+                <!--<Image Source="../icons/Pro_Werke_round_Icon.png"/>-->
                 <TextBlock Grid.Row="1" 
                            Text="{Binding name}" 
                            TextWrapping="Wrap"  
@@ -50,7 +63,19 @@
                     <RowDefinition Height="*"/>
                     <RowDefinition Height="40"/>
                 </Grid.RowDefinitions>
-                <Image Source="../icons/add.png"/>
+                <Border Grid.Row="0" Background="White" Width="126" Height="126" CornerRadius="63" Margin="0,0,0,0" BorderThickness="8" BorderBrush="#FF690C35">
+                    <Image Margin="-10" Stretch="Fill" Width="110" Height="110"  Source="../icons/add.png">
+                        <Image.Clip>
+                            <EllipseGeometry
+                                                    RadiusX="55"
+                                                    RadiusY="55"
+                                                    Center="55,55"
+                                                    >
+                            </EllipseGeometry>
+                        </Image.Clip>
+                    </Image>
+                </Border>
+                <!--<Image Source="../icons/add.png"/>-->
                 <TextBlock Grid.Row="1" 
                            Text="{Binding name}" 
                            TextWrapping="Wrap"  
@@ -118,7 +143,7 @@
         <Image HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#353535">
             <!--<shell:ApplicationBarIconButton IconUri="/icons/zurueck.png" Text="Zurück"/>-->
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>

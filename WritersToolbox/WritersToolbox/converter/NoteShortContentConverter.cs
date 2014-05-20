@@ -7,6 +7,10 @@ using System.Windows.Data;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Kürzt den Inhalt einer Notiz auf eine Länge, die bei wenig Platz darstellbar ist. (40 Zeichen)
+    /// Fügt am Ende "..." hinzu.
+    /// </summary>
     public class NoteShortContentConverter : IValueConverter
     {
         public object Convert(object value, Type targetType,

@@ -224,10 +224,11 @@
         <Image x:Name="searchImage" HorizontalAlignment="Left" Height="74" Margin="388,-5,0,0" VerticalAlignment="Top" Width="52" Source="/icons/finden.png" Tap="Image_Tap"/>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF252525">
+        <shell:ApplicationBar IsVisible="True" IsMenuEnabled="True" BackgroundColor="#FF353535">
+            <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="ändern" Click="ChangeType"/>
             <shell:ApplicationBarIconButton IconUri="/icons/delete.png" Text="löschen" Click="DeleteType"/>
 
-            <shell:ApplicationBarIconButton IconUri="/icons/edit.png" Text="ändern" Click="ChangeType"/>
+            
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>

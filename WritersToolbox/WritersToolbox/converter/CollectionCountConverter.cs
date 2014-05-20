@@ -11,6 +11,9 @@ using WritersToolbox.Resources;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Zählt die Anzahl der Elemente einer IEnumerable - Liste und gibt die Anzahl zurück.
+    /// </summary>
     public class CollectionCountConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

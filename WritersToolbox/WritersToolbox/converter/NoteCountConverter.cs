@@ -9,6 +9,9 @@ using WritersToolbox.Resources;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Zählt die Anzahl der Notizen in der übergebenen Collection mit MemoryNote Elementen.
+    /// </summary>
     public class NoteCountConverter : IValueConverter
     {
         public object Convert(object value, Type targetType,

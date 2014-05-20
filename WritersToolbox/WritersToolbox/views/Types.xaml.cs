@@ -687,8 +687,9 @@ namespace WritersToolbox.views
                 btn2.Click += DeleteType;
 
                 ApplicationBar.Buttons.Clear();
-                ApplicationBar.Buttons.Add(btn2);
+                
                 ApplicationBar.Buttons.Add(btn1);
+                ApplicationBar.Buttons.Add(btn2);
             }
         }
 
@@ -766,7 +767,7 @@ namespace WritersToolbox.views
                 return (new String[] { 
 	                "icons/pflanzen.png", "icons/muffin.png", "icons/tiere.png",
                     "icons/sport.png", "icons/record.png", "icons/planeten.png",
-                    "icons/katze.png", "icons/game.png",
+                    "icons/katze.png", "icons/game.png","icons/kreatur.png", "icons/schauplatz.png",
                     "icons/add.png"
                         }).ToList();
             }

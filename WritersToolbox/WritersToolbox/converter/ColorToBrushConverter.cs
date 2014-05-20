@@ -8,6 +8,9 @@ using System.Windows.Media;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Konvertiert eine Farbe (Color) zu einem Brush (SolidColorBrush).
+    /// </summary>
     public class ColorToBrushConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

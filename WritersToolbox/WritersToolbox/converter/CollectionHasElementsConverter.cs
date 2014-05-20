@@ -9,6 +9,9 @@ using System.Windows.Data;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Prüft, ob eine Liste (ICollection) Elemente enthält oder nicht. Gibt einen dementsprechenden Boolean-Wert zurück.
+    /// </summary>
     public class CollectionHasElementsConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
