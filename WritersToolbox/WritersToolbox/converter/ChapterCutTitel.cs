@@ -10,6 +10,9 @@ using System.Windows.Data;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Kürzt den Titel eines Kapitels, so dass dieser darstellbar wird.
+    /// </summary>
     public class ChapterCutTitel: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

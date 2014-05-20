@@ -10,6 +10,9 @@ using System.Windows.Data;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Kürzt den Titel eines Bandes auf eine in der GUI darstellbare Länge (16 Zeichen).
+    /// </summary>
     public class TomeCutTitel: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

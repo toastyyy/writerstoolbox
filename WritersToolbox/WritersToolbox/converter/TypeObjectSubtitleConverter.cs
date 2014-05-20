@@ -7,6 +7,10 @@ using System.Windows.Data;
 using WritersToolbox.Resources;
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Konvertiert aus den Daten eines TypeObject s einen kurzen Untertitel, der den Titel des Typs und die Anzahl der Notizen enthält.
+    /// Beispiel: "Charakter, 10 Notizen"
+    /// </summary>
     public class TypeObjectSubtitleConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
