@@ -74,12 +74,15 @@ namespace WritersToolbox.viewmodels
         }
 
         public void addBook(String name, datawrapper.BookType bookType) {
+            if (name.Trim().Equals("")) {
+                throw new ArgumentException("Das Werk muss einen Titel haben.");
+            }
             Boolean existsBookWithName = (from bo in tableBook
                                           where bo.name.Equals(name)
                                           select bo).Count() > 0;
 
             if (existsBookWithName) {
-                throw new ArgumentException("Ein Buch mit dem angegebenen Titel existiert bereits.");
+                throw new ArgumentException("Ein Werk mit dem angegebenen Titel existiert bereits.");
             } 
 
             Book b = new Book();
