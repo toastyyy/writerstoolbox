@@ -263,7 +263,7 @@ namespace WritersToolbox.views
             {
                 if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
                 {
-                    if (types_VM.isExistNoteInEvent(holdTypeobject.typeObjectID, (PhoneApplicationService.Current.State["memoryNoteTitle"] as String)))
+                    if (types_VM.isExistNoteInTypeobject(holdTypeobject.typeObjectID, (PhoneApplicationService.Current.State["memoryNoteTitle"] as String)))
                     {
                         //Meldung
                         MessageBoxResult result = MessageBoxResult.OK;

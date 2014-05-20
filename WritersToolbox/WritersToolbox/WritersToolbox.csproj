@@ -474,6 +474,7 @@
     <Content Include="icons\struktur_unchecked.png" />
     <Content Include="icons\underline.png" />
     <Content Include="icons\werke.png" />
+    <Content Include="icons\werke_weiss.png" />
     <Content Include="images\headImage_grayscale_top.jpg">
       <CopyToOutputDirectory>Always</CopyToOutputDirectory>
     </Content>

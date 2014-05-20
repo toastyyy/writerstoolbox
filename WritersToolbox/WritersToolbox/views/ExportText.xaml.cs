@@ -17,6 +17,9 @@ using System.Diagnostics;
 
 namespace WritersToolbox.views
 {
+    /// <summary>
+    /// GUI für den Export im Buchformat.
+    /// </summary>
     public partial class ExportText : PhoneApplicationPage
     {
         private BooksViewModel bvm = null;
@@ -40,6 +43,9 @@ namespace WritersToolbox.views
                     text-align: justify;
                 }
             ";
+        /// <summary>
+        /// Erzeugt eine neue Instanz der GUI und führt den Login in der Dropbox aus.
+        /// </summary>
         public ExportText()
         {
             InitializeComponent();

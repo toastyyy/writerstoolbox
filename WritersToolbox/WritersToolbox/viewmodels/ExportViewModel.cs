@@ -12,9 +12,16 @@ using System.Threading.Tasks;
 using WritersToolbox.models;
 namespace WritersToolbox.viewmodels
 {
+    /// <summary>
+    /// Die ExportViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten aus allen exportrelevanten Entities und ihre entsprechenden Eigenschaften bereitstellt.
+    /// </summary>
     class ExportViewModel : INotifyPropertyChanged
     {
         WritersToolboxDatebase wtb = null;
+        /// <summary>
+        /// Enthält alle Daten, die zum Exportieren relevant sind.
+        /// </summary>
         public Dictionary<String, IEnumerator> exportData { get; set; }
         private List<MemoryNote> persistNotes = new List<MemoryNote>();
         private List<models.Type> persistTypes = new List<models.Type>();
@@ -25,6 +32,10 @@ namespace WritersToolbox.viewmodels
         private List<Book> persistBooks = new List<Book>();
         private List<BookType> persistBookTypes = new List<BookType>();
         private List<EventTypeObjects> persistEventTypeObjects = new List<EventTypeObjects>();
+
+        /// <summary>
+        /// Erzeugt eine neue Instanz des View und läd alle benötigten Daten aus der Datenbank.
+        /// </summary>
         public ExportViewModel() {
             wtb = WritersToolboxDatebase.getInstance();
             this.LoadData();

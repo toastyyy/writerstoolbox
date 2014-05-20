@@ -63,7 +63,7 @@
 
             <Button  x:Name="btnBooks" HorizontalAlignment="Right" Margin="0,283,36,0" VerticalAlignment="Top" BorderBrush="#00D3D3D3" Background="Transparent" BorderThickness="1" Height="255" Width="207" VerticalContentAlignment="Bottom" Padding="0,0,0,0" HorizontalContentAlignment="Left" Tap="navigateToBooks">
                 <StackPanel Orientation="Vertical" Height="200" Width="200">
-                    <Image VerticalAlignment="Center" Height="185" Source="/icons/werke.png" x:Name="image3" Margin="2,-16,28,0" />
+                    <Image VerticalAlignment="Center" Height="185" Source="/icons/werke_weiss.png" x:Name="image3" Margin="2,-16,28,0" />
                     <TextBlock Foreground="White" FontFamily="Segoe UI Light" TextWrapping="Wrap" VerticalAlignment="Top" Height="50" HorizontalAlignment="Center" Width="179" Margin="0,-37,21,0" FontSize="24" Text="{Binding Path=LocalizedResources.StartpageBooks, Source={StaticResource LocalizedStrings}}" TextAlignment="Center" />
                 </StackPanel>
 

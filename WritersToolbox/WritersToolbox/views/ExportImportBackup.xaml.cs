@@ -24,6 +24,9 @@ using System.Windows.Media.Imaging;
 using System.Threading.Tasks;
 namespace WritersToolbox.views
 {
+    /// <summary>
+    /// GUI für den Export der Buchdaten in die Cloud.
+    /// </summary>
     public partial class ExportImportBackup : PhoneApplicationPage
     {
         UserLogin token = null;
@@ -35,16 +38,19 @@ namespace WritersToolbox.views
         public ExportImportBackup()
         {
             InitializeComponent();
+            // prüfen ob die Dropbox-Anmeldedaten bereits einmal eingegeben wurden
+            // wenn ja werden diese geladen und zum login verwendet.
             String credentials = this.loadUserCredentials();
             if (credentials.Equals(""))
             {
-                _client = new DropNetClient("6uvenkdtbc0antp", "dxb48bxwgem3ziz");
+                _client = new DropNetClient("6uvenkdtbc0antp", "dxb48bxwgem3ziz"); 
             }
             else
             {
                 String secret = credentials.Split('|')[0];
                 String usertoken = credentials.Split('|')[1].Replace("\r\n", "");
                 _client = new DropNetClient("6uvenkdtbc0antp", "dxb48bxwgem3ziz", usertoken, secret);
+                // Buttons / Infos zum verbinden ausblenden, weil login bereits stattgefunden hat
                 this.btnConnectDropbox.Visibility = Visibility.Collapsed;
                 this.exportBackupButton.Visibility = Visibility.Visible;
                 this.importBackupButton.Visibility = Visibility.Visible;
@@ -93,9 +99,10 @@ namespace WritersToolbox.views
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
             base.OnNavigatedTo(e);
-
+            // prüft, ob von der Authentifizierungsseite navigiert wurden
             if (PhoneApplicationService.Current.State.ContainsKey("dropboxAuth"))
             {
+                // ausblenden der Anmeldeinfo-Buttons und speichern der credentials.
                 PhoneApplicationService.Current.State.Remove("dropboxAuth");
                 this.btnConnectDropbox.Visibility = Visibility.Collapsed;
 
@@ -156,6 +163,7 @@ namespace WritersToolbox.views
             XDocument doc = new XDocument();
             var root = new XElement("data");
 
+            // iteriert über alle Buchtypen und erstellt ein XML-Element daraus
             IEnumerator bookTypes = data["bookTypes"];
             while (bookTypes.MoveNext())
             {
@@ -170,6 +178,7 @@ namespace WritersToolbox.views
                 root.Add(bookType);
             }
 
+            // iteriert über alle Bücher und erstellt ein XML-Element daraus
             IEnumerator books = data["books"];
             while (books.MoveNext())
             {
@@ -184,6 +193,7 @@ namespace WritersToolbox.views
                 root.Add(book);
             }
 
+            // iteriert über alle Bände und erstellt ein XML-Element daraus
             IEnumerator tomes = data["tomes"];
             while (tomes.MoveNext())
             {
@@ -200,6 +210,7 @@ namespace WritersToolbox.views
                 root.Add(tome);
             }
 
+            // iteriert über alle Kapitel und erstellt ein XML Element daraus
             IEnumerator chapters = data["chapters"];
             while (chapters.MoveNext())
             {
@@ -215,6 +226,7 @@ namespace WritersToolbox.views
                 root.Add(chapter);
             }
 
+            // iteriert über alle Ereignisse und erstellt ein XML Element daraus
             IEnumerator events = data["events"];
             while (events.MoveNext())
             {
@@ -229,6 +241,7 @@ namespace WritersToolbox.views
                 root.Add(ev);
             }
 
+            // iteriert über alle Notizen und erstellt ein XML Element daraus
             IEnumerator notes = data["notes"];
             while (notes.MoveNext())
             {
@@ -282,7 +295,7 @@ namespace WritersToolbox.views
                 root.Add(note);
             }
 
-
+            // iteriert über alle typen und erstellt ein XML Element daraus
             IEnumerator types = data["types"];
             while (types.MoveNext())
             {
@@ -307,6 +320,7 @@ namespace WritersToolbox.views
                 root.Add(type);
             }
 
+            // iteriert über alle TypObjekte und erstellt ein XML ELement daraus
             IEnumerator typeObjects = data["typeObjects"];
             while (typeObjects.MoveNext())
             {
@@ -332,6 +346,7 @@ namespace WritersToolbox.views
                 root.Add(typeObject);
             }
 
+            // iteriert über alle Event-Typobjekt Beziehungen und speichert diese in einem XML Element
             IEnumerator eventTypeObjects = data["eventTypeObjects"];
             while (eventTypeObjects.MoveNext())
             {
@@ -343,12 +358,13 @@ namespace WritersToolbox.views
                 root.Add(eventTypeObject);
             }
 
+            // backup.xml speichern und anschließend hochladen
             doc.Add(root);
             doc.Save(ms);
             ms.Position = 0;
 
 
-
+            
             _client.UploadFileAsync("/", "backup.xml", ms,
                         (response) =>
                         {
@@ -360,6 +376,7 @@ namespace WritersToolbox.views
                         }
                         );
 
+            // Bilder separat hochladen
             this.backupImages();
         }
 
