@@ -10,6 +10,10 @@ using WritersToolbox.Resources;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Konvertiert ein DateTime - Objekt in einen String, der das Datum im Format der derzeit festgelegten Nationalität
+    /// zurückgibt.
+    /// </summary>
     public class DateConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

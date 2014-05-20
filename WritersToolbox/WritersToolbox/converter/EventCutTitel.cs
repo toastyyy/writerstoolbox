@@ -10,6 +10,9 @@ using System.Windows.Data;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Kürzt einen String (hier Titel eines Events) so, dass dieser in der Oberfläche dargestellt werden kann. (20 Zeichen)
+    /// </summary>
     public class EventCutTitel: IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

@@ -12,6 +12,10 @@ using Microsoft.Xna.Framework.Media.PhoneExtensions;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Gibt das Bild, dass dem angegebenen Typobjekt zugehört, zurück.
+    /// Hat das TypObjekt kein eigenes Bild, wird das des Typs genommen.
+    /// </summary>
     public class TypeObjectImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)

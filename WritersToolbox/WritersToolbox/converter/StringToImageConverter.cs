@@ -12,6 +12,15 @@ using Microsoft.Xna.Framework.Media.PhoneExtensions;
 
 namespace WritersToolbox.converter
 {
+    /// <summary>
+    /// Läd das Bild, das im Verzeichnis, welches als zu konvertierendes Objekt angegeben wurde, existiert.
+    /// Das Bild wird in folgender Reihenfolge gesucht:
+    /// 1. Medienbibliothek
+    /// 2. IsolatedStorage
+    /// 3. Anwendungsresourcen
+    /// Wird ein Bild nicht gefunden wird der nächst höhere Speicherort durchsucht.
+    /// Wird ein Bild garnicht gefunden, wird null zurückgegeben.
+    /// </summary>
     public class StringToImageConverter : IValueConverter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
@@ -32,7 +41,7 @@ namespace WritersToolbox.converter
             var resource = App.GetResourceStream(new Uri(String.Format(@"{0}", path), UriKind.Relative));
             //var buffer = new byte[resource.Stream.Length];
             //resource.Stream.Read(buffer, 0, buffer.Length);
-            
+            if (resource == null) return null;
             resource.Stream.Position = 0;
             bmp = new BitmapImage();
             bmp.SetSource(resource.Stream);

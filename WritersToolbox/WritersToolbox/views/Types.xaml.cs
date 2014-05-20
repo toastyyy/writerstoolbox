@@ -687,8 +687,9 @@ namespace WritersToolbox.views
                 btn2.Click += DeleteType;
 
                 ApplicationBar.Buttons.Clear();
-                ApplicationBar.Buttons.Add(btn2);
+                
                 ApplicationBar.Buttons.Add(btn1);
+                ApplicationBar.Buttons.Add(btn2);
             }
         }
 
