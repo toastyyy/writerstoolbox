@@ -277,7 +277,8 @@ namespace WritersToolbox.views
                 return (new String[] { 
 	                "icons/pflanzen.png", "icons/muffin.png", "icons/tiere.png",
                     "icons/sport.png", "icons/record.png", "icons/planeten.png",
-                    "icons/katze.png", "icons/game.png",
+                    "icons/katze.png", "icons/game.png", "icons/kreatur.png",
+                    "icons/schauplatz.png",
                     "icons/add.png"
                         }).ToList();
             }

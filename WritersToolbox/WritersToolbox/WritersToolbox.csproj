@@ -422,6 +422,9 @@
     <Content Include="icons\katze.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\kreatur.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\micro.png" />
     <Content Include="icons\move-down.png" />
     <Content Include="icons\move-up.png" />
@@ -461,13 +464,18 @@
     <Content Include="icons\record.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
+    <Content Include="icons\schauplatz.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\speaker_reordButton.png" />
     <Content Include="charakter.png" />
     <Content Include="icons\sport.png">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <Content Include="icons\tiere.png" />
-    <Content Include="icons\typen.png" />
+    <Content Include="icons\typen.png">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
     <Content Include="icons\typen_checked.png" />
     <Content Include="icons\struktur_checked.png" />
     <Content Include="icons\typen_unchecked.png" />

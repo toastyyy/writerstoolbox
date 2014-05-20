@@ -191,7 +191,7 @@ namespace WritersToolbox.views
                     ApplicationBar.Buttons.Clear();
                     ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
                     cancel.Text = AppResources.AppBarCancel;
-                    cancel.Click += CancelType;
+                    cancel.Click += CancelAssignment;
                     ApplicationBar.Buttons.Add(cancel);
                     searchImage.Visibility = Visibility.Collapsed;
                     this.PivotMain.Title = new TextBlock()
@@ -439,6 +439,13 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void CancelType(object sender, EventArgs e)
         {
+            searchImage.Visibility = Visibility.Visible;
+            this.PivotMain.SelectedIndex = 0;
+            this.newTypeTitle.Text = "";
+            this.iconPicker.SelectedItem = null;
+        }
+
+        private void CancelAssignment(object sender, EventArgs e) {
             searchImage.Visibility = Visibility.Visible;
             PhoneApplicationService.Current.State["cancelAssignment"] = true;
             NavigationService.GoBack();
@@ -767,7 +774,8 @@ namespace WritersToolbox.views
                 return (new String[] { 
 	                "icons/pflanzen.png", "icons/muffin.png", "icons/tiere.png",
                     "icons/sport.png", "icons/record.png", "icons/planeten.png",
-                    "icons/katze.png", "icons/game.png",
+                    "icons/katze.png", "icons/game.png", "icons/kreatur.png",
+                    "icons/schauplatz.png",
                     "icons/add.png"
                         }).ToList();
             }

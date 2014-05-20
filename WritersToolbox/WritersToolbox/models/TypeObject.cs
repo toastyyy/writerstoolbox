@@ -302,7 +302,7 @@ namespace WritersToolbox.models
         {
             get
             {
-                return new Uri("/views/TypeObjectDetails2.xaml?typeOjectID=" + this.typeObjectID, UriKind.RelativeOrAbsolute);
+                return new Uri("/views/TypeObjectDetails2.xaml?typeObjectID=" + this.typeObjectID, UriKind.RelativeOrAbsolute);
             }
             set
             {

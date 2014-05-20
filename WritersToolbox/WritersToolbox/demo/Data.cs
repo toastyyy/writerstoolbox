@@ -210,14 +210,14 @@ namespace WritersToolbox.demo
             WritersToolbox.models.Type type1 = new WritersToolbox.models.Type() {
                 title = AppResources.TypesHeadlineCharacter,
                 color = "#FF32CD32",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "icons/character_round_icon.png"
             };
 
             WritersToolbox.models.Type type2 = new WritersToolbox.models.Type()
             {
                 title = AppResources.TypesHeadlineSetting,
                 color = "#FF32CD32",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "icons/schauplatz.png"
             };
 
             
@@ -225,7 +225,8 @@ namespace WritersToolbox.demo
             WritersToolbox.models.Type type4 = new WritersToolbox.models.Type()
             {
                 title = AppResources.TypesHeadlineCreatures,
-                color = "#FF32CD32"
+                color = "#FF32CD32",
+                imageString = "icons/kreatur.png"
             };
 
             TypeObject typeObject1 = new TypeObject() 
@@ -234,7 +235,7 @@ namespace WritersToolbox.demo
                 obj_Type = type1,
                 used = true,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png",
+                imageString = "icons/character_round_icon.png",
                 deleted = true
             };
 
@@ -250,7 +251,7 @@ namespace WritersToolbox.demo
                 obj_Type = type1,
                 used = true,
                 color = "#0020B2AA",
-                imageString = "../icons/character_round_icon.png"
+                imageString = "icons/character_round_icon.png"
             };
 
             EntitySet<EventTypeObjects> events2 = new EntitySet<EventTypeObjects>();
