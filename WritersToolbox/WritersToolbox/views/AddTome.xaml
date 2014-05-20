@@ -43,7 +43,7 @@
     </Grid>
 
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="true" IsMenuEnabled="true" BackgroundColor="#FF252525">
+        <shell:ApplicationBar IsVisible="true" IsMenuEnabled="true" BackgroundColor="#353535">
             <shell:ApplicationBarIconButton x:Name="cancelButton" IconUri="/icons/cancel.png" Text="Abbrechen" Click="cancelButton_Click" />
             <shell:ApplicationBarIconButton x:Name="saveButton" IconUri="/icons/save.png" Text="Add" Click="saveButton_Click" />
         </shell:ApplicationBar>

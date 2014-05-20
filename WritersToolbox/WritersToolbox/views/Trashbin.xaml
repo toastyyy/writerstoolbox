@@ -261,7 +261,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false" BackgroundColor="#FF252525">
+        <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false" BackgroundColor="#353535">
             <shell:ApplicationBarIconButton x:Name="restoreButton" IconUri="/icons/zurueck.png" Text="wiederherstellen" Click="restoreButton_Click" />
             <shell:ApplicationBarIconButton x:Name="deleteButton" IconUri="/icons/delete.png" Text="löschen" Click="deletePopupClick" />
             <shell:ApplicationBarIconButton x:Name="zurueckButton" IconUri="/icons/cancel.png" Text="zurück" Click="zurueckButton_Click" />           
