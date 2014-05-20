@@ -69,7 +69,7 @@ namespace WritersToolbox.views
             //Hilfsvariable für die Kontrolle der Änderungen.
             bool isChanged = false;
             //Änderungen kontrollieren.
-            if (!titleTextBox.Text.Trim().Equals("") || !titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+            if (!titleTextBox.Text.Trim().Equals("") && !titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
             {
                 isChanged = true;
             }
@@ -96,15 +96,33 @@ namespace WritersToolbox.views
                 //PhoneApplicationService.Current.State.Remove("tomeID");
                 BooksViewModel bvm = new BooksViewModel();
                 Book b = bvm.getBookByID(this.bookID);
-                bvm.addTome(title, this.bookID, b.obj_bookType.bookTypeID);
-                PhoneApplicationService.Current.State["NewTome"] = true;
-                NavigationService.GoBack();
+                try
+                {
+                    bvm.addTome(title, this.bookID, b.obj_bookType.bookTypeID);
+                    PhoneApplicationService.Current.State["NewTome"] = true;
+                    NavigationService.GoBack();
+                }
+                catch (ArgumentException ae) {
+                    MessageBox.Show(ae.Message, "Fehler", MessageBoxButton.OK);
+                }
+                
+                
             }
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            NavigationService.GoBack();
+            if (!titleTextBox.Text.Trim().Equals("") && !titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+            {
+                var result = MessageBox.Show("Wenn du jetzt zurück gehst werden deine Änderungen verworfen.", "Bist du sicher?", MessageBoxButton.OKCancel);
+                if (result == MessageBoxResult.OK) {
+                    NavigationService.GoBack();
+                }
+            }
+            else { 
+                NavigationService.GoBack();
+            }
+            
         }
 
         /// <summary>
@@ -122,6 +140,7 @@ namespace WritersToolbox.views
             {
                 titleTextBox.Text = "";
             }
+            titleTextBox.Foreground = new SolidColorBrush(Color.FromArgb(255,255,255,255));
         }
 
         /// <summary>
@@ -143,6 +162,19 @@ namespace WritersToolbox.views
         private void titleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
             titleTextBox2.Text = titleTextBox.Text;
-        }   
+        }
+
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnBackKeyPress(e);
+            if (!titleTextBox.Text.Trim().Equals("") && !titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+            {
+                var result = MessageBox.Show("Wenn du jetzt zurück gehst werden deine Änderungen verworfen.", "Bist du sicher?", MessageBoxButton.OKCancel);
+                if (result != MessageBoxResult.OK)
+                {
+                    e.Cancel = true;
+                }
+            }
+        }
     }
 }
