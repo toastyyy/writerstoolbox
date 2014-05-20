@@ -82,7 +82,7 @@
         </Grid>
     </Grid>
     <phone:PhoneApplicationPage.ApplicationBar>
-        <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false" BackgroundColor="#15135C">
+        <shell:ApplicationBar IsVisible="false" IsMenuEnabled="false" BackgroundColor="#353535">
         </shell:ApplicationBar>
     </phone:PhoneApplicationPage.ApplicationBar>
 </phone:PhoneApplicationPage>
