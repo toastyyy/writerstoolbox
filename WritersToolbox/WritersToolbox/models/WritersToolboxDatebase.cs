@@ -9,6 +9,9 @@ using System.IO;
 using Windows.Storage;
 namespace WritersToolbox.models
 {
+    /// <summary>
+    /// Erzeugt und verwaltet die Datenbank und zugehörige Tabellen.
+    /// </summary>
     [Database(Name = "WTDB")]
     class WritersToolboxDatebase : DataContext
     {

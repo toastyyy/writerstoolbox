@@ -13,6 +13,9 @@ using Microsoft.Phone.Shell;
 
 namespace WritersToolbox.models
 {
+    /// <summary>
+    /// Repräsentiert eine Notiz auf Datenbankebene.
+    /// </summary>
     [Table(Name="Notes")]
     public class MemoryNote : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {

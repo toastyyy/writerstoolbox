@@ -7,6 +7,9 @@ using System.Windows.Media.Imaging;
 
 namespace WritersToolbox.models
 {
+    /// <summary>
+    /// Interface, das alle suchbaren Entities implementieren.
+    /// </summary>
     public interface ISearchable
     {
         /// <summary>

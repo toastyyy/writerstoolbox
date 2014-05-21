@@ -11,6 +11,9 @@ using System.ComponentModel;
 
 namespace WritersToolbox.models
 {
+    /// <summary>
+    /// Repräsentiert ein Buch Entity auf Datenbankebene.
+    /// </summary>
     [Table(Name = "Books")]
     public class Book : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {

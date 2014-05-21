@@ -12,8 +12,15 @@ using WritersToolbox.Resources;
 
 namespace WritersToolbox.demo
 {
+    /// <summary>
+    /// Enthält statische Methoden zum erzeugen von Demodaten.
+    /// </summary>
     class Data
     {
+        /// <summary>
+        /// Fügt einige Testdaten in die Datenbank ein.
+        /// </summary>
+        /// <param name="db"></param>
         public static void AddToDB(DataContext db)
         {
             BookType bt = new BookType();

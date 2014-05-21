@@ -11,6 +11,9 @@ using System.ComponentModel;
 
 namespace WritersToolbox.models
 {
+    /// <summary>
+    /// Repräsentiert einen typ auf Datenbankebene.
+    /// </summary>
     [Table(Name = "Types")]
     public class Type : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {

@@ -11,6 +11,9 @@ using System.ComponentModel;
 
 namespace WritersToolbox.models
 {
+    /// <summary>
+    /// Repräsentiert ein Buchtyp auf Datenbankebene.
+    /// </summary>
     [Table(Name = "Booktypes")]
     public class BookType : INotifyPropertyChanging, INotifyPropertyChanged
     {
