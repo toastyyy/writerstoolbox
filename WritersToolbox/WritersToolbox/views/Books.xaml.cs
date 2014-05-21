@@ -158,6 +158,7 @@ namespace WritersToolbox.views
                     PivotMain.SelectedIndex = Books_VM.getBookCount() - 1;
                 } else 
                     PivotMain.SelectedIndex = indexParsed - 1;
+
             }
             //schon eingegebene Daten werden wiederhergestellt
             if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
@@ -173,20 +174,6 @@ namespace WritersToolbox.views
                 PhoneApplicationService.Current.State.Remove("tombstoned");
             }
         }
-
-
-        ///// <summary>
-        ///// Hilfsmethode solange man Zoom nicht testen kann.
-        ///// </summary>
-        ///// <param name="sender"></param>
-        ///// <param name="e"></param>
-        //private void navUeberblick(object sender, System.Windows.Input.GestureEventArgs e)
-        //{
-        //    NavigationService.Navigate(new Uri("/views/BooksOverview.xaml", UriKind.Relative));
-        //}
-
-
-        
        
 
         /// <summary>
@@ -213,7 +200,7 @@ namespace WritersToolbox.views
 
 
         /// <summary>
-        /// Buch wird endgülitg gelöscht und Popup geschlossen
+        /// Buch wird gelöscht und Popup geschlossen.
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -533,19 +520,24 @@ namespace WritersToolbox.views
                 //Ausblenderworkaround
                 LongListMultiSelector l = new LongListMultiSelector();
                 IEnumerator enume = selector.SelectedItems.GetEnumerator();
+                this.currentSelectList.IsSelectionEnabled = true;
+                
                 while (enume.MoveNext())
                 {
                     l.SelectedItems.Add(enume.Current);
                 }
                 selector.SelectionChanged -= LongListSelectionChanged;
                 books_VM.removeAddTome(PivotMain.SelectedItem as datawrapper.Book);
+                //selector.ItemsSource = null;
+                //selector.ItemsSource = (PivotMain.SelectedItem as datawrapper.Book).tomes;
                 selector.ItemsSource = null;
-                selector.ItemsSource = (PivotMain.SelectedItem as datawrapper.Book).tomes;
-                selector.EnforceIsSelectionEnabled = true;
+                selector.ItemsSource = books_VM.Books[books_VM.Books.IndexOf(
+                    (PivotMain.SelectedItem as datawrapper.Book))].tomes;
+                
                 IEnumerator enumerator = l.SelectedItems.GetEnumerator();
                 while (enumerator.MoveNext())
                 {
-                    selector.SelectedItems.Add(enumerator.Current);
+                    selector.SelectedItems.Add(enumerator.Current);   
                 }
                 selector.SelectionChanged += LongListSelectionChanged;
                 this.PivotMain.IsLocked = true;
@@ -605,7 +597,9 @@ namespace WritersToolbox.views
             selector.SelectionChanged -= LongListSelectionChanged;
             books_VM.removeAddTome(PivotMain.SelectedItem as datawrapper.Book);
             selector.ItemsSource = null;
-            selector.ItemsSource = (PivotMain.SelectedItem as datawrapper.Book).tomes;
+            selector.ItemsSource = books_VM.Books[books_VM.Books.IndexOf(
+                (PivotMain.SelectedItem as datawrapper.Book))].tomes;
+
             selector.EnforceIsSelectionEnabled = true;
             selector.SelectionChanged += LongListSelectionChanged;
             this.PivotMain.IsLocked = true;

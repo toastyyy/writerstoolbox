@@ -214,5 +214,14 @@ namespace WritersToolbox.models
                 throw new NotImplementedException();
             }
         }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType().IsAssignableFrom((new Book()).GetType()))
+            {
+                return ((Book)obj).bookID == this.bookID;
+            }
+            return false;
+        }
     }
 }
