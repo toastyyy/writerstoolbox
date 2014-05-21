@@ -807,6 +807,13 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void record_selectionChanged(object sender, SelectionChangedEventArgs e)
         {
+            if (applicationBarButton_Modus == MEDIA)
+            {
+                llms_records.EnforceIsSelectionEnabled = false;
+                llms_records.SelectedItems.Clear();
+                selectAllRecordCheckBox.IsChecked = false;
+                return;
+            }
             //Ob ein Record von der List selektiert.
             if (e.AddedItems.Count > 0)
             {
@@ -815,6 +822,7 @@ namespace WritersToolbox.views
                 {
                     llms_records.SelectedItems.Add(((SoundData)e.AddedItems[0]));
                 }
+                llms_records.EnforceIsSelectionEnabled = true;
             }
             //Ob eine Selektion eines Recordes von der List ausgehoben.
             if (e.RemovedItems.Count > 0)
@@ -1674,6 +1682,7 @@ namespace WritersToolbox.views
             llms_records.Margin = new Thickness(27, 84, 0, 17);
             //Selektion deaktivieren.
             llms_records.EnforceIsSelectionEnabled = false;
+            //1
             addManagementApplicationBarButton();
             //Überprüfen ob was gespielt wurde, damit es aktualisiert wird.
             if (lastMemo != null)
@@ -1784,6 +1793,7 @@ namespace WritersToolbox.views
         {
             //Selektierung deaktivieren.
             llms_records.EnforceIsSelectionEnabled = false;
+            llms_records.SelectedItems.Clear();
             addRecordButton.IsEnabled = true;
             deleteRecordButton.Visibility = Visibility.Collapsed;
             zurueckRecordButton.Visibility = Visibility.Collapsed;
@@ -1803,6 +1813,8 @@ namespace WritersToolbox.views
                 llms_records.EnforceIsSelectionEnabled = false;
                 llms_records.SelectedItems.Clear();
             }
+
+            zurueckRecordButton.Visibility = Visibility.Collapsed;
         }
 
         /// <summary>
@@ -1836,6 +1848,13 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void Grid_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
+            if (applicationBarButton_Modus == MEDIA)
+            {
+                llms_records.EnforceIsSelectionEnabled = false;
+                llms_records.SelectedItems.Clear();
+                selectAllRecordCheckBox.IsChecked = false;
+                return;
+            }
             //Ausgewähle Memo von Sender-Object holen.
             Grid g = (Grid)sender;
             //Aufnehmen ausblinden.

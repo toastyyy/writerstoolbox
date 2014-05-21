@@ -14,5 +14,15 @@ namespace WritersToolbox.datawrapper
         public DateTime updatedDate { get; set; }
         public List<Tome> tomes { get; set; }
         public BookType bookType { get; set; }
+
+        public override bool Equals(object obj)
+        {
+            if (obj.GetType().IsAssignableFrom((new Book()).GetType()))
+            {
+                return ((Book)obj).bookID == this.bookID;
+            }
+            return false;
+        }
     }
+
 }

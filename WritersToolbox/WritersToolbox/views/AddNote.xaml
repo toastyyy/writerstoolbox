@@ -72,7 +72,7 @@
                     </Coding4Fun:RoundToggleButton>
                     <Coding4Fun:RoundButton Content="" x:Name="deleteRecordButton" HorizontalAlignment="Left" Margin="320,16,0,0" VerticalAlignment="Top" Height="55" Width="72" BorderThickness="1" Click="deleteRecordButton_Click" PressedBrush="{x:Null}" BorderBrush="#FF353535" Visibility="Collapsed" >
                         <Coding4Fun:RoundButton.Background>
-                            <ImageBrush Stretch="Fill" ImageSource="/icons/delete.png"/>
+                            <ImageBrush Stretch="Fill" ImageSource="/icons/delete2.png"/>
                         </Coding4Fun:RoundButton.Background>
                     </Coding4Fun:RoundButton>
                     <Coding4Fun:RoundButton Content="" x:Name="zurueckRecordButton"  HorizontalAlignment="Right" Margin="0,16,156,0" Height="54" Width="72" BorderThickness="1" VerticalAlignment="Top" Click="zurueckRecordButton_Click" BorderBrush="#FF353535" Visibility="Collapsed">

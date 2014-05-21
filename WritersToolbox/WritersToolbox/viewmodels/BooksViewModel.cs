@@ -489,7 +489,7 @@ namespace WritersToolbox.viewmodels
                     
                 }
             }
-            this.NotifyPropertyChanged("Tomes");
+            this.NotifyPropertyChanged("Books");
         }
 
         /// <summary>
