@@ -66,6 +66,7 @@ namespace WritersToolbox.views
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
             PhoneApplicationService.Current.State.Remove("imageView");
+            
             NavigationService.GoBack();
         }
     }
