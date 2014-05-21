@@ -7,6 +7,9 @@ using System.Windows;
 
 namespace WritersToolbox.templateselector
 {
+    /// <summary>
+    /// Wählt anhand des Typs eines Entities im Papierkorb ein entsprechendes Template aus.
+    /// </summary>
     public class TrashbinTemplateSelector : TemplateSelector
     {
         public DataTemplate bookTemplate { get; set; }

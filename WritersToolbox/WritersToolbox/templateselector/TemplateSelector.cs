@@ -8,6 +8,9 @@ using System.Windows.Controls;
 
 namespace WritersToolbox.templateselector
 {
+    /// <summary>
+    /// Abstrakter Templateselector, der zwischen zwei Templates wählen lässt.
+    /// </summary>
     public abstract class TemplateSelector : ContentControl
     {
         public abstract DataTemplate SelectTemplate(object item, DependencyObject container);
