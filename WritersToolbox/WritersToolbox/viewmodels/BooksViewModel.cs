@@ -480,6 +480,7 @@ namespace WritersToolbox.viewmodels
         public void removeAddTome(datawrapper.Book b)
         {
             int i = Books.IndexOf(b);
+            if (i < 0) return;
             for (int j = 0; j < Books.ElementAt(i).tomes.Count; j++)
             {
                 if (Books.ElementAt(i).tomes.ElementAt(j).tomeID == -1)
@@ -498,6 +499,7 @@ namespace WritersToolbox.viewmodels
         public void addAddTome(datawrapper.Book b)
         {
             int i = Books.IndexOf(b);
+            if (i < 0) return;
             Boolean hasAdd = false;
             for (int j = 0; j < Books.ElementAt(i).tomes.Count && !hasAdd; j++)
             {
