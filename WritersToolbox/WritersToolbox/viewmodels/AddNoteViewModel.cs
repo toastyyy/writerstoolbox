@@ -77,12 +77,22 @@ namespace WritersToolbox.viewmodels
             return details == null ? "" : details;
         }
 
+        /// <summary>
+        /// Gibt den Titel eines Events mit der angegebenen ID zurück.
+        /// </summary>
+        /// <param name="eventID">Event ID</param>
+        /// <returns>Titel des Events</returns>
         public string getTitleEvent(int eventID)
         {
             models.Event _e1 = db.GetTable<models.Event>().Where(_e => _e.eventID == eventID).FirstOrDefault();
             return _e1.title;
         }
 
+        /// <summary>
+        /// Gibt den Titel eines Typobjektes mit der angegeben ID zurück.
+        /// </summary>
+        /// <param name="typeObjectID">TypeObject ID</param>
+        /// <returns>Titel des Typobjektes</returns>
         public string getTitleType(int typeObjectID)
         {
             models.TypeObject _t1 = db.GetTable<models.TypeObject>().Where(_t => _t.typeObjectID == typeObjectID).FirstOrDefault();

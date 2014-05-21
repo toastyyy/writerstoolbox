@@ -16,6 +16,10 @@ using System.Diagnostics;
 namespace WritersToolbox.viewmodels
 
 {
+    /// <summary>
+    /// Die AddTomeViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten von Tome und ihre entsprechende Eigenschaften bereitstellt.
+    /// </summary>
     class AddTomeViewModel
     {
         private models.WritersToolboxDatebase db;
@@ -27,7 +31,9 @@ namespace WritersToolbox.viewmodels
         //entity tome
         private models.Tome tome;
 
-
+        /// <summary>
+        /// Erzeugt eine neue Instanz des Viewmodels und läd Datenbanktabellen.
+        /// </summary>
          public AddTomeViewModel () 
         {
             try
@@ -42,6 +48,12 @@ namespace WritersToolbox.viewmodels
             }
             
         }
+
+        /// <summary>
+        /// Gibt den Titel des Bandes mit der angegebenen ID zurück.
+        /// </summary>
+        /// <param name="tomeID">Band ID</param>
+        /// <returns>Titel des Bandes</returns>
          public string getTitle(int tomeID)
          {
              string title = (from tome in tomeTable
@@ -51,6 +63,14 @@ namespace WritersToolbox.viewmodels
              return title == null ? "" : title;
          }
 
+        /// <summary>
+        /// Speichert Änderungen oder ein neues Tome - Objekt in der Datenbank.
+        /// </summary>
+        /// <param name="tomeID">ID des Bandes. Wenn 0 wird ein neuer Band angelegt</param>
+        /// <param name="addedDate">Datum (Hinzugefügt)</param>
+        /// <param name="title">Titel des Bandes</param>
+        /// <param name="updatedDate">Datum (Aktualisierung)</param>
+        /// <param name="bookType">Buchtyp [derzeit nicht verwendet]</param>
          public void save(int tomeID, DateTime addedDate, string title, DateTime updatedDate, datawrapper.BookType bookType)
          {
              try

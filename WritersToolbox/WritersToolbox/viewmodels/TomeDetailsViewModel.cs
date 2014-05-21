@@ -15,6 +15,10 @@ using WritersToolbox.Resources;
 
 namespace WritersToolbox.viewmodels
 {
+    /// <summary>
+    /// Die TomeDetailsViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten von Tome und ihre entsprechenden Eigenschaften bereitstellt.
+    /// </summary>
     class TomeDetailsViewModel : INotifyPropertyChanged
     {
         //Datenbank
@@ -36,20 +40,30 @@ namespace WritersToolbox.viewmodels
         private Table<Book> tableBook;
 
         private Table<MemoryNote> tableMemoryNote;
-        //Band
+        /// <summary>
+        /// Enthält das Band-Objekt, nachdem loadData ausgeführt wurde.
+        /// </summary>
         public Tome tome {get;set;}
         //List der beteiligten Typeobjekte, die mit dem View verbunden wird.
         private ObservableCollection<datawrapper.TypeObject> _typeObjects;
+        /// <summary>
+        /// Enthält alle TypObjekte, die in den Events des Bandes genutzt werden. LoadData muss vorher
+        /// ausgeführt werden.
+        /// </summary>
         public ObservableCollection<datawrapper.TypeObject> typeObjects { get { return _typeObjects; } }
 
         private bool on_off_Status;
 
         //Structur
         private ObservableCollection<datawrapper.Chapter> _structur;
+
+        /// <summary>
+        /// Enthält die Struktur (Kapitel, Ereignisse) des Bandes nachdem loadData ausgeführt wurde.
+        /// </summary>
         public ObservableCollection<datawrapper.Chapter> structur { get { return _structur; } }
 
         /// <summary>
-        /// Defaultkonstruktor
+        /// Defaultkonstruktor. Läd Datenbanktabellen.
         /// </summary>
         public TomeDetailsViewModel(int tomeID)
         {
@@ -87,11 +101,22 @@ namespace WritersToolbox.viewmodels
             return tome.information;
         }
 
+        /// <summary>
+        /// Prüft ob eine Notiz mit dem angegebenen Namen bereits am Event angehängt wurde.
+        /// </summary>
+        /// <param name="eventID">Event ID</param>
+        /// <param name="title">Titel der Notiz</param>
+        /// <returns>True, wenn bereits angehangen</returns>
         public bool isExistNoteInEvent(int eventID, string title)
         {
             return wtb.GetTable<models.MemoryNote>().Count(_m => _m.obj_Event.eventID == eventID && _m.title == title) == 1;
         }
 
+        /// <summary>
+        /// Entfernt die Notiz mit dem angegebenen Titel von dem angegebenen Event.
+        /// </summary>
+        /// <param name="eventid">Event ID</param>
+        /// <param name="title">Titel des Events</param>
         public void removeNote(int eventid, string title)
         {
             models.MemoryNote tempNote = (from _n in tableMemoryNote
@@ -135,6 +160,10 @@ namespace WritersToolbox.viewmodels
             return tableEvent.Count(e => (e.obj_Chapter.obj_tome.tomeID == tome.tomeID && !e.deleted));
         }
 
+        /// <summary>
+        /// Gibt den Titel des aktuellen Werkes zurück.
+        /// </summary>
+        /// <returns>Titel des Werkes</returns>
         public String getBookTitle()
         {
             
@@ -189,7 +218,7 @@ namespace WritersToolbox.viewmodels
         
 
         /// <summary>
-        /// Kode der Information eines Bands in Datenbank aktualisieren.
+        /// Code der Information eines Bands in Datenbank aktualisieren.
         /// </summary>
         /// <param name="information">InformationsKode</param>
         public void updateInformation(int information)
@@ -276,7 +305,6 @@ namespace WritersToolbox.viewmodels
             return associatedTypeObject;
         }
 
-        //TODO
         /// <summary>
         /// liefert die Struktur des Bandes zurück
         ///     Chapter -> Events.
@@ -349,6 +377,11 @@ namespace WritersToolbox.viewmodels
             return _tempChapterList;
         }
 
+        /// <summary>
+        /// Prüft ob ein Kapitel mit dem Namen bereits im Band vorhanden ist.
+        /// </summary>
+        /// <param name="chapterName">Kapitelname</param>
+        /// <returns>True, wenn bereits vorhanden.</returns>
         public bool isChapterNameDuplicate(string chapterName)
         { 
             List<models.Chapter> _c = (from chapter in tableChapter
@@ -361,7 +394,10 @@ namespace WritersToolbox.viewmodels
 
 
         
-
+        /// <summary>
+        /// Aktualisiert das Kapitel mit den angegebenen Werten.
+        /// </summary>
+        /// <param name="_c">Neue Kapitelwerte</param>
         public void updateChapter(datawrapper.Chapter _c) 
         {
             try
@@ -378,9 +414,9 @@ namespace WritersToolbox.viewmodels
             }
         }
         /// <summary>
-        /// ///////////////
+        /// Aktualisiert das Event mit den angegebenen Werten.
         /// </summary>
-        /// <param name="_e"></param>
+        /// <param name="_e">Eventwerte</param>
         public void updateEvent(datawrapper.Event _e)
         {
             try
@@ -453,6 +489,10 @@ namespace WritersToolbox.viewmodels
 
         }
 
+        /// <summary>
+        /// Löscht alle Kapitel in der Liste. Löschen noch nicht entgültig.
+        /// </summary>
+        /// <param name="ChapterList"></param>
         public void deleteChapter(ObservableCollection<datawrapper.Chapter> ChapterList) {
             foreach (datawrapper.Chapter item in ChapterList)
             {
@@ -479,6 +519,10 @@ namespace WritersToolbox.viewmodels
             this._structur = this.getStructure();
         }
 
+        /// <summary>
+        /// Löscht alle Events in der Liste. Das Löschen ist noch nicht entgültig.
+        /// </summary>
+        /// <param name="EventList">Eventliste</param>
         public void deleteEvent(ObservableCollection<datawrapper.Event> EventList)
         {
             foreach (datawrapper.Event item in EventList)
@@ -500,7 +544,9 @@ namespace WritersToolbox.viewmodels
             this._structur = this.getStructure();
         }
 
-
+        /// <summary>
+        /// Entfernt den Eintrag um ein neues Kapitel hinzuzufügen.
+        /// </summary>
         public void removeNewChapterEntry() {
             if (this.structur.Count == 0 || this._structur.Last().chapterID == 0)
             {
@@ -508,6 +554,9 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+        /// <summary>
+        /// Fügt den Eintrag um ein neues Kapitel hinzuzufügen hinzu.
+        /// </summary>
         public void addNewChapterEntry() {
             if (this.structur.Count == 0 || this._structur.Last().chapterID != 0)
             {
@@ -519,6 +568,9 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+        /// <summary>
+        /// Entfernt den Eintrag um ein neues Ereignis anzulegen.
+        /// </summary>
         public void removeNewEventEntry() {
             IEnumerator<datawrapper.Chapter> enumerator = this._structur.GetEnumerator();
             while (enumerator.MoveNext()) {
@@ -529,6 +581,9 @@ namespace WritersToolbox.viewmodels
 
         }
 
+        /// <summary>
+        /// Fügt den Eintrag um ein neues Ereignis hinzuzufügen hinzu.
+        /// </summary>
         public void addNewEventEntry() {
 
             foreach (datawrapper.Chapter item in _structur)
@@ -545,6 +600,10 @@ namespace WritersToolbox.viewmodels
 
         }
 
+        /// <summary>
+        /// Bewegt das angegebene Kapitel in der Struktur um ein Element nach unten.
+        /// </summary>
+        /// <param name="chapter"></param>
         public void moveChapterDown(datawrapper.Chapter chapter) {
             var sqlChapters = from ch in tableChapter
                               where ch.obj_tome.tomeID == this.tome.tomeID
@@ -573,6 +632,10 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+        /// <summary>
+        /// Bewegt das angegebene Kapitel in der Struktur um einen Platz nach oben.
+        /// </summary>
+        /// <param name="chapter"></param>
         public void moveChapterUp(datawrapper.Chapter chapter)
         {
             var sqlChapters = from ch in tableChapter
@@ -604,6 +667,12 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+        /// <summary>
+        /// Bewegt das angegebene Ereignis in der Struktur um ein Element nach unten.
+        /// Ist das Ereignis das letzte Element eines Kapitels wird es zum ersten des 
+        /// Nachfolgerkapitels.
+        /// </summary>
+        /// <param name="ev"></param>
         public void moveEventDown(datawrapper.Event ev) {
 
             // zunaechst INNERHALB des kapitels eine neue position suchen
@@ -690,6 +759,12 @@ namespace WritersToolbox.viewmodels
             this._structur = this.getStructure();
         }
 
+        /// <summary>
+        /// Bewegt das Ereignis in der Struktur um ein Element nach oben.
+        /// Ist es das erste Element eines Kapitels wird es als letztes Element des
+        /// Vorgängerkapitel verschoben.
+        /// </summary>
+        /// <param name="ev"></param>
         public void moveEventUp(datawrapper.Event ev) {
             // zunaechst INNERHALB des kapitels eine neue position suchen
             var sqlEventsInChapter = from e in tableEvent
