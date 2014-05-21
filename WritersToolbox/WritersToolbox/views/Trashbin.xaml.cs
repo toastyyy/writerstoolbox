@@ -142,9 +142,9 @@ namespace WritersToolbox.views
             ApplicationBarIconButton btn1 = (ApplicationBarIconButton)ApplicationBar.Buttons[0];
             ApplicationBarIconButton btn2 = (ApplicationBarIconButton)ApplicationBar.Buttons[1];
             ApplicationBarIconButton btn3 = (ApplicationBarIconButton)ApplicationBar.Buttons[2];
-            btn1.Text = AppResources.AppBarDelete;
-            btn2.Text = AppResources.AppBarBack;
-            btn3.Text = AppResources.AppBarRestore;
+            btn1.Text = AppResources.AppBarRestore;
+            btn2.Text = AppResources.AppBarDelete;
+            btn3.Text = AppResources.AppBarBack;
             //filterIndex = 0;
             trash.loadData();
             if (this.llms_trash.ItemsSource.Count == 0)

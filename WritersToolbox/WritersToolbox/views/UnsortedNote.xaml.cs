@@ -14,6 +14,10 @@ using System.Windows.Threading;
 
 namespace WritersToolbox.views
 {
+    /// <summary>
+    /// Die Klasse UnsortedNote listet alle Unsortierten Notizen auf. 
+    /// Hier können diese gelöscht und auch in TypObjekte oder Events einsortiert werden.
+    /// </summary>
     public partial class UnsortedNote : PhoneApplicationPage
     {
         //ViewModel zwischen UnsortedNote(View) und Note(Entity)
