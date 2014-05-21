@@ -21,6 +21,7 @@
         <converter:TomeCutTitel x:Key="TomeCutTitel"></converter:TomeCutTitel>
         <converter:ChapterCutTitel x:Key="ChapterCutTitel"></converter:ChapterCutTitel>
         <converter:EventCutTitel x:Key="EventCutTitel"></converter:EventCutTitel>
+        <converter:TypeObjectImageConverter x:Key="TypeObjectImageConverter" />
         <DataTemplate x:Key="eventItemTemplate" >
             <Grid x:Name="Event" VerticalAlignment="Top" Margin="60,10,0,0" Hold="event_hold">
                 <Grid.ColumnDefinitions>
@@ -218,7 +219,18 @@
                                     <ColumnDefinition Width="125" />
                                     <ColumnDefinition Width="*" />
                                 </Grid.ColumnDefinitions>
-                                <Image x:Name="imageTypeObject" Grid.Column="0" HorizontalAlignment="Left" Height="77" VerticalAlignment="Top" Width="77" Source="{Binding imageString}" Margin="40,0,0,0"/>
+                                <Border Grid.Column="0" Background="White" Width="76" Height="76" CornerRadius="39" Margin="0,0,10,10" BorderThickness="5" BorderBrush="#FF690C35">
+                                    <Image Margin="-10" Stretch="Fill" Width="66" Height="66"  Source="{Binding ., Converter={StaticResource TypeObjectImageConverter}}">
+                                        <Image.Clip>
+                                            <EllipseGeometry
+                                                    RadiusX="33"
+                                                    RadiusY="33"
+                                                    Center="33,33"
+                                                    >
+                                            </EllipseGeometry>
+                                        </Image.Clip>
+                                    </Image>
+                                </Border>
                                 <Grid Grid.Column="1" Height="Auto" Margin="10,0,-10,0">
                                     <Grid.RowDefinitions>
                                         <RowDefinition Height="50" />
