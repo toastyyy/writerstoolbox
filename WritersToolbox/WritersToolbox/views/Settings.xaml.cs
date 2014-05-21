@@ -98,16 +98,6 @@ namespace WritersToolbox.views
         }        
 
         /// <summary>
-        /// Zurücknavigieren zur Startseite.
-        /// </summary>
-        /// <param name="e"></param>
-        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
-        {
-
-            NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.RelativeOrAbsolute));
-        }
-
-        /// <summary>
         /// Navi zur Import-Exportseite
         /// </summary>
         /// <param name="sender"></param>

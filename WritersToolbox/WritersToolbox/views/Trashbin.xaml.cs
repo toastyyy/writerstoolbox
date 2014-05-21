@@ -42,6 +42,22 @@ namespace WritersToolbox.views
             }
            
         }
+
+        /// <summary>
+        /// Zurücknavigieren zur Startseite.
+        /// </summary>
+        /// <param name="e"></param>
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnBackKeyPress(e);
+            if (llms_trash.IsSelectionEnabled)
+            {
+                e.Cancel = true;
+                llms_trash.IsSelectionEnabled = false;
+            }
+        }
+
+
         /// <summary>
         /// Sollte sich was an der Checkbox-Selection verändert haben wird das hier überprüft und sichtbar gemacht.
         /// </summary>
