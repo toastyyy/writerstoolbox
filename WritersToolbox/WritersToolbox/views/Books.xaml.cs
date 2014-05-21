@@ -172,8 +172,6 @@ namespace WritersToolbox.views
                 }
                 PhoneApplicationService.Current.State.Remove("tombstoned");
             }
-
-            this.currentSelectList = (LongListMultiSelector)this.PivotMain.SelectedItem;
         }
 
 
