@@ -165,13 +165,15 @@ namespace WritersToolbox.viewmodels
         /// <param name="image">Pfad zum Bildspeicherort</param>
         public void createType(String title, String color, String image)
         {
+           
             models.Type t = new models.Type();
             if (title.Equals(""))
                 throw new ArgumentException("Titel muss ausgefüllt sein", "Title");
             var sqlT = from types in tableType
                        where types.title.Equals(title)
                        select types;
-            if (sqlT.Count() > 0) {
+            
+            if (sqlT.Count() > 0)  {
                 throw new ArgumentException("Ein Typ mit dem angegebenen Namen ist bereits vorhanden.", "Title");
             }
             t.title = title;
@@ -180,7 +182,9 @@ namespace WritersToolbox.viewmodels
             this.tableType.InsertOnSubmit(t);
             this.db.SubmitChanges();
             this.LoadData();
+            
         }
+
 
         /// <summary>
         /// Aktualisiert den Typ mit der angegebenen ID mit den angegebenen Werten.
