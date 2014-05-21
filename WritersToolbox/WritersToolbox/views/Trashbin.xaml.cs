@@ -115,14 +115,22 @@ namespace WritersToolbox.views
 
         private void restoreButton_Click(object sender, EventArgs e)
         {
-            IList list = llms_trash.SelectedItems;
-            this.trash.restoreTrash(list);
-            if (this.llms_trash.ItemsSource.Count == 0)
+            try
             {
-                selectAllCheckBox.IsChecked = false;
-                selectAllCheckBox.IsEnabled = false;
-                //filterMemoryNotes.IsChecked = false;
-                //filterMemoryNotes.IsEnabled = false;
+                IList list = llms_trash.SelectedItems;
+                this.trash.restoreTrash(list);
+                if (this.llms_trash.ItemsSource.Count == 0)
+                {
+                    selectAllCheckBox.IsChecked = false;
+                    selectAllCheckBox.IsEnabled = false;
+                    //filterMemoryNotes.IsChecked = false;
+                    //filterMemoryNotes.IsEnabled = false;
+                }
+            }
+            catch (ArgumentException ae)
+            {
+                MessageBox.Show(ae.Message, "Fehler", MessageBoxButton.OK);
+                //NavigationService.GoBack();
             }
 
         }

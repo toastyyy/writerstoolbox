@@ -249,12 +249,12 @@ namespace WritersToolbox.viewmodels
                     var entries = (from m in this.tableMemoryNote
                                    where m.memoryNoteID == mn.memoryNoteID
                                    select m).Single();
-                    Debug.WriteLine(mn.fk_eventID);
-                    Debug.WriteLine(mn.fk_typeObjectID);
-                    if ((mn.fk_eventID == 0) && (mn.fk_typeObjectID == 0))
-                    {
-                        Debug.WriteLine("Notiz war in unsortierte Notizen drin");
-                    }
+                    //Debug.WriteLine(mn.fk_eventID);
+                    //Debug.WriteLine(mn.fk_typeObjectID);
+                    //if ((mn.fk_eventID == 0) && (mn.fk_typeObjectID == 0))
+                    //{
+                    //    Debug.WriteLine("Notiz war in unsortierte Notizen drin");
+                    //}
                     if(mn.contentAudioString != null)
                     {
                         //models.MemoryNote _m = wtb.GetTable<models.MemoryNote>().Single(_mn => _mn.memoryNoteID == id);
@@ -404,6 +404,11 @@ namespace WritersToolbox.viewmodels
             IEnumerator enumerator = list.GetEnumerator();
             while (enumerator.MoveNext())
             {
+                //var entriesInTableType = (from eITT in tableType
+                //                          select eITT).ToString();
+                //Debug.WriteLine("frfrfr");
+                //Debug.WriteLine(entriesInTableType);
+
                 object entry = enumerator.Current;
                 if (entry.GetType().IsAssignableFrom((new datawrapper.MemoryNote()).GetType()))
                 {
@@ -419,6 +424,19 @@ namespace WritersToolbox.viewmodels
                     var entries = (from t in this.tableType
                                    where t.typeID == ty.typeID
                                    select t).Single();
+                    Debug.WriteLine(entries.title);
+                    Debug.WriteLine(entries.Title);
+
+                    //////////////////////////////////////////////////////
+                    //var sqlT = from types in tableType
+                    //           where types.title.Equals(entries.title)
+                    //           select types;
+                    //if (sqlT.Count() > 0)
+                    //{
+                    //    throw new ArgumentException("Ein Typ mit dem angegebenen Namen ist bereits vorhanden.", "Title");
+                    //}
+                    //////////////////////////////////////////////////////
+                    
                     entries.deleted = false;
                 }
                 if (entry.GetType().IsAssignableFrom((new datawrapper.TypeObject()).GetType()))
@@ -466,6 +484,7 @@ namespace WritersToolbox.viewmodels
                     entries.deleted = false;
                     
                 }
+
                 
             }
                 this.db.SubmitChanges();
