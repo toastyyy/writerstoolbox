@@ -161,7 +161,7 @@ namespace WritersToolbox.views
 
         private void titleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            titleTextBox2.Text = titleTextBox.Text;
+           // titleTextBox2.Text = titleTextBox.Text;
         }
 
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
