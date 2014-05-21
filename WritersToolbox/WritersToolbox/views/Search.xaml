@@ -56,9 +56,9 @@
         <!--TitlePanel contains the name of the application and page title-->
         <Image Margin="0,-6,0,0" Source="/headImage_rot_smal.png" Stretch="Fill" Height="156" VerticalAlignment="Top"/>
 
-        <StackPanel Grid.Row="0" Margin="23,10,22,0">
-            <TextBlock TextAlignment="Center" Text="Suche" FontSize="50" FontFamily="Segoe UI Light" Height="63" />
-            <TextBox TextChanged="searchQuery_TextChanged" TextWrapping="Wrap" Text="" Name="searchQuery"/>
+        <StackPanel Grid.Row="0" Margin="23,0,22,0">
+            <TextBlock TextAlignment="Center" Text="Suche" FontSize="50" FontFamily="Segoe UI Light" Height="69" />
+            <TextBox TextChanged="searchQuery_TextChanged" TextWrapping="Wrap" Text="" Name="searchQuery" Background="#66FFFFFF" BorderBrush="#B1FFFFFF" BorderThickness="1"/>
 
         </StackPanel>
         <!--ContentPanel - place additional content here-->
@@ -74,8 +74,8 @@
                     x:Name="LongList"
                     ItemTemplate="{StaticResource searchItem}" SelectionChanged="LongList_SelectionChanged">
             </phone:LongListSelector>
-            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Anzahl Treffer:" VerticalAlignment="Top" Foreground="#FF2B2B2B" FontWeight="Bold"/>
-            <TextBlock HorizontalAlignment="Left" Margin="159,0,0,0" TextWrapping="Wrap" Text="{Binding ResultCount}" VerticalAlignment="Top" Width="104" Foreground="#FF2B2B2B" FontWeight="Bold"/>
+            <TextBlock HorizontalAlignment="Left" Margin="10,0,0,0" TextWrapping="Wrap" Text="Anzahl Treffer:" VerticalAlignment="Top" Foreground="#FF2B2B2B" />
+            <TextBlock HorizontalAlignment="Left" Margin="159,0,0,0" TextWrapping="Wrap" Text="{Binding ResultCount}" VerticalAlignment="Top" Width="104" Foreground="#FF2B2B2B" />
         </Grid>
     </Grid>
 
