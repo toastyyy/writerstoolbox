@@ -14,6 +14,10 @@ using System.IO.IsolatedStorage;
 
 namespace WritersToolbox.viewmodels
 {
+    /// <summary>
+    /// Die TrashbinViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten bereithält und Methoden zur Löschung und Wiederherstellung bietet.
+    /// </summary>
     public class TrashbinViewModel : INotifyPropertyChanged
     {
         private WritersToolboxDatebase db;
@@ -28,6 +32,9 @@ namespace WritersToolbox.viewmodels
         
 
         public ObservableCollection<Object> DeletedObjects { get; set; }
+        /// <summary>
+        /// Konstruktur die Tabellen aus der Datenbank vorinitialisiert.
+        /// </summary>
         public TrashbinViewModel()
         {
             try
@@ -54,7 +61,9 @@ namespace WritersToolbox.viewmodels
         {
 
         }
-
+        /// <summary>
+        /// Methode die die relevante Daten aus der Datenbank holt und in eine Liste speichert.
+        /// </summary>
         public void loadDeletedMemoryNotes()
         {
             // notizen, die geloescht sind, aber nicht zugeordnet sind
@@ -80,7 +89,9 @@ namespace WritersToolbox.viewmodels
                 this.DeletedObjects.Add(mn);
             }
         }
-
+        /// <summary>
+        /// Methode die die relevante Daten aus der Datenbank holt und in eine Liste speichert.
+        /// </summary>
         public void loadDeletedBooks()
         {
             // buecher, die geloescht sind
@@ -100,7 +111,9 @@ namespace WritersToolbox.viewmodels
                 this.DeletedObjects.Add(b);
             }
         }
-
+        /// <summary>
+        /// Methode die die relevante Daten aus der Datenbank holt und in eine Liste speichert.
+        /// </summary>
         public void loadDeletedTomes()
         {
             // Tomes, die geloescht sind.
@@ -122,7 +135,9 @@ namespace WritersToolbox.viewmodels
                 this.DeletedObjects.Add(t);
             }
         }
-
+        /// <summary>
+        /// Methode die die relevante Daten aus der Datenbank holt und in eine Liste speichert.
+        /// </summary>
         public void loadDeletedTypeObjects()
         {
             //typeObjecte die geloescht sind
@@ -147,7 +162,9 @@ namespace WritersToolbox.viewmodels
                 this.DeletedObjects.Add(tO);
             }
         }
-
+        /// <summary>
+        /// Methode die die relevante Daten aus der Datenbank holt und in eine Liste speichert.
+        /// </summary>
         public void loadDeletedTypes()
         {
             //Komplette Typen die gelöscht sind.
@@ -170,6 +187,10 @@ namespace WritersToolbox.viewmodels
             }
             this.NotifyPropertyChanged("DeletedObjects");
         }
+
+        /// <summary>
+        /// Methode die die relevante Daten aus der Datenbank holt und in eine Liste speichert.
+        /// </summary>
         public void loadDeletedEvents()
         {
              //Komplette Events die gelöscht sind.
@@ -189,6 +210,9 @@ namespace WritersToolbox.viewmodels
             }
         }
 
+        /// <summary>
+        /// Ruft die obigen Methoden auf.
+        /// </summary>
         public void loadData()
         {
 
@@ -202,12 +226,16 @@ namespace WritersToolbox.viewmodels
             loadDeletedEvents();
 
         }
-
+        /// <summary>
+        /// Löscht die Liste.
+        /// </summary>
         public void deleteList()
         {
             this.DeletedObjects.Clear();
         }
-
+        /// <summary>
+        /// Löscht die ausgewählten und alle darunterliegenden Daten aus der Datenbank.
+        /// </summary>
         public void deleteTrash(IList list)
         {
             IEnumerator enumerator = list.GetEnumerator();
@@ -368,7 +396,9 @@ namespace WritersToolbox.viewmodels
             this.loadData();
         }
 
-        
+        /// <summary>
+        /// Bei den ausgewählten Daten wird der delete-Flag wieder entfernt. 
+        /// </summary>
         public void restoreTrash(IList list)
         {
             IEnumerator enumerator = list.GetEnumerator();

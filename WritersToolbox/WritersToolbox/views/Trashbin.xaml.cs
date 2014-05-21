@@ -15,12 +15,19 @@ using System.Threading;
 
 namespace WritersToolbox.views
 {
+    /// <summary>
+    /// Die Klasse Trashbin verwaltet "gelöschte" Daten. Die Daten werden in einer Liste
+    /// gezeigt und können hier endgültig gelöscht werden sowie wieder zur
+    /// ursprünglichen Position zurückgesetzt werden.
+    /// </summary>
     public partial class Trashbin : PhoneApplicationPage
     {
         //private bool loaded = false;
         //private int filterIndex;
         private TrashbinViewModel trash;
         private bool isselected;
+
+
         public Trashbin()
         {
             InitializeComponent();
@@ -35,7 +42,9 @@ namespace WritersToolbox.views
             }
            
         }
-
+        /// <summary>
+        /// Sollte sich was an der Checkbox-Selection verändert haben wird das hier überprüft und sichtbar gemacht.
+        /// </summary>
         private void trash_selectionChanged(object sender, SelectionChangedEventArgs e)
         {
 
@@ -83,6 +92,11 @@ namespace WritersToolbox.views
             
         }
 
+
+        /// <summary>
+        /// Holt sich die Liste der Items aus dem Papierkorb und deaktiviert SelectAll 
+        /// Checkboxen falls die Liste leer ist.
+        /// </summary>
         private void deleteButton_Click(object sender, EventArgs e)
         {
             IList list = llms_trash.SelectedItems;
@@ -132,6 +146,10 @@ namespace WritersToolbox.views
             }
             //llms_trash.ItemsSource = trash.getObservableColletion();
         }
+
+        /// <summary>
+        //Filter für Späteren gebrauch evt.
+        /// </summary>       
         //private void filter_Checked(object sender, RoutedEventArgs e)
         //{
         //    this.trash.deleteList();
@@ -143,6 +161,9 @@ namespace WritersToolbox.views
         //    this.trash.loadData();
         //}
 
+        /// <summary>
+        // Selektiert alle Items in der Liste.
+        /// </summary>     
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
         {
             if (!isselected)
@@ -157,7 +178,9 @@ namespace WritersToolbox.views
                 }
             }
         }
-
+        /// <summary>
+        // Deselektiert alle Items in der Liste.
+        /// </summary>   
         private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
             if (llms_trash.SelectedItems.Count == llms_trash.ItemsSource.Count)
@@ -166,7 +189,9 @@ namespace WritersToolbox.views
                 llms_trash.SelectedItems.Clear();
             }
         }
-
+        /// <summary>
+        // Bei Tap auf ein Item wird es markiert.
+        /// </summary>   
         private void Grid_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Grid g = (Grid)sender;
@@ -176,7 +201,9 @@ namespace WritersToolbox.views
             llms_trash.EnforceIsSelectionEnabled = true;
             
         }
-
+        /// <summary>
+        // Bei Hold auf ein Item wird es markiert.
+        /// </summary>  
         private void Grid_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
             Grid g = (Grid)sender;
@@ -202,65 +229,71 @@ namespace WritersToolbox.views
         {
             deletePopup.IsOpen = true;
         }
+        /// <summary>
+        // Alte Filter Methode evt für späteren Gebrauch.
+        /// </summary>  
 
-        private void FilterChanged(object sender, SelectionChangedEventArgs e)
-        {
+        //private void FilterChanged(object sender, SelectionChangedEventArgs e)
+        //{
 
-            ListPicker lP = sender as ListPicker;
-            //lP.SelectedIndex = 0;
-            if (trash != null)
-            {
-                if (lP.SelectedIndex == 0)
-                {
-                    this.trash.deleteList();
-                    this.trash.loadData();
-                    //NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
-                    //NavigationService.RemoveBackEntry();
-                }
-                else if (lP.SelectedIndex == 1)
-                {
-                    this.trash.deleteList();
-                    this.trash.loadDeletedMemoryNotes();
-                    NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
-                    NavigationService.RemoveBackEntry();
-                }
-                else if (lP.SelectedIndex == 2)
-                {
-                    this.trash.deleteList();
-                    this.trash.loadDeletedBooks();
-                    NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
-                    NavigationService.RemoveBackEntry();
-                }
-                else if (lP.SelectedIndex == 3)
-                {
-                    this.trash.deleteList();
-                    this.trash.loadDeletedTomes();
-                    NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
-                    NavigationService.RemoveBackEntry();
-                }
-                else if (lP.SelectedIndex == 4)
-                {
-                    this.trash.deleteList();
-                    this.trash.loadDeletedTypes();
-                }
-                else if (lP.SelectedIndex == 5)
-                {
-                    this.trash.deleteList();
-                    this.trash.loadDeletedTypeObjects();
-                }
-                else if (lP.SelectedIndex == 6)
-                {
-                    this.trash.deleteList();
-                    this.trash.loadDeletedEvents();
-                }
-            }
-        }
+        //    ListPicker lP = sender as ListPicker;
+        //    //lP.SelectedIndex = 0;
+        //    if (trash != null)
+        //    {
+        //        if (lP.SelectedIndex == 0)
+        //        {
+        //            this.trash.deleteList();
+        //            this.trash.loadData();
+        //            //NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+        //            //NavigationService.RemoveBackEntry();
+        //        }
+        //        else if (lP.SelectedIndex == 1)
+        //        {
+        //            this.trash.deleteList();
+        //            this.trash.loadDeletedMemoryNotes();
+        //            NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+        //            NavigationService.RemoveBackEntry();
+        //        }
+        //        else if (lP.SelectedIndex == 2)
+        //        {
+        //            this.trash.deleteList();
+        //            this.trash.loadDeletedBooks();
+        //            NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+        //            NavigationService.RemoveBackEntry();
+        //        }
+        //        else if (lP.SelectedIndex == 3)
+        //        {
+        //            this.trash.deleteList();
+        //            this.trash.loadDeletedTomes();
+        //            NavigationService.Navigate(new Uri("/views/Trashbin.xaml?" + DateTime.Now.Ticks, UriKind.Relative));
+        //            NavigationService.RemoveBackEntry();
+        //        }
+        //        else if (lP.SelectedIndex == 4)
+        //        {
+        //            this.trash.deleteList();
+        //            this.trash.loadDeletedTypes();
+        //        }
+        //        else if (lP.SelectedIndex == 5)
+        //        {
+        //            this.trash.deleteList();
+        //            this.trash.loadDeletedTypeObjects();
+        //        }
+        //        else if (lP.SelectedIndex == 6)
+        //        {
+        //            this.trash.deleteList();
+        //            this.trash.loadDeletedEvents();
+        //        }
+        //    }
+        //}
 
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
             
 
         }
+        /// <summary>
+        // Reload der Liste bei Filter.
+        /// </summary>  
         //private void PageLoaded(object sender, RoutedEventArgs e)
         //{
         //    //loaded = true;
