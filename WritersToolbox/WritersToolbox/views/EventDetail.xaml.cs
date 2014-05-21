@@ -200,6 +200,7 @@ namespace WritersToolbox.views
                 this.WorkaroundButton.Focus();
                 this.textBoxFinalText.Focus();
                 this.createTextEditApplicationBar();
+                this.eventPivot.IsLocked = true;
             }
 
         }
@@ -343,6 +344,7 @@ namespace WritersToolbox.views
             this.DataContext = this.edvm.Event;
             this.editFinaltextGrid.Visibility = Visibility.Collapsed;
             this.textBoxFinalText.Visibility = Visibility.Collapsed;
+            
             try
             {
                 this.tFinalText.Xaml = this.parseRichTextFormat(this.edvm.Event.finaltext);
@@ -351,6 +353,7 @@ namespace WritersToolbox.views
             {
                 this.tFinalText.Xaml = this.parsePlainText(this.edvm.Event.finaltext);
             }
+            this.eventPivot.IsLocked = false;
         }
 
 
