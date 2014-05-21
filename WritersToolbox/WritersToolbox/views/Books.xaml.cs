@@ -684,6 +684,15 @@ namespace WritersToolbox.views
             llms.SelectedItems.Add(((datawrapper.Tome)c.DataContext));
         }
 
+        protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
+        {
+            base.OnBackKeyPress(e);
+            if (currentSelectList != null && currentSelectList.SelectedItems.Count > 0) {
+                currentSelectList.SelectedItems.Clear();
+                e.Cancel = true;
+            }
+        }
+
 
     }
 }
