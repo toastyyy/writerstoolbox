@@ -172,6 +172,8 @@ namespace WritersToolbox.views
                 }
                 PhoneApplicationService.Current.State.Remove("tombstoned");
             }
+
+            this.currentSelectList = (LongListMultiSelector)this.PivotMain.SelectedItem;
         }
 
 
@@ -261,6 +263,7 @@ namespace WritersToolbox.views
         private void PivotSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             datawrapper.Book b = PivotMain.SelectedItem as datawrapper.Book;
+
             if (b == null)
                 return;
             
@@ -669,6 +672,21 @@ namespace WritersToolbox.views
                 //books_VM.addAddTome(PivotMain.SelectedItem as datawrapper.Book);
                 this.loadBookAppBar();
             }
+        }
+
+        /// <summary>
+        /// Wird aufgerufen, wenn auf einen Band länger gedrückt wird. Selektion wird
+        /// gestartet.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Grid_Hold(object sender, System.Windows.Input.GestureEventArgs e)
+        {
+            LongListMultiSelector llms = (LongListMultiSelector)sender;
+            currentSelectList = llms;
+            FrameworkElement c = (FrameworkElement)e.OriginalSource;
+
+            llms.SelectedItems.Add(((datawrapper.Tome)c.DataContext));
         }
 
 

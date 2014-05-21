@@ -606,9 +606,7 @@ namespace WritersToolbox.views
         {
             LongListMultiSelector llms = (LongListMultiSelector)sender;
             FrameworkElement c = (FrameworkElement)e.OriginalSource;
-            while (!llms.Parent.GetType().IsAssignableFrom((new Grid()).GetType())) { };
-            Grid g = (Grid)c.Parent;
-            llms.SelectedItems.Add(((datawrapper.TypeObject)g.DataContext));
+            llms.SelectedItems.Add(((datawrapper.TypeObject)c.DataContext));
         }
 
         private void NoteList_Hold(object sender, System.Windows.Input.GestureEventArgs e)
@@ -690,6 +688,16 @@ namespace WritersToolbox.views
             NavigationService.Navigate(new Uri("/views/Search.xaml", UriKind.RelativeOrAbsolute));
         }
 
+        public void cancelTypeObjectSelection(object sender, EventArgs e)
+        {
+            this.TypeObjectList.SelectedItems.Clear();
+        }
+
+        public void cancelNoteSelection(object sender, EventArgs e)
+        {
+            this.NoteList.SelectedItems.Clear();
+        }
+
         private void addAppBarTypeObjects()
         {
             ApplicationBar.Buttons.Clear();
@@ -697,6 +705,11 @@ namespace WritersToolbox.views
             unattach.Text = AppResources.AppBarUnattached;
             unattach.Click += unattachTypeObjects;
             ApplicationBar.Buttons.Add(unattach);
+
+            ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+            cancel.Text = AppResources.AppBarUnattached;
+            cancel.Click += cancelTypeObjectSelection;
+            ApplicationBar.Buttons.Add(cancel);
         }
 
         private void removeAppBarTypeObjects()
@@ -708,9 +721,14 @@ namespace WritersToolbox.views
         {
             ApplicationBar.Buttons.Clear();
             ApplicationBarIconButton unattach = new ApplicationBarIconButton(new Uri("/icons/delete.png", UriKind.Relative));
-            unattach.Text = AppResources.AppBarUnattached;
+            unattach.Text = AppResources.AppBarCancel;
             unattach.Click += unattachNotes;
             ApplicationBar.Buttons.Add(unattach);
+
+            ApplicationBarIconButton cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+            cancel.Text = AppResources.AppBarCancel;
+            cancel.Click += cancelNoteSelection;
+            ApplicationBar.Buttons.Add(cancel);
         }
 
         private void removeAppBarNotes() 
@@ -728,6 +746,11 @@ namespace WritersToolbox.views
             {
                 this.removeAppBarNotes();
             }
+            selectAllCheckBox1.Checked -= selectAllCheckBox_Checked;
+            selectAllCheckBox1.Unchecked -= selectAllCheckBox_Unchecked;
+            selectAllCheckBox1.IsChecked = NoteList.SelectedItems.Count == NoteList.ItemsSource.Count;
+            selectAllCheckBox1.Unchecked += selectAllCheckBox_Unchecked;
+            selectAllCheckBox1.Checked += selectAllCheckBox_Checked;
         }
 
         private void tTitle_GotFocus(object sender, RoutedEventArgs e)

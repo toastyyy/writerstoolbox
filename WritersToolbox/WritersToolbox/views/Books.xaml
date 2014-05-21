@@ -200,6 +200,7 @@
                 <toolkit:LongListMultiSelector
                     IsSelectionEnabled="False"
                     Height="Auto" 
+                    Hold="Grid_Hold"
                     Margin="0,50,10,0" 
                     Width="Auto"
                     ItemContainerStyle="{StaticResource LongListMultiSelectorItemListStyle}"
