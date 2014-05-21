@@ -145,6 +145,7 @@ namespace WritersToolbox.views
             }
             else
             {
+                types_VM.removeAddTypeObject(this.currentType);
                 this.setSelectionApplicationBar();
                 this.PivotMain.IsLocked = true;
             }
