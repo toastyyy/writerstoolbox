@@ -571,11 +571,9 @@ namespace WritersToolbox.views
             LongListMultiSelector llms = (LongListMultiSelector)sender;
             currentSelectList = llms;
             FrameworkElement c = (FrameworkElement) e.OriginalSource;
-            while (!llms.Parent.IsTypeOf(new Grid())) { };
-            Grid g = (Grid)c.Parent;
             Types_VM.removeAddTypeObject(this.currentType);
 
-            llms.SelectedItems.Add(((datawrapper.TypeObject)g.DataContext));
+            llms.SelectedItems.Add(((datawrapper.TypeObject)c.DataContext));
         }
 
         private void cancelSelection(object sender, EventArgs e) {
