@@ -20,11 +20,18 @@ namespace WritersToolbox.converter
     {
         public object Convert(object value, Type targetType, object parameter, System.Globalization.CultureInfo culture)
         {
+            BitmapImage bmp = null;
             datawrapper.TypeObject to = (datawrapper.TypeObject)value;
             StringToImageConverter stic = new StringToImageConverter();
-            BitmapImage bmp = (BitmapImage) stic.Convert(to.imageString, targetType, parameter, culture);
+            object o = stic.Convert(to.imageString, targetType, parameter, culture);
+            if (o != null) { 
+                bmp = (BitmapImage) o;
+            }
+
             if (bmp == null) {
-                bmp = (BitmapImage)stic.Convert(to.type.imageString, targetType, parameter, culture);
+                o = stic.Convert(to.type.imageString, targetType, parameter, culture);
+                if(o == null) return null;
+                bmp = (BitmapImage)o;
             }
 
             return bmp;
