@@ -11,7 +11,9 @@ using System.ComponentModel;
 
 namespace WritersToolbox.models
 {
-
+    /// <summary>
+    /// Repräsentiert ein Ereignis auf Datenbankebene.
+    /// </summary>
     [Table(Name = "Events")]
     public class Event : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {

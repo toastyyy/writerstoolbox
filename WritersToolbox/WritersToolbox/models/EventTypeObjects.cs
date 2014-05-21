@@ -9,6 +9,9 @@ using System.Threading.Tasks;
 
 namespace WritersToolbox.models
 {
+    /// <summary>
+    /// Repräsentiert die N:M Beziehung zwischen Ereignissen und Typobjekten auf Datenbankebene.
+    /// </summary>
     [Table(Name = "Event_TypeObjects")]
     public class EventTypeObjects : INotifyPropertyChanged
     {

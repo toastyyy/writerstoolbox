@@ -11,6 +11,9 @@ using System.ComponentModel;
 
 namespace WritersToolbox.models
 {
+    /// <summary>
+    /// Repräsentiert ein Band auf Datenbankebene.
+    /// </summary>
     [Table(Name = "Tomes")]
     public class Tome : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
