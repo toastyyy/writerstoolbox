@@ -150,7 +150,7 @@ namespace WritersToolbox.viewmodels
                 {
 
                     typeObjectID = typeObject.typeObjectID,
-                    //type = typeObject.type,
+                    type = new datawrapper.Type() { typeID = typeObject.obj_Type.typeID, imageString = typeObject.obj_Type.imageString },
                     //notes = typeObject.notes,
                     color = typeObject.color,
                     used = typeObject.used,
