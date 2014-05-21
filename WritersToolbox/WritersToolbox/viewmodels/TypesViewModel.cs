@@ -167,7 +167,7 @@ namespace WritersToolbox.viewmodels
         {
            
             models.Type t = new models.Type();
-            if (title.Equals(""))
+            if (title.Trim().Equals(""))
                 throw new ArgumentException("Titel muss ausgefüllt sein", "Title");
             var sqlT = from types in tableType
                        where types.title.Equals(title)
