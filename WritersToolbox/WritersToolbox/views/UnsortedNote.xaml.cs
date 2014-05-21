@@ -252,6 +252,7 @@ namespace WritersToolbox.views
         private void zurueckButton_Click(object sender, EventArgs e)
         {
             llms_unsortedNote.EnforceIsSelectionEnabled = false;
+            llms_unsortedNote.SelectedItems.Clear();
         }
 
         private void Image_Tap(object sender, System.Windows.Input.GestureEventArgs e)
