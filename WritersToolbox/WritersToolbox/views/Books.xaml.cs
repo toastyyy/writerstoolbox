@@ -505,9 +505,12 @@ namespace WritersToolbox.views
         private void LongListSelectionChanged(object sender, SelectionChangedEventArgs e)
         {
             LongListMultiSelector selector = sender as LongListMultiSelector;
+            
             Grid parent = selector.Parent as Grid;
             if (selector == null)
                 return;
+            
+            this.currentSelectList = selector;
             //for (int i = 0; i < e.RemovedItems.Count; i++)
             //{
             //    selector.SelectedItems.Remove(e.RemovedItems[i]);
