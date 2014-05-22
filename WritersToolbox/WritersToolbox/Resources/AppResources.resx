@@ -615,4 +615,37 @@
   <data name="NeuesKapitel" xml:space="preserve">
     <value>Neues Kapitel</value>
   </data>
+  <data name="AddNoteMessageEmpty" xml:space="preserve">
+    <value>Deine Notiz darf nicht leer sein.</value>
+  </data>
+  <data name="TomeDetailsMessageCancel" xml:space="preserve">
+    <value>Abbrechen</value>
+  </data>
+  <data name="TomeDetailsMessageChapter" xml:space="preserve">
+    <value>Das Kapitel "</value>
+  </data>
+  <data name="TomeDetailsMessageCorrupt" xml:space="preserve">
+    <value>Der Titel ist leer oder ungültig. Bitte gib einen anderen Titel an!</value>
+  </data>
+  <data name="TomeDetailsMessageDifferentTitle" xml:space="preserve">
+    <value>" schon vorhanden. Bitte gib einen anderen Titel an!</value>
+  </data>
+  <data name="TomeDetailsMessageDisc" xml:space="preserve">
+    <value>Möchtest du deine Eingabe wirklich verwefen?</value>
+  </data>
+  <data name="TomeDetailsMessageEvent" xml:space="preserve">
+    <value>Das Ereignis "</value>
+  </data>
+  <data name="TomeDetailsMessageExist" xml:space="preserve">
+    <value>Bereits vorhanden</value>
+  </data>
+  <data name="TomeDetailsMessageIn" xml:space="preserve">
+    <value>" ist in "</value>
+  </data>
+  <data name="TomeDetailsMessageInvalid" xml:space="preserve">
+    <value>Ungültig!</value>
+  </data>
+  <data name="TomeDetailsMessageTome" xml:space="preserve">
+    <value>Das Band "</value>
+  </data>
 </root>

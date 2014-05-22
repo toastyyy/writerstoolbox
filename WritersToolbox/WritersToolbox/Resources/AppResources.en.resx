@@ -573,4 +573,37 @@
   <data name="TomeDetailsWordMulti" xml:space="preserve">
     <value>Words</value>
   </data>
+  <data name="AddNoteMessageEmpty" xml:space="preserve">
+    <value>Your note may not be empty.</value>
+  </data>
+  <data name="TomeDetailsMessageCancel" xml:space="preserve">
+    <value>Cancel</value>
+  </data>
+  <data name="TomeDetailsMessageChapter" xml:space="preserve">
+    <value>The chapter "</value>
+  </data>
+  <data name="TomeDetailsMessageCorrupt" xml:space="preserve">
+    <value>The title is either empty or invalid, please enter a different Title!</value>
+  </data>
+  <data name="TomeDetailsMessageDifferentTitle" xml:space="preserve">
+    <value>". Please enter a different title!</value>
+  </data>
+  <data name="TomeDetailsMessageDisc" xml:space="preserve">
+    <value>Do you really wish to discard all changes?</value>
+  </data>
+  <data name="TomeDetailsMessageEvent" xml:space="preserve">
+    <value>The event "</value>
+  </data>
+  <data name="TomeDetailsMessageExist" xml:space="preserve">
+    <value>Already taken</value>
+  </data>
+  <data name="TomeDetailsMessageIn" xml:space="preserve">
+    <value>" already exists in "</value>
+  </data>
+  <data name="TomeDetailsMessageInvalid" xml:space="preserve">
+    <value>Invalid!</value>
+  </data>
+  <data name="TomeDetailsMessageTome" xml:space="preserve">
+    <value>The tome "</value>
+  </data>
 </root>

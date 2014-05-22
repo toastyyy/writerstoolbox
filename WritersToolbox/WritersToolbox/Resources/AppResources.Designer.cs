@@ -1598,5 +1598,120 @@ namespace WritersToolbox.Resources {
                 return ((byte[])(obj));
             }
         }
+
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &quot; schon vorhanden. Bitte gib einen anderen Titel an! ähnelt.
+        /// </summary>
+        public static string TomeDetailsMessageDifferentTitle
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsMessageDifferentTitle", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Das Ereignis &quot; ähnelt.
+        /// </summary>
+        public static string TomeDetailsMessageEvent
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsMessageEvent", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Bereits vorhanden ähnelt.
+        /// </summary>
+        public static string TomeDetailsMessageExist
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsMessageExist", resourceCulture);
+            }
+        }
+
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die &quot; ist in &quot; ähnelt.
+        /// </summary>
+        public static string TomeDetailsMessageIn
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsMessageIn", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Das Kapitel &quot; ähnelt.
+        /// </summary>
+        public static string TomeDetailsMessageChapter
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsMessageChapter", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Möchtest du deine Eingabe wirklich verwefen? ähnelt.
+        /// </summary>
+        public static string TomeDetailsMessageDisc
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsMessageDisc", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Abbrechen ähnelt.
+        /// </summary>
+        public static string TomeDetailsMessageCancel
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsMessageCancel", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Das Band &quot; ähnelt.
+        /// </summary>
+        public static string TomeDetailsMessageTome
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsMessageTome", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Der Titel ist leer oder ungültig. Bitte gib einen anderen Titel an! ähnelt.
+        /// </summary>
+        public static string TomeDetailsMessageCorrupt
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsMessageCorrupt", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Ungültig! ähnelt.
+        /// </summary>
+        public static string TomeDetailsMessageInvalid
+        {
+            get
+            {
+                return ResourceManager.GetString("TomeDetailsMessageInvalid", resourceCulture);
+            }
+        }
+        /// <summary>
+        ///   Sucht eine lokalisierte Zeichenfolge, die Deine Notiz darf nicht leer sein. ähnelt.
+        /// </summary>
+        public static string AddNoteMessageEmpty
+        {
+            get
+            {
+                return ResourceManager.GetString("AddNoteMessageEmpty", resourceCulture);
+            }
+        }
     }
 }

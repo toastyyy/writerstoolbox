@@ -770,6 +770,7 @@ namespace WritersToolbox.views
                 information.Tap -= information_Tap;
                 typeObject.Tap -= typeObject_Tap;
                 b.SelectAll();
+                blindUpDownButton();
             }
         }
 
@@ -798,14 +799,18 @@ namespace WritersToolbox.views
                     information.Tap += information_Tap;
                     typeObject.Tap += typeObject_Tap;
                     addDefaultApplicationBar();
+                    showUpDownButton();
                 }
                 else if (isExist && !wasfocuslost)
                 {
                     b.IsReadOnly = false;
                     doubleTap_e = true;
-                    //Fehlermeldung              
-                    result = MessageBox.Show("Das Ereignis \"" + b.Text + "\" ist in \" HILFE \" schon vorhanden. Bitte gib einen anderen Titel an!",
-                            "Bereits vorhanden", MessageBoxButton.OK);
+                    //Fehlermeldung         
+                    if (oldChapter != null) {
+                        string name = oldChapter.title;
+                        result = MessageBox.Show(AppResources.TomeDetailsMessageEvent + b.Text + AppResources.TomeDetailsMessageIn + name + AppResources.TomeDetailsMessageDifferentTitle,
+                            AppResources.TomeDetailsMessageExist, MessageBoxButton.OK);
+                    }
                     wasfocuslost = false;
                     b.LostFocus -= Event_LostFocus;
                     WorkaroundButton.Focus();
@@ -822,7 +827,7 @@ namespace WritersToolbox.views
                     b.IsReadOnly = true;
                     doubleTap_e = false;
                     singleTap_e = true;
-
+                    showUpDownButton();
                     addDefaultApplicationBar();
                     structure.Tap += structure_Tap;
                     information.Tap += information_Tap;
@@ -868,6 +873,7 @@ namespace WritersToolbox.views
                 information.Tap -= information_Tap;
                 typeObject.Tap -= typeObject_Tap;
                 b.SelectAll();
+                blindUpDownButton();
             }
 
 
@@ -901,14 +907,15 @@ namespace WritersToolbox.views
                     information.Tap += information_Tap;
                     typeObject.Tap += typeObject_Tap;
                     addDefaultApplicationBar();
+                    showUpDownButton();
                 }
                 else if (isExist && !wasfocuslost)
                 {
                     b.IsReadOnly = false;
                     doubleTap = true;
                     //Fehlermeldung              
-                    result = MessageBox.Show("Das Kapitel \"" + b.Text + "\" ist in \"" + this.Title + "\" schon vorhanden. Bitte geben Sie einen anderen Titel an!",
-                            "Bereits vorhanden", MessageBoxButton.OK);
+                    result = MessageBox.Show(AppResources.TomeDetailsMessageChapter + b.Text + AppResources.TomeDetailsMessageIn + this.tome_VM.tome.title + AppResources.TomeDetailsMessageDifferentTitle,
+                            AppResources.TomeDetailsMessageExist, MessageBoxButton.OK);
                     wasfocuslost = false;
                     b.LostFocus -= ChapterTextbox_LostFocus;
                     WorkaroundButton.Focus();
@@ -926,7 +933,7 @@ namespace WritersToolbox.views
                     doubleTap = false;
                     singleTap = true;
                     addDefaultApplicationBar();
-
+                    showUpDownButton();
                     structure.Tap += structure_Tap;
                     information.Tap += information_Tap;
                     typeObject.Tap += typeObject_Tap;
@@ -1077,8 +1084,8 @@ namespace WritersToolbox.views
             if (!title.Equals(tome_VM.tome.title))
             {
                 //Änderung -> wirklich abbrechen?           
-                result = MessageBox.Show("Möchtest du deine Änderungen wirklich verwefen?",
-                        "Abbrechen", MessageBoxButton.OKCancel);
+                result = MessageBox.Show(AppResources.TomeDetailsMessageDisc,
+                        AppResources.TomeDetailsMessageCancel, MessageBoxButton.OKCancel);
                 bookTitle_edit.SelectAll();
                 if (result == MessageBoxResult.OK)
                 {
@@ -1148,15 +1155,15 @@ namespace WritersToolbox.views
             else if (this.tome_VM.tomeTitleAlreadyExists(title))
             {
                 //Fehlermeldung Tome mit Titel bereits vorhanden  
-                result = MessageBox.Show("Ein Band \"" + title + "\" ist in \"" + tomeBooktitel + "\" bereits vorhanden. Bitte wähle einen anderen Namen aus!",
-                        "Bereits vorhanden", MessageBoxButton.OK);
+                result = MessageBox.Show(AppResources.TomeDetailsMessageTome + b.Text + AppResources.TomeDetailsMessageIn + this.tome_VM.tome.title + AppResources.TomeDetailsMessageDifferentTitle,
+                            AppResources.TomeDetailsMessageExist, MessageBoxButton.OK);
                 bookTitle_edit.SelectAll();
             }
             else if ((title.Trim()).Equals("") || title.Replace(" ", "").ToUpper().Equals((AppResources.TomeTitleNewTome).Replace(" ", "").ToUpper()))
             {
                 //Fehlermeldung ungültig oder leer           
-                result = MessageBox.Show("Der Titel ist leer oder ungültig. Bitte geben Sie einen anderen Titel an!",
-                        "Ungültig", MessageBoxButton.OK);
+                result = MessageBox.Show(AppResources.TomeDetailsMessageCorrupt,
+                        AppResources.TomeDetailsMessageInvalid, MessageBoxButton.OK);
                 bookTitle_edit.SelectAll();
             }
             else
@@ -1283,19 +1290,19 @@ namespace WritersToolbox.views
 
             String textboxtext = (newChapterTextbox.Text).Replace(" ", "").ToUpper();
             String vergleichstext = (AppResources.TomeDetailsNewOne + AppResources.TomeDetailsChapter).Trim().ToUpper();
-
+            
             if (newChapterTextbox.Text.Trim().Equals("") || (newChapterTextbox.Text).Replace(" ", "").ToUpper().Equals((AppResources.TomeDetailsNewOne + " " + AppResources.TomeDetailsChapter).Trim().ToUpper()))
             {
                 //Fehlermeldung ungültig oder leer           
-                result = MessageBox.Show("Der Titel ist leer oder ungültig. Bitte geben Sie einen anderen Titel an!",
-                        "Ungültig", MessageBoxButton.OK);
+                result = MessageBox.Show(AppResources.TomeDetailsMessageCorrupt,
+                        AppResources.TomeDetailsMessageInvalid, MessageBoxButton.OK);
                 newChapterTextbox.SelectAll();
             }
             else if (doesExist)
             {
                 //Fehlermeldung Kapitel existiert          
-                result = MessageBox.Show("Dieses Kapitel exisitiert bereits. Bitte geben Sie einen anderen Titel an!",
-                        "Information", MessageBoxButton.OK);
+                result = MessageBox.Show(AppResources.TomeDetailsMessageChapter + b.Text + AppResources.TomeDetailsMessageIn + this.tome_VM.tome.title + AppResources.TomeDetailsMessageDifferentTitle,
+                            AppResources.TomeDetailsMessageExist, MessageBoxButton.OK);
                 newChapterTextbox.SelectAll();
             }
             else
@@ -1343,8 +1350,8 @@ namespace WritersToolbox.views
             if (!newChapterTextbox.Text.Trim().Equals(""))
             {
                 MessageBoxResult result =
-                MessageBox.Show("Möchten sie ihre Eingabe wirklich verwerfen?",
-                   "Abbrechen", MessageBoxButton.OKCancel);
+                MessageBox.Show(AppResources.TomeDetailsMessageDisc,
+                   AppResources.TomeDetailsMessageCancel, MessageBoxButton.OKCancel);
 
                 if (result == MessageBoxResult.OK)
                 {
