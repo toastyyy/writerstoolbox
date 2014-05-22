@@ -749,11 +749,16 @@ namespace WritersToolbox.views
             {
                 this.removeAppBarNotes();
             }
-            selectAllCheckBox1.Checked -= selectAllCheckBox_Checked;
-            selectAllCheckBox1.Unchecked -= selectAllCheckBox_Unchecked;
-            selectAllCheckBox1.IsChecked = NoteList.SelectedItems.Count == NoteList.ItemsSource.Count;
-            selectAllCheckBox1.Unchecked += selectAllCheckBox_Unchecked;
-            selectAllCheckBox1.Checked += selectAllCheckBox_Checked;
+            try
+            {
+                selectAllCheckBox1.Checked -= selectAllCheckBox_Checked;
+                selectAllCheckBox1.Unchecked -= selectAllCheckBox_Unchecked;
+                selectAllCheckBox1.IsChecked = NoteList.SelectedItems.Count == NoteList.ItemsSource.Count;
+                selectAllCheckBox1.Unchecked += selectAllCheckBox_Unchecked;
+                selectAllCheckBox1.Checked += selectAllCheckBox_Checked;
+            }
+            catch (Exception ex) { }
+            
         }
 
         private void tTitle_GotFocus(object sender, RoutedEventArgs e)

@@ -91,69 +91,76 @@ namespace WritersToolbox.views
         /// </summary>
         public addNote()
         {
-            //Componenten initialisieren.
-            InitializeComponent();
-            photoChooserTask = new PhotoChooserTask();
-            recorder = new MicrophoneRecorder();
-            anvm = new AddNoteViewModel();
-            //Wenn NoteID schon zu Verfügung ist, wird geholt und geparst.
-            if (PhoneApplicationService.Current.State.ContainsKey("memoryNoteID"))
+            try
             {
-                try
+                //Componenten initialisieren.
+                InitializeComponent();
+                photoChooserTask = new PhotoChooserTask();
+                recorder = new MicrophoneRecorder();
+                anvm = new AddNoteViewModel();
+                //Wenn NoteID schon zu Verfügung ist, wird geholt und geparst.
+                if (PhoneApplicationService.Current.State.ContainsKey("memoryNoteID"))
                 {
-                    NoteID = int.Parse(PhoneApplicationService.Current.State["memoryNoteID"] as String);
+                    try
+                    {
+                        NoteID = int.Parse(PhoneApplicationService.Current.State["memoryNoteID"] as String);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine("Fehler beim Parsen von String to Int aufgetretten");
+                    }
                 }
-                catch (Exception ex)
+                //Wenn NoteID 0 ist, dann wird eine leere Collection von Bilder zurückgegeben,
+                //Sonst werden die Bilder von NoteID zurückgegeben
+                //Das wird ausgeführt, wenn noch gar kein Bild in Fullscreen gezeigt ist.
+                if (!PhoneApplicationService.Current.State.ContainsKey("OppendImageView"))
                 {
-                    System.Diagnostics.Debug.WriteLine("Fehler beim Parsen von String to Int aufgetretten");
+                    Image_Items = anvm.getImages(NoteID);
+                    //Bilder in der List hinzufügen.
+                    this.llms_images.ItemsSource = Image_Items;
                 }
+
+                //Wenn NoteID 0 ist, dann wird eine leere Collection von Memos zurückgegeben,
+                //Sonst werden die Memos von NoteID zurückgegeben
+                sound_Items = anvm.getAudios(NoteID);
+                //Memos in der List hinzufügen.
+                this.llms_records.ItemsSource = sound_Items;
+                //Alle notwendige Daten der Notiz zzurückgeben.
+                string temp_title = anvm.getTitle(NoteID);
+                string temp_details = anvm.getDetails(NoteID);
+                titleTextBox.Text = temp_title.Equals("") ? AppResources.AddNoteTitleText : temp_title;
+                detailsTextBox.Text = temp_details.Equals("") ? AppResources.AddNoteDetailsText : temp_details;
+                schlagwoerterTextBox.Text = anvm.getTags(NoteID);
+
+                //Um die Größe des Textboxs anzupassen.
+                textBoxResize(titleTextBox, 72);
+                textBoxResize(detailsTextBox, 408);
+                textBoxResize(schlagwoerterTextBox, 300);
+
+                //Design aktualisieren.
+                if (Image_Items.Count > 0)
+                {
+                    selectAllCheckBox.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    selectAllCheckBox.Visibility = Visibility.Collapsed;
+                }
+
+                if (sound_Items.Count > 0)
+                {
+                    selectAllRecordCheckBox.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    selectAllRecordCheckBox.Visibility = Visibility.Collapsed;
+                }
+                addManagementApplicationBarButton();
             }
-            //Wenn NoteID 0 ist, dann wird eine leere Collection von Bilder zurückgegeben,
-            //Sonst werden die Bilder von NoteID zurückgegeben
-            //Das wird ausgeführt, wenn noch gar kein Bild in Fullscreen gezeigt ist.
-            if (!PhoneApplicationService.Current.State.ContainsKey("OppendImageView"))
+            catch (Exception ex)
             {
-                Image_Items = anvm.getImages(NoteID);
-                //Bilder in der List hinzufügen.
-                this.llms_images.ItemsSource = Image_Items;
             }
 
-            //Wenn NoteID 0 ist, dann wird eine leere Collection von Memos zurückgegeben,
-            //Sonst werden die Memos von NoteID zurückgegeben
-            sound_Items = anvm.getAudios(NoteID);
-            //Memos in der List hinzufügen.
-            this.llms_records.ItemsSource = sound_Items;
-            //Alle notwendige Daten der Notiz zzurückgeben.
-            string temp_title = anvm.getTitle(NoteID);
-            string temp_details = anvm.getDetails(NoteID);
-            titleTextBox.Text = temp_title.Equals("") ? AppResources.AddNoteTitleText : temp_title;
-            detailsTextBox.Text = temp_details.Equals("") ? AppResources.AddNoteDetailsText : temp_details;
-            schlagwoerterTextBox.Text = anvm.getTags(NoteID);
-
-            //Um die Größe des Textboxs anzupassen.
-            textBoxResize(titleTextBox, 72);
-            textBoxResize(detailsTextBox, 408);
-            textBoxResize(schlagwoerterTextBox, 300);
-
-            //Design aktualisieren.
-            if (Image_Items.Count > 0)
-            {
-                selectAllCheckBox.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                selectAllCheckBox.Visibility = Visibility.Collapsed;
-            }
-
-            if (sound_Items.Count > 0)
-            {
-                selectAllRecordCheckBox.Visibility = Visibility.Visible;
-            }
-            else
-            {
-                selectAllRecordCheckBox.Visibility = Visibility.Collapsed;
-            }
-            addManagementApplicationBarButton();
 
             
         }
@@ -163,39 +170,46 @@ namespace WritersToolbox.views
         /// </summary>
         private void addManagementApplicationBarButton()
         {
+            try
+            {
                 //Mediabuttons von ApplicationBarButton löschen.
                 removeMediaApplicationBarButton();
 
 
-            //ApplicationBarButton mit ManagmentButtons erfüllen.
-            
-            save = new ApplicationBarIconButton(new Uri("/icons/speichern.png", UriKind.Relative));
-            save.Text = AppResources.AppBarSave;
-            ApplicationBar.Buttons.Add(save);
-            //Wenn die Notize schon zugewiesen ist, dann wird auf die Zuordnungsoption verzichtet.
-            if (!PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
-            {
-                saveAs = new ApplicationBarIconButton(new Uri("/icons/speichernUnter.png", UriKind.Relative));
-                saveAs.Text = AppResources.AppBarAssign;
-                saveAs.Click += saveAsButton_Click;
-                ApplicationBar.Buttons.Add(saveAs);
+                //ApplicationBarButton mit ManagmentButtons erfüllen.
+
+                save = new ApplicationBarIconButton(new Uri("/icons/speichern.png", UriKind.Relative));
+                save.Text = AppResources.AppBarSave;
+                ApplicationBar.Buttons.Add(save);
+                //Wenn die Notize schon zugewiesen ist, dann wird auf die Zuordnungsoption verzichtet.
+                if (!PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
+                {
+                    saveAs = new ApplicationBarIconButton(new Uri("/icons/speichernUnter.png", UriKind.Relative));
+                    saveAs.Text = AppResources.AppBarAssign;
+                    saveAs.Click += saveAsButton_Click;
+                    ApplicationBar.Buttons.Add(saveAs);
+                }
+                cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
+
+
+
+                cancel.Text = AppResources.AppBarClose;
+
+                //Events zu Buttons hinzufügen.
+
+                save.Click += saveButton_Click;
+                cancel.Click += cancelButton_Click;
+
+
+
+                ApplicationBar.Buttons.Add(cancel);
+                //ApplicationBarStatus aktualisieren.
+                applicationBarButton_Modus = MANAGEMENT;
             }
-            cancel = new ApplicationBarIconButton(new Uri("/icons/cancel.png", UriKind.Relative));
-
-            
-            
-            cancel.Text = AppResources.AppBarClose;
-
-            //Events zu Buttons hinzufügen.
-            
-            save.Click += saveButton_Click;
-            cancel.Click += cancelButton_Click;
-            
-            
-            
-            ApplicationBar.Buttons.Add(cancel);
-            //ApplicationBarStatus aktualisieren.
-            applicationBarButton_Modus = MANAGEMENT;
+            catch (Exception ex)
+            {
+            }
+                
         }
 
 
@@ -204,34 +218,41 @@ namespace WritersToolbox.views
         /// </summary>
         private void addMediaApplicationBarButton()
         {
-
+            try
+            {
                 //ManagmentButtons von ApplicationBarButtons löschen.
                 removeManagementApplicationBarButton();
 
-            //ApplicationBarButton mit MediaButtons erfüllen.
-            pp = new ApplicationBarIconButton(new Uri("/icons/pause.png", UriKind.Relative));
-            reward = new ApplicationBarIconButton(new Uri("/icons/reward.png", UriKind.Relative));
-            forward = new ApplicationBarIconButton(new Uri("/icons/forward.png", UriKind.Relative));
-            stop = new ApplicationBarIconButton(new Uri("/icons/stop.png", UriKind.Relative));
+                //ApplicationBarButton mit MediaButtons erfüllen.
+                pp = new ApplicationBarIconButton(new Uri("/icons/pause.png", UriKind.Relative));
+                reward = new ApplicationBarIconButton(new Uri("/icons/reward.png", UriKind.Relative));
+                forward = new ApplicationBarIconButton(new Uri("/icons/forward.png", UriKind.Relative));
+                stop = new ApplicationBarIconButton(new Uri("/icons/stop.png", UriKind.Relative));
 
-            pp.Text = AppResources.MediaPlayerPause;
-            reward.Text = AppResources.MediaPlayerReward;
-            forward.Text = AppResources.MediaPlayerForward;
-            stop.Text = AppResources.MediaPlayerStop;
+                pp.Text = AppResources.MediaPlayerPause;
+                reward.Text = AppResources.MediaPlayerReward;
+                forward.Text = AppResources.MediaPlayerForward;
+                stop.Text = AppResources.MediaPlayerStop;
 
 
-            //Events zu Buttons hinzufügen.
-            pp.Click += play_pause_Click;
-            reward.Click += soundbar_reward_button_Click;
-            forward.Click += soundbar_forward_button_Click;
-            stop.Click += soundbar_stop_button_Click;
+                //Events zu Buttons hinzufügen.
+                pp.Click += play_pause_Click;
+                reward.Click += soundbar_reward_button_Click;
+                forward.Click += soundbar_forward_button_Click;
+                stop.Click += soundbar_stop_button_Click;
 
-            ApplicationBar.Buttons.Add(reward);
-            ApplicationBar.Buttons.Add(pp);
-            ApplicationBar.Buttons.Add(forward);
-            ApplicationBar.Buttons.Add(stop);
-            //ApplicationBarStatus aktualisieren.
-            applicationBarButton_Modus = MEDIA;
+                ApplicationBar.Buttons.Add(reward);
+                ApplicationBar.Buttons.Add(pp);
+                ApplicationBar.Buttons.Add(forward);
+                ApplicationBar.Buttons.Add(stop);
+                //ApplicationBarStatus aktualisieren.
+                applicationBarButton_Modus = MEDIA;
+            }
+            catch (Exception ex)
+            {
+            }
+
+
         }
 
         /// <summary>
@@ -239,12 +260,20 @@ namespace WritersToolbox.views
         /// </summary>
         private void removeManagementApplicationBarButton()
         {
-            if (!PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
+            try
             {
-                ApplicationBar.Buttons.Remove(saveAs);
+
+                if (!PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
+                {
+                    ApplicationBar.Buttons.Remove(saveAs);
+                }
+                ApplicationBar.Buttons.Remove(save);
+                ApplicationBar.Buttons.Remove(cancel);
             }
-            ApplicationBar.Buttons.Remove(save);
-            ApplicationBar.Buttons.Remove(cancel);
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -252,10 +281,18 @@ namespace WritersToolbox.views
         /// </summary>
         private void removeMediaApplicationBarButton()
         {
-            ApplicationBar.Buttons.Remove(pp);
-            ApplicationBar.Buttons.Remove(forward);
-            ApplicationBar.Buttons.Remove(reward);
-            ApplicationBar.Buttons.Remove(stop);
+            try
+            {
+
+                ApplicationBar.Buttons.Remove(pp);
+                ApplicationBar.Buttons.Remove(forward);
+                ApplicationBar.Buttons.Remove(reward);
+                ApplicationBar.Buttons.Remove(stop);
+            }
+            catch (Exception ex)
+            {
+            }
+
 
         }
 
@@ -265,33 +302,49 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         protected override void OnBackKeyPress(System.ComponentModel.CancelEventArgs e)
         {
-            base.OnBackKeyPress(e);
-            if (llms_images.IsSelectionEnabled)
+            try
             {
-                e.Cancel = true;
-                llms_images.IsSelectionEnabled = false;
+
+                base.OnBackKeyPress(e);
+                if (llms_images.IsSelectionEnabled)
+                {
+                    e.Cancel = true;
+                    llms_images.IsSelectionEnabled = false;
+                }
+                else if (llms_records.IsSelectionEnabled)
+                {
+                    e.Cancel = true;
+                    llms_records.IsSelectionEnabled = false;
+                }
+                else if (!NoteDiscard())
+                {
+                    e.Cancel = true;
+                }
             }
-            else if (llms_records.IsSelectionEnabled)
+            catch (Exception ex)
             {
-                e.Cancel = true;
-                llms_records.IsSelectionEnabled = false;
             }
-            else if (!NoteDiscard())
-            {
-                e.Cancel = true;
-            }
+
         }
 
         protected override void OnNavigatedFrom(NavigationEventArgs e)
         {
-            base.OnNavigatedFrom(e);
-            PhoneApplicationService.Current.State["RestoreData"] = 
-                new datawrapper.MemoryNote() 
-                { 
-                    contentText = detailsTextBox.Text, 
-                    title = titleTextBox.Text,
-                    tags = schlagwoerterTextBox.Text
-                };
+            try
+            {
+
+                base.OnNavigatedFrom(e);
+                PhoneApplicationService.Current.State["RestoreData"] =
+                    new datawrapper.MemoryNote()
+                    {
+                        contentText = detailsTextBox.Text,
+                        title = titleTextBox.Text,
+                        tags = schlagwoerterTextBox.Text
+                    };
+            }
+            catch (Exception ex)
+            {
+            }
+
             
         }
         
@@ -301,116 +354,132 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         protected override void OnNavigatedTo(NavigationEventArgs e)
         {
-            //Source der AudioPlayer auf null einsetzen wenn es schon vorher was abgespielt ist,
-            //Damit wenn es zu diesem Screen navigiert wird, nicht automatisch abgespielt wird.
-            if (AudioPlayer.Source != null)
+            try
             {
-                AudioPlayer.Source = null;
-            }
-            if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
-            {
-                if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID") || PhoneApplicationService.Current.State.ContainsKey("eventID"))
+                //Source der AudioPlayer auf null einsetzen wenn es schon vorher was abgespielt ist,
+                //Damit wenn es zu diesem Screen navigiert wird, nicht automatisch abgespielt wird.
+                if (AudioPlayer.Source != null)
                 {
-                    //Wenn in Title nicht geändert wurde, dann wird automatisch der aktuelle Datum für Title gegeben.
-                    string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleText))
-                        ? DateTime.Now.ToString("F")
-                        : titleTextBox.Text.Trim();
-
-                    string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsText))
-                        ? ""
-                        : detailsTextBox.Text.Trim();
-
-                    if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                    AudioPlayer.Source = null;
+                }
+                if (PhoneApplicationService.Current.State.ContainsKey("assignNote"))
+                {
+                    if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID") || PhoneApplicationService.Current.State.ContainsKey("eventID"))
                     {
-                        //Notiz zuordnen.
-                        anvm.saveAsTypeObject(NoteID, DateTime.Now, title, details,
-                            Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
-                            (int)PhoneApplicationService.Current.State["typeObjectID"]);
-                    }
-                    else if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
-                    {
-                        //Notiz zu Ereignis zu Ordnen.
-                        anvm.saveAsEvent(NoteID, DateTime.Now, title, details,
+                        //Wenn in Title nicht geändert wurde, dann wird automatisch der aktuelle Datum für Title gegeben.
+                        string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleText))
+                            ? DateTime.Now.ToString("F")
+                            : titleTextBox.Text.Trim();
+
+                        string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsText))
+                            ? ""
+                            : detailsTextBox.Text.Trim();
+
+                        if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                        {
+                            //Notiz zuordnen.
+                            anvm.saveAsTypeObject(NoteID, DateTime.Now, title, details,
                                 Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
-                                (int)PhoneApplicationService.Current.State["eventID"]);
-                    }
-                    meldung = AppResources.MeldungZuordnungErfolgreich.Replace("µ1", "\""+titleTextBox.Text+"\"");
-                    //Hilfsvariable in ApplicationService löschen.
-                    PhoneApplicationService.Current.State.Remove("deletedImages");
-                    PhoneApplicationService.Current.State.Remove("addedImages");
-                    PhoneApplicationService.Current.State.Remove("OppendImageView");
-                    PhoneApplicationService.Current.State.Remove("memoryNoteID");
-                    PhoneApplicationService.Current.State.Remove("assignNote");
-                    if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
-                    {
-                        meldung = meldung.Replace("µ2", " Type " + "\"" + anvm.getTitleType((int)PhoneApplicationService.Current.State["typeObjectID"]) + "\"");
-                        PhoneApplicationService.Current.State.Remove("typeObjectID");
-                    }
+                                (int)PhoneApplicationService.Current.State["typeObjectID"]);
+                        }
+                        else if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
+                        {
+                            //Notiz zu Ereignis zu Ordnen.
+                            anvm.saveAsEvent(NoteID, DateTime.Now, title, details,
+                                    Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
+                                    (int)PhoneApplicationService.Current.State["eventID"]);
+                        }
+                        meldung = AppResources.MeldungZuordnungErfolgreich.Replace("µ1", "\"" + titleTextBox.Text + "\"");
+                        //Hilfsvariable in ApplicationService löschen.
+                        PhoneApplicationService.Current.State.Remove("deletedImages");
+                        PhoneApplicationService.Current.State.Remove("addedImages");
+                        PhoneApplicationService.Current.State.Remove("OppendImageView");
+                        PhoneApplicationService.Current.State.Remove("memoryNoteID");
+                        PhoneApplicationService.Current.State.Remove("assignNote");
+                        if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                        {
+                            meldung = meldung.Replace("µ2", " Type " + "\"" + anvm.getTitleType((int)PhoneApplicationService.Current.State["typeObjectID"]) + "\"");
+                            PhoneApplicationService.Current.State.Remove("typeObjectID");
+                        }
 
-                    if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
-                    {
-                        meldung = meldung.Replace("µ2", " Event " + "\"" + anvm.getTitleEvent((int)PhoneApplicationService.Current.State["eventID"]) + "\"");
-                        PhoneApplicationService.Current.State.Remove("eventID");
-                    }
+                        if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
+                        {
+                            meldung = meldung.Replace("µ2", " Event " + "\"" + anvm.getTitleEvent((int)PhoneApplicationService.Current.State["eventID"]) + "\"");
+                            PhoneApplicationService.Current.State.Remove("eventID");
+                        }
 
                         NavigationService.GoBack();
                         return;
 
+                    }
                 }
-            }
-            //Überprüfen ob es von Imageview navigiert wurde.
-            if (PhoneApplicationService.Current.State.ContainsKey("OppendImageView"))
-            {
-                //Überprüfen ob vor der Navigation ein Bild hinzugefügt oder gelöscht ist.
-                if (PhoneApplicationService.Current.State.ContainsKey("deletedImages")
-                    || PhoneApplicationService.Current.State.ContainsKey("addedImages"))
+                //Überprüfen ob es von Imageview navigiert wurde.
+                if (PhoneApplicationService.Current.State.ContainsKey("OppendImageView"))
                 {
-                    //speichern die neue gelöschte oder hinzugefügte Bildern einer Notiz in einem ObservableCollection.
-                    string addedImages = PhoneApplicationService.Current.State.ContainsKey("addedImages")
-                        ? PhoneApplicationService.Current.State["addedImages"] as string
-                        : "";
-                    string deletedImages = PhoneApplicationService.Current.State.ContainsKey("deletedImages")
-                        ? PhoneApplicationService.Current.State["deletedImages"] as string
-                        : "";
+                    //Überprüfen ob vor der Navigation ein Bild hinzugefügt oder gelöscht ist.
+                    if (PhoneApplicationService.Current.State.ContainsKey("deletedImages")
+                        || PhoneApplicationService.Current.State.ContainsKey("addedImages"))
+                    {
+                        //speichern die neue gelöschte oder hinzugefügte Bildern einer Notiz in einem ObservableCollection.
+                        string addedImages = PhoneApplicationService.Current.State.ContainsKey("addedImages")
+                            ? PhoneApplicationService.Current.State["addedImages"] as string
+                            : "";
+                        string deletedImages = PhoneApplicationService.Current.State.ContainsKey("deletedImages")
+                            ? PhoneApplicationService.Current.State["deletedImages"] as string
+                            : "";
 
-                    Image_Items = anvm.getImages(NoteID, deletedImages, addedImages);
+                        Image_Items = anvm.getImages(NoteID, deletedImages, addedImages);
+                    }
+                    else
+                    {
+                        Image_Items = anvm.getImages(NoteID, "", "");
+                    }
+
+                }
+
+                //ObservaleCollection von MyImage zu den LonglistMultiSelector übergeben.
+                llms_images.ItemsSource = Image_Items;
+
+                //Hier wird geprüft ob es von einem anderen Screen die Notiz geöffnet ist.
+                //Um die Daten der Notiz in einem Zwischenspeicher zu speichern, um die 
+                //Überprüfung durchzuführen.
+                if (!isPhotoChooserOpened && PhoneApplicationService.Current.State.ContainsKey("edit"))
+                {
+                    this.ScreenTitle.Text = AppResources.AddNoteEditText;
+                    tempTitle = titleTextBox.Text;
+                    tempDetails = detailsTextBox.Text;
+                    tempTags = schlagwoerterTextBox.Text;
+                    tempSound_Items = new ObservableCollection<SoundData>(sound_Items);
+                    tempImage_Items = new ObservableCollection<MyImage>(Image_Items);
+                }
+                isPhotoChooserOpened = false;
+
+                if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
+                {
+                    if (PhoneApplicationService.Current.State.ContainsKey("RestoreData"))
+                    {
+                        datawrapper.MemoryNote note = (datawrapper.MemoryNote)PhoneApplicationService.Current.State["RestoreData"];
+                        titleTextBox.Text = note.title;
+                        detailsTextBox.Text = note.contentText;
+                        schlagwoerterTextBox.Text = note.tags;
+                        PhoneApplicationService.Current.State.Remove("RestoreData");
+                    }
+                    PhoneApplicationService.Current.State.Remove("tombstoned");
+                }
+                if (llms_images.ItemsSource.Count <= 0)
+                {
+                    selectAllCheckBox.Visibility = Visibility.Collapsed;
                 }
                 else
+                    selectAllCheckBox.Visibility = Visibility.Visible;
                 {
-                    Image_Items = anvm.getImages(NoteID, "", "");
                 }
-
             }
-
-            //ObservaleCollection von MyImage zu den LonglistMultiSelector übergeben.
-            llms_images.ItemsSource = Image_Items;
-
-            //Hier wird geprüft ob es von einem anderen Screen die Notiz geöffnet ist.
-            //Um die Daten der Notiz in einem Zwischenspeicher zu speichern, um die 
-            //Überprüfung durchzuführen.
-            if (!isPhotoChooserOpened && PhoneApplicationService.Current.State.ContainsKey("edit"))
+            catch (Exception ex)
             {
-                this.ScreenTitle.Text = AppResources.AddNoteEditText;
-                tempTitle = titleTextBox.Text;
-                tempDetails = detailsTextBox.Text;
-                tempTags = schlagwoerterTextBox.Text;
-                tempSound_Items = new ObservableCollection<SoundData>(sound_Items);
-                tempImage_Items = new ObservableCollection<MyImage>(Image_Items);                
             }
-            isPhotoChooserOpened = false;
 
-            if (PhoneApplicationService.Current.State.ContainsKey("tombstoned"))
-            {
-                if (PhoneApplicationService.Current.State.ContainsKey("RestoreData"))
-                {
-                    datawrapper.MemoryNote note = (datawrapper.MemoryNote) PhoneApplicationService.Current.State["RestoreData"];
-                    titleTextBox.Text = note.title;
-                    detailsTextBox.Text = note.contentText;
-                    schlagwoerterTextBox.Text = note.tags;
-                    PhoneApplicationService.Current.State.Remove("RestoreData");
-                }
-                PhoneApplicationService.Current.State.Remove("tombstoned");
-            }
+
         }
 
         /// <summary>
@@ -421,7 +490,15 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void TextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            textBoxResize(detailsTextBox, 408);
+            try
+            {
+
+                textBoxResize(detailsTextBox, 408);
+            }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -432,7 +509,15 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void titleTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            textBoxResize(titleTextBox, 72);
+            try
+            {
+
+                textBoxResize(titleTextBox, 72);
+            }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -443,7 +528,15 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void schlagwoerterTextBox_TextChanged(object sender, TextChangedEventArgs e)
         {
-            textBoxResize(schlagwoerterTextBox, 300);
+            try
+            {
+
+                textBoxResize(schlagwoerterTextBox, 300);
+            }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -459,14 +552,23 @@ namespace WritersToolbox.views
         private double heightCalculator(String str, FontFamily font, double size,
             FontStyle fontstyle, FontWeight fontweight, TextBox t)
         {
+
             TextBlock l = new TextBlock();
-            l.TextWrapping = TextWrapping.Wrap;
-            l.FontFamily = font;
-            l.FontSize = size;
-            l.FontStyle = fontstyle;
-            l.FontWeight = fontweight;
-            l.Width = t.Width;
-            l.Text = str;          
+            try
+            {
+
+                l.TextWrapping = TextWrapping.Wrap;
+                l.FontFamily = font;
+                l.FontSize = size;
+                l.FontStyle = fontstyle;
+                l.FontWeight = fontweight;
+                l.Width = t.Width;
+                l.Text = str;
+                
+            }
+            catch (Exception ex)
+            {
+            }
             return l.ActualHeight + 71;
         }
 
@@ -477,25 +579,33 @@ namespace WritersToolbox.views
         /// <param name="size">Anfangsgröße</param>
         private void textBoxResize(TextBox textBox, double size)
         {
-            //Durch die Hilfsmethode heightCalculator() wird die Höhe des eingegebenes Text berechnet.
-            double height = heightCalculator(textBox.Text, textBox.FontFamily, textBox.FontSize,
-                textBox.FontStyle, textBox.FontWeight, textBox);
-            //Aktualisierung der Höhe des textBox
-            if (height > size)
+            try
             {
-                if (textBox == titleTextBox)
+
+                //Durch die Hilfsmethode heightCalculator() wird die Höhe des eingegebenes Text berechnet.
+                double height = heightCalculator(textBox.Text, textBox.FontFamily, textBox.FontSize,
+                    textBox.FontStyle, textBox.FontWeight, textBox);
+                //Aktualisierung der Höhe des textBox
+                if (height > size)
                 {
+                    if (textBox == titleTextBox)
+                    {
                         double heightDifference = height - textBox.Height;
                         int left = (int)detailsTextBox.Margin.Left;
-                        int top = (int) (detailsTextBox.Margin.Top + heightDifference);
-                        int right = (int) detailsTextBox.Margin.Right;
-                        int bottom = (int) detailsTextBox.Margin.Bottom;
-                        detailsTextBox.Margin = new Thickness(left, top, right,bottom);                       
+                        int top = (int)(detailsTextBox.Margin.Top + heightDifference);
+                        int right = (int)detailsTextBox.Margin.Right;
+                        int bottom = (int)detailsTextBox.Margin.Bottom;
+                        detailsTextBox.Margin = new Thickness(left, top, right, bottom);
+
+                    }
+                    textBox.Height = height;
 
                 }
-                textBox.Height = height;
-
             }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -505,18 +615,26 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void photoChooserTask_Completed(object sender, PhotoResult e)
         {
-            //ob ein Bild ausgewählt ist.
-            if (e.TaskResult == TaskResult.OK)
+            try
             {
-                isPhotoChooserOpened = true;
-                //Hilfsmethode.
-                picturSelect(e.OriginalFileName);
-                //Um checkbox alle auswählen aktiviere, wenn ein Bild hinzugefügt ist.
-                if (Image_Items.Count > 0)
+
+                //ob ein Bild ausgewählt ist.
+                if (e.TaskResult == TaskResult.OK)
                 {
-                    selectAllCheckBox.Visibility = Visibility.Visible;
+                    isPhotoChooserOpened = true;
+                    //Hilfsmethode.
+                    picturSelect(e.OriginalFileName);
+                    //Um checkbox alle auswählen aktiviere, wenn ein Bild hinzugefügt ist.
+                    if (Image_Items.Count > 0)
+                    {
+                        selectAllCheckBox.Visibility = Visibility.Visible;
+                    }
                 }
-             }
+            }
+            catch (Exception ex)
+            {
+            }
+
          }
 
         /// <summary>
@@ -564,14 +682,22 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void titleTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            //Hintergrund dynamisch ändern.
-            titleTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
-            SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
-            titleTextBox.Background = _s;
-            if (titleTextBox.Text.ToString().Trim().ToUpper().Equals(AppResources.AddNoteTitleTextUpper))
+            try
             {
-                titleTextBox.Text = "";
+
+                //Hintergrund dynamisch ändern.
+                titleTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
+                SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
+                titleTextBox.Background = _s;
+                if (titleTextBox.Text.ToString().Trim().ToUpper().Equals(AppResources.AddNoteTitleTextUpper))
+                {
+                    titleTextBox.Text = "";
+                }
             }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -581,12 +707,20 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void titleTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            //Border des Textbox dynamisch ändern.
-            titleTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
-            if (titleTextBox.Text.Trim().Length == 0)
+            try
             {
-                titleTextBox.Text = AppResources.AddNoteTitleText;
+
+                //Border des Textbox dynamisch ändern.
+                titleTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
+                if (titleTextBox.Text.Trim().Length == 0)
+                {
+                    titleTextBox.Text = AppResources.AddNoteTitleText;
+                }
             }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -596,14 +730,22 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void detailsTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            //Hintergrund der Detailstextbox dynamisch ändern.
-            detailsTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
-            SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
-            detailsTextBox.Background = _s;
-            if (detailsTextBox.Text.ToString().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper))
+            try
             {
-                detailsTextBox.Text = "";
+
+                //Hintergrund der Detailstextbox dynamisch ändern.
+                detailsTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
+                SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
+                detailsTextBox.Background = _s;
+                if (detailsTextBox.Text.ToString().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper))
+                {
+                    detailsTextBox.Text = "";
+                }
             }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -613,12 +755,20 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void detailsTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            //Border des DetailsTextBox dynamisch ändern.
-            detailsTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
-            if (detailsTextBox.Text.Trim().Length == 0)
+            try
             {
-                detailsTextBox.Text = AppResources.AddNoteDetailsText;
+
+                //Border des DetailsTextBox dynamisch ändern.
+                detailsTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
+                if (detailsTextBox.Text.Trim().Length == 0)
+                {
+                    detailsTextBox.Text = AppResources.AddNoteDetailsText;
+                }
             }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -628,10 +778,18 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void schlagwoerterTextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            //Hintergrund und Border der schlagwoerterTextBox dynamisch ändern.
-            schlagwoerterTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
-            SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
-            schlagwoerterTextBox.Background = _s;
+            try
+            {
+
+                //Hintergrund und Border der schlagwoerterTextBox dynamisch ändern.
+                schlagwoerterTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0xCC, 0x63, 0x61, 0x61));
+                SolidColorBrush _s = new SolidColorBrush(Colors.Transparent);
+                schlagwoerterTextBox.Background = _s;
+            }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -641,8 +799,16 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void schlagwoerterTextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            //Border des schlagwoerterTextBox dynamisch ändern.
-            schlagwoerterTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
+            try
+            {
+
+                //Border des schlagwoerterTextBox dynamisch ändern.
+                schlagwoerterTextBox.BorderBrush = new SolidColorBrush(Color.FromArgb(0x33, 0x63, 0x61, 0x61));
+            }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -652,7 +818,15 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void micro1_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            SpeechToText(titleTextBox);     
+            try
+            {
+                SpeechToText(titleTextBox);    
+            }
+            catch (Exception ex)
+            {
+            }
+
+             
         }
 
         /// <summary>
@@ -662,7 +836,15 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void micro2_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            SpeechToText(detailsTextBox);
+            try
+            {
+                SpeechToText(detailsTextBox);
+            }
+            catch (Exception ex)
+            {
+            }
+
+           
         }
 
         /// <summary>
@@ -672,7 +854,15 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void micro3_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            SpeechToText(schlagwoerterTextBox);
+            try
+            {
+
+                SpeechToText(schlagwoerterTextBox);
+            }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -681,46 +871,54 @@ namespace WritersToolbox.views
         /// <param name="textbox"></param>
         private async void SpeechToText(TextBox textbox)
         {
-            var sr = new SpeechRecognizerUI();
-            sr.Settings.ReadoutEnabled = true;
-            sr.Settings.ShowConfirmation = false;
-            //Sprache Aufnehmen.
-            var result = await sr.RecognizeWithUIAsync();
-            sr.Recognizer.Grammars.AddGrammarFromPredefinedType("webSearch", SpeechPredefinedGrammar.WebSearch);
-            //Aufnahme ausführen bzw. in Text umwandelt.
-            if (result.ResultStatus == SpeechRecognitionUIStatus.Succeeded)
+            try
             {
-                if ((int)result.RecognitionResult.TextConfidence < (int)SpeechRecognitionConfidence.Medium)
+
+                var sr = new SpeechRecognizerUI();
+                sr.Settings.ReadoutEnabled = true;
+                sr.Settings.ShowConfirmation = false;
+                //Sprache Aufnehmen.
+                var result = await sr.RecognizeWithUIAsync();
+                sr.Recognizer.Grammars.AddGrammarFromPredefinedType("webSearch", SpeechPredefinedGrammar.WebSearch);
+                //Aufnahme ausführen bzw. in Text umwandelt.
+                if (result.ResultStatus == SpeechRecognitionUIStatus.Succeeded)
                 {
-                    MessageBox.Show(AppResources.ErrorSpeechToText);
-                    await sr.RecognizeWithUIAsync();
-                }
-                else
-                {
-                    //Auf welche Textbox wurde die Speech to Text funktion angewendet.
-                    if (textbox == schlagwoerterTextBox)
+                    if ((int)result.RecognitionResult.TextConfidence < (int)SpeechRecognitionConfidence.Medium)
                     {
-                        textbox.Text += result.RecognitionResult.Text + "; ";
+                        MessageBox.Show(AppResources.ErrorSpeechToText);
+                        await sr.RecognizeWithUIAsync();
                     }
-                    else if (textbox == titleTextBox)
+                    else
                     {
-                        if (textbox.Text.ToString().Trim().ToUpper().Equals("TITEL"))
+                        //Auf welche Textbox wurde die Speech to Text funktion angewendet.
+                        if (textbox == schlagwoerterTextBox)
                         {
-                            textbox.Text = "";
+                            textbox.Text += result.RecognitionResult.Text + System.Environment.NewLine;
                         }
-                        textbox.Text += result.RecognitionResult.Text + " ";
-                    }
-                    else if (textbox == detailsTextBox)
-                    {
-                        if (textbox.Text.ToString().ToUpper().Trim().Equals("DETAILS"))
+                        else if (textbox == titleTextBox)
                         {
-                            textbox.Text = "";
+                            if (textbox.Text.ToString().Trim().ToUpper().Equals("TITEL"))
+                            {
+                                textbox.Text = "";
+                            }
+                            textbox.Text += result.RecognitionResult.Text + " ";
                         }
-                        textbox.Text += result.RecognitionResult.Text + " ";
+                        else if (textbox == detailsTextBox)
+                        {
+                            if (textbox.Text.ToString().ToUpper().Trim().Equals("DETAILS"))
+                            {
+                                textbox.Text = "";
+                            }
+                            textbox.Text += result.RecognitionResult.Text + " ";
+                        }
+
                     }
-                    
                 }
             }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -730,9 +928,17 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void imageView_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            Image i = sender as Image;
-            PhoneApplicationService.Current.State["imageView"] = i;
-            NavigationService.Navigate(new Uri("/views/ImageView.xaml", UriKind.Relative));          
+            try
+            {
+
+                Image i = sender as Image;
+                PhoneApplicationService.Current.State["imageView"] = i;
+                NavigationService.Navigate(new Uri("/views/ImageView.xaml", UriKind.Relative));  
+            }
+            catch (Exception ex)
+            {
+            }
+        
         }
 
         /// <summary>
@@ -743,60 +949,68 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void image_selectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //Ob ein Bild von der List selektiert.
-            if (e.AddedItems.Count > 0)
+            try
             {
-                //wird es in SelectedItems des LongListMultiSelector hinzugefügt.
-                if (!llms_images.SelectedItems.Contains((MyImage)e.AddedItems[0]))
+
+                //Ob ein Bild von der List selektiert.
+                if (e.AddedItems.Count > 0)
                 {
-                    llms_images.SelectedItems.Add(((MyImage)e.AddedItems[0]));
+                    //wird es in SelectedItems des LongListMultiSelector hinzugefügt.
+                    if (!llms_images.SelectedItems.Contains((MyImage)e.AddedItems[0]))
+                    {
+                        llms_images.SelectedItems.Add(((MyImage)e.AddedItems[0]));
+                    }
                 }
-            }
-            //Ob eine Selektion eines Bildes von der List ausgehoben.
-            if (e.RemovedItems.Count > 0)
-            {
-                //wird es in SelectedItems des LongListMultiSelector gelöscht.
-                if (llms_images.SelectedItems.Contains((MyImage)e.RemovedItems[0]))
+                //Ob eine Selektion eines Bildes von der List ausgehoben.
+                if (e.RemovedItems.Count > 0)
                 {
-                    llms_images.SelectedItems.Remove(((MyImage)e.RemovedItems[0]));
+                    //wird es in SelectedItems des LongListMultiSelector gelöscht.
+                    if (llms_images.SelectedItems.Contains((MyImage)e.RemovedItems[0]))
+                    {
+                        llms_images.SelectedItems.Remove(((MyImage)e.RemovedItems[0]));
+                    }
                 }
-            }
-            //Wenn Anzahl der selektierte Bilder kleiner als Anzahl der Bilder in der List.
-            if (llms_images.SelectedItems.Count < llms_images.ItemsSource.Count)
-            {
-                isAllPicturesSelected = false;
-                selectAllCheckBox.IsChecked = false;
-            }
-            //Wenn Anzahl der selektierte Bilder gleich Anzahl der Bilder in der List.
-            else if (llms_images.SelectedItems.Count == llms_images.ItemsSource.Count)
-            {
-                isAllPicturesSelected = true;
-                selectAllCheckBox.IsChecked = true;
-            }
-            //Wenn Anzahl der selektierte Bilder gleich 0 ist.
-            if (llms_images.SelectedItems.Count == 0)
-            {
-                this.pivoteName.IsLocked = false;
-                llms_images.EnforceIsSelectionEnabled = false;
-                if (!ApplicationBar.Buttons.Contains(save))
+                //Wenn Anzahl der selektierte Bilder kleiner als Anzahl der Bilder in der List.
+                if (llms_images.SelectedItems.Count < llms_images.ItemsSource.Count)
                 {
-                    addManagementApplicationBarButton();
+                    isAllPicturesSelected = false;
+                    selectAllCheckBox.IsChecked = false;
+                }
+                //Wenn Anzahl der selektierte Bilder gleich Anzahl der Bilder in der List.
+                else if (llms_images.SelectedItems.Count == llms_images.ItemsSource.Count)
+                {
+                    isAllPicturesSelected = true;
+                    selectAllCheckBox.IsChecked = true;
+                }
+                //Wenn Anzahl der selektierte Bilder gleich 0 ist.
+                if (llms_images.SelectedItems.Count == 0)
+                {
+                    this.pivoteName.IsLocked = false;
+                    llms_images.EnforceIsSelectionEnabled = false;
+                    if (!ApplicationBar.Buttons.Contains(save))
+                    {
+                        addManagementApplicationBarButton();
+                    }
+                    zurueckButton.Visibility = Visibility.Collapsed;
+                    deleteButton.Visibility = Visibility.Collapsed;
+                    addButton.Visibility = Visibility.Visible;
+                }
+                else
+                {
+                    this.pivoteName.IsLocked = true;
+                    if (ApplicationBar.Buttons.Contains(save))
+                    {
+                        removeManagementApplicationBarButton();
+                    }
+                    addButton.Visibility = Visibility.Collapsed;
+                    zurueckButton.Visibility = Visibility.Visible;
+                    deleteButton.Visibility = Visibility.Visible;
                 } 
-                zurueckButton.Visibility = Visibility.Collapsed;
-                deleteButton.Visibility = Visibility.Collapsed;
-                addButton.Visibility = Visibility.Visible;
             }
-            else
+            catch (Exception ex)
             {
-                this.pivoteName.IsLocked = true;
-                if (ApplicationBar.Buttons.Contains(save))
-                {
-                    removeManagementApplicationBarButton();
-                }              
-                addButton.Visibility = Visibility.Collapsed;
-                zurueckButton.Visibility = Visibility.Visible;
-                deleteButton.Visibility = Visibility.Visible;
-            } 
+            }
+
         }
 
         /// <summary>
@@ -807,74 +1021,82 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void record_selectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            if (applicationBarButton_Modus == MEDIA)
+            try
             {
-                llms_records.EnforceIsSelectionEnabled = false;
-                llms_records.SelectedItems.Clear();
-                selectAllRecordCheckBox.IsChecked = false;
-                return;
-            }
-            //Ob ein Record von der List selektiert.
-            if (e.AddedItems.Count > 0)
-            {
-                //wird es in SelectedItems des LongListMultiSelector hinzugefügt.
-                if (!llms_records.SelectedItems.Contains((SoundData)e.AddedItems[0]))
+                if (applicationBarButton_Modus == MEDIA)
                 {
-                    llms_records.SelectedItems.Add(((SoundData)e.AddedItems[0]));
+                    llms_records.EnforceIsSelectionEnabled = false;
+                    llms_records.SelectedItems.Clear();
+                    selectAllRecordCheckBox.IsChecked = false;
+                    return;
                 }
-                llms_records.EnforceIsSelectionEnabled = true;
-            }
-            //Ob eine Selektion eines Recordes von der List ausgehoben.
-            if (e.RemovedItems.Count > 0)
-            {
-                //wird es in SelectedItems des LongListMultiSelector gelöscht.
-                if (llms_records.SelectedItems.Contains((SoundData)e.RemovedItems[0]))
+                //Ob ein Record von der List selektiert.
+                if (e.AddedItems.Count > 0)
                 {
-                    llms_records.SelectedItems.Remove(((SoundData)e.RemovedItems[0]));
+                    //wird es in SelectedItems des LongListMultiSelector hinzugefügt.
+                    if (!llms_records.SelectedItems.Contains((SoundData)e.AddedItems[0]))
+                    {
+                        llms_records.SelectedItems.Add(((SoundData)e.AddedItems[0]));
+                    }
+                    llms_records.EnforceIsSelectionEnabled = true;
+                }
+                //Ob eine Selektion eines Recordes von der List ausgehoben.
+                if (e.RemovedItems.Count > 0)
+                {
+                    //wird es in SelectedItems des LongListMultiSelector gelöscht.
+                    if (llms_records.SelectedItems.Contains((SoundData)e.RemovedItems[0]))
+                    {
+                        llms_records.SelectedItems.Remove(((SoundData)e.RemovedItems[0]));
+                    }
+
+                }
+                //Wenn Anzahl der selektierte Bilder kleiner als Anzahl der Bilder in der List.
+                if (llms_records.SelectedItems.Count < llms_records.ItemsSource.Count)
+                {
+                    isAllMemosSelected = false;
+                    selectAllRecordCheckBox.IsChecked = false;
+                }
+                //Wenn Anzahl der selektierte Bilder gleich Anzahl der Bilder in der List.
+                else if (llms_records.SelectedItems.Count == llms_records.ItemsSource.Count)
+                {
+                    isAllMemosSelected = true;
+                    selectAllRecordCheckBox.IsChecked = true;
+
                 }
 
-            }
-            //Wenn Anzahl der selektierte Bilder kleiner als Anzahl der Bilder in der List.
-            if (llms_records.SelectedItems.Count < llms_records.ItemsSource.Count)
-            {
-                isAllMemosSelected = false;
-                selectAllRecordCheckBox.IsChecked = false;
-            }
-            //Wenn Anzahl der selektierte Bilder gleich Anzahl der Bilder in der List.
-            else if (llms_records.SelectedItems.Count == llms_records.ItemsSource.Count)
-            {
-                isAllMemosSelected = true;
-                selectAllRecordCheckBox.IsChecked = true;
-
-            }
-            
-            //Wenn Anzahl der selektierte Bilder gleich 0 ist.
-            if (llms_records.SelectedItems.Count == 0)
-            {
-                this.pivoteName.IsLocked = false;
-                if (!ApplicationBar.Buttons.Contains(save))
+                //Wenn Anzahl der selektierte Bilder gleich 0 ist.
+                if (llms_records.SelectedItems.Count == 0)
                 {
-                    addManagementApplicationBarButton();
-                }                
-                llms_records.EnforceIsSelectionEnabled = false;
-                addRecordButton.IsEnabled = true;
-                addRecordButton.Visibility = Visibility.Visible;
-                zurueckRecordButton.Visibility = Visibility.Collapsed;
-                deleteRecordButton.Visibility = Visibility.Collapsed;
+                    this.pivoteName.IsLocked = false;
+                    if (!ApplicationBar.Buttons.Contains(save))
+                    {
+                        addManagementApplicationBarButton();
+                    }
+                    llms_records.EnforceIsSelectionEnabled = false;
+                    addRecordButton.IsEnabled = true;
+                    addRecordButton.Visibility = Visibility.Visible;
+                    zurueckRecordButton.Visibility = Visibility.Collapsed;
+                    deleteRecordButton.Visibility = Visibility.Collapsed;
 
-            }
-            else
-            {
-                this.pivoteName.IsLocked = true;
-                if (ApplicationBar.Buttons.Contains(save))
-                {
-                    removeManagementApplicationBarButton();
                 }
-                
-                addRecordButton.Visibility = Visibility.Collapsed;
-                zurueckRecordButton.Visibility = Visibility.Visible;
-                deleteRecordButton.Visibility = Visibility.Visible;
+                else
+                {
+                    this.pivoteName.IsLocked = true;
+                    if (ApplicationBar.Buttons.Contains(save))
+                    {
+                        removeManagementApplicationBarButton();
+                    }
+
+                    addRecordButton.Visibility = Visibility.Collapsed;
+                    zurueckRecordButton.Visibility = Visibility.Visible;
+                    deleteRecordButton.Visibility = Visibility.Visible;
+                }
             }
+            catch (Exception ex)
+            {
+            }
+
+
         }
 
         /// <summary>
@@ -884,83 +1106,90 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void saveButton_Click(object sender, EventArgs e)
         {
-            //Hilfsvariable für die Kontrolle der Änderungen.
-            bool isChanged = false;
-            //Änderungen kontrollieren.
-            if(!titleTextBox.Text.Trim().Equals("") || !titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleText))
+            try
             {
-                isChanged = true;
-            }
-            if(!detailsTextBox.Text.Trim().Equals("") || !detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper))
-            {
-                isChanged = true;
-            }
-            if(!schlagwoerterTextBox.Text.Trim().Equals(""))
-            {
-                isChanged = true;
-            }
-            if(Image_Items.Count >= 1)
-            {
-                isChanged = true;
-            }
-            if(sound_Items.Count >= 1)
-            {
-                isChanged = true;
-            }
-
-            //Wenn nichts geändert wurde, dann wird eine Message für Benutzer gezeigt,
-            //sonst die Notiz speichern, die Hilfsvariable in ApplicationService löschen
-            //und zurück zu dem vorherigen Screen.
-            if (!isChanged)
-            {
-                MessageBox.Show(AppResources.ErrorDetails);
-            }
-            else
-            {
-                //Wenn in Title nicht geändert wurde, dann wird automatisch der aktuelle Datum für Title gegeben.
-                string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleTextUpper))
-                    ? DateTime.Now.ToString("F")
-                    : titleTextBox.Text.Trim();
-
-                string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper))
-                    ? ""
-                    : detailsTextBox.Text.Trim();
-                if(PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
+                //Hilfsvariable für die Kontrolle der Änderungen.
+                bool isChanged = false;
+                //Änderungen kontrollieren.
+                if (!titleTextBox.Text.Trim().Equals("") || !titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleText))
                 {
-                    if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
-                    {
-                        //Änderung der zugeordneten Notiz speichern.
-                        anvm.saveAsEvent(NoteID, DateTime.Now, title, details,
-                            Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
-                            (int)PhoneApplicationService.Current.State["eventID"]);
-                    }
-                    else if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
-                    {
-                            //Änderung der zugeordneten Notiz speichern.
-                            anvm.saveAsTypeObject(NoteID, DateTime.Now, title, details,
-                                Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
-                                (int)PhoneApplicationService.Current.State["typeObjectID"]);                  
-                    }
+                    isChanged = true;
+                }
+                if (!detailsTextBox.Text.Trim().Equals("") || !detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper))
+                {
+                    isChanged = true;
+                }
+                if (!schlagwoerterTextBox.Text.Trim().Equals(""))
+                {
+                    isChanged = true;
+                }
+                if (Image_Items.Count >= 1)
+                {
+                    isChanged = true;
+                }
+                if (sound_Items.Count >= 1)
+                {
+                    isChanged = true;
+                }
+
+                //Wenn nichts geändert wurde, dann wird eine Message für Benutzer gezeigt,
+                //sonst die Notiz speichern, die Hilfsvariable in ApplicationService löschen
+                //und zurück zu dem vorherigen Screen.
+                if (!isChanged)
+                {
+                    MessageBox.Show(AppResources.ErrorDetails);
                 }
                 else
                 {
-                    //Notiz spiechern.
-                    anvm.save(NoteID, DateTime.Now, title, details,
-                        Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now);
-                }
+                    //Wenn in Title nicht geändert wurde, dann wird automatisch der aktuelle Datum für Title gegeben.
+                    string title = (titleTextBox.Text.Trim().Equals("") || titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleTextUpper))
+                        ? DateTime.Now.ToString("F")
+                        : titleTextBox.Text.Trim();
 
-                //Hilfsvariable in ApplicationService löschen.
-                PhoneApplicationService.Current.State.Remove("deletedImages");
-                PhoneApplicationService.Current.State.Remove("addedImages");
-                PhoneApplicationService.Current.State.Remove("OppendImageView");
-                PhoneApplicationService.Current.State.Remove("memoryNoteID");
-                PhoneApplicationService.Current.State.Remove("assignedNote");
-                PhoneApplicationService.Current.State.Remove("assignNote");
-                PhoneApplicationService.Current.State.Remove("typeObjectID");
-                PhoneApplicationService.Current.State.Remove("eventID");
-                PhoneApplicationService.Current.State.Remove("edit");
-                NavigationService.GoBack();
+                    string details = (detailsTextBox.Text.Trim().Equals("") || detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper))
+                        ? ""
+                        : detailsTextBox.Text.Trim();
+                    if (PhoneApplicationService.Current.State.ContainsKey("assignedNote"))
+                    {
+                        if (PhoneApplicationService.Current.State.ContainsKey("eventID"))
+                        {
+                            //Änderung der zugeordneten Notiz speichern.
+                            anvm.saveAsEvent(NoteID, DateTime.Now, title, details,
+                                Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
+                                (int)PhoneApplicationService.Current.State["eventID"]);
+                        }
+                        else if (PhoneApplicationService.Current.State.ContainsKey("typeObjectID"))
+                        {
+                            //Änderung der zugeordneten Notiz speichern.
+                            anvm.saveAsTypeObject(NoteID, DateTime.Now, title, details,
+                                Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now,
+                                (int)PhoneApplicationService.Current.State["typeObjectID"]);
+                        }
+                    }
+                    else
+                    {
+                        //Notiz spiechern.
+                        anvm.save(NoteID, DateTime.Now, title, details,
+                            Image_Items, sound_Items, schlagwoerterTextBox.Text, DateTime.Now);
+                    }
+
+                    //Hilfsvariable in ApplicationService löschen.
+                    PhoneApplicationService.Current.State.Remove("deletedImages");
+                    PhoneApplicationService.Current.State.Remove("addedImages");
+                    PhoneApplicationService.Current.State.Remove("OppendImageView");
+                    PhoneApplicationService.Current.State.Remove("memoryNoteID");
+                    PhoneApplicationService.Current.State.Remove("assignedNote");
+                    PhoneApplicationService.Current.State.Remove("assignNote");
+                    PhoneApplicationService.Current.State.Remove("typeObjectID");
+                    PhoneApplicationService.Current.State.Remove("eventID");
+                    PhoneApplicationService.Current.State.Remove("edit");
+                    NavigationService.GoBack();
+                }
             }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -970,22 +1199,30 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void imageView_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //ausgewähltes Bild vom Sender Object holen.
-            Image image = (Image)sender;
-            //BitmapImage von Image rausholen.
-            BitmapImage i = (BitmapImage) image.Source;
-            //Selektion aktivieren.
-            llms_images.EnforceIsSelectionEnabled = true;
-            //Selektiertes Bild in Collection der Selektierte Bilder der MultiLongListSelector hinzufügen.
-            llms_images.SelectedItems.Add(((MyImage)image.DataContext));
-            deleteButton.Visibility = Visibility.Visible;
-            zurueckButton.Visibility = Visibility.Visible;
-            if (ApplicationBar.Buttons.Contains(save))
+            try
             {
-                removeManagementApplicationBarButton();
-            }          
-            addButton.Visibility = Visibility.Collapsed;
-            this.pivoteName.IsLocked = true;
+
+                //ausgewähltes Bild vom Sender Object holen.
+                Image image = (Image)sender;
+                //BitmapImage von Image rausholen.
+                BitmapImage i = (BitmapImage)image.Source;
+                //Selektion aktivieren.
+                llms_images.EnforceIsSelectionEnabled = true;
+                //Selektiertes Bild in Collection der Selektierte Bilder der MultiLongListSelector hinzufügen.
+                llms_images.SelectedItems.Add(((MyImage)image.DataContext));
+                deleteButton.Visibility = Visibility.Visible;
+                zurueckButton.Visibility = Visibility.Visible;
+                if (ApplicationBar.Buttons.Contains(save))
+                {
+                    removeManagementApplicationBarButton();
+                }
+                addButton.Visibility = Visibility.Collapsed;
+                this.pivoteName.IsLocked = true;
+            }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -995,23 +1232,29 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void selectAllCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            //Wenn Anzahl der selektierte Bilder kleiner als Anzahl der Bilder in der List.
-            if (!isAllPicturesSelected)
+            try
             {
-                //Selektierung aktivieren.
-                llms_images.EnforceIsSelectionEnabled = true;
-                deleteButton.Visibility = Visibility.Visible;
-                zurueckButton.Visibility = Visibility.Visible;
-                //SelectedItems der List leeren.
-                llms_images.SelectedItems.Clear();
-                //Alle Bilder von der List holen.
-                ObservableCollection<MyImage> items = (ObservableCollection<MyImage>)llms_images.ItemsSource;
-                //Alle geholt Bilder von der List in der SelectedItems hinzufügen.
-                foreach (MyImage item in items)
+                //Wenn Anzahl der selektierte Bilder kleiner als Anzahl der Bilder in der List.
+                if (!isAllPicturesSelected)
                 {
-                    llms_images.SelectedItems.Add(item);
+                    //Selektierung aktivieren.
+                    llms_images.EnforceIsSelectionEnabled = true;
+                    deleteButton.Visibility = Visibility.Visible;
+                    zurueckButton.Visibility = Visibility.Visible;
+                    //SelectedItems der List leeren.
+                    llms_images.SelectedItems.Clear();
+                    //Alle Bilder von der List holen.
+                    ObservableCollection<MyImage> items = (ObservableCollection<MyImage>)llms_images.ItemsSource;
+                    //Alle geholt Bilder von der List in der SelectedItems hinzufügen.
+                    foreach (MyImage item in items)
+                    {
+                        llms_images.SelectedItems.Add(item);
+                    }
+                    isAllPicturesSelected = true;
                 }
-                isAllPicturesSelected = true;
+            }
+            catch (Exception ex)
+            {
             }
           
         }
@@ -1023,14 +1266,21 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void addButton_Click(object sender, RoutedEventArgs e)
         {
-            if (lastMemo != null)
+            try
             {
-                stopClick();
+                if (lastMemo != null)
+                {
+                    stopClick();
+                }
+                //Event für PhotoChooser hinzufügen.
+                photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
+                //PhotoChooser hinzufügen.
+                photoChooserTask.Show();
             }
-            //Event für PhotoChooser hinzufügen.
-            photoChooserTask.Completed += new EventHandler<PhotoResult>(photoChooserTask_Completed);
-            //PhotoChooser hinzufügen.
-            photoChooserTask.Show();
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -1040,15 +1290,21 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void selectAllCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            //Wenn Anzahl der selektierten Bilder gleich Anzahl der Bilder in der List.
-            if (llms_images.SelectedItems.Count == llms_images.ItemsSource.Count)
+            try
             {
-                //Selektierung in LongListMultiSelector löschen.
-                llms_images.SelectedItems.Clear();
-                //Selektierung deaktivieren.
-                llms_images.EnforceIsSelectionEnabled = false;
-                deleteButton.Visibility = Visibility.Collapsed;
-                zurueckButton.Visibility = Visibility.Collapsed;
+                //Wenn Anzahl der selektierten Bilder gleich Anzahl der Bilder in der List.
+                if (llms_images.SelectedItems.Count == llms_images.ItemsSource.Count)
+                {
+                    //Selektierung in LongListMultiSelector löschen.
+                    llms_images.SelectedItems.Clear();
+                    //Selektierung deaktivieren.
+                    llms_images.EnforceIsSelectionEnabled = false;
+                    deleteButton.Visibility = Visibility.Collapsed;
+                    zurueckButton.Visibility = Visibility.Collapsed;
+                }
+            }
+            catch (Exception ex)
+            {
             }
 
         }
@@ -1061,12 +1317,20 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void zurueckButton_Click(object sender, RoutedEventArgs e)
         {
-            //Selektierung in LongListMultiSelector löschen.
-            llms_images.SelectedItems.Clear();
-            //Selektierung deaktivieren.
-            llms_images.EnforceIsSelectionEnabled = false;
-            deleteButton.Visibility = Visibility.Collapsed;
-            zurueckButton.Visibility = Visibility.Collapsed;
+            try
+            {
+
+                //Selektierung in LongListMultiSelector löschen.
+                llms_images.SelectedItems.Clear();
+                //Selektierung deaktivieren.
+                llms_images.EnforceIsSelectionEnabled = false;
+                deleteButton.Visibility = Visibility.Collapsed;
+                zurueckButton.Visibility = Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -1076,42 +1340,49 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void deleteButton_Click(object sender, RoutedEventArgs e)
         {
-            //Zwischenspeicher von Bilder.
-            ObservableCollection<MyImage> tempitems = new ObservableCollection<MyImage>(
-                (ObservableCollection<MyImage>)llms_images.ItemsSource);
-
-            //über Zwischenspeicher von Bilder iterieren.
-            foreach (MyImage item in tempitems)
+            try
             {
-                //Überprüfen ob das Bild selektiert.
-                if (llms_images.SelectedItems.Contains(item))
+                //Zwischenspeicher von Bilder.
+                ObservableCollection<MyImage> tempitems = new ObservableCollection<MyImage>(
+                    (ObservableCollection<MyImage>)llms_images.ItemsSource);
+
+                //über Zwischenspeicher von Bilder iterieren.
+                foreach (MyImage item in tempitems)
                 {
-                    //Überprüfen ob Variable deletedImage in HashTable der ApplicationServ
-                    if (PhoneApplicationService.Current.State.ContainsKey("deletedImages"))
+                    //Überprüfen ob das Bild selektiert.
+                    if (llms_images.SelectedItems.Contains(item))
                     {
-                        string cachImages = (PhoneApplicationService.Current.State["deletedImages"] as string);
-                        cachImages += item.path + "|";
-                        PhoneApplicationService.Current.State["deletedImages"] = cachImages;
-                    }
-                    else//Wenn nicht dann wird die Variable in ApplicationService erstellt, 
+                        //Überprüfen ob Variable deletedImage in HashTable der ApplicationServ
+                        if (PhoneApplicationService.Current.State.ContainsKey("deletedImages"))
+                        {
+                            string cachImages = (PhoneApplicationService.Current.State["deletedImages"] as string);
+                            cachImages += item.path + "|";
+                            PhoneApplicationService.Current.State["deletedImages"] = cachImages;
+                        }
+                        else//Wenn nicht dann wird die Variable in ApplicationService erstellt, 
                         //und der Pfad des Bilds drin speicher.
-                    {
-                        string cachImages = item.path + "|";
-                        PhoneApplicationService.Current.State["deletedImages"] = cachImages;
+                        {
+                            string cachImages = item.path + "|";
+                            PhoneApplicationService.Current.State["deletedImages"] = cachImages;
+                        }
+                        //Aktuelles Bild von LongListMultiSelector löschen.
+                        llms_images.ItemsSource.Remove(item);
+                        llms_images.SelectedItems.Remove(item);
+                        //Aktuelles Bild von ObservableCollection löschen.
+                        Image_Items.Remove(item);
                     }
-                    //Aktuelles Bild von LongListMultiSelector löschen.
-                    llms_images.ItemsSource.Remove(item);
-                    llms_images.SelectedItems.Remove(item);
-                    //Aktuelles Bild von ObservableCollection löschen.
-                    Image_Items.Remove(item);
+                }
+                //Wenn alle Bilder gelöscht sind, dann muss Checkbox "alle Auswählen" ausgeblindet.
+                if (llms_images.ItemsSource.Count == 0)
+                {
+                    selectAllCheckBox.IsChecked = false;
+                    selectAllCheckBox.Visibility = Visibility.Collapsed;
                 }
             }
-            //Wenn alle Bilder gelöscht sind, dann muss Checkbox "alle Auswählen" ausgeblindet.
-            if (llms_images.ItemsSource.Count == 0)
+            catch (Exception ex)
             {
-                selectAllCheckBox.IsChecked = false;
-                selectAllCheckBox.Visibility = Visibility.Collapsed;
             }
+
         }
 
         /// <summary>
@@ -1121,7 +1392,15 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void cancelButton_Click(object sender, EventArgs e)
         {
-            NoteDiscard();
+            try
+            {
+                NoteDiscard();
+            }
+            catch (Exception ex)
+            {
+            }
+
+            
         }
 
         /// <summary>
@@ -1129,77 +1408,86 @@ namespace WritersToolbox.views
         /// </summary>
         private bool NoteDiscard()
         {
-            //Hilfsvariable, um zu prüfen, ob etwas geändert wurde.
-            bool isfully = false;
-            //Schauen ob gerade aufgenommen wird, wenn ja dann stoppe die Aufnahme.
-            if (onRecord)
+            bool resultat = false;
+            try
             {
-                recorder.Stop();
-            }
-            MessageBoxResult result = MessageBoxResult.Cancel;
 
-            //Hier wird geprüft, ob die Notiz, von anderem Screen geöffnet ist,
-            //oder von neue Notiz anlegen.
-            if (PhoneApplicationService.Current.State.ContainsKey("edit"))
-            {
-                if (!titleTextBox.Text.Trim().Equals(tempTitle) ||
-                        !detailsTextBox.Text.Trim().Equals(tempDetails) ||
-                        !schlagwoerterTextBox.Text.Trim().Equals(tempTags)
-                    || !MyImage.isImageCollectionEquals(tempImage_Items, Image_Items)
-                    || !SoundData.isSoundCollectionEquals(tempSound_Items, sound_Items))
+                //Hilfsvariable, um zu prüfen, ob etwas geändert wurde.
+                bool isfully = false;
+                //Schauen ob gerade aufgenommen wird, wenn ja dann stoppe die Aufnahme.
+                if (onRecord)
+                {
+                    recorder.Stop();
+                }
+                MessageBoxResult result = MessageBoxResult.Cancel;
+
+                //Hier wird geprüft, ob die Notiz, von anderem Screen geöffnet ist,
+                //oder von neue Notiz anlegen.
+                if (PhoneApplicationService.Current.State.ContainsKey("edit"))
+                {
+                    if (!titleTextBox.Text.Trim().Equals(tempTitle) ||
+                            !detailsTextBox.Text.Trim().Equals(tempDetails) ||
+                            !schlagwoerterTextBox.Text.Trim().Equals(tempTags)
+                        || !MyImage.isImageCollectionEquals(tempImage_Items, Image_Items)
+                        || !SoundData.isSoundCollectionEquals(tempSound_Items, sound_Items))
+                    {
+                        isfully = true;
+                    }
+                }
+                else if ((!titleTextBox.Text.Trim().Equals("") && !titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleTextUpper)) ||
+                    (!detailsTextBox.Text.Trim().Equals("") && !detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper)) ||
+                    !schlagwoerterTextBox.Text.Trim().Equals("") ||
+                    Image_Items.Count >= 1 ||
+                    sound_Items.Count >= 1)
                 {
                     isfully = true;
                 }
-            }
-            else if ((!titleTextBox.Text.Trim().Equals("") && !titleTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteTitleTextUpper)) ||
-                (!detailsTextBox.Text.Trim().Equals("") && !detailsTextBox.Text.Trim().ToUpper().Equals(AppResources.AddNoteDetailsTextUpper)) ||
-                !schlagwoerterTextBox.Text.Trim().Equals("") ||
-                Image_Items.Count >= 1 ||
-                sound_Items.Count >= 1)
-            {
-                isfully = true;
-            }
 
-            //Abfragen, wenn was geändert oder hinzugefügt ist, ob es wirklich weggeworfen werden muss.
-            if (isfully)
-            {
-                result = MessageBox.Show(AppResources.TypeObjectAddCancelText,
-                        AppResources.AppBarClose, MessageBoxButton.OKCancel);
-            }
-
-            //Wenn ok ausgewählt ist und gar nichts in der Notiz geändert oder hinzugefügt ist.
-            //dann wird alles(gespeicherte memos und variable) gelöscht. 
-            if (result == MessageBoxResult.OK || !isfully)
-            {
-                if (!PhoneApplicationService.Current.State.ContainsKey("edit"))
+                //Abfragen, wenn was geändert oder hinzugefügt ist, ob es wirklich weggeworfen werden muss.
+                if (isfully)
                 {
-                    using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+                    result = MessageBox.Show(AppResources.TypeObjectAddCancelText,
+                            AppResources.AppBarClose, MessageBoxButton.OKCancel);
+                }
+
+                //Wenn ok ausgewählt ist und gar nichts in der Notiz geändert oder hinzugefügt ist.
+                //dann wird alles(gespeicherte memos und variable) gelöscht. 
+                if (result == MessageBoxResult.OK || !isfully)
+                {
+                    if (!PhoneApplicationService.Current.State.ContainsKey("edit"))
                     {
-                        foreach (SoundData item in sound_Items)
+                        using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
                         {
-                            if (isoStore.FileExists(item.filePath))
+                            foreach (SoundData item in sound_Items)
                             {
-                                isoStore.DeleteFile(item.filePath);
+                                if (isoStore.FileExists(item.filePath))
+                                {
+                                    isoStore.DeleteFile(item.filePath);
+                                }
                             }
                         }
                     }
+                    PhoneApplicationService.Current.State.Remove("deletedImages");
+                    PhoneApplicationService.Current.State.Remove("addedImages");
+                    PhoneApplicationService.Current.State.Remove("OppendImageView");
+                    PhoneApplicationService.Current.State.Remove("memoryNoteID");
+                    PhoneApplicationService.Current.State.Remove("assignedNote");
+                    PhoneApplicationService.Current.State.Remove("assignNote");
+                    PhoneApplicationService.Current.State.Remove("typeObjectID");
+                    PhoneApplicationService.Current.State.Remove("eventID");
+                    PhoneApplicationService.Current.State.Remove("edit");
+                    NavigationService.GoBack();
+                    resultat = true;
                 }
-                PhoneApplicationService.Current.State.Remove("deletedImages");
-                PhoneApplicationService.Current.State.Remove("addedImages");
-                PhoneApplicationService.Current.State.Remove("OppendImageView");
-                PhoneApplicationService.Current.State.Remove("memoryNoteID");
-                PhoneApplicationService.Current.State.Remove("assignedNote");
-                PhoneApplicationService.Current.State.Remove("assignNote");
-                PhoneApplicationService.Current.State.Remove("typeObjectID");
-                PhoneApplicationService.Current.State.Remove("eventID");
-                PhoneApplicationService.Current.State.Remove("edit");
-                NavigationService.GoBack();
-                return true;
+                else
+                {
+                    resultat = false;
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return false;
             }
+            return resultat;
         }
 
         /// <summary>
@@ -1209,46 +1497,54 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void RecordAudioChecked(object sender, RoutedEventArgs e)
         {
-            this.pivoteName.IsLocked = true;
+            try
+            {
 
-            onRecord = true;
-            //ApplicationBar.Buttons.Remove(save);
-            //ApplicationBar.Buttons.Remove(saveAs);
-            removeManagementApplicationBarButton();
-            deleteRecordButton.Visibility = Visibility.Collapsed;
-            ApplicationBar.IsMenuEnabled = false;
-            //Die Größe der List anpassen.
-            llms_records.Margin = new Thickness(27, 84, 0, 17);
-            //AudioPlayer stopen, wenn er noch am laufen ist.
-            AudioPlayer.Stop();
-            //Ob schon ein Memo abgespielt ist.
-            if (lastMemo != null)
-            {
-                //MemoGrid wird initialisiert.
-                //((Grid)lastMemo.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x2E, 0x2E));
-                ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
-                lastMemo = null;
+                this.pivoteName.IsLocked = true;
+
+                onRecord = true;
+                //ApplicationBar.Buttons.Remove(save);
+                //ApplicationBar.Buttons.Remove(saveAs);
+                removeManagementApplicationBarButton();
+                deleteRecordButton.Visibility = Visibility.Collapsed;
+                ApplicationBar.IsMenuEnabled = false;
+                //Die Größe der List anpassen.
+                llms_records.Margin = new Thickness(27, 84, 0, 17);
+                //AudioPlayer stopen, wenn er noch am laufen ist.
+                AudioPlayer.Stop();
+                //Ob schon ein Memo abgespielt ist.
+                if (lastMemo != null)
+                {
+                    //MemoGrid wird initialisiert.
+                    //((Grid)lastMemo.Children[0]).Background = new SolidColorBrush(Color.FromArgb(0xFF, 0x2E, 0x2E, 0x2E));
+                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
+                    lastMemo = null;
+                }
+                //Liste der Memos sperren.
+                llms_records.IsEnabled = false;
+                //Icon des Recordes ändern, dass der Record aktiv ist.
+                ImageBrush brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri("/icons/aufnahme_aktiv.png", UriKind.Relative));
+                addRecordButton.Background = brush;
+                //Record starten
+                recorder.Start();
+                //DauerTimer erzeugen.
+                dauerTimerGenerator();
+                //Überprüfen ob ApplicationBarButton aus den MediaButtons besteht.
+                if (applicationBarButton_Modus == MEDIA)
+                {
+                    removeMediaApplicationBarButton();
+                }
+
+                EndTimer.Visibility = Visibility.Collapsed;
+                progressbar_background.Visibility = Visibility.Collapsed;
+                progressbar.Visibility = Visibility.Collapsed;
+                CurrentTime.Visibility = Visibility.Collapsed;
             }
-            //Liste der Memos sperren.
-            llms_records.IsEnabled = false;
-            //Icon des Recordes ändern, dass der Record aktiv ist.
-            ImageBrush brush = new ImageBrush();
-            brush.ImageSource = new BitmapImage(new Uri("/icons/aufnahme_aktiv.png", UriKind.Relative));
-            addRecordButton.Background = brush;
-            //Record starten
-            recorder.Start();
-            //DauerTimer erzeugen.
-            dauerTimerGenerator();
-            //Überprüfen ob ApplicationBarButton aus den MediaButtons besteht.
-            if(applicationBarButton_Modus == MEDIA)
+            catch (Exception ex)
             {
-                removeMediaApplicationBarButton();
             }
-            
-            EndTimer.Visibility = Visibility.Collapsed;
-            progressbar_background.Visibility = Visibility.Collapsed;
-            progressbar.Visibility = Visibility.Collapsed;
-            CurrentTime.Visibility = Visibility.Collapsed;
+
         }
 
         /// <summary>
@@ -1258,36 +1554,44 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void RecordAudioUnchecked(object sender, RoutedEventArgs e)
         {
-            onRecord = false;
-            this.pivoteName.IsLocked = false;
-            //ApplicationBar.Buttons.Remove(cancel);
-            //ApplicationBar.Buttons.Add(saveAs);
-            //ApplicationBar.Buttons.Add(save);         
-            //ApplicationBar.Buttons.Add(cancel);
-            ApplicationBar.IsMenuEnabled = true;
-            addManagementApplicationBarButton();
-            //Aufnahme stopen.
-            recorder.Stop();
-            //DauerTimer zerstören.
-            if (dauerTimer != null)
+            try
             {
-                dauerTimer.Stop();
-                dauerTimer = null;
+                onRecord = false;
+                this.pivoteName.IsLocked = false;
+                //ApplicationBar.Buttons.Remove(cancel);
+                //ApplicationBar.Buttons.Add(saveAs);
+                //ApplicationBar.Buttons.Add(save);         
+                //ApplicationBar.Buttons.Add(cancel);
+                ApplicationBar.IsMenuEnabled = true;
+                addManagementApplicationBarButton();
+                //Aufnahme stopen.
+                recorder.Stop();
+                //DauerTimer zerstören.
+                if (dauerTimer != null)
+                {
+                    dauerTimer.Stop();
+                    dauerTimer = null;
+                }
+                //Durch Hilfsmethode SaveTempAudio die Aufnahme in IsolatedStorage speichern.
+                SaveTempAudio(recorder.Buffer);
+                //List der Memos freischalten.
+                llms_records.IsEnabled = true;
+                //Wenn mindestens ein Memo gespeichert ist, dann wird CheckBox "alle auswählen" erscheinen.
+                if (sound_Items.Count > 0)
+                {
+                    selectAllRecordCheckBox.Visibility = Visibility.Visible;
+                }
+                //Icon des Records ändern auf bereits Aufzunehmen.
+                ImageBrush brush = new ImageBrush();
+                brush.ImageSource = new BitmapImage(new Uri("/icons/aufnahme.png", UriKind.Relative));
+                addRecordButton.Background = brush;
+                this.selectAllRecordCheckBox.Visibility = Visibility.Visible;
+
             }
-            //Durch Hilfsmethode SaveTempAudio die Aufnahme in IsolatedStorage speichern.
-            SaveTempAudio(recorder.Buffer);
-            //List der Memos freischalten.
-            llms_records.IsEnabled = true;
-            //Wenn mindestens ein Memo gespeichert ist, dann wird CheckBox "alle auswählen" erscheinen.
-            if (sound_Items.Count > 0)
+            catch (Exception ex)
             {
-                selectAllRecordCheckBox.Visibility = Visibility.Visible;
             }
-            //Icon des Records ändern auf bereits Aufzunehmen.
-            ImageBrush brush = new ImageBrush();
-            brush.ImageSource = new BitmapImage(new Uri("/icons/aufnahme.png", UriKind.Relative));
-            addRecordButton.Background = brush;
-            this.selectAllRecordCheckBox.Visibility = Visibility.Visible;
+
         }
 
         /// <summary>
@@ -1296,48 +1600,56 @@ namespace WritersToolbox.views
         /// <param name="buffer"></param>
         private void SaveTempAudio(MemoryStream buffer)
         {
-            //Audiodatei.
-            IsolatedStorageFileStream _audioStream;
-            //Überprüfen ob buffer leer ist.
-            if (buffer == null)
-                throw new ArgumentNullException("Leere Buffer.");
-            //IsolatedStorage öffnen.
-            using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
+            try
             {
-                //Filename generieren.
-                string[] fileNames = isoStore.GetFileNames(AppResources.AddNoteHeadlineRecord + "*");
-                int lastindex = findlastFile(fileNames);
-                string filename = AppResources.AddNoteHeadlineRecord + (lastindex + 1);
-                //Name des Records durch aktuelles Datum erstellen.
-                string _tempFileName = string.Format("{0}.wav", filename);
-                
-                //Überprüfen ob der Name schon in IsolatedStorage schon zu Verfügung steht.
-                if (isoStore.FileExists(_tempFileName))
-                {                
-                    isoStore.DeleteFile(_tempFileName); //Wenn ja, der alte Record löschen.
-                }                      
-                //Speichern die Aufnahme als Bytearray.
-                var bytes = buffer.GetWavAsByteArray(recorder.SampleRate);
-                //Datei mit dem name "_tempFileName" von IsolatedStorage erstellen
-                //und die Datei referenz zu _audioStream übergeben.
-                _audioStream = isoStore.CreateFile(_tempFileName);
-                //Bytearrax in Datei "bytes" schreiben.
-                _audioStream.Write(bytes, 0, bytes.Length);
-                //Datei "_audioStream" schließen.
-                _audioStream.Close();
-                //Erstellen ein SoundData-Object, das den Path des Recordes in IsolatedStorage beinhaltet
-                //damit es zu ObservableCollection übergegeben wird.
-                SoundData mysound = new SoundData()
+                //Audiodatei.
+                IsolatedStorageFileStream _audioStream;
+                //Überprüfen ob buffer leer ist.
+                if (buffer == null)
+                    throw new ArgumentNullException("Leere Buffer.");
+                //IsolatedStorage öffnen.
+                using (IsolatedStorageFile isoStore = IsolatedStorageFile.GetUserStoreForApplication())
                 {
-                    filePath = _tempFileName,
-                    erstellDatum = DateTime.Now,
-                    dauer = this.dauer
-                };              
-                //sound_Items.Add(mysound);
-                sound_Items.Insert(0, mysound);
-                //LongListMultiSelector aktualisieren.
-                llms_records.ItemsSource = sound_Items;        
+                    //Filename generieren.
+                    string[] fileNames = isoStore.GetFileNames(AppResources.AddNoteHeadlineRecord + "*");
+                    int lastindex = findlastFile(fileNames);
+                    string filename = AppResources.AddNoteHeadlineRecord + (lastindex + 1);
+                    //Name des Records durch aktuelles Datum erstellen.
+                    string _tempFileName = string.Format("{0}.wav", filename);
+
+                    //Überprüfen ob der Name schon in IsolatedStorage schon zu Verfügung steht.
+                    if (isoStore.FileExists(_tempFileName))
+                    {
+                        isoStore.DeleteFile(_tempFileName); //Wenn ja, der alte Record löschen.
+                    }
+                    //Speichern die Aufnahme als Bytearray.
+                    var bytes = buffer.GetWavAsByteArray(recorder.SampleRate);
+                    //Datei mit dem name "_tempFileName" von IsolatedStorage erstellen
+                    //und die Datei referenz zu _audioStream übergeben.
+                    _audioStream = isoStore.CreateFile(_tempFileName);
+                    //Bytearrax in Datei "bytes" schreiben.
+                    _audioStream.Write(bytes, 0, bytes.Length);
+                    //Datei "_audioStream" schließen.
+                    _audioStream.Close();
+                    //Erstellen ein SoundData-Object, das den Path des Recordes in IsolatedStorage beinhaltet
+                    //damit es zu ObservableCollection übergegeben wird.
+                    SoundData mysound = new SoundData()
+                    {
+                        filePath = _tempFileName,
+                        erstellDatum = DateTime.Now,
+                        dauer = this.dauer
+                    };
+                    //sound_Items.Add(mysound);
+                    sound_Items.Insert(0, mysound);
+                    //LongListMultiSelector aktualisieren.
+                    llms_records.ItemsSource = sound_Items;
+                }
             }
+            catch (Exception ex)
+            {
+            }
+
+
         }
 
         /// <summary>
@@ -1348,41 +1660,50 @@ namespace WritersToolbox.views
         private int findlastFile(string[] ary)
         {
             int lastFile = 0;
-            if (ary.Length > 0)
+            try
             {
-                if (ary[0].ToCharArray(0, 1)[0] == 'R')
+                
+                if (ary.Length > 0)
                 {
-                    string[] tempString = ary[0].Split('.');
-                    lastFile = int.Parse(tempString[0].Substring(6));
-                    for (int i = 1; i < ary.Length; i++)
+                    if (ary[0].ToCharArray(0, 1)[0] == 'R')
                     {
-                        tempString = ary[i].Split('.');
-                        if (lastFile
-                            < int.Parse(tempString[0].Substring(6)))
+                        string[] tempString = ary[0].Split('.');
+                        lastFile = int.Parse(tempString[0].Substring(6));
+                        for (int i = 1; i < ary.Length; i++)
                         {
-                            lastFile = int.Parse(tempString[0].Substring(6));
+                            tempString = ary[i].Split('.');
+                            if (lastFile
+                                < int.Parse(tempString[0].Substring(6)))
+                            {
+                                lastFile = int.Parse(tempString[0].Substring(6));
+                            }
                         }
                     }
-                }
-                else if (ary[0].ToCharArray(0, 1)[0] == 'A')
-                {
+                    else if (ary[0].ToCharArray(0, 1)[0] == 'A')
+                    {
 
-                    string[] tempString = ary[0].Split('.');
-                    lastFile = int.Parse(tempString[0].Substring(8));
-                    for (int i = 1; i < ary.Length; i++)
-                    {
-                        tempString = ary[i].Split('.');
-                        if (lastFile
-                            < int.Parse(tempString[0].Substring(8)))
+                        string[] tempString = ary[0].Split('.');
+                        lastFile = int.Parse(tempString[0].Substring(8));
+                        for (int i = 1; i < ary.Length; i++)
                         {
-                            lastFile = int.Parse(tempString[0].Substring(8));
+                            tempString = ary[i].Split('.');
+                            if (lastFile
+                                < int.Parse(tempString[0].Substring(8)))
+                            {
+                                lastFile = int.Parse(tempString[0].Substring(8));
+                            }
                         }
                     }
+
+
                 }
-                
-                
+
+            }
+            catch (Exception ex)
+            {
             }
             return lastFile;
+
         }
 
         /// <summary>
@@ -1392,68 +1713,74 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void Sound_Tap(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            //Überprüfen, ob Aufnahme aktiv ist.
-            if (!(bool)addRecordButton.IsChecked)
+            try
             {
-                //Größe der List der Records anpassen.
-                llms_records.Margin = new Thickness(27,84,0,92);
-                //ob ein Record vorher gespielt ist.
-                if (lastMemo != null)
+                //Überprüfen, ob Aufnahme aktiv ist.
+                if (!(bool)addRecordButton.IsChecked)
                 {
-                    //Wird hier das letzte gespielte Record initialisiert.
-                    //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
-                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
-                    lastMemo = null;
-                }
-              
-                //ausgewählte Memo von Sender Object holen.
-                Grid selector = sender as Grid;
-                //Überprüfen ob was ausgewählt nicht null ist.
-                if (selector == null)
-                    return;
-                //Grid Auf Abspielenmodus aktualisieren.
-                //selector.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xEB, 0xEB, 0xEB));
-                ((Image)selector.Children[0]).Source = new BitmapImage(new Uri("/icons/speaker_reordButton.png", UriKind.Relative));             
-                //Name des ausgewählte Memo zuruückgeben.
-                string filePath = ((SoundData)selector.DataContext).filePath;
-                try
-                {
-                    //Suche nach den Memo in IsolatedStorage durch den geholten Name.
-                    using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
+                    //Größe der List der Records anpassen.
+                    llms_records.Margin = new Thickness(27, 84, 0, 92);
+                    //ob ein Record vorher gespielt ist.
+                    if (lastMemo != null)
                     {
-                        //Die Datei öffnen.
-                        using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(filePath, FileMode.Open, FileAccess.Read))
+                        //Wird hier das letzte gespielte Record initialisiert.
+                        //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                        ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
+                        lastMemo = null;
+                    }
+
+                    //ausgewählte Memo von Sender Object holen.
+                    Grid selector = sender as Grid;
+                    //Überprüfen ob was ausgewählt nicht null ist.
+                    if (selector == null)
+                        return;
+                    //Grid Auf Abspielenmodus aktualisieren.
+                    //selector.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xEB, 0xEB, 0xEB));
+                    ((Image)selector.Children[0]).Source = new BitmapImage(new Uri("/icons/speaker_reordButton.png", UriKind.Relative));
+                    //Name des ausgewählte Memo zuruückgeben.
+                    string filePath = ((SoundData)selector.DataContext).filePath;
+                    try
+                    {
+                        //Suche nach den Memo in IsolatedStorage durch den geholten Name.
+                        using (IsolatedStorageFile myIsolatedStorage = IsolatedStorageFile.GetUserStoreForApplication())
                         {
-                            //Die geöffnete Datei zu AudioPlayer-Element übergeben.
-                            AudioPlayer.SetSource(fileStream);
-                            //Datei schließen.
-                            fileStream.Close();
+                            //Die Datei öffnen.
+                            using (IsolatedStorageFileStream fileStream = myIsolatedStorage.OpenFile(filePath, FileMode.Open, FileAccess.Read))
+                            {
+                                //Die geöffnete Datei zu AudioPlayer-Element übergeben.
+                                AudioPlayer.SetSource(fileStream);
+                                //Datei schließen.
+                                fileStream.Close();
+                            }
                         }
                     }
+                    catch (Exception)
+                    {
+                        Debug.WriteLine("Die Datei existiert nicht.");
+                    }
+                    //lastMemo aktualisieren.
+                    lastMemo = selector;
+                    //Überprüfen ob die ApplicationBarButton auf ManagmentModus ist.
+                    if (applicationBarButton_Modus == MANAGEMENT)
+                    {
+                        //Die ApplicationBarButton auf MediaModus umstellen.
+                        addMediaApplicationBarButton();
+                        deleteRecordButton.Visibility = Visibility.Visible;
+                        progressbar.Visibility = Visibility.Visible;
+                        EndTimer.Visibility = Visibility.Visible;
+                        CurrentTime.Visibility = Visibility.Visible;
+                        progressbar_background.Visibility = Visibility.Visible;
+                    }
+                    //Play_Pause status ändern.
+                    playPauseButton_Modus = PLAY;
+                    //Timer erstellen um Slider zu aktualisieren, während abspielen des Memos.
+                    timerGenerator();
+                    //Icon des Play_Pause Button auf Pause ändern.
+                    pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
                 }
-                catch (Exception)
-                {
-                    Debug.WriteLine("Die Datei existiert nicht.");
-                }
-                //lastMemo aktualisieren.
-                lastMemo = selector;
-                //Überprüfen ob die ApplicationBarButton auf ManagmentModus ist.
-                if (applicationBarButton_Modus == MANAGEMENT)
-                {
-                    //Die ApplicationBarButton auf MediaModus umstellen.
-                    addMediaApplicationBarButton();
-                    deleteRecordButton.Visibility = Visibility.Visible;
-                    progressbar.Visibility = Visibility.Visible;
-                    EndTimer.Visibility = Visibility.Visible;
-                    CurrentTime.Visibility = Visibility.Visible;
-                    progressbar_background.Visibility = Visibility.Visible;
-                }
-                //Play_Pause status ändern.
-                playPauseButton_Modus = PLAY;
-                //Timer erstellen um Slider zu aktualisieren, während abspielen des Memos.
-                timerGenerator();
-                //Icon des Play_Pause Button auf Pause ändern.
-                pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);      
+            }
+            catch (Exception ex)
+            {
             }
             
         }
@@ -1463,28 +1790,42 @@ namespace WritersToolbox.views
         /// </summary>
         private void timerGenerator()
         {
-            //Wenn playTimer nicht existiert.
-            if (playTimer == null)
+            try
             {
-                playTimer = new DispatcherTimer();
-                playTimer.Interval = TimeSpan.FromMilliseconds(100); //eine Sekunde
-                playTimer.Tick += new EventHandler(playTimer_Tick);                
-                playTimer.Start();
+                //Wenn playTimer nicht existiert.
+                if (playTimer == null)
+                {
+                    playTimer = new DispatcherTimer();
+                    playTimer.Interval = TimeSpan.FromMilliseconds(100); //eine Sekunde
+                    playTimer.Tick += new EventHandler(playTimer_Tick);
+                    playTimer.Start();
+                }
+                progressbarKontrol = false; //Überprüfen ob so funktioniert.
             }
-            progressbarKontrol = false; //Überprüfen ob so funktioniert.
+            catch (Exception ex)
+            {
+            }
+
+
 
         }
 
         private void dauerTimerGenerator()
         {
-            //Wenn playTimer nicht existiert.
-            if (dauerTimer == null)
+            try
             {
-                dauerTimer = new DispatcherTimer();
-                dauerTimer.Interval = TimeSpan.FromMilliseconds(1000); //eine Sekunde
-                dauerTimer.Tick += new EventHandler(dauerTimer_Tick);
-                dauer = new TimeSpan();
-                dauerTimer.Start();
+                //Wenn playTimer nicht existiert.
+                if (dauerTimer == null)
+                {
+                    dauerTimer = new DispatcherTimer();
+                    dauerTimer.Interval = TimeSpan.FromMilliseconds(1000); //eine Sekunde
+                    dauerTimer.Tick += new EventHandler(dauerTimer_Tick);
+                    dauer = new TimeSpan();
+                    dauerTimer.Start();
+                }
+            }
+            catch (Exception ex)
+            {
             }
         }
 
@@ -1500,47 +1841,56 @@ namespace WritersToolbox.views
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        public void playTimer_Tick(object sender, EventArgs e) {
-            if (playPauseButton_Modus == PLAY)
+        public void playTimer_Tick(object sender, EventArgs e) 
+        {
+            try
             {
-                //Gesamte Dauer des Memos als String holen.
-                string totalSeconds = AudioPlayer.NaturalDuration.TimeSpan.TotalMilliseconds.ToString();
-                //Maximum der Slider einsetzen.
-                progressbar.Maximum = Convert.ToDouble(totalSeconds);
-                //ValueChanged Event von Slider deaktivieren.
-                progressbar.ValueChanged -= progressbar_ValueChanged;
-                //Aktuelle Seconds des abgespielten Memos zu Slider eingeben.
-                progressbar.Value = AudioPlayer.Position.TotalMilliseconds;
-                //ValueChanged Event von Slider aktivieren.
-                progressbar.ValueChanged += progressbar_ValueChanged;
-                //Eine Sekunde von normale Dauer substrahieren.
-                TimeSpan _tsEndTime = AudioPlayer.NaturalDuration.TimeSpan.Subtract(new TimeSpan(0, 0, 1));
-
-                //Current- und Endtime des Audioplayer aktualisieren.
-                CurrentTime.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.Position);
-                EndTimer.Text = String.Format(@"{0:hh\:mm\:ss}", _tsEndTime.ToString()).Substring(0, 8);
-                //Überprüfen, ob es Memo zu End abgespielt ist.
-                if (progressbar.Value > 0)
-                    progressbarKontrol = true;
-                if (progressbarKontrol && progressbar.Value == 0 && progressbar.Maximum > 0)
+                if (playPauseButton_Modus == PLAY)
                 {
-                    pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
-                    if (lastMemo != null)
-                    {
-                        //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
-                        ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
-                    }
-                    playPauseButton_Modus = STOP;
-                    //Wenn playTimer noch aktiv ist, muss die Referenz gelöscht werden.             
-                    if (playTimer != null)
-                    {
-                        playTimer.Stop();
-                        playTimer = null;
-                        progressbarKontrol = false;
-                    }
+                    //Gesamte Dauer des Memos als String holen.
+                    string totalSeconds = AudioPlayer.NaturalDuration.TimeSpan.TotalMilliseconds.ToString();
+                    //Maximum der Slider einsetzen.
+                    progressbar.Maximum = Convert.ToDouble(totalSeconds);
+                    //ValueChanged Event von Slider deaktivieren.
+                    progressbar.ValueChanged -= progressbar_ValueChanged;
+                    //Aktuelle Seconds des abgespielten Memos zu Slider eingeben.
+                    progressbar.Value = AudioPlayer.Position.TotalMilliseconds;
+                    //ValueChanged Event von Slider aktivieren.
+                    progressbar.ValueChanged += progressbar_ValueChanged;
+                    //Eine Sekunde von normale Dauer substrahieren.
+                    TimeSpan _tsEndTime = AudioPlayer.NaturalDuration.TimeSpan.Subtract(new TimeSpan(0, 0, 1));
 
+                    //Current- und Endtime des Audioplayer aktualisieren.
+                    CurrentTime.Text = String.Format(@"{0:hh\:mm\:ss}", AudioPlayer.Position);
+                    EndTimer.Text = String.Format(@"{0:hh\:mm\:ss}", _tsEndTime.ToString()).Substring(0, 8);
+                    //Überprüfen, ob es Memo zu End abgespielt ist.
+                    if (progressbar.Value > 0)
+                        progressbarKontrol = true;
+                    if (progressbarKontrol && progressbar.Value == 0 && progressbar.Maximum > 0)
+                    {
+                        pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                        if (lastMemo != null)
+                        {
+                            //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                            ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                        }
+                        playPauseButton_Modus = STOP;
+                        //Wenn playTimer noch aktiv ist, muss die Referenz gelöscht werden.             
+                        if (playTimer != null)
+                        {
+                            playTimer.Stop();
+                            playTimer = null;
+                            progressbarKontrol = false;
+                        }
+
+                    }
                 }
-            }         
+            }
+            catch (Exception ex)
+            {
+            }
+
+         
         }
 
         /// <summary>
@@ -1550,8 +1900,16 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void progressbar_ValueChanged(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
-            TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)progressbar.Value);
-            AudioPlayer.Position = _t;
+            try
+            {
+
+                TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)progressbar.Value);
+                AudioPlayer.Position = _t;
+            }
+            catch (Exception ex)
+            {
+            }
+
 
         }
 
@@ -1562,28 +1920,34 @@ namespace WritersToolbox.views
         /// <param name="e"></param> 
         private void play_pause_Click(object sender, EventArgs e)
         {
-            //1 ist für Play status nachgedacht.
-            playPauseButton_Modus += 1;
-            if (playPauseButton_Modus == PLAY) //Play
+            try
             {
-                pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
-                AudioPlayer.Play();
-                //Wenn playTimer nicht existiert, dann wird neu erzeugt.
-                timerGenerator();
-                //Timer starten.
-                playTimer.Start();
-                ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/speaker_reordButton.png", UriKind.Relative));
-            }
-            else if(playPauseButton_Modus == PAUSE) //Pause
-            {
-                pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
-                if (lastMemo != null)
+                //1 ist für Play status nachgedacht.
+                playPauseButton_Modus += 1;
+                if (playPauseButton_Modus == PLAY) //Play
                 {
-                    //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
-                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                    pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
+                    AudioPlayer.Play();
+                    //Wenn playTimer nicht existiert, dann wird neu erzeugt.
+                    timerGenerator();
+                    //Timer starten.
+                    playTimer.Start();
+                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/speaker_reordButton.png", UriKind.Relative));
                 }
-                AudioPlayer.Pause();
-                playPauseButton_Modus = STOP;
+                else if (playPauseButton_Modus == PAUSE) //Pause
+                {
+                    pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                    if (lastMemo != null)
+                    {
+                        //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                        ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                    }
+                    AudioPlayer.Pause();
+                    playPauseButton_Modus = STOP;
+                }
+            }
+            catch (Exception ex)
+            {
             }
 
         }
@@ -1595,35 +1959,43 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void soundbar_reward_button_Click(object sender, EventArgs e)
         {
-            //Aktuelle Position der AudioPlayer holen.
-            TimeSpan ts = AudioPlayer.Position;
-            //Gesamte Dauer des Memos in Milliseconds holen.
-            double totalMilliseconds = AudioPlayer.NaturalDuration.TimeSpan.TotalMilliseconds;
-            //Überprüfen, ob aktuelle Position des Memos nach dem rückwerts nicht im Negativen Bereich befindet.
-            //Wenn ja, dann wird AudioPlayer auf 0 eingestezt.
-            if (ts.TotalMilliseconds - (totalMilliseconds * JUMP_INTERVAL) > 0)
+            try
             {
-                //vordefinierte Jumpintervall von Aktualler Dauer substrahieren.
-                TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)(totalMilliseconds * JUMP_INTERVAL));
-                AudioPlayer.Position -= _t;
-                AudioPlayer.Play();
-                //Wenn playTimer nicht existiert, neu erzeugen.
-                timerGenerator();
-                playPauseButton_Modus = PLAY;
-                pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
 
-            }
-            else
-            {
-                progressbar.Value = 0.0;
-                AudioPlayer.Stop();
-                if (lastMemo != null)
+                //Aktuelle Position der AudioPlayer holen.
+                TimeSpan ts = AudioPlayer.Position;
+                //Gesamte Dauer des Memos in Milliseconds holen.
+                double totalMilliseconds = AudioPlayer.NaturalDuration.TimeSpan.TotalMilliseconds;
+                //Überprüfen, ob aktuelle Position des Memos nach dem rückwerts nicht im Negativen Bereich befindet.
+                //Wenn ja, dann wird AudioPlayer auf 0 eingestezt.
+                if (ts.TotalMilliseconds - (totalMilliseconds * JUMP_INTERVAL) > 0)
                 {
-                    //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
-                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                    //vordefinierte Jumpintervall von Aktualler Dauer substrahieren.
+                    TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)(totalMilliseconds * JUMP_INTERVAL));
+                    AudioPlayer.Position -= _t;
+                    AudioPlayer.Play();
+                    //Wenn playTimer nicht existiert, neu erzeugen.
+                    timerGenerator();
+                    playPauseButton_Modus = PLAY;
+                    pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
+
                 }
-                pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                else
+                {
+                    progressbar.Value = 0.0;
+                    AudioPlayer.Stop();
+                    if (lastMemo != null)
+                    {
+                        //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                        ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                    }
+                    pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                }
             }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -1633,33 +2005,39 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void soundbar_forward_button_Click(object sender, EventArgs e)
         {
-            //Aktuelle Position der AudioPlayer holen.
-            TimeSpan ts = AudioPlayer.Position;
-            //Gesamte Dauer des Memos in Milliseconds holen.
-            double totalMilliseconds = AudioPlayer.NaturalDuration.TimeSpan.TotalMilliseconds;
-            //Überprüfen, ob aktuelle Position des Memos nachdem vorwerts nicht den Maximal Dauer überschreitet.
-            //Wenn ja, dann wird AudioPlayer auf 0 eingestezt.
-            if (ts.TotalMilliseconds + (totalMilliseconds * JUMP_INTERVAL) < totalMilliseconds)
+            try
             {
-                //vordefinierte Jumpintervall von Aktualler Dauer addieren.
-                TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)(totalMilliseconds * JUMP_INTERVAL));
-                AudioPlayer.Position += _t;
-                AudioPlayer.Play();
-                //Wenn playTimer nicht existiert, dann neu erzeugen.
-                timerGenerator();
-                playPauseButton_Modus = PLAY;
-                pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
-            }
-            else
-            {
-                progressbar.Value = 0.0;
-                AudioPlayer.Stop();
-                pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
-                if (lastMemo != null)
+                //Aktuelle Position der AudioPlayer holen.
+                TimeSpan ts = AudioPlayer.Position;
+                //Gesamte Dauer des Memos in Milliseconds holen.
+                double totalMilliseconds = AudioPlayer.NaturalDuration.TimeSpan.TotalMilliseconds;
+                //Überprüfen, ob aktuelle Position des Memos nachdem vorwerts nicht den Maximal Dauer überschreitet.
+                //Wenn ja, dann wird AudioPlayer auf 0 eingestezt.
+                if (ts.TotalMilliseconds + (totalMilliseconds * JUMP_INTERVAL) < totalMilliseconds)
                 {
-                    //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
-                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                    //vordefinierte Jumpintervall von Aktualler Dauer addieren.
+                    TimeSpan _t = new TimeSpan(0, 0, 0, 0, (int)(totalMilliseconds * JUMP_INTERVAL));
+                    AudioPlayer.Position += _t;
+                    AudioPlayer.Play();
+                    //Wenn playTimer nicht existiert, dann neu erzeugen.
+                    timerGenerator();
+                    playPauseButton_Modus = PLAY;
+                    pp.IconUri = new Uri("/icons/pause.png", UriKind.Relative);
                 }
+                else
+                {
+                    progressbar.Value = 0.0;
+                    AudioPlayer.Stop();
+                    pp.IconUri = new Uri("/icons/play.png", UriKind.Relative);
+                    if (lastMemo != null)
+                    {
+                        //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                        ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/pause_reordButton.png", UriKind.Relative));
+                    }
+                }
+            }
+            catch (Exception ex)
+            {
             }
         }
 
@@ -1670,7 +2048,13 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void soundbar_stop_button_Click(object sender, EventArgs e)
         {
-            stopClick();
+            try
+            {
+                stopClick();
+            }
+            catch (Exception ex)
+            {
+            }         
         }
 
         /// <summary>
@@ -1678,32 +2062,40 @@ namespace WritersToolbox.views
         /// </summary>
         private void stopClick()
         {
-            //Größe der Liste aktualisieren.
-            llms_records.Margin = new Thickness(27, 84, 0, 17);
-            //Selektion deaktivieren.
-            llms_records.EnforceIsSelectionEnabled = false;
-            //1
-            addManagementApplicationBarButton();
-            //Überprüfen ob was gespielt wurde, damit es aktualisiert wird.
-            if (lastMemo != null)
+            try
             {
-                //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
-                ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
-                lastMemo = null;
-            }
-            //Überprüfen, ob ein playTimer existiert, damit es gelöscht wird.
-            if (playTimer != null)
-            {
-                playTimer.Stop();
-                playTimer = null;
-            }
-            AudioPlayer.Stop();
+                //Größe der Liste aktualisieren.
+                llms_records.Margin = new Thickness(27, 84, 0, 17);
+                //Selektion deaktivieren.
+                llms_records.EnforceIsSelectionEnabled = false;
+                //1
+                addManagementApplicationBarButton();
+                //Überprüfen ob was gespielt wurde, damit es aktualisiert wird.
+                if (lastMemo != null)
+                {
+                    //lastMemo.Background = new SolidColorBrush(Color.FromArgb(0xFF, 0xFF, 0xFF, 0xFF));
+                    ((Image)lastMemo.Children[0]).Source = new BitmapImage(new Uri("/icons/play_reordButton.png", UriKind.Relative));
+                    lastMemo = null;
+                }
+                //Überprüfen, ob ein playTimer existiert, damit es gelöscht wird.
+                if (playTimer != null)
+                {
+                    playTimer.Stop();
+                    playTimer = null;
+                }
+                AudioPlayer.Stop();
 
-            deleteRecordButton.Visibility = Visibility.Collapsed;
-            progressbar.Visibility = Visibility.Collapsed;
-            EndTimer.Visibility = Visibility.Collapsed;
-            CurrentTime.Visibility = Visibility.Collapsed;
-            progressbar_background.Visibility = Visibility.Collapsed;
+                deleteRecordButton.Visibility = Visibility.Collapsed;
+                progressbar.Visibility = Visibility.Collapsed;
+                EndTimer.Visibility = Visibility.Collapsed;
+                CurrentTime.Visibility = Visibility.Collapsed;
+                progressbar_background.Visibility = Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+            }
+
+
         }
 
         /// <summary>
@@ -1713,75 +2105,82 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void deleteRecordButton_Click(object sender, RoutedEventArgs e)
         {
-            //Größe der List aktualisiern.
-            llms_records.Margin = new Thickness(27, 84, 0, 17);
-            AudioPlayer.Stop();
-            //Wenn Timer noch existiert, muss gelöscht werden.
-            if (playTimer != null)
+            try
             {
-                playTimer.Stop();
-                playTimer = null;
+                //Größe der List aktualisiern.
+                llms_records.Margin = new Thickness(27, 84, 0, 17);
+                AudioPlayer.Stop();
+                //Wenn Timer noch existiert, muss gelöscht werden.
+                if (playTimer != null)
+                {
+                    playTimer.Stop();
+                    playTimer = null;
+                }
+                //Abfrage, ob es wirklich was gelöscht werden muss.
+                MessageBoxResult result = MessageBox.Show(AppResources.AddNoteRecordDeleteQuestion,
+                            AppResources.ErrorWarning, MessageBoxButton.OKCancel);
+
+                //Wenn ja.
+                if (result == MessageBoxResult.OK)
+                {
+                    //Löschen was selektiert ist.
+                    if (llms_records.EnforceIsSelectionEnabled)
+                    {
+                        //Alle Memos in eine Collection copieren.
+                        ObservableCollection<SoundData> tempitems = new ObservableCollection<SoundData>(
+                        (ObservableCollection<SoundData>)llms_records.ItemsSource);
+                        //Überprüfen, welche Memo ist selektiert, damit es gelöscht wird.
+                        foreach (SoundData item in tempitems)
+                        {
+                            if (llms_records.SelectedItems.Contains(item))
+                            {
+                                llms_records.ItemsSource.Remove(item);
+                                llms_records.SelectedItems.Remove(item);
+                                sound_Items.Remove(item);
+                            }
+                        }
+                    }
+                    else    //Löschen was zu letzt abgespielt ist.
+                    {
+                        if (lastMemo != null)
+                        {
+                            //Letztes gespielte Memo holen und löschen.
+                            Grid tempGrid = (Grid)lastMemo.Children[1];
+                            string temp_sound = ((TextBlock)tempGrid.Children[0]).Text;
+                            SoundData s = ((ObservableCollection<SoundData>)llms_records.ItemsSource).Single(x => x.filePath == temp_sound);
+                            if (llms_records.ItemsSource.Contains(s))
+                            {
+                                llms_records.ItemsSource.Remove(s);
+                                sound_Items.Remove(s);
+                            }
+                        }
+                    }
+
+                    if (llms_records.ItemsSource.Count == 0)
+                    {
+                        selectAllRecordCheckBox.IsChecked = false;
+                        selectAllRecordCheckBox.Visibility = Visibility.Collapsed;
+                    }
+
+                    deleteRecordButton.Visibility = Visibility.Collapsed;
+                    zurueckRecordButton.Visibility = Visibility.Collapsed;
+                    //Überprüfen, ob ApplicationBarButton auf MediaModus war, damit sie 
+                    //mit ManagementButtons erfüllt wird.
+                    if (applicationBarButton_Modus == MEDIA)
+                    {
+                        addManagementApplicationBarButton();
+                    }
+                    playPauseButton_Modus = PLAY;
+                    progressbar.Visibility = Visibility.Collapsed;
+                    EndTimer.Visibility = Visibility.Collapsed;
+                    CurrentTime.Visibility = Visibility.Collapsed;
+                    progressbar_background.Visibility = Visibility.Collapsed;
+                }
             }
-            //Abfrage, ob es wirklich was gelöscht werden muss.
-            MessageBoxResult result = MessageBox.Show(AppResources.AddNoteRecordDeleteQuestion,
-                        AppResources.ErrorWarning, MessageBoxButton.OKCancel);
-
-            //Wenn ja.
-            if (result == MessageBoxResult.OK)
+            catch (Exception ex)
             {
-                //Löschen was selektiert ist.
-                if (llms_records.EnforceIsSelectionEnabled)
-                {
-                    //Alle Memos in eine Collection copieren.
-                    ObservableCollection<SoundData> tempitems = new ObservableCollection<SoundData>(
-                    (ObservableCollection<SoundData>)llms_records.ItemsSource);
-                    //Überprüfen, welche Memo ist selektiert, damit es gelöscht wird.
-                    foreach (SoundData item in tempitems)
-                    {
-                        if (llms_records.SelectedItems.Contains(item))
-                        {
-                            llms_records.ItemsSource.Remove(item);
-                            llms_records.SelectedItems.Remove(item);
-                            sound_Items.Remove(item);
-                        }
-                    }
-                }
-                else    //Löschen was zu letzt abgespielt ist.
-                {
-                    if (lastMemo != null)
-                    {
-                        //Letztes gespielte Memo holen und löschen.
-                        Grid tempGrid = (Grid)lastMemo.Children[1];
-                        string temp_sound = ((TextBlock)tempGrid.Children[0]).Text;
-                        SoundData s = ((ObservableCollection<SoundData>)llms_records.ItemsSource).Single(x => x.filePath == temp_sound);
-                        if (llms_records.ItemsSource.Contains(s))
-                        {
-                            llms_records.ItemsSource.Remove(s);
-                            sound_Items.Remove(s);
-                        }
-                    }
-                }
-
-                if (llms_records.ItemsSource.Count == 0)
-                {
-                    selectAllRecordCheckBox.IsChecked = false;
-                    selectAllRecordCheckBox.Visibility = Visibility.Collapsed;
-                }
-
-                deleteRecordButton.Visibility = Visibility.Collapsed;
-                zurueckRecordButton.Visibility = Visibility.Collapsed;
-                //Überprüfen, ob ApplicationBarButton auf MediaModus war, damit sie 
-                //mit ManagementButtons erfüllt wird.
-                if (applicationBarButton_Modus == MEDIA)
-                {
-                    addManagementApplicationBarButton();
-                }
-                playPauseButton_Modus = PLAY;
-                progressbar.Visibility = Visibility.Collapsed;
-                EndTimer.Visibility = Visibility.Collapsed;
-                CurrentTime.Visibility = Visibility.Collapsed;
-                progressbar_background.Visibility = Visibility.Collapsed;
-            }           
+            }
+     
         }
 
         /// <summary>
@@ -1791,12 +2190,20 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void zurueckRecordButton_Click(object sender, RoutedEventArgs e)
         {
-            //Selektierung deaktivieren.
-            llms_records.EnforceIsSelectionEnabled = false;
-            llms_records.SelectedItems.Clear();
-            addRecordButton.IsEnabled = true;
-            deleteRecordButton.Visibility = Visibility.Collapsed;
-            zurueckRecordButton.Visibility = Visibility.Collapsed;
+            try
+            {
+
+                //Selektierung deaktivieren.
+                llms_records.EnforceIsSelectionEnabled = false;
+                llms_records.SelectedItems.Clear();
+                addRecordButton.IsEnabled = true;
+                deleteRecordButton.Visibility = Visibility.Collapsed;
+                zurueckRecordButton.Visibility = Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
+            }
+
 
         }
 
@@ -1807,14 +2214,22 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void selectAllRecordCheckBox_Unchecked(object sender, RoutedEventArgs e)
         {
-            //Wenn alle Memos selektiert sind.
-            if (llms_records.SelectedItems.Count == llms_records.ItemsSource.Count)
+            try
             {
-                llms_records.EnforceIsSelectionEnabled = false;
-                llms_records.SelectedItems.Clear();
+                //Wenn alle Memos selektiert sind.
+                if (llms_records.SelectedItems.Count == llms_records.ItemsSource.Count)
+                {
+                    llms_records.EnforceIsSelectionEnabled = false;
+                    llms_records.SelectedItems.Clear();
+                }
+
+                zurueckRecordButton.Visibility = Visibility.Collapsed;
+            }
+            catch (Exception ex)
+            {
             }
 
-            zurueckRecordButton.Visibility = Visibility.Collapsed;
+
         }
 
         /// <summary>
@@ -1824,21 +2239,29 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void selectAllRecordCheckBox_Checked(object sender, RoutedEventArgs e)
         {
-            //Wenn Anzahl der selektierte Records kleiner als Anzahl der Records in der List.
-            if (!isAllMemosSelected)
+            try
             {
-                //Selektierung aktivieren.
-                llms_records.EnforceIsSelectionEnabled = true;
-                deleteRecordButton.Visibility = Visibility.Visible;
-                zurueckRecordButton.Visibility = Visibility.Visible;
-                llms_records.SelectedItems.Clear();
-                //Alle Memos selektieren.
-                ObservableCollection<SoundData> items = (ObservableCollection<SoundData>)llms_records.ItemsSource;
-                foreach (SoundData item in items)
+
+                //Wenn Anzahl der selektierte Records kleiner als Anzahl der Records in der List.
+                if (!isAllMemosSelected)
                 {
-                    llms_records.SelectedItems.Add(item);
+                    //Selektierung aktivieren.
+                    llms_records.EnforceIsSelectionEnabled = true;
+                    deleteRecordButton.Visibility = Visibility.Visible;
+                    zurueckRecordButton.Visibility = Visibility.Visible;
+                    llms_records.SelectedItems.Clear();
+                    //Alle Memos selektieren.
+                    ObservableCollection<SoundData> items = (ObservableCollection<SoundData>)llms_records.ItemsSource;
+                    foreach (SoundData item in items)
+                    {
+                        llms_records.SelectedItems.Add(item);
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+            }
+
         }
 
         /// <summary>
@@ -1848,73 +2271,88 @@ namespace WritersToolbox.views
         /// <param name="e"></param>
         private void Grid_Hold(object sender, System.Windows.Input.GestureEventArgs e)
         {
-            if (applicationBarButton_Modus == MEDIA)
+            try
             {
-                llms_records.EnforceIsSelectionEnabled = false;
-                llms_records.SelectedItems.Clear();
-                selectAllRecordCheckBox.IsChecked = false;
-                return;
+                if (applicationBarButton_Modus == MEDIA)
+                {
+                    llms_records.EnforceIsSelectionEnabled = false;
+                    llms_records.SelectedItems.Clear();
+                    selectAllRecordCheckBox.IsChecked = false;
+                    return;
+                }
+                //Ausgewähle Memo von Sender-Object holen.
+                Grid g = (Grid)sender;
+                //Aufnehmen ausblinden.
+                addRecordButton.IsEnabled = false;
+                //Selektierung aktivieren.
+                llms_records.EnforceIsSelectionEnabled = true;
+                if (ApplicationBar.Buttons.Contains(save))
+                {
+                    removeManagementApplicationBarButton();
+                }
+                //Ausgewählte Memo selektieren.
+                llms_records.SelectedItems.Add(((SoundData)g.DataContext));
+                deleteRecordButton.Visibility = Visibility.Visible;
+                zurueckRecordButton.Visibility = Visibility.Visible;
             }
-            //Ausgewähle Memo von Sender-Object holen.
-            Grid g = (Grid)sender;
-            //Aufnehmen ausblinden.
-            addRecordButton.IsEnabled = false;
-            //Selektierung aktivieren.
-            llms_records.EnforceIsSelectionEnabled = true;
-            if (ApplicationBar.Buttons.Contains(save))
+            catch (Exception ex)
             {
-                removeManagementApplicationBarButton();
-            } 
-            //Ausgewählte Memo selektieren.
-            llms_records.SelectedItems.Add(((SoundData)g.DataContext));
-            deleteRecordButton.Visibility = Visibility.Visible;
-            zurueckRecordButton.Visibility = Visibility.Visible;
+            }
+
         }
 
         //TODO
         private void saveAsButton_Click(object sender, EventArgs e)
         {
-            PhoneApplicationService.Current.State["assignNote"] = true;
-            PhoneApplicationService.Current.State["memoryNoteTitle"] = titleTextBox.Text.Trim();
-            //NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
+            try
+            {
 
-            //Hilfsvariable für die Kontrolle der Änderungen.
-            bool isChanged = false;
-            //Änderungen kontrollieren.
-            if (!titleTextBox.Text.Trim().Equals("") || !titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
-            {
-                isChanged = true;
-            }
-            if (!detailsTextBox.Text.Trim().Equals("") || !detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS"))
-            {
-                isChanged = true;
-            }
-            if (!schlagwoerterTextBox.Text.Trim().Equals(""))
-            {
-                isChanged = true;
-            }
-            if (Image_Items.Count >= 1)
-            {
-                isChanged = true;
-            }
-            if (sound_Items.Count >= 1)
-            {
-                isChanged = true;
-            }
-
-            //Wenn nichts geändert wurde, dann wird eine Message für Benutzer gezeigt,
-            //sonst die Notiz zuordnen, die Hilfsvariable in ApplicationService löschen
-            //und zurück zu dem vorherigen Screen.
-            if (!isChanged)
-            {
-                MessageBox.Show("Sie müssen mindestens Details der Notiz eingeben!!");
-            }
-            else
-            {
                 PhoneApplicationService.Current.State["assignNote"] = true;
-                PhoneApplicationService.Current.State.Remove("cancelAssignment");
-                NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
+                PhoneApplicationService.Current.State["memoryNoteTitle"] = titleTextBox.Text.Trim();
+                //NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
+
+                //Hilfsvariable für die Kontrolle der Änderungen.
+                bool isChanged = false;
+                //Änderungen kontrollieren.
+                if (!titleTextBox.Text.Trim().Equals("") || !titleTextBox.Text.Trim().ToUpper().Equals("TITLE"))
+                {
+                    isChanged = true;
+                }
+                if (!detailsTextBox.Text.Trim().Equals("") || !detailsTextBox.Text.Trim().ToUpper().Equals("DETAILS"))
+                {
+                    isChanged = true;
+                }
+                if (!schlagwoerterTextBox.Text.Trim().Equals(""))
+                {
+                    isChanged = true;
+                }
+                if (Image_Items.Count >= 1)
+                {
+                    isChanged = true;
+                }
+                if (sound_Items.Count >= 1)
+                {
+                    isChanged = true;
+                }
+
+                //Wenn nichts geändert wurde, dann wird eine Message für Benutzer gezeigt,
+                //sonst die Notiz zuordnen, die Hilfsvariable in ApplicationService löschen
+                //und zurück zu dem vorherigen Screen.
+                if (!isChanged)
+                {
+                    MessageBox.Show("Sie müssen mindestens Details der Notiz eingeben!!");
+                }
+                else
+                {
+                    PhoneApplicationService.Current.State["assignNote"] = true;
+                    PhoneApplicationService.Current.State.Remove("cancelAssignment");
+                    NavigationService.Navigate(new Uri("/views/StartPage.xaml", UriKind.Relative));
+                }
             }
+            catch (Exception ex)
+            {
+            }
+
         }
 
     }

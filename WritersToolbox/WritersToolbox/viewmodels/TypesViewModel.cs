@@ -80,15 +80,20 @@ namespace WritersToolbox.viewmodels
                 for (int j = 0; j < Types.ElementAt(i).typeObjects.Count && !hasAdd; j++) {
                     hasAdd = Types.ElementAt(i).typeObjects.ElementAt(j).type.typeID == -2;
                 }
-                if (!hasAdd) { 
-                                Types.ElementAt(i).typeObjects.Add(
-                    new datawrapper.TypeObject() {
-                        name = AppResources.NewTypeObject,
-                        imageString = "../icons/add.png",
-                        type = new datawrapper.Type() { typeID = -2 },
-                        color = "#FFADD8E6"
+                if (!hasAdd) {
+                    try
+                    {
+                    Types.ElementAt(i).typeObjects.Add(
+                        new datawrapper.TypeObject() {
+                            name = AppResources.NewTypeObject,
+                            imageString = "../icons/add.png",
+                            type = new datawrapper.Type() { typeID = -2 },
+                            color = "#FFADD8E6"
+                        });
                     }
-                    );
+                    catch (Exception e) { }
+                                
+                    
                 }
             this.NotifyPropertyChanged("Types");
         }

@@ -12,6 +12,9 @@ using System.Collections.ObjectModel;
 
 namespace WritersToolbox.models
 {
+    /// <summary>
+    /// Repräsentiert ein TypObjekt auf Datenbankebene.
+    /// </summary>
     [Table(Name = "TypeObjects")]
     public class TypeObject : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {

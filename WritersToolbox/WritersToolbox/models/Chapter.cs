@@ -12,7 +12,9 @@ using System.Collections.ObjectModel;
 
 namespace WritersToolbox.models
 {
-
+    /// <summary>
+    /// Repräsentiert ein Kapitel auf Datenbankebene.
+    /// </summary>
     [Table(Name = "Chapters")]
     public class Chapter : INotifyPropertyChanging, INotifyPropertyChanged, ISearchable
     {
