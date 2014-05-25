@@ -10,14 +10,25 @@ using WritersToolbox.models;
 
 namespace WritersToolbox.viewmodels
 {
+    /// <summary>
+    /// Die TypeViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten von Type und ihre entsprechende Eigenschaften bereitstellt.
+    /// </summary>
     class TypeViewModel : INotifyPropertyChanged
     {
         private WritersToolboxDatebase db;
         private Table<models.Type> tableType;
         private int _typeID;
 
+        /// <summary>
+        /// Enthält nach der Ausführung von LoadData alle Daten des gewählten Typs.
+        /// </summary>
         public datawrapper.Type Type { get; set; }
 
+        /// <summary>
+        /// Erstellt ein neues ViewModel für den Typ mit der angegebenen ID.
+        /// </summary>
+        /// <param name="typeID">Type ID</param>
         public TypeViewModel(int typeID) {
             this.db = WritersToolboxDatebase.getInstance();
             this.tableType = this.db.GetTable<models.Type>();
@@ -25,6 +36,9 @@ namespace WritersToolbox.viewmodels
             this._typeID = typeID;
         }
 
+        /// <summary>
+        /// Läd die Daten für den aktuell gewählten Typ.
+        /// </summary>
         public void loadData() {
             models.Type sqlType = (from t in tableType
                           where t.typeID == this._typeID

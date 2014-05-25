@@ -15,6 +15,10 @@ using Microsoft.Phone.Controls;
 
 namespace WritersToolbox.viewmodels
 {
+    /// <summary>
+    /// Die TypeDetailViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten von TypeObject und ihre entsprechende Eigenschaften bereitstellt.
+    /// </summary>
     class TypeDetailViewModel : INotifyPropertyChanged
     {
         private WritersToolboxDatebase wtb;
@@ -23,11 +27,18 @@ namespace WritersToolbox.viewmodels
         private Table<models.Type> tableType;
         private datawrapper.TypeObject typeObject;
         private int typeObjectID = -1;
+        /// <summary>
+        /// Enthält nach dem Aufruf von LoadData das gewählte TypeObject.
+        /// </summary>
         public datawrapper.TypeObject TypeObject {
             get { return typeObject; }
             set { typeObject = value; }
         }
 
+        /// <summary>
+        /// Erzeugt ein neues Viewmodel für das TypObjekt mit der angegebenen ID.
+        /// </summary>
+        /// <param name="id">ID des TypeObjects</param>
         public TypeDetailViewModel(int id) 
         {
             wtb = WritersToolboxDatebase.getInstance();
@@ -38,6 +49,9 @@ namespace WritersToolbox.viewmodels
             this.LoadData();
         }
 
+        /// <summary>
+        /// Läd die Daten des Typobjekts.
+        /// </summary>
         public void LoadData() {
             var v = from to in tableTypeObject
                     where to.typeObjectID == this.typeObjectID
@@ -98,6 +112,11 @@ namespace WritersToolbox.viewmodels
             this.NotifyPropertyChanged("TypeObject");
         }
 
+        /// <summary>
+        /// Löscht das Typobjekt mit der angegebenen ID.
+        /// </summary>
+        /// <param name="typeObjectID">TypeObject ID</param>
+        /// <param name="keepNotes">Gibt an ob Notizen beibehalten werden sollen</param>
         public void deleteTypeObject(int typeObjectID, bool keepNotes)
         {
             var typeObject = (from to in tableTypeObject
@@ -118,6 +137,11 @@ namespace WritersToolbox.viewmodels
             this.wtb.SubmitChanges();
         }
 
+        /// <summary>
+        /// Entfernt die Zuordnung der angegebenen ID vom Typobjekt oder verschiebt die Notiz in den Papierkorb.
+        /// </summary>
+        /// <param name="noteID">Notiz ID</param>
+        /// <param name="unsortedNote">Wenn true, wird die Zuordnung aufgehoben, aber die Notiz nicht gelöscht</param>
         public void deleteNote(int noteID, bool unsortedNote)
         {
             var note = (from n in tableMemoryNote

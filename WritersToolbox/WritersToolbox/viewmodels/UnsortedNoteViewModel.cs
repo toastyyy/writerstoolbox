@@ -9,6 +9,10 @@ using WritersToolbox.models;
 
 namespace WritersToolbox.viewmodels
 {
+    /// <summary>
+    /// Die UnsortedNoteViewModel Klasse bzw. Präsentations-Logik ist eine aggregierte Datenquelle,
+    /// die verschiedene Daten von MemoryNote (unsortiert) und ihre entsprechende Eigenschaften bereitstellt.
+    /// </summary>
     public class UnsortedNoteViewModel
     {
 
